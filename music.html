@@ -142,11 +142,13 @@
         <span id="playerDuration">0:00</span>
       </div>
 
-      <div class="controls">
-        <button type="button" onclick="rewindTrack()">⏪</button>
+      <div class="controls controls-main">
         <button type="button" onclick="prevTrack()">⏮</button>
         <button type="button" id="playBtn" onclick="togglePlay()">▶</button>
         <button type="button" onclick="nextTrack()">⏭</button>
+      </div>
+
+      <div class="controls controls-mode">
         <button type="button" id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
         <button type="button" id="repeatBtn" onclick="toggleRepeat()">Repeat: Off</button>
       </div>
