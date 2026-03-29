@@ -4,7 +4,7 @@
 
   const SWEEP_DURATION_MS = 4200;
   const BLIP_COUNT = 18;
-  const TRIGGER_WINDOW_DEG = 4.5;
+  const TRIGGER_WINDOW_DEG = 2.4;
   const REARM_WINDOW_DEG = 18;
   const TRIGGER_CHANCE = 0.72;
 
@@ -24,7 +24,7 @@
 
     // Matches the CSS conic-gradient sweep orientation:
     // visual bright head is effectively offset from the raw rotation
-    return normalizeAngle((progress * 360) + 170);
+    return normalizeAngle((progress * 360) + 176);
   }
 
   function createBlip() {

@@ -148,13 +148,6 @@ textarea {
   to   { transform: rotate(360deg); }
 }
 
-.radar-grid,
-.radar-blips,
-.radar-vignette {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
 
 .radar-grid,
 .radar-blips,
@@ -166,7 +159,7 @@ textarea {
 
 .radar-grid {
   z-index: 0;
-  opacity: 0.42;
+  opacity: 0.36;
   background:
     linear-gradient(rgba(79, 210, 255, 0.12), rgba(79, 210, 255, 0.12)) center / 1px 100% no-repeat,
     linear-gradient(90deg, rgba(79, 210, 255, 0.12), rgba(79, 210, 255, 0.12)) center / 100% 1px no-repeat,
