@@ -4,70 +4,88 @@
 
   const SWEEP_DURATION_MS = 4200;
   const BLIP_COUNT = 18;
-  const SWEEP_HEAD_START_ANGLE = 350;
-  const TRIGGER_CHANCE = 0.78;
+  const TRIGGER_WINDOW_DEG = 4.5;
+  const REARM_WINDOW_DEG = 18;
+  const TRIGGER_CHANCE = 0.72;
 
   const blips = [];
-  let cycleTimer = null;
 
   function normalizeAngle(deg) {
     return ((deg % 360) + 360) % 360;
   }
 
-  function buildBlip() {
+  function angleDelta(a, b) {
+    const diff = Math.abs(normalizeAngle(a) - normalizeAngle(b));
+    return Math.min(diff, 360 - diff);
+  }
+
+  function getSweepAngle(now) {
+    const progress = (now % SWEEP_DURATION_MS) / SWEEP_DURATION_MS;
+
+    // Matches the CSS conic-gradient sweep orientation:
+    // visual bright head is effectively offset from the raw rotation
+    return normalizeAngle((progress * 360) + 170);
+  }
+
+  function createBlip() {
     const el = document.createElement("div");
     el.className = "radar-blip";
 
+    // Keep blips mostly inside the circular radar area
     const radius = Math.sqrt(Math.random()) * 42;
-    const angle = Math.random() * Math.PI * 2;
+    const theta = Math.random() * Math.PI * 2;
 
-    const x = 50 + Math.cos(angle) * radius;
-    const y = 50 + Math.sin(angle) * radius;
+    const x = 50 + Math.cos(theta) * radius;
+    const y = 50 + Math.sin(theta) * radius;
 
     el.style.left = x + "%";
     el.style.top = y + "%";
+
     blipLayer.appendChild(el);
 
     const dx = x - 50;
     const dy = y - 50;
 
-    const radarAngle = normalizeAngle((Math.atan2(dy, dx) * 180 / Math.PI) + 90);
+    // 0deg = up, increasing clockwise, aligned to CSS sweep logic
+    const angle = normalizeAngle((Math.atan2(dy, dx) * 180 / Math.PI) + 90);
 
     blips.push({
       el,
-      angle: radarAngle
+      angle,
+      armed: true
     });
   }
 
-  function triggerBlip(blip) {
+  function activateBlip(blip) {
     blip.el.classList.remove("active");
-    requestAnimationFrame(() => {
-      blip.el.classList.add("active");
-    });
+    void blip.el.offsetWidth;
+    blip.el.classList.add("active");
   }
 
-  function scheduleSweepCycle() {
-    blips.forEach((blip) => {
-      if (Math.random() > TRIGGER_CHANCE) return;
+  function tick(now) {
+    const sweepAngle = getSweepAngle(now);
 
-      const relativeAngle = normalizeAngle(blip.angle - SWEEP_HEAD_START_ANGLE);
-      const delay = (relativeAngle / 360) * SWEEP_DURATION_MS;
+    for (const blip of blips) {
+      const delta = angleDelta(sweepAngle, blip.angle);
 
-      setTimeout(() => {
-        triggerBlip(blip);
-      }, delay);
-    });
+      if (blip.armed && delta <= TRIGGER_WINDOW_DEG) {
+        if (Math.random() <= TRIGGER_CHANCE) {
+          activateBlip(blip);
+        }
+        blip.armed = false;
+      }
 
-    cycleTimer = setTimeout(scheduleSweepCycle, SWEEP_DURATION_MS);
+      if (!blip.armed && delta >= REARM_WINDOW_DEG) {
+        blip.armed = true;
+      }
+    }
+
+    requestAnimationFrame(tick);
   }
 
   for (let i = 0; i < BLIP_COUNT; i += 1) {
-    buildBlip();
+    createBlip();
   }
 
-  scheduleSweepCycle();
-
-  window.addEventListener("beforeunload", () => {
-    if (cycleTimer) clearTimeout(cycleTimer);
-  });
+  requestAnimationFrame(tick);
 })();

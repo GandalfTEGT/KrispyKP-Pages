@@ -166,27 +166,27 @@ textarea {
 
 .radar-grid {
   z-index: 0;
-  opacity: 0.52;
+  opacity: 0.42;
   background:
-    linear-gradient(rgba(79, 210, 255, 0.16), rgba(79, 210, 255, 0.16)) center / 1px 100% no-repeat,
-    linear-gradient(90deg, rgba(79, 210, 255, 0.16), rgba(79, 210, 255, 0.16)) center / 100% 1px no-repeat,
+    linear-gradient(rgba(79, 210, 255, 0.12), rgba(79, 210, 255, 0.12)) center / 1px 100% no-repeat,
+    linear-gradient(90deg, rgba(79, 210, 255, 0.12), rgba(79, 210, 255, 0.12)) center / 100% 1px no-repeat,
     radial-gradient(circle at center,
       transparent 0 11.5%,
-      rgba(79, 210, 255, 0.18) 11.7% 11.95%,
+      rgba(79, 210, 255, 0.14) 11.7% 11.95%,
       transparent 12.1% 23.5%,
-      rgba(79, 210, 255, 0.18) 23.7% 23.95%,
+      rgba(79, 210, 255, 0.14) 23.7% 23.95%,
       transparent 24.1% 35.5%,
-      rgba(79, 210, 255, 0.18) 35.7% 35.95%,
+      rgba(79, 210, 255, 0.14) 35.7% 35.95%,
       transparent 36.1% 47.5%,
-      rgba(79, 210, 255, 0.18) 47.7% 47.95%,
+      rgba(79, 210, 255, 0.14) 47.7% 47.95%,
       transparent 48.1% 59.5%,
-      rgba(79, 210, 255, 0.18) 59.7% 59.95%,
+      rgba(79, 210, 255, 0.14) 59.7% 59.95%,
       transparent 60.1% 71.5%,
-      rgba(79, 210, 255, 0.18) 71.7% 71.95%,
+      rgba(79, 210, 255, 0.14) 71.7% 71.95%,
       transparent 72.1% 100%
     ),
-    linear-gradient(rgba(79, 210, 255, 0.12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79, 210, 255, 0.12) 1px, transparent 1px);
+    linear-gradient(rgba(79, 210, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 210, 255, 0.08) 1px, transparent 1px);
   background-size:
     100% 100%,
     100% 100%,
