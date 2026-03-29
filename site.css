@@ -745,6 +745,25 @@ textarea {
   white-space: nowrap;
 }
 
+/* Playlist dropdown fix */
+select {
+  background: linear-gradient(180deg, #152028, #10171d);
+  color: var(--text);
+  border: 1px solid rgba(79, 210, 255, 0.16);
+}
+
+/* Dropdown options (important for readability) */
+select option {
+  background: #0f161a;
+  color: var(--text);
+}
+
+select:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 6px rgba(79, 210, 255, 0.3);
+}
+
 .player-meta {
   display: grid;
   grid-template-columns: 1fr 140px;
