@@ -8,46 +8,133 @@
 </head>
 <body>
 <div class="shell radar">
-<header class="topbar"><div class="container nav"><a class="brand" href="index.html"><img class="brand-logo" src="assets/logo.png" alt="KrispyKP logo"><span class="brand-copy"><span class="brand-mark">KrispyKP</span><span class="brand-sub">Stream // Music // YouTube // C&amp;C</span></span></a><nav class="nav-links"><a href="index.html">Home</a><a href="music.html" class="active">Music</a><a href="videos.html">Videos</a><a href="projects.html">Projects</a><a href="about.html">About</a><a href="contact.html">Contact</a></nav></div></header>
-<main class="page-hero"><div class="container"><div class="frame panel"><div class="section-title">Music</div><h1 class="h1">Player &amp; Releases</h1><p class="sub placeholder-text">Placeholder music page intro. Replace with release summary, discography overview, or latest project details.</p><div class="notice">Track metadata is preloaded in <span class="code">data/tracks.js</span>. Audio files must be added manually before playback works.</div></div></div></main>
-<section class="section"><div class="container player-layout">
-  <section class="frame player-panel">
-    <div id="playerArt" class="player-art" style="background-image:url('assets/logo.png')"></div>
-    <div id="playerSong" class="player-track">Placeholder track</div>
-    <div id="playerArtist" class="player-artist">Placeholder artist</div>
-    <div id="playerSeek" class="bar" title="Seek"><div id="playerProgress" class="progress"></div></div>
-    <div class="time"><span id="playerCurrentTime">0:00</span><span id="playerDuration">0:00</span></div>
-    <div class="controls">
-      <button type="button" onclick="rewindTrack()">⏪</button>
-      <button type="button" onclick="prevTrack()">⏮</button>
-      <button type="button" id="playBtn" onclick="togglePlay()">▶</button>
-      <button type="button" onclick="nextTrack()">⏭</button>
-      <button type="button" id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
-      <button type="button" id="repeatBtn" onclick="toggleRepeat()">Repeat</button>
+<header class="topbar">
+  <div class="container nav">
+    <a class="brand" href="index.html">
+      <img class="brand-logo" src="assets/logo.png" alt="KrispyKP logo">
+      <span class="brand-copy">
+        <span class="brand-mark">KrispyKP</span>
+        <span class="brand-sub">Stream // Music // YouTube // C&amp;C</span>
+      </span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="music.html" class="active">Music</a>
+      <a href="videos.html">Videos</a>
+      <a href="tournaments.html">Tournaments</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="page-hero">
+  <div class="container">
+    <div class="frame panel">
+      <div class="section-title">Music</div>
+      <h1 class="h1">Player &amp; Releases</h1>
+      <p class="sub">Browse tracks, search the playlist, and play releases directly in the browser. The player supports autoplay on selection, seek, volume, mute, shuffle, repeat, and transport controls.</p>
+      <div class="notice">Tracks are loaded from <span class="code">data/tracks.js</span>. Audio should point to <span class="code">media/music</span> and artwork should point to <span class="code">media/art</span>.</div>
     </div>
-    <div class="controls" style="margin-top:10px;grid-template-columns:repeat(2,1fr)">
-      <button type="button" id="muteBtn" onclick="toggleMute()">Mute</button>
-      <button type="button" onclick="audio.pause();audio.currentTime=0;setStatus('Stopped');">Stop</button>
+  </div>
+</main>
+
+<section class="section">
+  <div class="container player-layout">
+    <section class="frame player-panel">
+      <div id="playerArt" class="player-art" style="background-image:url('assets/logo.png')"></div>
+      <div id="playerSong" class="player-track">Select a track</div>
+      <div id="playerArtist" class="player-artist">KrispyKP</div>
+
+      <div id="playerSeek" class="bar" title="Seek">
+        <div id="playerProgress" class="progress"></div>
+      </div>
+
+      <div class="time">
+        <span id="playerCurrentTime">0:00</span>
+        <span id="playerDuration">0:00</span>
+      </div>
+
+      <div class="controls">
+        <button type="button" onclick="rewindTrack()">⏪</button>
+        <button type="button" onclick="prevTrack()">⏮</button>
+        <button type="button" id="playBtn" onclick="togglePlay()">▶</button>
+        <button type="button" onclick="nextTrack()">⏭</button>
+        <button type="button" id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
+        <button type="button" id="repeatBtn" onclick="toggleRepeat()">Repeat</button>
+      </div>
+
+      <div class="controls controls-secondary">
+        <button type="button" id="muteBtn" onclick="toggleMute()">Mute</button>
+        <button type="button" onclick="stopTrack()">Stop</button>
+      </div>
+
+      <div class="player-meta">
+        <div class="volume-wrap">
+          <span class="section-title" style="font-size:11px;">Volume</span>
+          <input id="playerVolume" type="range" min="0" max="1" step="0.01" value="0.85">
+        </div>
+        <div id="playerStatus" class="status-box">Idle</div>
+      </div>
+
+      <audio id="audio"></audio>
+    </section>
+
+    <section class="frame playlist-panel">
+      <div class="list-head">
+        <div class="list-title">Playlist</div>
+        <input id="trackSearch" class="search-input" type="text" placeholder="Filter tracks...">
+      </div>
+      <div id="tracks" class="tracks"></div>
+    </section>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container small-grid">
+    <div class="frame feature">
+      <div class="section-title">Library Setup</div>
+      <ul class="list">
+        <li><span>Audio files stored in media/music</span><span class="muted">Live</span></li>
+        <li><span>Artwork stored in media/art</span><span class="muted">Live</span></li>
+        <li><span>Playlist data controlled from tracks.js</span><span class="muted">Editable</span></li>
+        <li><span>Autoplay on track click</span><span class="muted">Enabled</span></li>
+      </ul>
     </div>
-    <div class="player-meta">
-      <div class="volume-wrap"><span class="section-title" style="font-size:11px">Volume</span><input id="playerVolume" type="range" min="0" max="1" step="0.01" value="0.85"></div>
-      <div id="playerStatus" class="status-box">Idle</div>
+
+    <div class="frame feature">
+      <div class="section-title">Future Expansion</div>
+      <ul class="list">
+        <li><span>Album pages</span><span class="muted">Later</span></li>
+        <li><span>Lyrics and credits</span><span class="muted">Later</span></li>
+        <li><span>Release notes</span><span class="muted">Later</span></li>
+        <li><span>Embedded visuals</span><span class="muted">Later</span></li>
+      </ul>
     </div>
-    <div class="notice" style="margin-top:14px">Placeholder mode: add real audio files to <span class="code">/media/music</span> and switch each track to <span class="code">available:true</span> in <span class="code">data/tracks.js</span>.</div>
-    <audio id="audio"></audio>
-  </section>
-  <section class="frame playlist-panel">
-    <div class="list-head"><div class="list-title">Playlist</div><input id="trackSearch" class="search-input" type="text" placeholder="Filter tracks..."></div>
-    <div id="tracks" class="tracks"></div>
-  </section>
-</div></section>
-<section class="section"><div class="container small-grid">
-  <div class="frame feature"><div class="section-title">How to Add Music</div><ul class="list"><li><span>Put MP3 files in /media/music</span><span class="muted">Required</span></li><li><span>Update file paths in data/tracks.js</span><span class="muted">Required</span></li><li><span>Replace artwork per track</span><span class="muted">Optional</span></li><li><span>Toggle available:false to true</span><span class="muted">Required</span></li></ul></div>
-  <div class="frame feature"><div class="section-title">Optional Expansions</div><ul class="list"><li><span>Album pages</span><span class="muted">Optional</span></li><li><span>Lyrics pages</span><span class="muted">Optional</span></li><li><span>Visualiser embeds</span><span class="muted">Optional</span></li><li><span>External platform links</span><span class="muted">Optional</span></li></ul></div>
-</div></section>
+  </div>
+</section>
+
 <script src="data/tracks.js"></script>
 <script src="data/music-player.js"></script>
-<footer class="footer"><div class="container"><div class="footer-box frame"><div><div class="section-title">KrispyKP Command Uplink</div><div style="margin-top:10px">Placeholder footer text. Edit this area directly in each page or duplicate one shared block manually.</div></div><div class="footer-nav"><a href="index.html">Home</a><a href="music.html">Music</a><a href="videos.html">Videos</a><a href="projects.html">Projects</a><a href="about.html">About</a><a href="contact.html">Contact</a></div></div></div></footer>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-box frame">
+      <div>
+        <div class="section-title">KrispyKP Command Uplink</div>
+        <div style="margin-top:10px;">A browser-based player for tracks, remixes, and future release pages.</div>
+      </div>
+      <div class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="music.html">Music</a>
+        <a href="videos.html">Videos</a>
+        <a href="tournaments.html">Tournaments</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
 </div>
 </body>
 </html>
