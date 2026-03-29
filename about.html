@@ -100,34 +100,77 @@
   const layer = document.querySelector(".radar-blips");
   if (!layer) return;
 
-  function spawnBlip() {
-    const blip = document.createElement("div");
-    blip.className = "radar-blip";
+  const SWEEP_DURATION_MS = 4200;
+  const BLIP_COUNT = 14;
+  const ANGLE_TRIGGER_WINDOW = 5; // degrees
+  const blips = [];
 
-    const x = 8 + Math.random() * 84;
+  function normalizeAngle(deg) {
+    return ((deg % 360) + 360) % 360;
+  }
+
+  function angleDelta(a, b) {
+    const diff = Math.abs(normalizeAngle(a) - normalizeAngle(b));
+    return Math.min(diff, 360 - diff);
+  }
+
+  function createBlip() {
+    const el = document.createElement("div");
+    el.className = "radar-blip";
+
+    const x = 10 + Math.random() * 80;
     const y = 10 + Math.random() * 80;
 
-    blip.style.left = x + "%";
-    blip.style.top = y + "%";
+    el.style.left = x + "%";
+    el.style.top = y + "%";
 
-    layer.appendChild(blip);
+    layer.appendChild(el);
 
-    setTimeout(() => {
-      blip.remove();
-    }, 2400);
+    const dx = x - 50;
+    const dy = y - 50;
+
+    // Convert position to radar angle, where 0deg is up and rotation is clockwise
+    const angle = normalizeAngle((Math.atan2(dy, dx) * 180 / Math.PI) + 90);
+
+    blips.push({
+      el,
+      x,
+      y,
+      angle,
+      lastTriggeredSweep: -1
+    });
+  }
+
+  function triggerBlip(blip, sweepIndex) {
+    blip.lastTriggeredSweep = sweepIndex;
+    blip.el.classList.remove("active");
+    void blip.el.offsetWidth;
+    blip.el.classList.add("active");
+  }
+
+  for (let i = 0; i < BLIP_COUNT; i += 1) {
+    createBlip();
   }
 
   function tick() {
-    const count = Math.random() < 0.65 ? 1 : 2;
-    for (let i = 0; i < count; i += 1) {
-      spawnBlip();
+    const now = performance.now();
+    const progress = (now % SWEEP_DURATION_MS) / SWEEP_DURATION_MS;
+    const sweepAngle = normalizeAngle(progress * 360);
+    const sweepIndex = Math.floor(now / SWEEP_DURATION_MS);
+
+    for (const blip of blips) {
+      if (
+        angleDelta(sweepAngle, blip.angle) <= ANGLE_TRIGGER_WINDOW &&
+        blip.lastTriggeredSweep !== sweepIndex
+      ) {
+        triggerBlip(blip, sweepIndex);
+      }
     }
 
-    const nextDelay = 900 + Math.random() * 1800;
-    setTimeout(tick, nextDelay);
+    requestAnimationFrame(tick);
   }
 
-  tick();
+  requestAnimationFrame(tick);
 })();
 </script>
 
