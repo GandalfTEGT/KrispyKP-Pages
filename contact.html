@@ -10,6 +10,9 @@
 <link rel="stylesheet" href="site.css">
 </head>
 <body>
+<div class="radar-grid" aria-hidden="true"></div>
+<div class="radar-blips" aria-hidden="true"></div>
+<div class="radar-vignette" aria-hidden="true"></div>  
 <div class="shell radar">
 <header class="topbar">
   <div class="container nav">
@@ -113,5 +116,42 @@
   </div>
 </footer>
 </div>
+
+<script>
+(function () {
+  const layer = document.querySelector(".radar-blips");
+  if (!layer) return;
+
+  function spawnBlip() {
+    const blip = document.createElement("div");
+    blip.className = "radar-blip";
+
+    const x = 8 + Math.random() * 84;
+    const y = 10 + Math.random() * 80;
+
+    blip.style.left = x + "%";
+    blip.style.top = y + "%";
+
+    layer.appendChild(blip);
+
+    setTimeout(() => {
+      blip.remove();
+    }, 2400);
+  }
+
+  function tick() {
+    const count = Math.random() < 0.65 ? 1 : 2;
+    for (let i = 0; i < count; i += 1) {
+      spawnBlip();
+    }
+
+    const nextDelay = 900 + Math.random() * 1800;
+    setTimeout(tick, nextDelay);
+  }
+
+  tick();
+})();
+</script>
+
 </body>
 </html>
