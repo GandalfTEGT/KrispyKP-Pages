@@ -5,6 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KrispyKP // Music</title>
 <link rel="stylesheet" href="site.css">
+<style>
+.music-tools{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:18px;
+}
+.playlist-toolbar{
+  display:grid;
+  gap:12px;
+}
+.playlist-toolbar .list-head{
+  margin-bottom:0;
+}
+.custom-builder{
+  padding:20px;
+}
+.custom-builder-top{
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:12px;
+  align-items:end;
+  margin-bottom:14px;
+}
+.custom-builder-top input{
+  width:100%;
+}
+.custom-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:14px;
+}
+.custom-actions button{
+  flex:1 1 150px;
+}
+.custom-count{
+  color:var(--muted);
+  font-size:13px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.custom-tracks{
+  display:grid;
+  gap:8px;
+  max-height:520px;
+  overflow:auto;
+  padding-right:4px;
+}
+.custom-track-row{
+  display:grid;
+  grid-template-columns:auto 1fr;
+  gap:12px;
+  align-items:start;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.06);
+  background:rgba(255,255,255,.02);
+  cursor:pointer;
+}
+.custom-track-row input{
+  margin-top:3px;
+}
+.custom-track-copy{
+  display:grid;
+  gap:4px;
+}
+.custom-track-copy strong{
+  font-size:14px;
+}
+.custom-track-copy span{
+  font-size:12px;
+  color:var(--muted);
+}
+@media (max-width: 980px){
+  .custom-builder-top{
+    grid-template-columns:1fr;
+  }
+}
+</style>
 </head>
 <body>
 <div class="shell radar">
@@ -33,8 +111,8 @@
     <div class="frame panel">
       <div class="section-title">Music</div>
       <h1 class="h1">Player &amp; Releases</h1>
-      <p class="sub">Browse tracks, search the playlist, and play releases directly in the browser. The player supports autoplay on selection, seek, volume, mute, shuffle, repeat, and transport controls.</p>
-      <div class="notice">Tracks are loaded from <span class="code">data/tracks.js</span>. Audio should point to <span class="code">media/music</span> and artwork should point to <span class="code">media/art</span>.</div>
+      <p class="sub">Browse the full library, switch between album playlists, or build a custom selection of tracks to play through in the browser.</p>
+      <div class="notice">Repeat modes cycle through off, full library, current playlist, and current song. Custom selections can be saved in the browser and exported or imported as JSON.</div>
     </div>
   </div>
 </main>
@@ -61,7 +139,7 @@
         <button type="button" id="playBtn" onclick="togglePlay()">▶</button>
         <button type="button" onclick="nextTrack()">⏭</button>
         <button type="button" id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
-        <button type="button" id="repeatBtn" onclick="toggleRepeat()">Repeat</button>
+        <button type="button" id="repeatBtn" onclick="toggleRepeat()">Repeat: Off</button>
       </div>
 
       <div class="controls controls-secondary">
@@ -80,12 +158,44 @@
       <audio id="audio"></audio>
     </section>
 
-    <section class="frame playlist-panel">
-      <div class="list-head">
-        <div class="list-title">Playlist</div>
-        <input id="trackSearch" class="search-input" type="text" placeholder="Filter tracks...">
-      </div>
-      <div id="tracks" class="tracks"></div>
+    <section class="music-tools">
+      <section class="frame playlist-panel">
+        <div class="playlist-toolbar">
+          <div class="list-head">
+            <div class="list-title">Playlist</div>
+            <select id="playlistSelect" class="search-input"></select>
+          </div>
+          <div class="list-head">
+            <div class="list-title">Tracks</div>
+            <input id="trackSearch" class="search-input" type="text" placeholder="Filter tracks...">
+          </div>
+        </div>
+        <div id="tracks" class="tracks"></div>
+      </section>
+
+      <section class="frame custom-builder">
+        <div class="custom-builder-top">
+          <div>
+            <div class="list-title">Build a custom selection</div>
+            <div class="custom-count" id="customCount">0 selected</div>
+          </div>
+          <div>
+            <label class="section-title" for="customPlaylistName" style="font-size:11px;">Custom playlist name</label>
+            <input id="customPlaylistName" class="search-input" type="text" value="My Selection">
+          </div>
+        </div>
+
+        <div class="custom-actions">
+          <button type="button" id="saveCustomBtn" class="btn">Save Selection</button>
+          <button type="button" id="loadCustomBtn" class="btn">Load Saved</button>
+          <button type="button" id="exportCustomBtn" class="btn">Export JSON</button>
+          <button type="button" id="importCustomBtn" class="btn">Import JSON</button>
+          <button type="button" id="clearCustomBtn" class="btn">Clear Selection</button>
+          <input id="importCustomInput" type="file" accept=".json,application/json" hidden>
+        </div>
+
+        <div id="customTracks" class="custom-tracks"></div>
+      </section>
     </section>
   </div>
 </section>
@@ -93,22 +203,22 @@
 <section class="section">
   <div class="container small-grid">
     <div class="frame feature">
-      <div class="section-title">Library Setup</div>
+      <div class="section-title">Built-in playlists</div>
       <ul class="list">
-        <li><span>Audio files stored in media/music</span><span class="muted">Live</span></li>
-        <li><span>Artwork stored in media/art</span><span class="muted">Live</span></li>
-        <li><span>Playlist data controlled from tracks.js</span><span class="muted">Editable</span></li>
-        <li><span>Autoplay on track click</span><span class="muted">Enabled</span></li>
+        <li><span>All Tracks</span><span class="muted">Full library</span></li>
+        <li><span>Thanks Jim: The Dead Game Chronicles</span><span class="muted">Album order</span></li>
+        <li><span>KrispyKP Mini Soundtrack</span><span class="muted">Soundtrack order</span></li>
+        <li><span>My Selection</span><span class="muted">Visitor-made</span></li>
       </ul>
     </div>
 
     <div class="frame feature">
-      <div class="section-title">Future Expansion</div>
+      <div class="section-title">Custom selection options</div>
       <ul class="list">
-        <li><span>Album pages</span><span class="muted">Later</span></li>
-        <li><span>Lyrics and credits</span><span class="muted">Later</span></li>
-        <li><span>Release notes</span><span class="muted">Later</span></li>
-        <li><span>Embedded visuals</span><span class="muted">Later</span></li>
+        <li><span>Save in browser</span><span class="muted">Local storage</span></li>
+        <li><span>Export to JSON</span><span class="muted">Portable</span></li>
+        <li><span>Import from JSON</span><span class="muted">Reusable</span></li>
+        <li><span>Repeat current selection</span><span class="muted">Repeat: List</span></li>
       </ul>
     </div>
   </div>
@@ -122,7 +232,7 @@
     <div class="footer-box frame">
       <div>
         <div class="section-title">KrispyKP Command Uplink</div>
-        <div style="margin-top:10px;">A browser-based player for tracks, remixes, and future release pages.</div>
+        <div style="margin-top:10px;">A browser-based player for albums, singles, custom selections, and future release pages.</div>
       </div>
       <div class="footer-nav">
         <a href="index.html">Home</a>
