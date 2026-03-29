@@ -747,21 +747,31 @@ textarea {
 
 /* Playlist dropdown fix */
 select {
+  width: 100%;
+  min-width: 0;
+  padding: 11px 10px;
+  border: 1px solid rgba(79, 210, 255, 0.16);
   background: linear-gradient(180deg, #152028, #10171d);
   color: var(--text);
-  border: 1px solid rgba(79, 210, 255, 0.16);
+  color-scheme: dark;
+  appearance: auto;
 }
 
-/* Dropdown options (important for readability) */
-select option {
-  background: #0f161a;
+select option,
+select optgroup {
+  background-color: #0f161a;
   color: var(--text);
 }
+
 
 select:focus {
   outline: none;
   border-color: var(--cyan);
   box-shadow: 0 0 6px rgba(79, 210, 255, 0.3);
+}
+
+#playlistSelect {
+  color-scheme: dark;
 }
 
 .player-meta {
