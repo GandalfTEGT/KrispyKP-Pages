@@ -899,6 +899,71 @@ input[type="range"] {
 }
 
 /* ------------------------------
+   Safari Fixes
+------------------------------ */
+/* Prevent grid/flex children from forcing horizontal overflow */
+.player-layout,
+.music-tools,
+.playlist-toolbar,
+.list-head,
+.custom-builder-top,
+.custom-actions,
+.footer-box,
+.nav,
+.nav-links,
+.hero-grid,
+.two-col,
+.small-grid,
+.split-grid,
+.music-grid,
+.video-grid,
+.about-grid,
+.contact-grid,
+.project-grid,
+.cards,
+.link-grid,
+.track-grid {
+  min-width: 0;
+}
+
+.player-panel,
+.playlist-panel,
+.feature,
+.contact-option,
+.link-card,
+.card,
+.media-item,
+.track-card,
+.footer-box,
+.music-tools,
+.custom-builder,
+.custom-tracks {
+  min-width: 0;
+}
+
+/* Make long text and controls shrink properly */
+button,
+select,
+input,
+textarea,
+.t-name,
+.t-artist,
+.list-title,
+.section-title,
+.brand-copy,
+.brand-mark,
+.brand-sub {
+  min-width: 0;
+}
+
+/* Hard stop for accidental sideways scrolling */
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ------------------------------
    Responsive
 ------------------------------ */
 @media (max-width: 1100px) {
@@ -997,6 +1062,40 @@ input[type="range"] {
   }
 
   .player-meta {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    width: calc(100% - 24px);
+  }
+
+  .nav-links {
+    width: 100%;
+  }
+
+  .nav-links a {
+    flex: 1 1 auto;
+    text-align: center;
+  }
+
+  .custom-actions {
+    flex-direction: column;
+  }
+
+  .custom-actions button {
+    width: 100%;
+  }
+
+  .custom-builder-top {
+    grid-template-columns: 1fr;
+  }
+
+  .controls,
+  .controls-main,
+  .controls-mode,
+  .controls-secondary {
     grid-template-columns: 1fr;
   }
 }
