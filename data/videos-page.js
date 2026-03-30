@@ -110,7 +110,7 @@
   }
 
   function showFeatured(video, metaLabel) {
-    if (!featureFrame || !featureState || !selectedState) return;
+    if (!featureFrame || !featureState || !selectedState || !video) return;
     featureFrame.src = getEmbedSrc(video.videoId);
     featureTitle.textContent = video.title || "Featured Video";
     featureMeta.textContent = metaLabel || "Featured";
