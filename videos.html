@@ -39,73 +39,38 @@
   </div>
 </header>
 
-<main class="page-hero videos-page-hero">
+<main class="page-hero">
   <div class="container">
-    <div id="videosSummaryPanel" class="frame panel videos-summary-panel">
+    <div class="frame panel">
       <div class="section-title">Videos</div>
-      <h1 class="h1">Archive &amp; Playlists</h1>
-      <p id="videosSummaryText" class="sub">Featured content, latest uploads, and curated playlist browsing by game.</p>
+      <h1 class="h1">Featured, Latest &amp; Playlists</h1>
+      <p class="sub">Featured video at the top, latest uploads under the active game tab, and playlist-based sub-tabs for each game. Selecting a video updates the player and returns the page to the top.</p>
     </div>
   </div>
 </main>
 
-<section class="section videos-top-section">
-  <div class="container videos-top-grid">
-    <section id="featuredPlayerShell" class="frame videos-feature-shell">
-      <div id="videosFeatureState" class="videos-feature-state is-featured">
-        <div class="videos-block-head">
-          <div>
-            <div class="section-title">Featured Video</div>
-            <div id="videosFeatureTitle" class="videos-block-title">Featured Video</div>
-            <div id="videosFeatureMeta" class="videos-block-meta">Featured</div>
-          </div>
-        </div>
-
-        <div class="videos-feature-player-wrap">
-          <iframe
-            id="videosFeatureFrame"
-            title="KrispyKP featured video"
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin">
-          </iframe>
-        </div>
-
-        <div id="videosFeatureNote" class="videos-block-note"></div>
-      </div>
-
-      <div id="videosSelectedState" class="videos-feature-state videos-selected-state" hidden>
-        <div class="videos-block-head">
-          <div>
-            <div class="section-title">Now Viewing</div>
-            <div id="videosPlayerTitle" class="videos-block-title">Selected Video</div>
-            <div id="videosPlayerMeta" class="videos-block-meta">Playlist Video</div>
-          </div>
-        </div>
-
-        <div class="videos-main-player-wrap">
-          <iframe
-            id="videosPlayerFrame"
-            title="KrispyKP video player"
-            allowfullscreen
-            loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin">
-          </iframe>
-        </div>
-
-        <div id="videosPlayerNote" class="videos-block-note"></div>
-      </div>
-    </section>
-
-    <section class="frame videos-latest-panel">
-      <div class="videos-block-head">
+<section class="section">
+  <div class="container">
+    <section id="featuredPlayerShell" class="frame videos-player-shell">
+      <div class="videos-player-head">
         <div>
-          <div class="section-title">Latest Videos</div>
-          <div class="videos-block-title">Newest Uploads</div>
-          <div id="videosLatestMeta" class="videos-block-meta">Latest in active tab</div>
+          <div class="section-title">Featured / Now Viewing</div>
+          <div id="videosPlayerTitle" class="videos-player-title">Featured Video</div>
+          <div id="videosPlayerMeta" class="videos-player-meta">Featured</div>
         </div>
       </div>
-      <div id="latestVideoGrid" class="videos-latest-list"></div>
+
+      <div class="videos-player-frame-wrap">
+        <iframe
+          id="videosPlayerFrame"
+          title="KrispyKP video player"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
+
+      <div id="videosPlayerNote" class="videos-player-note"></div>
     </section>
   </div>
 </section>
@@ -115,43 +80,28 @@
     <div id="videoCategoryTabs" class="videos-tabs" aria-label="Video categories"></div>
     <div id="videoSubTabs" class="videos-subtabs" aria-label="Video sub categories"></div>
 
-    <section class="frame videos-library-shell">
-      <div class="videos-library-head">
-        <div>
-          <div class="section-title">Playlist Videos</div>
-          <div id="videosLibraryTitle" class="section-big videos-library-title">Choose a Video</div>
-        </div>
-      </div>
-
-      <div id="videoEmptyState"></div>
-      <div id="videoLibraryGrid" class="videos-library-grid"></div>
-      <div id="videoLibraryPager" class="videos-pager"></div>
-    </section>
-  </div>
-</section>
-
-<footer class="footer">
-  <div class="container">
-    <div class="footer-box frame">
+    <div class="section-head videos-section-head">
       <div>
-        <div class="section-title">KrispyKP Command Uplink</div>
-        <div style="margin-top:10px;">Featured uploads, latest videos, playlist archives, and long-term VOD storage routed through YouTube.</div>
-      </div>
-      <div class="footer-nav">
-        <a href="index.html">Home</a>
-        <a href="music.html">Music</a>
-        <a href="videos.html">Videos</a>
-        <a href="tournaments.html">Tournaments</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
+        <div class="section-title">Newest uploads</div>
+        <div class="section-big">Latest in active category</div>
       </div>
     </div>
+    <div id="latestVideoGrid" class="videos-grid videos-grid-latest"></div>
+
+    <div class="section-head videos-section-head">
+      <div>
+        <div class="section-title">Playlist selection</div>
+        <div class="section-big">Choose a video</div>
+      </div>
+    </div>
+    <div id="videoEmptyState"></div>
+    <div id="videoLibraryGrid" class="videos-grid"></div>
+    <div id="videoLibraryPager" class="videos-pager"></div>
   </div>
-</footer>
+</section>
 
 <script src="data/videos.generated.js"></script>
 <script src="data/videos-page.js"></script>
 <script src="data/radar-effects.js"></script>
-</div>
 </body>
 </html>

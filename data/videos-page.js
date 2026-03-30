@@ -6,6 +6,8 @@
   const latestMeta = document.getElementById("videosLatestMeta");
   const libraryTitle = document.getElementById("videosLibraryTitle");
 
+  const topGrid = document.querySelector(".videos-top-grid");
+
   const featureState = document.getElementById("videosFeatureState");
   const selectedState = document.getElementById("videosSelectedState");
   const featureFrame = document.getElementById("videosFeatureFrame");
@@ -28,6 +30,7 @@
   let activeCategoryId = (data.categories && data.categories[0] && data.categories[0].id) || "";
   let activeSubTabId = "";
   let currentPage = 1;
+  let currentVideo = null;
 
   function getCategoryById(id) {
     return (data.categories || []).find(category => category.id === id) || null;
@@ -73,7 +76,9 @@
     if (!category) return [];
 
     if (category.id === "latest") {
-      return dedupeVideos((category.latest || []).map(video => normaliseVideo(video, "Latest Videos"))).slice(0, category.latestCount || 8);
+      return dedupeVideos((category.latest || []).map(video => normaliseVideo(video, "Latest Videos")))
+        .sort((a, b) => (Date.parse(b.publishedAt || 0) || 0) - (Date.parse(a.publishedAt || 0) || 0))
+        .slice(0, category.latestCount || 8);
     }
 
     const videos = (category.subTabs || [])
@@ -112,28 +117,37 @@
     featureNote.textContent = video.note || "";
     featureState.hidden = false;
     selectedState.hidden = true;
+    if (topGrid) topGrid.classList.remove("is-selected");
   }
 
   function showSelected(video, metaLabel) {
-    if (!playerFrame || !featureState || !selectedState) return;
+    if (!playerFrame || !featureState || !selectedState || !video) return;
     playerFrame.src = getEmbedSrc(video.videoId);
     playerTitle.textContent = video.title || "Selected Video";
     playerMeta.textContent = metaLabel || "Playlist Video";
     playerNote.textContent = video.note || "";
     featureState.hidden = true;
     selectedState.hidden = false;
+    currentVideo = { ...video, metaLabel: metaLabel || "Playlist Video" };
+    if (topGrid) topGrid.classList.add("is-selected");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function setDefaultTopArea() {
     const featured = data.featured || {};
     if (featured.videoId) {
+      currentVideo = null;
       showFeatured({
         videoId: featured.videoId,
         title: featured.title || "Featured Video",
         note: featured.note || ""
       }, "Featured");
     }
+  }
+
+  function keepCurrentTopArea() {
+    if (!currentVideo) return;
+    showSelected(currentVideo, currentVideo.metaLabel);
   }
 
   function renderCategoryTabs() {
@@ -152,8 +166,8 @@
         const firstSub = category.subTabs && category.subTabs[0];
         activeSubTabId = firstSub ? firstSub.id : "";
         currentPage = 1;
-        setDefaultTopArea();
         renderAll();
+        keepCurrentTopArea();
       });
 
       categoryTabs.appendChild(button);
@@ -182,6 +196,7 @@
         if (activeSubTabId === tab.id) return;
         activeSubTabId = tab.id;
         currentPage = 1;
+        renderSubTabs();
         renderLibrary();
       });
 
@@ -235,25 +250,25 @@
     if (!latestGrid) return;
     latestGrid.innerHTML = "";
 
-    const category = getActiveCategory();
-    const latest = getCategoryLatestVideos(category);
+    const latestCategory = getCategoryById("latest");
+    const latest = getCategoryLatestVideos(latestCategory);
 
     if (latestMeta) {
-      latestMeta.textContent = category ? `${category.title}` : "Latest";
+      latestMeta.textContent = "Latest Videos";
     }
 
     if (!latest.length) {
       latestGrid.innerHTML = `
         <article class="frame videos-placeholder">
           <div class="videos-placeholder-title">No synced videos yet</div>
-          <p>This section will show the newest videos for the active tab once the playlist sync has pulled items into the site.</p>
+          <p>This section will show the newest videos once the playlist sync has pulled items into the site.</p>
         </article>
       `;
       return;
     }
 
     latest.forEach(video => {
-      latestGrid.appendChild(createLatestCard(video, category ? category.title : "Latest Videos"));
+      latestGrid.appendChild(createLatestCard(video, "Latest Videos"));
     });
   }
 
@@ -358,7 +373,7 @@
     }
 
     const tabCount = (category.subTabs || []).length;
-    summaryText.textContent = `${category.title} videos grouped into ${tabCount} playlist${tabCount === 1 ? "" : "s"}, with the latest uploads shown above and full playlist browsing below.`;
+    summaryText.textContent = `${category.title} videos grouped into ${tabCount} playlist${tabCount === 1 ? "" : "s"}, with the latest uploads shown below the player and full playlist browsing underneath.`;
   }
 
   function renderAll() {
