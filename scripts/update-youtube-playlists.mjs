@@ -1,5 +1,5 @@
 import fs from "node:fs/promises";
-import { VIDEO_PLAYLISTS } from "../data/video-playlists.config.js";
+import { VIDEO_PLAYLISTS } from "../data/video-playlists.config.mjs";
 
 const API_KEY = process.env.YOUTUBE_API_KEY;
 

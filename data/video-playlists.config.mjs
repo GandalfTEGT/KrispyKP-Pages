@@ -24,7 +24,9 @@ export const VIDEO_PLAYLISTS = [
         title: "Tiberian Dawn VODs",
         playlistId: "PLJm5aHMhZ8oW2XWien3yOlPSMuE57si9i"
       }
-    ],
+    ]
+  },
+  {
     id: "starcraft-2",
     title: "StarCraft II",
     featuredVideoId: "1Tf0HUaVzAE",
@@ -34,8 +36,10 @@ export const VIDEO_PLAYLISTS = [
         title: "StarCraft II VODs",
         playlistId: "PLJm5aHMhZ8oVXZVggRJXRrS9Ngbff8OJY"
       }
-    ],
-        id: "cnc-renegade",
+    ]
+  },
+  {
+    id: "cnc-renegade",
     title: "C&C Renegade",
     featuredVideoId: "OL3FjzW45d8",
     subTabs: [
@@ -44,8 +48,10 @@ export const VIDEO_PLAYLISTS = [
         title: "C&C Renegade VODs",
         playlistId: "PLJm5aHMhZ8oUnQlVlasUuPPOYBXd-T5Kl"
       }
-    ],
-            id: "combined-arms",
+    ]
+  },
+  {
+    id: "combined-arms",
     title: "Combined Arms",
     featuredVideoId: "egj-nQsprP0",
     subTabs: [
@@ -54,18 +60,10 @@ export const VIDEO_PLAYLISTS = [
         title: "OpenRA: Combined Arms VODs",
         playlistId: "PLJm5aHMhZ8oX5L3wAxY5tmn56X7D2PZ6z"
       }
-    ],
-            id: "cnc-renegade",
-    title: "C&C Renegade",
-    featuredVideoId: "OL3FjzW45d8",
-    subTabs: [
-      {
-        id: "ccr-1",
-        title: "C&C Renegade VODs",
-        playlistId: "PLJm5aHMhZ8oUnQlVlasUuPPOYBXd-T5Kl"
-      }
-    ],
-              id: "wh40-boltgun",
+    ]
+  },
+  {
+    id: "wh40k-boltgun",
     title: "WH40K: Boltgun",
     featuredVideoId: "PoRmiEL6pBM",
     subTabs: [
@@ -73,7 +71,7 @@ export const VIDEO_PLAYLISTS = [
         id: "wh-1",
         title: "Warhammer 40K: Boltgun VODs",
         playlistId: "PLJm5aHMhZ8oWF1_f0ezbcvkCeNNUDxW6r"
-      },
-    ],    
+      }
+    ]
   }
 ];
