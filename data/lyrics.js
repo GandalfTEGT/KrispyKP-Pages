@@ -125,7 +125,7 @@ We dominate
 ⸻
 
 Apache circling overhead
-Orca lifts — now someone’s dead
+Orca lifts now someone’s dead
 Airstrip gone? That’s fine with me
 We win through stability`
   },
