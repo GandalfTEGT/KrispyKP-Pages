@@ -10,20 +10,7 @@
   padding-top: 10px;
 }
 
-.videos-top-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 420px;
-  gap: 18px;
-  align-items: start;
-  transition: all var(--transition);
-}
-
-.videos-top-grid.is-selected {
-  grid-template-columns: 1fr;
-}
-
 .videos-feature-shell,
-.videos-latest-panel,
 .videos-library-shell {
   padding: 22px;
 }
@@ -64,12 +51,8 @@
   line-height: 1.6;
 }
 
-.videos-feature-shell {
-  min-height: 0;
-}
-
-.videos-feature-player-wrap,
-.videos-main-player-wrap {
+.videos-main-player-wrap,
+.videos-feature-player-wrap {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
@@ -78,89 +61,13 @@
   background: rgba(0, 0, 0, 0.28);
 }
 
-.videos-feature-player-wrap {
-  max-width: 520px;
-}
-
-.videos-main-player-wrap {
-  max-width: 100%;
-}
-
-.videos-feature-player-wrap iframe,
-.videos-main-player-wrap iframe {
+.videos-main-player-wrap iframe,
+.videos-feature-player-wrap iframe {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   border: 0;
-}
-
-.videos-latest-panel {
-  min-height: 0;
-  transition: all var(--transition);
-}
-
-.videos-top-grid.is-selected .videos-latest-panel {
-  order: 2;
-}
-
-.videos-latest-list {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-  align-content: start;
-}
-
-.videos-top-grid.is-selected .videos-latest-list {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
-.videos-latest-card {
-  display: grid;
-  gap: 10px;
-  padding: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(255, 255, 255, 0.02);
-  min-height: 0;
-}
-
-.videos-thumb-button {
-  display: block;
-  width: 100%;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-}
-
-.videos-latest-thumb,
-.videos-library-thumb {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border: 1px solid rgba(79, 210, 255, 0.16);
-  background: #0b1014 center / cover no-repeat;
-}
-
-.videos-latest-copy,
-.videos-library-copy {
-  display: grid;
-  gap: 6px;
-  align-content: start;
-}
-
-.videos-card-title {
-  font-size: 16px;
-  font-weight: 800;
-  line-height: 1.35;
-}
-
-.videos-card-meta,
-.videos-card-date {
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
 }
 
 .videos-browser-section {
@@ -177,7 +84,6 @@
 
 .videos-subtabs {
   margin-top: 6px;
-  margin-bottom: 0;
 }
 
 .videos-tab,
@@ -224,6 +130,43 @@
   padding: 14px;
 }
 
+.videos-thumb-button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.videos-library-thumb {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgba(79, 210, 255, 0.16);
+  background: #0b1014 center / cover no-repeat;
+}
+
+.videos-library-copy {
+  display: grid;
+  gap: 6px;
+  align-content: start;
+}
+
+.videos-card-title {
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.videos-card-meta,
+.videos-card-date {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
 .videos-pager {
   display: flex;
   align-items: center;
@@ -256,30 +199,9 @@
   line-height: 1.6;
 }
 
-@media (max-width: 1240px) {
-  .videos-top-grid {
-    grid-template-columns: minmax(0, 1fr) 360px;
-  }
-
-  .videos-top-grid.is-selected .videos-latest-list,
+@media (max-width: 1200px) {
   .videos-library-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 1080px) {
-  .videos-top-grid,
-  .videos-top-grid.is-selected {
-    grid-template-columns: 1fr;
-  }
-
-  .videos-feature-player-wrap {
-    max-width: 640px;
-  }
-
-  .videos-latest-list,
-  .videos-top-grid.is-selected .videos-latest-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -290,9 +212,7 @@
 }
 
 @media (max-width: 640px) {
-  .videos-library-grid,
-  .videos-latest-list,
-  .videos-top-grid.is-selected .videos-latest-list {
+  .videos-library-grid {
     grid-template-columns: 1fr;
   }
 
@@ -302,7 +222,6 @@
   }
 
   .videos-feature-shell,
-  .videos-latest-panel,
   .videos-library-shell {
     padding: 18px;
   }

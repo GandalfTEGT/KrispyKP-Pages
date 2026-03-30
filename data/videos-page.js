@@ -3,7 +3,6 @@
   const pageSize = Number(data.pageSize) > 0 ? Number(data.pageSize) : 8;
 
   const summaryText = document.getElementById("videosSummaryText");
-  const latestMeta = document.getElementById("videosLatestMeta");
   const libraryTitle = document.getElementById("videosLibraryTitle");
 
   const topGrid = document.querySelector(".videos-top-grid");
@@ -22,7 +21,6 @@
 
   const categoryTabs = document.getElementById("videoCategoryTabs");
   const subTabs = document.getElementById("videoSubTabs");
-  const latestGrid = document.getElementById("latestVideoGrid");
   const libraryGrid = document.getElementById("videoLibraryGrid");
   const libraryPager = document.getElementById("videoLibraryPager");
   const emptyState = document.getElementById("videoEmptyState");
@@ -120,7 +118,7 @@
     if (topGrid) topGrid.classList.remove("is-selected");
   }
 
-  function showSelected(video, metaLabel) {
+  function showSelected(video, metaLabel, shouldScroll = true) {
     if (!playerFrame || !featureState || !selectedState || !video) return;
     playerFrame.src = getEmbedSrc(video.videoId);
     playerTitle.textContent = video.title || "Selected Video";
@@ -129,8 +127,10 @@
     featureState.hidden = true;
     selectedState.hidden = false;
     currentVideo = { ...video, metaLabel: metaLabel || "Playlist Video" };
-    if (topGrid) topGrid.classList.add("is-selected");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (shouldScroll) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   }
 
   function setDefaultTopArea() {
@@ -147,7 +147,7 @@
 
   function keepCurrentTopArea() {
     if (!currentVideo) return;
-    showSelected(currentVideo, currentVideo.metaLabel);
+    showSelected(currentVideo, currentVideo.metaLabel, false);
   }
 
   function renderCategoryTabs() {
@@ -244,32 +244,6 @@
     });
 
     return article;
-  }
-
-  function renderLatest() {
-    if (!latestGrid) return;
-    latestGrid.innerHTML = "";
-
-    const latestCategory = getCategoryById("latest");
-    const latest = getCategoryLatestVideos(latestCategory);
-
-    if (latestMeta) {
-      latestMeta.textContent = "Latest Videos";
-    }
-
-    if (!latest.length) {
-      latestGrid.innerHTML = `
-        <article class="frame videos-placeholder">
-          <div class="videos-placeholder-title">No synced videos yet</div>
-          <p>This section will show the newest videos once the playlist sync has pulled items into the site.</p>
-        </article>
-      `;
-      return;
-    }
-
-    latest.forEach(video => {
-      latestGrid.appendChild(createLatestCard(video, "Latest Videos"));
-    });
   }
 
   function renderLibrary() {
@@ -385,7 +359,6 @@
     renderCategoryTabs();
     renderSubTabs();
     updateSummaryText();
-    renderLatest();
     renderLibrary();
   }
 
