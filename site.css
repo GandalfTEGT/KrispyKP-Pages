@@ -762,6 +762,7 @@ textarea {
   display: grid;
   grid-template-columns: 360px 1fr;
   gap: 18px;
+  align-items: start;
 }
 
 .player-art {
@@ -931,7 +932,8 @@ input[type="range"] {
 .tracks {
   display: grid;
   gap: 8px;
-  max-height: 720px;
+  max-height: calc(100vh - 260px);
+  min-height: 720px;
   overflow: auto;
   padding-right: 4px;
 }
@@ -1184,14 +1186,6 @@ body {
   .nav-links a {
     flex: 1 1 auto;
     text-align: center;
-  }
-
-  .custom-actions {
-    flex-direction: column;
-  }
-
-  .custom-actions button {
-    width: 100%;
   }
 
   .custom-builder-top {
