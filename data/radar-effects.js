@@ -4,7 +4,7 @@
 
   const SWEEP_DURATION_MS = 4200;
   const BLIP_COUNT = 18;
-  const TRIGGER_WINDOW_DEG = 10.8;
+  const TRIGGER_WINDOW_DEG = 9;
   const REARM_WINDOW_DEG = 18;
   const TRIGGER_CHANCE = 0.72;
 
