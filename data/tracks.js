@@ -306,7 +306,7 @@ window.KRISPY_TRACKS = [
     available: true,
   },
   {
-    id: "rust-isn-t-real",
+    id: "rust-isnt-real",
     name: "Rust Isn't Real",
     artist: "KrispyKP",
     file: "media/music/rust-isnt-real.mp3",
