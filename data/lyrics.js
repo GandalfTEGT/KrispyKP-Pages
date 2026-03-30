@@ -374,8 +374,8 @@ But the silence feels loaded.
 
 Commit.
 Don’t half-play it.
-If you’re building— build heavy.
-If you’re rushing— don’t fake it.
+If you’re building build heavy.
+If you’re rushing don’t fake it.
 
 Commit.
 No halfway line.
