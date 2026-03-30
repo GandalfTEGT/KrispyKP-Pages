@@ -564,7 +564,7 @@ textarea {
 .hero-logo {
   width: 140px;
   max-width: 100%;
-  filter: drop-shadow(0 0 20px rgba(255, 30, 100, 0.18));
+  filter: drop-shadow(0 0 20px rgba(69, 251, 254, 0.18));
 }
 
 .section {
