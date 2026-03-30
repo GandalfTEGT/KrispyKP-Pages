@@ -91,13 +91,71 @@
 .controls-secondary{
   grid-template-columns:repeat(2,1fr);
 }
+.lyrics-shell{
+  margin-top:18px;
+}
+.lyrics-mobile-toggle{
+  display:none;
+  width:100%;
+  margin-bottom:12px;
+}
+.lyrics-box{
+  position:relative;
+  padding:18px;
+  border:1px solid rgba(79,210,255,.12);
+  background:rgba(0,0,0,.16);
+}
+.lyrics-box::before{
+  content:"";
+  position:absolute;
+  inset:8px;
+  border:1px solid rgba(79,210,255,.08);
+  pointer-events:none;
+}
+.lyrics-copy{
+  position:relative;
+  z-index:1;
+  padding:2px 6px 2px 6px;
+  white-space:pre-wrap;
+  line-height:1.7;
+  color:var(--text);
+}
+.lyrics-copy.is-empty{
+  color:var(--muted);
+}
+.lyrics-heading{
+  position:relative;
+  z-index:1;
+  margin-bottom:12px;
+}
+.lyrics-panel.collapsed .lyrics-box{
+  display:none;
+}
 
 @media (max-width: 980px){
   .custom-builder-top{
     grid-template-columns:1fr;
   }
+  .lyrics-mobile-toggle{
+    display:inline-flex;
+  }
 }
 
+@media (max-width: 640px){
+  .custom-actions{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .custom-actions button{
+    flex:unset;
+    width:100%;
+    min-height:44px;
+    padding:10px 12px;
+    font-size:12px;
+  }
+}
 </style>
 </head>
 <body>
@@ -131,7 +189,7 @@
       <div class="section-title">Music</div>
       <h1 class="h1">Player &amp; Releases</h1>
       <p class="sub">Browse the full library, switch between album playlists, or build a custom selection of tracks to play through in the browser.</p>
-      <div class="notice">Repeat modes cycle through off, full library, current playlist, and current song. Custom selections can be saved in the browser and exported or imported as JSON.</div>
+      <div class="notice">Lyrics are now loaded from a separate <span class="code">data/lyrics.js</span> file, so tracks and lyrics can be managed independently.</div>
     </div>
   </div>
 </main>
@@ -175,6 +233,16 @@
         </div>
         <div id="playerStatus" class="status-box">Idle</div>
       </div>
+
+      <section id="lyricsPanel" class="lyrics-shell">
+        <button type="button" id="lyricsToggleBtn" class="btn lyrics-mobile-toggle" aria-expanded="false">Show Lyrics</button>
+        <div class="lyrics-box">
+          <div class="lyrics-heading">
+            <div class="section-title">Lyrics</div>
+          </div>
+          <div id="lyricsCopy" class="lyrics-copy is-empty">Select a track to show lyrics. Lyrics can be added separately in data/lyrics.js using the track IDs from data/tracks.js.</div>
+        </div>
+      </section>
 
       <audio id="audio"></audio>
     </section>
@@ -221,53 +289,9 @@
   </div>
 </section>
 
-<section class="section">
-  <div class="container small-grid">
-    <div class="frame feature">
-      <div class="section-title">Built-in playlists</div>
-      <ul class="list">
-        <li><span>All Tracks</span><span class="muted">Full library</span></li>
-        <li><span>Thanks Jim: The Dead Game Chronicles</span><span class="muted">Album order</span></li>
-        <li><span>KrispyKP Mini Soundtrack</span><span class="muted">Soundtrack order</span></li>
-        <li><span>My Selection</span><span class="muted">Visitor-made</span></li>
-      </ul>
-    </div>
-
-    <div class="frame feature">
-      <div class="section-title">Custom selection options</div>
-      <ul class="list">
-        <li><span>Save in browser</span><span class="muted">Local storage</span></li>
-        <li><span>Export to JSON</span><span class="muted">Portable</span></li>
-        <li><span>Import from JSON</span><span class="muted">Reusable</span></li>
-        <li><span>Repeat current selection</span><span class="muted">Repeat: List</span></li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <script src="data/tracks.js"></script>
+<script src="data/lyrics.js"></script>
 <script src="data/music-player.js"></script>
-
-<footer class="footer">
-  <div class="container">
-    <div class="footer-box frame">
-      <div>
-        <div class="section-title">KrispyKP Command Uplink</div>
-        <div style="margin-top:10px;">A browser-based player for albums, singles, custom selections, and future release pages.</div>
-      </div>
-      <div class="footer-nav">
-        <a href="index.html">Home</a>
-        <a href="music.html">Music</a>
-        <a href="videos.html">Videos</a>
-        <a href="tournaments.html">Tournaments</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-      </div>
-    </div>
-  </div>
-</footer>
-</div>
-
 <script src="data/radar-effects.js"></script>
 
 </body>

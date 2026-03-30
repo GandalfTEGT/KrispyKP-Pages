@@ -1,6 +1,6 @@
-
 const allTracks = Array.isArray(window.KRISPY_TRACKS) ? window.KRISPY_TRACKS : [];
 const builtInPlaylists = Array.isArray(window.KRISPY_PLAYLISTS) ? window.KRISPY_PLAYLISTS : [];
+const lyricsLibrary = window.KRISPY_LYRICS || {};
 
 const CUSTOM_SELECTION_KEY = "krispykp_custom_track_ids_v1";
 const CUSTOM_PLAYLIST_NAME_KEY = "krispykp_custom_playlist_name_v1";
@@ -40,6 +40,9 @@ const importCustomBtn = document.getElementById("importCustomBtn");
 const importCustomInput = document.getElementById("importCustomInput");
 const clearCustomBtn = document.getElementById("clearCustomBtn");
 const customPlaylistNameEl = document.getElementById("customPlaylistName");
+const lyricsPanelEl = document.getElementById("lyricsPanel");
+const lyricsCopyEl = document.getElementById("lyricsCopy");
+const lyricsToggleBtn = document.getElementById("lyricsToggleBtn");
 
 function formatTime(seconds) {
   if (!Number.isFinite(seconds)) return "0:00";
@@ -133,6 +136,46 @@ function updateRepeatButton() {
 
   repeatBtn.textContent = labels[repeatMode] || "Repeat: Off";
   repeatBtn.classList.toggle("active", repeatMode !== "off");
+}
+
+function updateLyrics(track) {
+  if (!lyricsCopyEl) return;
+
+  const entry = track ? lyricsLibrary[track.id] : null;
+  const text = entry && typeof entry.lyrics === "string" && entry.lyrics.trim()
+    ? entry.lyrics.trim()
+    : "Lyrics are not available for this track yet.";
+
+  lyricsCopyEl.textContent = text;
+  lyricsCopyEl.classList.toggle("is-empty", !(entry && entry.lyrics && entry.lyrics.trim()));
+}
+
+function syncLyricsPanelForViewport() {
+  if (!lyricsPanelEl || !lyricsToggleBtn) return;
+
+  const mobile = window.matchMedia("(max-width: 980px)").matches;
+
+  if (mobile) {
+    if (!lyricsPanelEl.dataset.initializedMobile) {
+      lyricsPanelEl.classList.add("collapsed");
+      lyricsToggleBtn.setAttribute("aria-expanded", "false");
+      lyricsToggleBtn.textContent = "Show Lyrics";
+      lyricsPanelEl.dataset.initializedMobile = "true";
+    }
+  } else {
+    lyricsPanelEl.classList.remove("collapsed");
+    lyricsToggleBtn.setAttribute("aria-expanded", "true");
+    lyricsToggleBtn.textContent = "Hide Lyrics";
+    delete lyricsPanelEl.dataset.initializedMobile;
+  }
+}
+
+function toggleLyricsPanel() {
+  if (!lyricsPanelEl || !lyricsToggleBtn) return;
+
+  const isCollapsed = lyricsPanelEl.classList.toggle("collapsed");
+  lyricsToggleBtn.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+  lyricsToggleBtn.textContent = isCollapsed ? "Show Lyrics" : "Hide Lyrics";
 }
 
 function populatePlaylistSelect() {
@@ -230,12 +273,14 @@ function clearPlayerDisplay() {
   artistEl.textContent = "KrispyKP";
   clearProgress();
   playBtn.textContent = "▶";
+  updateLyrics(null);
 }
 
 function updateTrackDisplay(track) {
   artEl.style.backgroundImage = `url(${track.art || "assets/logo.png"})`;
   songEl.textContent = track.name || "Unknown track";
   artistEl.textContent = track.artist || "Unknown artist";
+  updateLyrics(track);
 }
 
 function rebuildShufflePool(excludeTrackId = currentTrackId, useLibraryScope = false) {
@@ -542,11 +587,6 @@ function prevTrack() {
   }
 }
 
-function rewindTrack() {
-  audio.currentTime = 0;
-  setStatus(audio.paused ? statusEl.textContent : "Playing");
-}
-
 function stopTrack() {
   audio.pause();
   audio.currentTime = 0;
@@ -750,6 +790,11 @@ importCustomInput.addEventListener("change", event => {
 });
 clearCustomBtn.addEventListener("click", clearCustomSelection);
 
+if (lyricsToggleBtn) {
+  lyricsToggleBtn.addEventListener("click", toggleLyricsPanel);
+  window.addEventListener("resize", syncLyricsPanelForViewport);
+}
+
 audio.ontimeupdate = () => {
   if (!audio.duration) return;
 
@@ -791,6 +836,7 @@ refreshActiveTracks();
 renderCustomTrackBuilder();
 updateRepeatButton();
 renderList();
+syncLyricsPanelForViewport();
 
 const firstPlayable = getPlayableTracks(activeTracks)[0];
 if (firstPlayable) {
