@@ -24,7 +24,7 @@
 
     // Matches the CSS conic-gradient sweep orientation:
     // visual bright head is effectively offset from the raw rotation
-    return normalizeAngle((progress * 360) + 146);
+    return normalizeAngle((progress * 360) + 152);
   }
 
   function createBlip() {
