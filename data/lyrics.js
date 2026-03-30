@@ -13,7 +13,7 @@ Line three`
 
   "50-war-machine": {
     title: "£50 War Machine",
-    lyrics: `Main rig died — screen went black
+    lyrics: `Main rig died, screen went black
 No boot sound, no coming back
 Tournament posted — 2v2
 Gazza’s bracket, I had to queue
@@ -47,7 +47,7 @@ Kanji saying “CCP #1”
 Too many tanks, it couldn’t cope
 Team fights turning into hope
 So I tore it down, swapped the chip
-i7 in — tighter grip
+i7 in, tighter grip
 
 Suddenly the game could breathe
 Micro clean, APCs
@@ -76,7 +76,7 @@ I just wanted Nod vs GDI locked
 ⸻
 
 But something clicked beneath the case
-Not just frames — a different chase
+Not just frames a different chase
 Thermals, sockets, wattage lines
 BIOS screens and chipset signs
 
@@ -106,9 +106,9 @@ Three ref early, money stacked
 War factory coming back
 
 Medium tanks roll heavy and slow
-No finesse — just pressure flow
+No finesse just pressure flow
 Steel on steel across the plain
-We don’t rush — we sustain
+We don’t rush we sustain
 
 ⸻
 
@@ -131,7 +131,7 @@ We win through stability`
   },
   "five-ref-timing": {
     title: "Five Ref Timing",
-    lyrics: `Deploy or move — split-second call
+    lyrics: `Deploy or move split-second call
 Con yard down, commit it all
 Power first, hand online
 Minigunners cross the line
@@ -148,9 +148,9 @@ Place them tight. Play it smart.
 
 ⸻
 
-Five ref timing — tib salvation
-Low power flashing — don’t slip
-Second strip — production flips
+Five ref timing tib salvation
+Low power flashing don’t slip
+Second strip  production flips
 Bikes roll out in tight formation
 
 (Pressure builds with acceleration)
@@ -193,14 +193,14 @@ Burn the base.
 
 Two refs behind.
 Con yard sold.
-If it works —
+If it works 
 It’s gold.
 
 ⸻
 
 Just enough power.
 Economy thin.
-If they scout it —
+If they scout it 
 It’s all-in.
 
 But that’s the point.
@@ -212,7 +212,7 @@ Than bleed all day.`
     title: "Rust Isn't Real",
     lyrics: `Haven’t queued in months,
 Mouse feels unfamiliar.
-We say rust isn’t real —
+We say rust isn’t real 
 But my hands say otherwise.
 
 Name loads in on the screen,
@@ -229,14 +229,14 @@ Just focus.
 
 ⸻
 
-Rust isn’t real —
+Rust isn’t real 
 That’s what we say.
 But silence hits different
 When the map loads grey.
 
 Cold hands on the mouse,
 Eyes locked on the field.
-If I’m quiet on stream —
+If I’m quiet on stream 
 It means it’s real.
 
 ⸻
@@ -248,7 +248,7 @@ This is the one that’s calm.
 
 Scout first. No panic.
 One clean decision at a time.
-The best matches aren’t noisy —
+The best matches aren’t noisy 
 They’re precise.`
   },
   "out-of-theatre": {
@@ -292,7 +292,7 @@ Once it slips it won’t sit in
 Scorp live most every night
 Streaming matches, ladder fights
 Krispy wants to queue again
-But I’m out of town — can’t log in
+But I’m out of town can’t log in
 
 ⸻
 
