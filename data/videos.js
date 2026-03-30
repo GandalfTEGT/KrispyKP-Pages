@@ -1,11 +1,33 @@
+window.KRISPY_VIDEO_DATA = {
+  featured: {
+    videoId: "W7Q9PdkNQD8",
+    title: "Featured Video",
+    note: "Starter featured video. This stays small by default until a visitor selects another video."
+  },
 
-window.KRISPY_VIDEOS = {
-  featuredYouTubeId: "REPLACE_WITH_VIDEO_ID",
-  youtubeItems: [
-    {title:"Placeholder upload title", url:"https://www.youtube.com/@KrispyKremePie/videos", tag:"Placeholder", note:"Replace this entry manually or generate it from a feed later."},
-    {title:"Placeholder highlight title", url:"https://www.youtube.com/@KrispyKremePie/videos", tag:"Placeholder", note:"Add direct video links here if you want a fully static setup."}
+  categories: [
+    {
+      id: "tiberian-dawn",
+      title: "Tiberian Dawn",
+      latestCount: 6,
+      subTabs: [
+        {
+          id: "td-playlist-1",
+          title: "Tiberian Dawn Playlist 1",
+          playlistId: "PLJm5aHMhZ8oWCTQuT0YMhXOM2ISbfw5KF",
+          playlistUrl: "https://www.youtube.com/playlist?list=PLJm5aHMhZ8oWCTQuT0YMhXOM2ISbfw5KF",
+          items: []
+        },
+        {
+          id: "td-playlist-2",
+          title: "Tiberian Dawn Playlist 2",
+          playlistId: "PLJm5aHMhZ8oWA1em_qTTVvgcHICX3Gokb",
+          playlistUrl: "https://www.youtube.com/playlist?list=PLJm5aHMhZ8oWA1em_qTTVvgcHICX3Gokb",
+          items: []
+        }
+      ]
+    }
   ],
-  vodItems: [
-    {title:"Placeholder VOD title", url:"https://www.twitch.tv/KrispyKP/videos", tag:"Placeholder", note:"Add direct VOD links here or use a feed-based setup later."}
-  ]
+
+  pageSize: 8
 };
