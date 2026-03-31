@@ -104,7 +104,7 @@ async function build() {
     featured: {
       videoId: "W7Q9PdkNQD8",
       title: "Featured Video",
-      note: "Featured by site config."
+      note: ""
     },
     categories: [latestCategory, ...categories],
     pageSize: 8
