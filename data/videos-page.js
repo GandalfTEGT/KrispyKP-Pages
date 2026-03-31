@@ -122,8 +122,14 @@
     return `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`;
   }
 
+  function stopIframe(iframe) {
+    if (!iframe) return;
+    iframe.src = "about:blank";
+  }
+
   function showFeatured(video, metaLabel) {
     if (!featureFrame || !featureState || !selectedState || !video) return;
+    stopIframe(playerFrame);
     featureFrame.src = getEmbedSrc(video.videoId);
     featureTitle.textContent = video.title || "Featured Video";
     featureMeta.textContent = metaLabel || "Featured";
@@ -136,6 +142,7 @@
 
   function showSelected(video, metaLabel, shouldScroll = true) {
     if (!playerFrame || !featureState || !selectedState || !video) return;
+    stopIframe(featureFrame);
     playerFrame.src = getEmbedSrc(video.videoId);
     playerTitle.textContent = video.title || "Selected Video";
     playerMeta.textContent = metaLabel || "Playlist Video";
