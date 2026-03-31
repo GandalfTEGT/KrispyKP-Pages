@@ -26,12 +26,17 @@
   const libraryGrid = document.getElementById("videoLibraryGrid");
   const libraryPager = document.getElementById("videoLibraryPager");
   const emptyState = document.getElementById("videoEmptyState");
+  const searchInput = document.getElementById("videoSearchInput");
+  const sortSelect = document.getElementById("videoSortSelect");
 
   let activeCategoryId = (data.categories && data.categories[0] && data.categories[0].id) || "";
   let activeSubTabId = "";
   let currentPage = 1;
   let currentVideo = null;
   let isMoreMenuOpen = false;
+  let searchQuery = "";
+  let sortMode = "playlist";
+
   const desktopVisibleTabCount = 6;
 
   function getCategoryById(id) {
@@ -50,6 +55,10 @@
 
   function getThumbnail(videoId) {
     return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+  }
+
+  function parseDate(value) {
+    return Date.parse(value || 0) || 0;
   }
 
   function formatDuration(isoDuration) {
@@ -71,6 +80,7 @@
 
   function normaliseVideo(video, fallbackTag) {
     if (!video || !video.videoId) return null;
+
     return {
       videoId: video.videoId,
       title: video.title || "Untitled Video",
@@ -98,18 +108,14 @@
 
     if (category.id === "latest") {
       return dedupeVideos((category.latest || []).map(video => normaliseVideo(video, "Latest Videos")))
-        .sort((a, b) => (Date.parse(b.publishedAt || 0) || 0) - (Date.parse(a.publishedAt || 0) || 0))
+        .sort((a, b) => parseDate(b.publishedAt) - parseDate(a.publishedAt))
         .slice(0, category.latestCount || 8);
     }
 
     const videos = (category.subTabs || [])
       .flatMap(tab => (tab.items || []).map(video => normaliseVideo(video, tab.title || category.title)))
       .filter(Boolean)
-      .sort((a, b) => {
-        const aTime = Date.parse(a.publishedAt || 0) || 0;
-        const bTime = Date.parse(b.publishedAt || 0) || 0;
-        return bTime - aTime;
-      });
+      .sort((a, b) => parseDate(b.publishedAt) - parseDate(a.publishedAt));
 
     return dedupeVideos(videos).slice(0, category.latestCount || 6);
   }
@@ -119,7 +125,7 @@
     return (tab.items || [])
       .map(video => normaliseVideo(video, tab.title))
       .filter(Boolean)
-      .sort((a, b) => b.position - a.position);
+      .sort((a, b) => a.position - b.position);
   }
 
   function getEmbedSrc(videoId) {
@@ -165,11 +171,14 @@
     const featured = data.featured || {};
     if (featured.videoId) {
       currentVideo = null;
-      showFeatured({
-        videoId: featured.videoId,
-        title: featured.title || "Featured Video",
-        note: featured.note || ""
-      }, "Featured");
+      showFeatured(
+        {
+          videoId: featured.videoId,
+          title: featured.title || "Featured Video",
+          note: featured.note || ""
+        },
+        "Featured"
+      );
     }
   }
 
@@ -198,13 +207,36 @@
     if (toggle) toggle.setAttribute("aria-expanded", "true");
   }
 
+  function getDefaultSortForCategory(category) {
+    if (!category) return "playlist";
+    return category.id === "latest" ? "newest" : "playlist";
+  }
+
+  function syncSortControl(category) {
+    if (!sortSelect) return;
+    const isLatest = category && category.id === "latest";
+    const playlistOption = sortSelect.querySelector('option[value="playlist"]');
+
+    if (playlistOption) {
+      playlistOption.disabled = isLatest;
+    }
+
+    if (isLatest && sortMode === "playlist") {
+      sortMode = "newest";
+    }
+
+    sortSelect.value = sortMode;
+  }
+
   function setActiveCategory(categoryId) {
     if (activeCategoryId === categoryId) return;
+
     activeCategoryId = categoryId;
     const category = getActiveCategory();
     const firstSub = category && category.subTabs && category.subTabs[0];
     activeSubTabId = firstSub ? firstSub.id : "";
     currentPage = 1;
+    sortMode = getDefaultSortForCategory(category);
     closeMoreMenu();
     renderAll();
     keepCurrentTopArea();
@@ -230,6 +262,7 @@
 
   function renderCategoryTabs() {
     if (!categoryTabs) return;
+
     categoryTabs.innerHTML = "";
     if (categoryMore) {
       categoryMore.innerHTML = "";
@@ -269,12 +302,14 @@
 
       const toggle = document.createElement("button");
       toggle.type = "button";
-      toggle.className = "videos-more-toggle" + (overflow.some(category => category.id === activeCategoryId) ? " active" : "");
+      toggle.className =
+        "videos-more-toggle" +
+        (overflow.some(category => category.id === activeCategoryId) ? " active" : "");
       toggle.textContent = "More";
       toggle.setAttribute("aria-haspopup", "menu");
       toggle.setAttribute("aria-expanded", isMoreMenuOpen ? "true" : "false");
 
-      toggle.addEventListener("click", (event) => {
+      toggle.addEventListener("click", event => {
         event.stopPropagation();
         if (isMoreMenuOpen) {
           closeMoreMenu();
@@ -306,6 +341,7 @@
 
   function renderSubTabs() {
     if (!subTabs) return;
+
     subTabs.innerHTML = "";
 
     const category = getActiveCategory();
@@ -334,27 +370,6 @@
     });
   }
 
-  function createLatestCard(video, sourceTitle) {
-    const article = document.createElement("article");
-    article.className = "videos-latest-card";
-    article.innerHTML = `
-      <button type="button" class="videos-thumb-button">
-        <span class="videos-latest-thumb" style="background-image:url('${video.thumbnail}')"></span>
-      </button>
-      <div class="videos-latest-copy">
-        <div class="videos-card-title">${video.title}</div>
-        <div class="videos-card-meta">${sourceTitle || video.tag || "Video"}</div>
-        ${video.publishedAt ? `<div class="videos-card-date">${new Date(video.publishedAt).toLocaleDateString()}</div>` : ""}
-      </div>
-    `;
-
-    article.querySelector(".videos-thumb-button").addEventListener("click", () => {
-      showSelected(video, sourceTitle || video.tag || "Video");
-    });
-
-    return article;
-  }
-
   function createLibraryCard(video, sourceTitle) {
     const article = document.createElement("article");
     article.className = "frame videos-library-card";
@@ -379,6 +394,55 @@
     return article;
   }
 
+  function applySearch(items) {
+    const query = searchQuery.trim().toLowerCase();
+    if (!query) return items;
+
+    return items.filter(video => {
+      const title = String(video.title || "").toLowerCase();
+      const tag = String(video.tag || "").toLowerCase();
+      return title.includes(query) || tag.includes(query);
+    });
+  }
+
+  function applySort(items, mode) {
+    const sorted = [...items];
+
+    switch (mode) {
+      case "newest":
+        sorted.sort((a, b) => parseDate(b.publishedAt) - parseDate(a.publishedAt));
+        break;
+      case "oldest":
+        sorted.sort((a, b) => parseDate(a.publishedAt) - parseDate(b.publishedAt));
+        break;
+      case "title":
+        sorted.sort((a, b) => String(a.title || "").localeCompare(String(b.title || "")));
+        break;
+      case "playlist":
+      default:
+        sorted.sort((a, b) => a.position - b.position);
+        break;
+    }
+
+    return sorted;
+  }
+
+  function getLibraryVideos() {
+    const category = getActiveCategory();
+    if (!category) return [];
+
+    if (category.id === "latest") {
+      const latestVideos = getCategoryLatestVideos(category);
+      return applySort(applySearch(latestVideos), sortMode === "playlist" ? "newest" : sortMode);
+    }
+
+    const tab = getActiveSubTab();
+    if (!tab) return [];
+
+    const videos = getSubTabVideos(tab);
+    return applySort(applySearch(videos), sortMode);
+  }
+
   function renderLibrary() {
     if (!libraryGrid || !libraryPager || !emptyState) return;
 
@@ -389,38 +453,35 @@
     const category = getActiveCategory();
     if (!category) return;
 
+    syncSortControl(category);
+
     if (category.id === "latest") {
-      const latestVideos = getCategoryLatestVideos(category);
       if (libraryTitle) libraryTitle.textContent = "Latest Videos";
-
-      if (!latestVideos.length) {
-        emptyState.innerHTML = `
-          <article class="frame videos-placeholder">
-            <div class="videos-placeholder-title">Latest Videos</div>
-            <p>This tab will fill automatically once the YouTube playlist sync is bringing in items.</p>
-          </article>
-        `;
-        return;
+    } else {
+      const tab = getActiveSubTab();
+      if (libraryTitle && tab) {
+        libraryTitle.textContent = tab.title;
       }
-
-      latestVideos.forEach(video => {
-        libraryGrid.appendChild(createLibraryCard(video, "Latest Videos"));
-      });
-      return;
     }
 
-    const tab = getActiveSubTab();
-    if (!tab) return;
-    if (libraryTitle) libraryTitle.textContent = tab.title;
-
-    const videos = getSubTabVideos(tab);
+    const videos = getLibraryVideos();
 
     if (!videos.length) {
+      const emptyTitle =
+        category.id === "latest"
+          ? "Latest Videos"
+          : (getActiveSubTab() && getActiveSubTab().title) || "Videos";
+
+      const emptyMessage = searchQuery.trim()
+        ? `No videos matched "${searchQuery.trim()}" in this section.`
+        : category.id === "latest"
+          ? "This tab will fill automatically once the YouTube playlist sync is bringing in items."
+          : "This playlist is connected, but there are no synced site items for it yet.";
+
       emptyState.innerHTML = `
         <article class="frame videos-placeholder">
-          <div class="videos-placeholder-title">${tab.title}</div>
-          <p>This playlist is connected, but there are no synced site items for it yet.</p>
-          ${tab.playlistUrl ? `<div class="cta-row"><a class="btn primary" href="${tab.playlistUrl}" target="_blank" rel="noopener noreferrer">Open Playlist on YouTube</a></div>` : ""}
+          <div class="videos-placeholder-title">${emptyTitle}</div>
+          <p>${emptyMessage}</p>
         </article>
       `;
       return;
@@ -433,7 +494,7 @@
     const pageItems = videos.slice(start, start + pageSize);
 
     pageItems.forEach(video => {
-      libraryGrid.appendChild(createLibraryCard(video, tab.title));
+      libraryGrid.appendChild(createLibraryCard(video, video.tag));
     });
 
     if (totalPages > 1) {
@@ -475,17 +536,25 @@
     }
 
     if (category.id === "latest") {
-      summaryText.textContent = "The latest uploads across the current synced playlists, ready to open in the main player or browse from the latest tab.";
+      summaryText.textContent =
+        "The latest uploads across the current synced playlists, ready to open in the main player or browse from the latest tab.";
       return;
     }
 
     const tabCount = (category.subTabs || []).length;
-    summaryText.textContent = `${category.title} videos grouped into ${tabCount} playlist${tabCount === 1 ? "" : "s"}, with the latest uploads shown below the player and full playlist browsing underneath.`;
+    summaryText.textContent =
+      `${category.title} videos grouped into ${tabCount} playlist${tabCount === 1 ? "" : "s"}, ` +
+      `with the latest uploads shown below the player and full playlist browsing underneath.`;
   }
 
   function renderAll() {
     const category = getActiveCategory();
-    if (category && category.id !== "latest" && (!activeSubTabId || !(category.subTabs || []).some(tab => tab.id === activeSubTabId))) {
+
+    if (
+      category &&
+      category.id !== "latest" &&
+      (!activeSubTabId || !(category.subTabs || []).some(tab => tab.id === activeSubTabId))
+    ) {
       activeSubTabId = (category.subTabs && category.subTabs[0] && category.subTabs[0].id) || "";
     }
 
@@ -496,23 +565,41 @@
   }
 
   if (categorySelect) {
-    categorySelect.addEventListener("change", (event) => {
+    categorySelect.addEventListener("change", event => {
       setActiveCategory(event.target.value);
     });
   }
 
-  document.addEventListener("click", (event) => {
+  if (searchInput) {
+    searchInput.addEventListener("input", event => {
+      searchQuery = event.target.value || "";
+      currentPage = 1;
+      renderLibrary();
+    });
+  }
+
+  if (sortSelect) {
+    sortSelect.addEventListener("change", event => {
+      sortMode = event.target.value || "playlist";
+      currentPage = 1;
+      renderLibrary();
+    });
+  }
+
+  document.addEventListener("click", event => {
     if (!categoryMore || categoryMore.hidden) return;
     if (!categoryMore.contains(event.target)) {
       closeMoreMenu();
     }
   });
 
-  document.addEventListener("keydown", (event) => {
+  document.addEventListener("keydown", event => {
     if (event.key === "Escape") {
       closeMoreMenu();
     }
   });
+
+  sortMode = getDefaultSortForCategory(getActiveCategory());
 
   setDefaultTopArea();
   renderAll();

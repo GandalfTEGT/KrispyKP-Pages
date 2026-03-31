@@ -355,9 +355,55 @@
     grid-template-columns: 1fr;
   }
 
+  .videos-mobile-category {
+    display: none;
+  }
+
+  .videos-tabs-shell {
+    display: block;
+  }
+
+  .videos-tabs,
+  .videos-subtabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  .videos-tabs {
+    max-height: none;
+  }
+
   .videos-tab,
   .videos-subtab {
-    width: 100%;
+    width: auto;
+    flex: 0 1 auto;
+    white-space: nowrap;
+  }
+
+  .videos-tab {
+    min-height: 42px;
+    padding: 10px 14px;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+  }
+
+  .videos-subtab {
+    padding: 8px 11px;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+
+  .videos-more {
+    margin-top: 8px;
+  }
+
+  .videos-more-toggle {
+    min-height: 42px;
+    padding: 10px 14px;
+    font-size: 11px;
   }
 
   .videos-feature-shell,
