@@ -113,6 +113,7 @@
     featureTitle.textContent = video.title || "Featured Video";
     featureMeta.textContent = metaLabel || "Featured";
     featureNote.textContent = video.note || "";
+    featureNote.hidden = !video.note;
     featureState.hidden = false;
     selectedState.hidden = true;
     if (topGrid) topGrid.classList.remove("is-selected");
@@ -124,6 +125,7 @@
     playerTitle.textContent = video.title || "Selected Video";
     playerMeta.textContent = metaLabel || "Playlist Video";
     playerNote.textContent = video.note || "";
+    playerNote.hidden = !video.note;
     featureState.hidden = true;
     selectedState.hidden = false;
     currentVideo = { ...video, metaLabel: metaLabel || "Playlist Video" };
