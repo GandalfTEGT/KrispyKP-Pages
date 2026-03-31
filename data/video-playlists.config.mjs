@@ -73,5 +73,29 @@ export const VIDEO_PLAYLISTS = [
         playlistId: "PLJm5aHMhZ8oWF1_f0ezbcvkCeNNUDxW6r"
       }
     ]
-  }
+  },
+  {
+    id: "special-streams",
+    title: "Special Streams",
+    featuredVideoId: "fGJUjX-FsLM",
+    subTabs: [
+      {
+        id: "stream-1",
+        title: "24 Hour Streams",
+        playlistId: "PLJm5aHMhZ8oVJYe0izUL9F2WygH-x_uhR"
+      }
+    ]
+  },
+  {
+    id: "fun-videos",
+    title: "Other",
+    featuredVideoId: "7dpiF6NScz4",
+    subTabs: [
+      {
+        id: "fun-1",
+        title: "Silly Ideas",
+        playlistId: "PLJm5aHMhZ8oXyM6FcQQysnGhdyAOAPcGO"
+      }
+    ]
+  },
 ];

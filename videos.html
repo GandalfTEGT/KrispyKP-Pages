@@ -101,7 +101,17 @@
 
 <section class="section videos-browser-section">
   <div class="container">
-    <div id="videoCategoryTabs" class="videos-tabs" aria-label="Video categories"></div>
+    <div class="videos-category-controls">
+      <label class="videos-mobile-category" for="videoCategorySelect">
+        <span class="videos-mobile-category-label">Choose Game / Section</span>
+        <select id="videoCategorySelect" class="videos-category-select" aria-label="Choose video category"></select>
+      </label>
+
+      <div class="videos-tabs-shell">
+        <div id="videoCategoryTabs" class="videos-tabs" aria-label="Video categories"></div>
+        <div id="videoCategoryMore" class="videos-more" hidden></div>
+      </div>
+    </div>
     <div id="videoSubTabs" class="videos-subtabs" aria-label="Video sub categories"></div>
 
     <section class="frame videos-library-shell">

@@ -20,6 +20,8 @@
   const playerNote = document.getElementById("videosPlayerNote");
 
   const categoryTabs = document.getElementById("videoCategoryTabs");
+  const categorySelect = document.getElementById("videoCategorySelect");
+  const categoryMore = document.getElementById("videoCategoryMore");
   const subTabs = document.getElementById("videoSubTabs");
   const libraryGrid = document.getElementById("videoLibraryGrid");
   const libraryPager = document.getElementById("videoLibraryPager");
@@ -29,6 +31,8 @@
   let activeSubTabId = "";
   let currentPage = 1;
   let currentVideo = null;
+  let isMoreMenuOpen = false;
+  const desktopVisibleTabCount = 6;
 
   function getCategoryById(id) {
     return (data.categories || []).find(category => category.id === id) || null;
@@ -174,28 +178,130 @@
     showSelected(currentVideo, currentVideo.metaLabel, false);
   }
 
+  function closeMoreMenu() {
+    isMoreMenuOpen = false;
+    if (!categoryMore) return;
+    categoryMore.classList.remove("is-open");
+    const menu = categoryMore.querySelector(".videos-more-menu");
+    const toggle = categoryMore.querySelector(".videos-more-toggle");
+    if (menu) menu.hidden = true;
+    if (toggle) toggle.setAttribute("aria-expanded", "false");
+  }
+
+  function openMoreMenu() {
+    isMoreMenuOpen = true;
+    if (!categoryMore) return;
+    categoryMore.classList.add("is-open");
+    const menu = categoryMore.querySelector(".videos-more-menu");
+    const toggle = categoryMore.querySelector(".videos-more-toggle");
+    if (menu) menu.hidden = false;
+    if (toggle) toggle.setAttribute("aria-expanded", "true");
+  }
+
+  function setActiveCategory(categoryId) {
+    if (activeCategoryId === categoryId) return;
+    activeCategoryId = categoryId;
+    const category = getActiveCategory();
+    const firstSub = category && category.subTabs && category.subTabs[0];
+    activeSubTabId = firstSub ? firstSub.id : "";
+    currentPage = 1;
+    closeMoreMenu();
+    renderAll();
+    keepCurrentTopArea();
+  }
+
+  function getVisibleAndOverflowCategories(categories) {
+    if (categories.length <= desktopVisibleTabCount) {
+      return { visible: categories, overflow: [] };
+    }
+
+    const activeCategory = categories.find(category => category.id === activeCategoryId);
+    let visible = categories.slice(0, desktopVisibleTabCount);
+    let overflow = categories.slice(desktopVisibleTabCount);
+
+    if (activeCategory && overflow.some(category => category.id === activeCategory.id)) {
+      visible = [...categories.slice(0, desktopVisibleTabCount - 1), activeCategory];
+      const visibleIds = new Set(visible.map(category => category.id));
+      overflow = categories.filter(category => !visibleIds.has(category.id));
+    }
+
+    return { visible, overflow };
+  }
+
   function renderCategoryTabs() {
     if (!categoryTabs) return;
     categoryTabs.innerHTML = "";
+    if (categoryMore) {
+      categoryMore.innerHTML = "";
+      categoryMore.hidden = true;
+    }
 
-    (data.categories || []).forEach(category => {
+    const categories = data.categories || [];
+    const { visible, overflow } = getVisibleAndOverflowCategories(categories);
+
+    visible.forEach(category => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "videos-tab" + (category.id === activeCategoryId ? " active" : "");
       button.textContent = category.title;
 
       button.addEventListener("click", () => {
-        if (activeCategoryId === category.id) return;
-        activeCategoryId = category.id;
-        const firstSub = category.subTabs && category.subTabs[0];
-        activeSubTabId = firstSub ? firstSub.id : "";
-        currentPage = 1;
-        renderAll();
-        keepCurrentTopArea();
+        setActiveCategory(category.id);
       });
 
       categoryTabs.appendChild(button);
     });
+
+    if (categorySelect) {
+      categorySelect.innerHTML = "";
+      categories.forEach(category => {
+        const option = document.createElement("option");
+        option.value = category.id;
+        option.textContent = category.title;
+        option.selected = category.id === activeCategoryId;
+        categorySelect.appendChild(option);
+      });
+    }
+
+    if (categoryMore && overflow.length) {
+      categoryMore.hidden = false;
+      categoryMore.className = "videos-more" + (isMoreMenuOpen ? " is-open" : "");
+
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "videos-more-toggle" + (overflow.some(category => category.id === activeCategoryId) ? " active" : "");
+      toggle.textContent = "More";
+      toggle.setAttribute("aria-haspopup", "menu");
+      toggle.setAttribute("aria-expanded", isMoreMenuOpen ? "true" : "false");
+
+      toggle.addEventListener("click", (event) => {
+        event.stopPropagation();
+        if (isMoreMenuOpen) {
+          closeMoreMenu();
+        } else {
+          openMoreMenu();
+        }
+      });
+
+      const menu = document.createElement("div");
+      menu.className = "videos-more-menu frame";
+      menu.hidden = !isMoreMenuOpen;
+
+      overflow.forEach(category => {
+        const item = document.createElement("button");
+        item.type = "button";
+        item.className = "videos-more-item" + (category.id === activeCategoryId ? " active" : "");
+        item.textContent = category.title;
+
+        item.addEventListener("click", () => {
+          setActiveCategory(category.id);
+        });
+
+        menu.appendChild(item);
+      });
+
+      categoryMore.append(toggle, menu);
+    }
   }
 
   function renderSubTabs() {
@@ -388,6 +494,25 @@
     updateSummaryText();
     renderLibrary();
   }
+
+  if (categorySelect) {
+    categorySelect.addEventListener("change", (event) => {
+      setActiveCategory(event.target.value);
+    });
+  }
+
+  document.addEventListener("click", (event) => {
+    if (!categoryMore || categoryMore.hidden) return;
+    if (!categoryMore.contains(event.target)) {
+      closeMoreMenu();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeMoreMenu();
+    }
+  });
 
   setDefaultTopArea();
   renderAll();
