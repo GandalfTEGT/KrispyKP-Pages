@@ -167,6 +167,21 @@
   text-transform: uppercase;
 }
 
+.videos-card-date-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.videos-card-duration {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
 .videos-pager {
   display: flex;
   align-items: center;
