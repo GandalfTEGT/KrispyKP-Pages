@@ -48,6 +48,23 @@
     return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
   }
 
+  function formatDuration(isoDuration) {
+    if (!isoDuration) return "";
+
+    const match = isoDuration.match(/^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/);
+    if (!match) return "";
+
+    const hours = Number(match[1] || 0);
+    const minutes = Number(match[2] || 0);
+    const seconds = Number(match[3] || 0);
+
+    if (hours > 0) {
+      return `${hours}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    }
+
+    return `${minutes}:${String(seconds).padStart(2, "0")}`;
+  }
+
   function normaliseVideo(video, fallbackTag) {
     if (!video || !video.videoId) return null;
     return {
@@ -58,6 +75,8 @@
       thumbnail: video.thumbnail || getThumbnail(video.videoId),
       tag: video.tag || fallbackTag || "Video",
       url: video.url || `https://www.youtube.com/watch?v=${video.videoId}`
+      duration: video.duration || "",
+      position: Number.isFinite(video.position) ? video.position : 999999
     };
   }
 
@@ -96,11 +115,7 @@
     return (tab.items || [])
       .map(video => normaliseVideo(video, tab.title))
       .filter(Boolean)
-      .sort((a, b) => {
-        const aTime = Date.parse(a.publishedAt || 0) || 0;
-        const bTime = Date.parse(b.publishedAt || 0) || 0;
-        return bTime - aTime;
-      });
+      .sort((a, b) => a.position - b.position);
   }
 
   function getEmbedSrc(videoId) {
@@ -237,7 +252,10 @@
       <div class="videos-library-copy">
         <div class="videos-card-title">${video.title}</div>
         <div class="videos-card-meta">${sourceTitle || video.tag || "Video"}</div>
-        ${video.publishedAt ? `<div class="videos-card-date">${new Date(video.publishedAt).toLocaleDateString()}</div>` : ""}
+        <div class="videos-card-date-row">
+          ${video.publishedAt ? `<div class="videos-card-date">${new Date(video.publishedAt).toLocaleDateString()}</div>` : ""}
+          ${video.duration ? `<div class="videos-card-duration">${formatDuration(video.duration)}</div>` : ""}
+        </div>
       </div>
     `;
 
