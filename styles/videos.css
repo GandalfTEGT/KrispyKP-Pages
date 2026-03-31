@@ -74,15 +74,14 @@
   padding-top: 8px;
 }
 
-
 .videos-category-controls {
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .videos-tabs-shell {
   display: flex;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 10px;
   min-width: 0;
 }
@@ -115,12 +114,11 @@
 
 .videos-tabs {
   flex: 1 1 auto;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 0;
   min-width: 0;
-  padding-bottom: 4px;
 }
 
 .videos-more {
@@ -178,7 +176,7 @@
   padding: 12px;
   border: 1px solid rgba(79, 210, 255, 0.16);
   background: linear-gradient(180deg, rgba(14, 22, 27, 0.98), rgba(9, 14, 18, 0.98));
-  box-shadow: var(--shadow), inset 0 0 0 1px rgba(255,255,255,0.03);
+  box-shadow: var(--shadow), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
 .videos-more-menu[hidden] {
@@ -198,16 +196,17 @@
   background: linear-gradient(180deg, var(--cyan-soft), var(--cyan));
 }
 
-.videos-tabs,
 .videos-subtabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
+  margin-top: 12px;
   margin-bottom: 0;
-}
-
-.videos-subtabs {
-  margin-top: 6px;
+  padding: 12px;
+  border: 1px solid rgba(79, 210, 255, 0.14);
+  border-left: 3px solid rgba(79, 210, 255, 0.42);
+  background: linear-gradient(180deg, rgba(10, 17, 22, 0.86), rgba(8, 13, 17, 0.78));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.02);
 }
 
 .videos-tab,
@@ -216,15 +215,28 @@
   align-items: center;
   justify-content: center;
   min-width: 0;
-  padding: 12px 16px;
   border: 1px solid var(--line);
   background: linear-gradient(180deg, #152028, #10171d);
   color: var(--text);
-  font-size: 13px;
   font-weight: 800;
-  letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.videos-tab {
+  min-height: 52px;
+  padding: 14px 18px;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+}
+
+.videos-subtab {
+  padding: 9px 12px;
+  border-color: rgba(79, 210, 255, 0.16);
+  background: linear-gradient(180deg, rgba(18, 28, 35, 0.92), rgba(11, 17, 22, 0.92));
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.1em;
 }
 
 .videos-tab.active,
@@ -232,6 +244,64 @@
   color: #071014;
   border-color: transparent;
   background: linear-gradient(180deg, var(--cyan-soft), var(--cyan));
+}
+
+.videos-subtab.active {
+  box-shadow: 0 0 0 1px rgba(79, 210, 255, 0.2);
+}
+
+.videos-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 12px;
+  align-items: center;
+  margin-top: 12px;
+  padding: 12px;
+  border: 1px solid rgba(79, 210, 255, 0.14);
+  background: linear-gradient(180deg, rgba(9, 15, 20, 0.92), rgba(7, 12, 16, 0.88));
+}
+
+.videos-search-input,
+.videos-sort-select {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 14px;
+  border: 1px solid rgba(79, 210, 255, 0.16);
+  background: linear-gradient(180deg, rgba(21, 32, 40, 0.96), rgba(16, 23, 29, 0.96));
+  color: var(--text);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+
+.videos-search-input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.videos-search-input:focus,
+.videos-sort-select:focus {
+  outline: none;
+  border-color: rgba(79, 210, 255, 0.55);
+  box-shadow: 0 0 0 1px rgba(79, 210, 255, 0.2), 0 0 14px rgba(79, 210, 255, 0.12);
+}
+
+.videos-sort-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 42px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%),
+    linear-gradient(180deg, rgba(21, 32, 40, 0.96), rgba(16, 23, 29, 0.96));
+  background-position:
+    calc(100% - 18px) calc(50% - 3px),
+    calc(100% - 12px) calc(50% - 3px),
+    0 0;
+  background-size: 6px 6px, 6px 6px, 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .videos-library-shell {
@@ -348,6 +418,10 @@
   .videos-library-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .videos-toolbar {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 640px) {
@@ -394,6 +468,24 @@
     padding: 8px 11px;
     font-size: 10px;
     letter-spacing: 0.08em;
+  }
+
+  .videos-subtabs {
+    margin-top: 10px;
+    padding: 10px;
+    gap: 7px;
+  }
+
+  .videos-toolbar {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 10px;
+  }
+
+  .videos-search-input,
+  .videos-sort-select {
+    min-height: 42px;
+    font-size: 12px;
   }
 
   .videos-more {
