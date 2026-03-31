@@ -74,7 +74,7 @@
       publishedAt: video.publishedAt || "",
       thumbnail: video.thumbnail || getThumbnail(video.videoId),
       tag: video.tag || fallbackTag || "Video",
-      url: video.url || `https://www.youtube.com/watch?v=${video.videoId}`
+      url: video.url || `https://www.youtube.com/watch?v=${video.videoId}`,
       duration: video.duration || "",
       position: Number.isFinite(video.position) ? video.position : 999999
     };
@@ -115,7 +115,7 @@
     return (tab.items || [])
       .map(video => normaliseVideo(video, tab.title))
       .filter(Boolean)
-      .sort((a, b) => a.position - b.position);
+      .sort((a, b) => b.position - a.position);
   }
 
   function getEmbedSrc(videoId) {
