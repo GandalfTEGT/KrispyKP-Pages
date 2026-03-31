@@ -11,6 +11,30 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 16,
       "latest": [
         {
+          "videoId": "fGJUjX-FsLM",
+          "title": "24 Hour Affiliate Anniversary Stream 26/03/26",
+          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th and 27th March 2026",
+          "playlistAddedAt": "2026-03-31T12:29:05Z",
+          "videoPublishedAt": "2026-03-31T12:27:38Z",
+          "publishedAt": "2026-03-31T12:29:05Z",
+          "thumbnail": "https://i.ytimg.com/vi/fGJUjX-FsLM/hqdefault.jpg",
+          "position": 0,
+          "duration": "P0D",
+          "playlistItemStatus": "public"
+        },
+        {
+          "videoId": "7dpiF6NScz4",
+          "title": "Krispy Joins The Red Alert Crew",
+          "description": "The time has come for me to finally try and play the other game that comes with the Remastered Collection. Watch Out Bepis Boys here I come.",
+          "playlistAddedAt": "2026-03-31T12:26:41Z",
+          "videoPublishedAt": "2025-03-23T15:08:18Z",
+          "publishedAt": "2026-03-31T12:26:41Z",
+          "thumbnail": "https://i.ytimg.com/vi/7dpiF6NScz4/maxresdefault.jpg",
+          "position": 0,
+          "duration": "PT3M11S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "RGBjjGtLPN4",
           "title": "Tib Dawn Ladder & Customs & Campaign 26/03/26",
           "description": "This video was taken and clipped together from my 24 hour stream at https://www.twitch.tv/krispy on the 26th & 27th March 2026",
@@ -138,13 +162,13 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T22:24:35Z",
           "publishedAt": "2026-03-30T21:05:37Z",
           "thumbnail": "https://i.ytimg.com/vi/3AbvlKWYmAE/maxresdefault.jpg",
-          "position": 0,
+          "position": 1,
           "duration": "PT2H7M7S",
           "playlistItemStatus": "public"
         },
         {
           "videoId": "ozfokbQfFsM",
-          "title": "OpenRA: Comboned Arms Campaign 29/03/26",
+          "title": "OpenRA: Combined Arms Campaign 29/03/26",
           "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 29th March 2026",
           "playlistAddedAt": "2026-03-30T21:04:02Z",
           "videoPublishedAt": "2026-03-30T21:33:38Z",
@@ -174,32 +198,8 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T18:41:10Z",
           "publishedAt": "2026-03-30T17:10:54Z",
           "thumbnail": "https://i.ytimg.com/vi/1Tf0HUaVzAE/maxresdefault.jpg",
-          "position": 1,
-          "duration": "PT2H11M56S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "WLQx6jo9D24",
-          "title": "OpenRA: Combined Arms Campaign 28/03/26",
-          "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 28th March 2026",
-          "playlistAddedAt": "2026-03-30T17:09:19Z",
-          "videoPublishedAt": "2026-03-30T18:15:30Z",
-          "publishedAt": "2026-03-30T17:09:19Z",
-          "thumbnail": "https://i.ytimg.com/vi/WLQx6jo9D24/maxresdefault.jpg",
-          "position": 1,
-          "duration": "PT3H15M47S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "egj-nQsprP0",
-          "title": "OpenRA: Combined Arms Campaign 26/03/26",
-          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispy on the 26th March 2026",
-          "playlistAddedAt": "2026-03-30T17:06:58Z",
-          "videoPublishedAt": "2026-03-30T19:04:56Z",
-          "publishedAt": "2026-03-30T17:06:58Z",
-          "thumbnail": "https://i.ytimg.com/vi/egj-nQsprP0/maxresdefault.jpg",
           "position": 0,
-          "duration": "PT2H30M23S",
+          "duration": "PT2H11M56S",
           "playlistItemStatus": "public"
         }
       ],
@@ -610,7 +610,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T22:24:35Z",
           "publishedAt": "2026-03-30T21:05:37Z",
           "thumbnail": "https://i.ytimg.com/vi/3AbvlKWYmAE/maxresdefault.jpg",
-          "position": 0,
+          "position": 1,
           "duration": "PT2H7M7S",
           "playlistItemStatus": "public"
         },
@@ -622,7 +622,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T18:41:10Z",
           "publishedAt": "2026-03-30T17:10:54Z",
           "thumbnail": "https://i.ytimg.com/vi/1Tf0HUaVzAE/maxresdefault.jpg",
-          "position": 1,
+          "position": 0,
           "duration": "PT2H11M56S",
           "playlistItemStatus": "public"
         }
@@ -634,18 +634,6 @@ window.KRISPY_VIDEO_DATA = {
           "playlistId": "PLJm5aHMhZ8oVXZVggRJXRrS9Ngbff8OJY",
           "items": [
             {
-              "videoId": "3AbvlKWYmAE",
-              "title": "StarCraft II 26/03/26",
-              "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispy on the 26th March 2026",
-              "playlistAddedAt": "2026-03-30T21:05:37Z",
-              "videoPublishedAt": "2026-03-30T22:24:35Z",
-              "publishedAt": "2026-03-30T21:05:37Z",
-              "thumbnail": "https://i.ytimg.com/vi/3AbvlKWYmAE/maxresdefault.jpg",
-              "position": 0,
-              "duration": "PT2H7M7S",
-              "playlistItemStatus": "public"
-            },
-            {
               "videoId": "1Tf0HUaVzAE",
               "title": "Customs with Scorpion, What the HELL am I doing!?!?!?! 24/03/26",
               "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 24th March 2026",
@@ -653,8 +641,20 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T18:41:10Z",
               "publishedAt": "2026-03-30T17:10:54Z",
               "thumbnail": "https://i.ytimg.com/vi/1Tf0HUaVzAE/maxresdefault.jpg",
-              "position": 1,
+              "position": 0,
               "duration": "PT2H11M56S",
+              "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "3AbvlKWYmAE",
+              "title": "StarCraft II 26/03/26",
+              "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispy on the 26th March 2026",
+              "playlistAddedAt": "2026-03-30T21:05:37Z",
+              "videoPublishedAt": "2026-03-30T22:24:35Z",
+              "publishedAt": "2026-03-30T21:05:37Z",
+              "thumbnail": "https://i.ytimg.com/vi/3AbvlKWYmAE/maxresdefault.jpg",
+              "position": 1,
+              "duration": "PT2H7M7S",
               "playlistItemStatus": "public"
             }
           ]
@@ -734,7 +734,7 @@ window.KRISPY_VIDEO_DATA = {
       "latest": [
         {
           "videoId": "ozfokbQfFsM",
-          "title": "OpenRA: Comboned Arms Campaign 29/03/26",
+          "title": "OpenRA: Combined Arms Campaign 29/03/26",
           "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 29th March 2026",
           "playlistAddedAt": "2026-03-30T21:04:02Z",
           "videoPublishedAt": "2026-03-30T21:33:38Z",
@@ -801,7 +801,7 @@ window.KRISPY_VIDEO_DATA = {
             },
             {
               "videoId": "ozfokbQfFsM",
-              "title": "OpenRA: Comboned Arms Campaign 29/03/26",
+              "title": "OpenRA: Combined Arms Campaign 29/03/26",
               "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 29th March 2026",
               "playlistAddedAt": "2026-03-30T21:04:02Z",
               "videoPublishedAt": "2026-03-30T21:33:38Z",
@@ -898,6 +898,88 @@ window.KRISPY_VIDEO_DATA = {
               "thumbnail": "https://i.ytimg.com/vi/7F1AxS4_vXk/maxresdefault.jpg",
               "position": 2,
               "duration": "PT1H2M57S",
+              "playlistItemStatus": "public"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "special-streams",
+      "title": "Special Streams",
+      "featuredVideoId": "fGJUjX-FsLM",
+      "latestCount": 12,
+      "latest": [
+        {
+          "videoId": "fGJUjX-FsLM",
+          "title": "24 Hour Affiliate Anniversary Stream 26/03/26",
+          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th and 27th March 2026",
+          "playlistAddedAt": "2026-03-31T12:29:05Z",
+          "videoPublishedAt": "2026-03-31T12:27:38Z",
+          "publishedAt": "2026-03-31T12:29:05Z",
+          "thumbnail": "https://i.ytimg.com/vi/fGJUjX-FsLM/hqdefault.jpg",
+          "position": 0,
+          "duration": "P0D",
+          "playlistItemStatus": "public"
+        }
+      ],
+      "subTabs": [
+        {
+          "id": "stream-1",
+          "title": "24 Hour Streams",
+          "playlistId": "PLJm5aHMhZ8oVJYe0izUL9F2WygH-x_uhR",
+          "items": [
+            {
+              "videoId": "fGJUjX-FsLM",
+              "title": "24 Hour Affiliate Anniversary Stream 26/03/26",
+              "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th and 27th March 2026",
+              "playlistAddedAt": "2026-03-31T12:29:05Z",
+              "videoPublishedAt": "2026-03-31T12:27:38Z",
+              "publishedAt": "2026-03-31T12:29:05Z",
+              "thumbnail": "https://i.ytimg.com/vi/fGJUjX-FsLM/hqdefault.jpg",
+              "position": 0,
+              "duration": "P0D",
+              "playlistItemStatus": "public"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fun-videos",
+      "title": "Other",
+      "featuredVideoId": "7dpiF6NScz4",
+      "latestCount": 12,
+      "latest": [
+        {
+          "videoId": "7dpiF6NScz4",
+          "title": "Krispy Joins The Red Alert Crew",
+          "description": "The time has come for me to finally try and play the other game that comes with the Remastered Collection. Watch Out Bepis Boys here I come.",
+          "playlistAddedAt": "2026-03-31T12:26:41Z",
+          "videoPublishedAt": "2025-03-23T15:08:18Z",
+          "publishedAt": "2026-03-31T12:26:41Z",
+          "thumbnail": "https://i.ytimg.com/vi/7dpiF6NScz4/maxresdefault.jpg",
+          "position": 0,
+          "duration": "PT3M11S",
+          "playlistItemStatus": "public"
+        }
+      ],
+      "subTabs": [
+        {
+          "id": "fun-1",
+          "title": "Silly Ideas",
+          "playlistId": "PLJm5aHMhZ8oXyM6FcQQysnGhdyAOAPcGO",
+          "items": [
+            {
+              "videoId": "7dpiF6NScz4",
+              "title": "Krispy Joins The Red Alert Crew",
+              "description": "The time has come for me to finally try and play the other game that comes with the Remastered Collection. Watch Out Bepis Boys here I come.",
+              "playlistAddedAt": "2026-03-31T12:26:41Z",
+              "videoPublishedAt": "2025-03-23T15:08:18Z",
+              "publishedAt": "2026-03-31T12:26:41Z",
+              "thumbnail": "https://i.ytimg.com/vi/7dpiF6NScz4/maxresdefault.jpg",
+              "position": 0,
+              "duration": "PT3M11S",
               "playlistItemStatus": "public"
             }
           ]
