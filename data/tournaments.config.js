@@ -260,7 +260,7 @@ window.KRISPY_TOURNAMENTS = {
     /* */
     {
       id: "td-open-1",
-      status: "completed",
+      status: "upcoming",
       title: "Tiberian Dawn Open #1",
       subtitle: "Community 1v1 tournament",
 
