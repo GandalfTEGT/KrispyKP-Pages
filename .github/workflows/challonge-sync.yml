@@ -1,0 +1,89 @@
+name: Sync Challonge Tournament Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 */6 * * *"
+
+jobs:
+  sync-challonge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch Challonge data
+        env:
+          CHALLONGE_USERNAME: ${{ secrets.CHALLONGE_USERNAME }}
+          CHALLONGE_API_KEY: ${{ secrets.CHALLONGE_API_KEY }}
+          CHALLONGE_TOURNAMENT_IDS: ${{ secrets.CHALLONGE_TOURNAMENT_IDS }}
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          username = os.environ.get("CHALLONGE_USERNAME", "").strip()
+          api_key = os.environ.get("CHALLONGE_API_KEY", "").strip()
+          tournament_ids = [x.strip() for x in os.environ.get("CHALLONGE_TOURNAMENT_IDS", "").split(",") if x.strip()]
+
+          output = {
+              "syncedAt": None,
+              "tournaments": []
+          }
+
+          if username and api_key and tournament_ids:
+              auth = base64.b64encode(f"{username}:{api_key}".encode("utf-8")).decode("ascii")
+              headers = {
+                  "Accept": "application/json",
+                  "Authorization": f"Basic {auth}"
+              }
+
+              def fetch(url):
+                  req = urllib.request.Request(url, headers=headers)
+                  with urllib.request.urlopen(req, timeout=30) as resp:
+                      return json.loads(resp.read().decode("utf-8"))
+
+              for tournament_id in tournament_ids:
+                  try:
+                      tournament = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}.json")
+                      participants = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}/participants.json")
+                      matches = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}/matches.json")
+                      output["tournaments"].append({
+                          "id": tournament_id,
+                          "tournament": tournament,
+                          "participants": participants,
+                          "matches": matches
+                      })
+                  except Exception as exc:
+                      output["tournaments"].append({
+                          "id": tournament_id,
+                          "error": str(exc)
+                      })
+
+              from datetime import datetime, timezone
+              output["syncedAt"] = datetime.now(timezone.utc).isoformat()
+
+          out_path = Path("data/challonge.generated.json")
+          out_path.parent.mkdir(parents=True, exist_ok=True)
+          out_path.write_text(json.dumps(output, indent=2), encoding="utf-8")
+          print(f"Wrote {out_path}")
+          PY
+
+      - name: Commit synced data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/challonge.generated.json
+          git diff --cached --quiet && exit 0
+          git commit -m "Update Challonge tournament data"
+          git push

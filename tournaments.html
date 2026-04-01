@@ -8,6 +8,7 @@
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06090b">
 <title>KrispyKP // Tournaments</title>
 <link rel="stylesheet" href="styles/site.css">
+<link rel="stylesheet" href="styles/tournaments.css">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
@@ -40,59 +41,160 @@
 
 <main class="page-hero">
   <div class="container">
-    <div class="frame panel">
+    <div id="tournamentHero" class="frame panel">
       <div class="section-title">Tournaments</div>
-      <h1 class="h1">Events &amp; Coverage</h1>
-      <p class="sub">This page is reserved for future tournaments, community events, signups, brackets, and stream coverage. Nothing is scheduled right now, but the event hub is already in place for when the first one is announced.</p>
+      <h1 id="tournamentTitle" class="h1">Events &amp; Coverage</h1>
+      <p id="tournamentSubtitle" class="sub">Tournament information, brackets, players, rules, featured matches, and results will appear here whenever an event is active.</p>
+      <div id="tournamentHeroMeta" class="meta-row tournament-hero-meta"></div>
+      <div id="tournamentHeroActions" class="cta-row tournament-hero-actions"></div>
+      <div id="tournamentHeroNote" class="tournament-actions-note" hidden></div>
     </div>
   </div>
 </main>
 
 <section class="section">
-  <div class="container project-grid">
-    <div class="frame feature">
-      <div class="section-title">Current Status</div>
-      <ul class="list">
-        <li><span>Planned tournaments</span><span class="muted">None currently</span></li>
-        <li><span>Community events</span><span class="muted">To be announced</span></li>
-        <li><span>Bracket links</span><span class="muted">Not live yet</span></li>
-        <li><span>Broadcast schedule</span><span class="muted">Not live yet</span></li>
-      </ul>
+  <div class="container">
+    <div id="tournamentEmptyState" class="tournament-empty-state" hidden>
+      <div class="frame feature tournament-empty-panel">
+        <div class="section-title">Current Status</div>
+        <div class="big-quote">No tournament is currently active.</div>
+        <p class="muted">This page is ready for future events. When one is announced, it can display artwork, prize pool, schedule, rules, players, featured matches, results, manual brackets, or a Challonge bracket embed from a simple config file.</p>
+        <div class="cta-row tournament-empty-cta">
+          <a class="btn" href="videos.html">Watch Videos</a>
+          <a class="btn" href="music.html">Open Music</a>
+        </div>
+      </div>
+
+      <div class="tournament-empty-grid">
+        <div class="frame feature tournament-info-card">
+          <div class="section-title">What This Page Supports</div>
+          <div class="tournament-empty-list">
+            <div class="mini">
+              <span class="label">Registration</span>
+              <span class="value">Ready</span>
+              <div class="small">Challonge signup links, external signup links, closed registration, or no public signup.</div>
+            </div>
+            <div class="mini">
+              <span class="label">Bracket</span>
+              <span class="value">Ready</span>
+              <div class="small">Embedded Challonge bracket, external bracket links, or a fully manual on-site bracket.</div>
+            </div>
+            <div class="mini">
+              <span class="label">Multiple Events</span>
+              <span class="value">Ready</span>
+              <div class="small">One featured event, switchable active/upcoming events, and archived completed events.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="frame feature tournament-info-card">
+          <div class="section-title">How It Works</div>
+          <ul class="list">
+            <li><span>Create event in config</span><span class="muted">Step 1</span></li>
+            <li><span>Add banner / rules files</span><span class="muted">Step 2</span></li>
+            <li><span>Choose registration + bracket mode</span><span class="muted">Step 3</span></li>
+            <li><span>Fill players, schedule, results</span><span class="muted">Step 4</span></li>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div class="frame feature">
-      <div class="section-title">What This Page Will Hold</div>
-      <p class="muted">When tournaments start, this page can carry event announcements, rules, signups, brackets, featured matches, and the stream schedule for coverage.</p>
-      <div class="notice" style="margin-top:16px;">The page is live now so future tournaments can slot in without changing the overall site structure.</div>
+    <div id="tournamentContent" hidden>
+      <div id="tournamentBannerWrap" class="frame tournament-banner-card" hidden>
+        <img id="tournamentBanner" class="tournament-banner" alt="">
+      </div>
+
+      <section class="section" style="padding-top:18px;">
+        <div class="project-grid">
+          <div class="frame feature">
+            <div class="section-title">Event Overview</div>
+            <p id="tournamentDescription" class="muted"></p>
+            <div id="tournamentSummaryList" class="tournament-summary-tags"></div>
+          </div>
+
+          <div class="frame feature">
+            <div class="section-title">Quick Info</div>
+            <ul id="tournamentQuickInfo" class="list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="tournamentBracketSection" class="section tournament-section-tight" hidden>
+        <div class="frame feature tournament-bracket-card">
+          <div class="tournament-bracket-head">
+            <div>
+              <div class="section-title">Bracket</div>
+              <div id="tournamentBracketTitle" class="section-big tournament-bracket-title">Live Bracket</div>
+            </div>
+            <div id="tournamentBracketActions" class="cta-row tournament-bracket-actions"></div>
+          </div>
+          <div id="tournamentBracketEmbedWrap" class="tournament-bracket-embed-wrap" hidden>
+            <iframe
+              id="tournamentBracketEmbed"
+              class="tournament-bracket-embed"
+              title="Tournament bracket"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin">
+            </iframe>
+          </div>
+          <div id="tournamentManualBracketWrap" class="tournament-manual-bracket-wrap" hidden></div>
+          <div id="tournamentBracketFallback" class="notice" hidden></div>
+        </div>
+      </section>
+
+      <section id="tournamentSwitchSection" class="section tournament-section-tight" hidden>
+        <div class="frame feature tournament-switch-card">
+          <div class="section-title">Other Active &amp; Upcoming Events</div>
+          <div id="tournamentSwitchGrid" class="tournament-switch-grid"></div>
+        </div>
+      </section>
+
+      <section class="section tournament-section-tight">
+        <div class="project-grid">
+          <div id="tournamentScheduleCard" class="frame feature" hidden>
+            <div class="section-title">Schedule</div>
+            <ul id="tournamentSchedule" class="list"></ul>
+          </div>
+
+          <div id="tournamentPlayersCard" class="frame feature" hidden>
+            <div class="section-title">Players</div>
+            <ul id="tournamentPlayers" class="list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="section tournament-section-tight">
+        <div class="project-grid">
+          <div id="tournamentRulesCard" class="frame feature" hidden>
+            <div class="section-title">Rules</div>
+            <ul id="tournamentRules" class="list"></ul>
+          </div>
+
+          <div id="tournamentFeaturedMatchesCard" class="frame feature" hidden>
+            <div class="section-title">Featured Matches</div>
+            <ul id="tournamentFeaturedMatches" class="list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="tournamentResultsSection" class="section tournament-section-tight tournament-results-section" hidden>
+        <div class="container">
+          <div class="frame feature">
+            <div class="section-title">Results</div>
+            <ul id="tournamentResults" class="list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="tournamentArchiveSection" class="section tournament-section-tight tournament-archive-section" hidden>
+        <div class="container">
+          <div class="frame feature tournament-archive-card">
+            <div class="section-title">Past Events</div>
+            <div id="tournamentArchive" class="tournament-archive-grid"></div>
+          </div>
+        </div>
+      </section>
     </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container project-list">
-    <article class="frame media-item">
-      <div>
-        <h3>Announcements</h3>
-        <p>Future event reveals, participation details, and registration links will appear here.</p>
-      </div>
-      <div class="media-tag">Upcoming</div>
-    </article>
-
-    <article class="frame media-item">
-      <div>
-        <h3>Brackets &amp; Results</h3>
-        <p>Bracket embeds, standings, and final results can be added once event formats are locked in.</p>
-      </div>
-      <div class="media-tag">Upcoming</div>
-    </article>
-
-    <article class="frame media-item">
-      <div>
-        <h3>Stream Coverage</h3>
-        <p>Broadcast details, featured matches, and VOD recaps can live here when tournament streams go live.</p>
-      </div>
-      <div class="media-tag">Upcoming</div>
-    </article>
   </div>
 </section>
 
@@ -101,7 +203,7 @@
     <div class="footer-box frame">
       <div>
         <div class="section-title">KrispyKP Command Uplink</div>
-        <div style="margin-top:10px;">Tournament coverage, signups, and event updates will appear here when they are ready.</div>
+        <div style="margin-top:10px;">Tournament coverage, signups, brackets, and event updates will appear here whenever events are active.</div>
       </div>
       <div class="footer-nav">
         <a href="index.html">Home</a>
@@ -116,7 +218,8 @@
 </footer>
 </div>
 
+<script src="data/tournaments.config.js"></script>
+<script src="data/tournaments-page.js"></script>
 <script src="data/radar-effects.js"></script>
-
 </body>
 </html>
