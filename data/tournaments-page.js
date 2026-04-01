@@ -617,7 +617,7 @@
   }
 
   function renderPage() {
-    const featured = getFeaturedEvent();
+    const featured = getCurrentEvent();
     if (!featured) {
       renderEmptyState();
       return;
