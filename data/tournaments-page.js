@@ -23,7 +23,12 @@
     bracketActions: document.getElementById("tournamentBracketActions"),
     bracketEmbedWrap: document.getElementById("tournamentBracketEmbedWrap"),
     bracketEmbed: document.getElementById("tournamentBracketEmbed"),
+    manualBracketWrap: document.getElementById("tournamentManualBracketWrap"),
     bracketFallback: document.getElementById("tournamentBracketFallback"),
+
+    switcherSection: document.getElementById("tournamentSwitcherSection"),
+    switcherTitle: document.getElementById("tournamentSwitcherTitle"),
+    switcherGrid: document.getElementById("tournamentSwitcherGrid"),
 
     scheduleCard: document.getElementById("tournamentScheduleCard"),
     schedule: document.getElementById("tournamentSchedule"),
@@ -39,14 +44,6 @@
 
     resultsSection: document.getElementById("tournamentResultsSection"),
     results: document.getElementById("tournamentResults"),
-
-    archiveSection: document.getElementById("tournamentArchiveSection"),
-    archive: document.getElementById("tournamentArchive"),
-
-    // Optional multi-event switcher containers.
-    switcherSection: document.getElementById("tournamentSwitcherSection"),
-    switcherTitle: document.getElementById("tournamentSwitcherTitle"),
-    switcherGrid: document.getElementById("tournamentSwitcherGrid"),
 
     archiveCardsSection: document.getElementById("tournamentArchiveCardsSection"),
     archiveCardsGrid: document.getElementById("tournamentArchiveCardsGrid"),
@@ -200,6 +197,13 @@
     if (els.bracketActions) els.bracketActions.innerHTML = "";
     if (els.bracketEmbedWrap) els.bracketEmbedWrap.hidden = true;
     if (els.bracketEmbed) els.bracketEmbed.removeAttribute("src");
+
+    if (els.manualBracketWrap) {
+      els.manualBracketWrap.hidden = true;
+      els.manualBracketWrap.innerHTML = "";
+      els.manualBracketWrap.style.removeProperty("--manual-round-count");
+    }
+
     if (els.bracketFallback) {
       els.bracketFallback.hidden = true;
       els.bracketFallback.textContent = "";
@@ -208,24 +212,27 @@
   }
 
   function renderManualBracket(event) {
-    if (!els.bracketSection || !els.bracketFallback) return;
+    if (!els.bracketSection || !els.manualBracketWrap) return;
 
     const rounds = isArray(event.manualBracket?.rounds);
     if (!rounds.length) {
-      els.bracketFallback.hidden = false;
-      els.bracketFallback.textContent = "No manual bracket rounds have been configured yet.";
+      if (els.bracketFallback) {
+        els.bracketFallback.hidden = false;
+        els.bracketFallback.textContent = "No manual bracket rounds have been configured yet.";
+      }
       return;
     }
 
     const wrapper = document.createElement("div");
     wrapper.className = "tournament-manual-bracket";
+    els.manualBracketWrap.style.setProperty("--manual-round-count", String(Math.max(rounds.length, 1)));
 
     rounds.forEach((round, roundIndex) => {
       const roundEl = document.createElement("div");
       roundEl.className = "tournament-manual-round frame";
 
       const roundTitle = document.createElement("div");
-      roundTitle.className = "section-title";
+      roundTitle.className = "tournament-manual-round-title";
       roundTitle.textContent = text(round.title, `Round ${roundIndex + 1}`);
       roundEl.appendChild(roundTitle);
 
@@ -282,10 +289,8 @@
       wrapper.appendChild(roundEl);
     });
 
-    els.bracketFallback.hidden = false;
-    els.bracketFallback.innerHTML = "";
-    els.bracketFallback.classList.add("tournament-bracket-manual-host");
-    els.bracketFallback.appendChild(wrapper);
+    els.manualBracketWrap.hidden = false;
+    els.manualBracketWrap.appendChild(wrapper);
   }
 
   function renderBracket(event) {
@@ -311,8 +316,10 @@
     }
 
     if (mode === "embed" && hasEmbed) {
-      els.bracketEmbedWrap.hidden = false;
-      els.bracketEmbed.src = event.bracketEmbedUrl;
+      if (els.bracketEmbedWrap && els.bracketEmbed) {
+        els.bracketEmbedWrap.hidden = false;
+        els.bracketEmbed.src = event.bracketEmbedUrl;
+      }
       return;
     }
 
@@ -415,19 +422,19 @@
 
   function renderSwitcherCard(event, label, sectionKind) {
     const article = document.createElement("article");
-    article.className = "frame tournament-switch-card";
+    article.className = "frame " + (sectionKind === "archive" ? "tournament-archive-item" : "tournament-switch-item");
 
     const banner = event.bannerImage
-      ? `<div class="tournament-switch-thumb" style="background-image:url('${escapeHtml(event.bannerImage)}')"></div>`
+      ? `<div class="${sectionKind === "archive" ? "tournament-archive-banner" : "tournament-switch-thumb"}" style="background-image:url('${escapeHtml(event.bannerImage)}')"></div>`
       : `<div class="tournament-switch-thumb tournament-switch-thumb--empty"></div>`;
 
     article.innerHTML = `
       ${banner}
-      <div class="tournament-switch-copy">
+      <div class="${sectionKind === "archive" ? "tournament-archive-copy" : "tournament-switch-copy"}">
         <div class="section-title">${escapeHtml(label)}</div>
-        <h3>${escapeHtml(text(event.title, "Tournament"))}</h3>
-        <p>${escapeHtml(text(event.subtitle || event.description, "Tournament event."))}</p>
-        <div class="badge-line">
+        <h3 class="${sectionKind === "archive" ? "tournament-archive-title" : "tournament-switch-title"}">${escapeHtml(text(event.title, "Tournament"))}</h3>
+        <p class="${sectionKind === "archive" ? "tournament-archive-text" : "tournament-switch-text"}">${escapeHtml(text(event.subtitle || event.description, "Tournament event."))}</p>
+        <div class="${sectionKind === "archive" ? "tournament-archive-meta" : "tournament-switch-meta"} badge-line">
           <span class="tag">${escapeHtml(createStatusLabel(text(event.status, "upcoming")))}</span>
           ${event.game ? `<span class="tag">${escapeHtml(event.game)}</span>` : ""}
         </div>
@@ -490,28 +497,6 @@
         els.archiveCardsSection.hidden = true;
       }
     }
-  }
-
-  function renderArchiveList(featuredEvent) {
-    const archiveEvents = getCompletedEvents(featuredEvent);
-
-    if (!els.archiveSection || !els.archive) return;
-
-    els.archive.innerHTML = "";
-    els.archiveSection.hidden = !archiveEvents.length;
-
-    archiveEvents.forEach(item => {
-      const article = document.createElement("article");
-      article.className = "frame media-item";
-      article.innerHTML = `
-        <div>
-          <h3>${escapeHtml(text(item.title, "Past Event"))}</h3>
-          <p>${escapeHtml(text(item.subtitle || item.description, "Completed event archive entry."))}</p>
-        </div>
-        <div class="media-tag">${escapeHtml(createStatusLabel(text(item.status, "completed")))}</div>
-      `;
-      els.archive.appendChild(article);
-    });
   }
 
   function renderEvent(event) {
@@ -602,8 +587,6 @@
         return `<span>${escapeHtml(text(left))}</span><span class="muted">${escapeHtml(text(right))}</span>`;
       });
     }
-
-    renderArchiveList(event);
   }
 
   function renderEmptyState() {
