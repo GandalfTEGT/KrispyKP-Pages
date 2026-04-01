@@ -260,7 +260,7 @@ window.KRISPY_TOURNAMENTS = {
     /* */
     {
       id: "td-open-1",
-      status: "upcoming",
+      status: "completed",
       title: "Tiberian Dawn Open #1",
       subtitle: "Community 1v1 tournament",
 
@@ -277,7 +277,7 @@ window.KRISPY_TOURNAMENTS = {
 
       description: "A community Tiberian Dawn event with full bracket coverage.",
 
-      registrationMode: "challonge",
+      registrationMode: "closed",
       registrationUrl: "https://challonge.com/your_signup_page",
 
       participantSource: "manual",
@@ -305,6 +305,26 @@ window.KRISPY_TOURNAMENTS = {
                 winner: "Player Two",
                 note: "Bo3",
                 time: "2026-07-20 19:00 UTC"
+              },
+              {
+                title: "QF2",
+                player1: "Player Four",
+                player2: "Player Five",
+                score1: "2",
+                score2: "1",
+                winner: "Player Four",
+                note: "Bo3",
+                time: "2026-07-20 19:00 UTC"
+              },
+              {
+                title: "QF3",
+                player1: "Player Six",
+                player2: "KrispyKP",
+                score1: "1",
+                score2: "2",
+                winner: "KrispyKP",
+                note: "Bo3",
+                time: "2026-07-20 19:00 UTC"
               }
             ]
           }
@@ -312,9 +332,12 @@ window.KRISPY_TOURNAMENTS = {
       },
 
       players: [
-        { name: "KrispyKP", seed: 1, note: "Host" },
-        { name: "Player Two", seed: 2, discord: "player_two" },
-        { name: "Player Three", seed: 3, flag: "UK" }
+        { name: "KrispyKP", seed: 1, note: "Host", discord: "KrispyKP", flag: "🏴󠁧󠁢󠁳󠁣󠁴󠁿"},
+        { name: "Player Two", seed: 2, discord: "player_two", flag: "🇺🇸" },
+        { name: "Player Three", seed: 3, discord: "gazza", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+        { name: "Player Four", seed: 4, discord: "meds", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+        { name: "Player Five", seed: 3, discord: "jamie", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
+        { name: "Player Six", seed: 3, discord: "bruzer", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿" },
       ],
 
       schedule: [
@@ -335,9 +358,12 @@ window.KRISPY_TOURNAMENTS = {
       ],
 
       results: [
-        { place: "1st", name: "Krispy", note: "Champion" },
+        { place: "1st", name: "KrispyKP", note: "Champion" },
         { place: "2nd", name: "Player Two" },
-        { place: "3rd", name: "Player Three" }
+        { place: "3rd", name: "Player Three" },
+        { place: "4th", name: "Player Four" },
+        { place: "5th", name: "Player Five" },
+        { place: "6th", name: "Player Six" },
       ]
     }
     /**/
