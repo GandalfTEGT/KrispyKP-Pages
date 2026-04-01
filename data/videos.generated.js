@@ -11,15 +11,15 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 16,
       "latest": [
         {
-          "videoId": "fGJUjX-FsLM",
-          "title": "24 Hour Affiliate Anniversary Stream 26/03/26",
-          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th and 27th March 2026",
-          "playlistAddedAt": "2026-03-31T12:29:05Z",
-          "videoPublishedAt": "2026-03-31T12:27:38Z",
-          "publishedAt": "2026-03-31T12:29:05Z",
-          "thumbnail": "https://i.ytimg.com/vi/fGJUjX-FsLM/hqdefault.jpg",
-          "position": 0,
-          "duration": "P0D",
+          "videoId": "MUpIlUdrX7c",
+          "title": "Combined Arms: Allies Mission 4 Can Kiss My Ass",
+          "description": "Combined Arms is a standalone mod for OpenRA which brings the factions of GDI/Nod/Allies/Soviets/Scrin altogether with units taken from across multiple games in their respective series. The mod comes with 45+ campaign mission and skirmish/online play available too.\n\nYou can download the mod yourself at https://www.moddb.com/mods/command-conquer-combined-arms\n\nThis video was taken and clipped together from my stream at https://www.twitch.tv/krispykp on 28th March 2026",
+          "playlistAddedAt": "2026-03-31T14:06:48Z",
+          "videoPublishedAt": "2026-03-31T14:08:02Z",
+          "publishedAt": "2026-03-31T14:06:48Z",
+          "thumbnail": "https://i.ytimg.com/vi/MUpIlUdrX7c/maxresdefault.jpg",
+          "position": 2,
+          "duration": "PT3M52S",
           "playlistItemStatus": "public"
         },
         {
@@ -32,6 +32,18 @@ window.KRISPY_VIDEO_DATA = {
           "thumbnail": "https://i.ytimg.com/vi/7dpiF6NScz4/maxresdefault.jpg",
           "position": 0,
           "duration": "PT3M11S",
+          "playlistItemStatus": "public"
+        },
+        {
+          "videoId": "Rjqr83QqUp4",
+          "title": "teaser",
+          "description": "",
+          "playlistAddedAt": "2026-03-31T12:26:41Z",
+          "videoPublishedAt": "2026-03-31T14:08:21Z",
+          "publishedAt": "2026-03-31T12:26:41Z",
+          "thumbnail": "https://i.ytimg.com/vi/Rjqr83QqUp4/maxresdefault.jpg",
+          "position": 1,
+          "duration": "PT1M25S",
           "playlistItemStatus": "public"
         },
         {
@@ -188,18 +200,6 @@ window.KRISPY_VIDEO_DATA = {
           "thumbnail": "https://i.ytimg.com/vi/ldh6ljAqN3Y/maxresdefault.jpg",
           "position": 1,
           "duration": "PT2H26M6S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "1Tf0HUaVzAE",
-          "title": "Customs with Scorpion, What the HELL am I doing!?!?!?! 24/03/26",
-          "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 24th March 2026",
-          "playlistAddedAt": "2026-03-30T17:10:54Z",
-          "videoPublishedAt": "2026-03-30T18:41:10Z",
-          "publishedAt": "2026-03-30T17:10:54Z",
-          "thumbnail": "https://i.ytimg.com/vi/1Tf0HUaVzAE/maxresdefault.jpg",
-          "position": 0,
-          "duration": "PT2H11M56S",
           "playlistItemStatus": "public"
         }
       ],
@@ -909,39 +909,13 @@ window.KRISPY_VIDEO_DATA = {
       "title": "Special Streams",
       "featuredVideoId": "fGJUjX-FsLM",
       "latestCount": 12,
-      "latest": [
-        {
-          "videoId": "fGJUjX-FsLM",
-          "title": "24 Hour Affiliate Anniversary Stream 26/03/26",
-          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th and 27th March 2026",
-          "playlistAddedAt": "2026-03-31T12:29:05Z",
-          "videoPublishedAt": "2026-03-31T12:27:38Z",
-          "publishedAt": "2026-03-31T12:29:05Z",
-          "thumbnail": "https://i.ytimg.com/vi/fGJUjX-FsLM/hqdefault.jpg",
-          "position": 0,
-          "duration": "P0D",
-          "playlistItemStatus": "public"
-        }
-      ],
+      "latest": [],
       "subTabs": [
         {
           "id": "stream-1",
           "title": "24 Hour Streams",
           "playlistId": "PLJm5aHMhZ8oVJYe0izUL9F2WygH-x_uhR",
-          "items": [
-            {
-              "videoId": "fGJUjX-FsLM",
-              "title": "24 Hour Affiliate Anniversary Stream 26/03/26",
-              "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th and 27th March 2026",
-              "playlistAddedAt": "2026-03-31T12:29:05Z",
-              "videoPublishedAt": "2026-03-31T12:27:38Z",
-              "publishedAt": "2026-03-31T12:29:05Z",
-              "thumbnail": "https://i.ytimg.com/vi/fGJUjX-FsLM/hqdefault.jpg",
-              "position": 0,
-              "duration": "P0D",
-              "playlistItemStatus": "public"
-            }
-          ]
+          "items": []
         }
       ]
     },
@@ -952,6 +926,18 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 12,
       "latest": [
         {
+          "videoId": "MUpIlUdrX7c",
+          "title": "Combined Arms: Allies Mission 4 Can Kiss My Ass",
+          "description": "Combined Arms is a standalone mod for OpenRA which brings the factions of GDI/Nod/Allies/Soviets/Scrin altogether with units taken from across multiple games in their respective series. The mod comes with 45+ campaign mission and skirmish/online play available too.\n\nYou can download the mod yourself at https://www.moddb.com/mods/command-conquer-combined-arms\n\nThis video was taken and clipped together from my stream at https://www.twitch.tv/krispykp on 28th March 2026",
+          "playlistAddedAt": "2026-03-31T14:06:48Z",
+          "videoPublishedAt": "2026-03-31T14:08:02Z",
+          "publishedAt": "2026-03-31T14:06:48Z",
+          "thumbnail": "https://i.ytimg.com/vi/MUpIlUdrX7c/maxresdefault.jpg",
+          "position": 2,
+          "duration": "PT3M52S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "7dpiF6NScz4",
           "title": "Krispy Joins The Red Alert Crew",
           "description": "The time has come for me to finally try and play the other game that comes with the Remastered Collection. Watch Out Bepis Boys here I come.",
@@ -961,6 +947,18 @@ window.KRISPY_VIDEO_DATA = {
           "thumbnail": "https://i.ytimg.com/vi/7dpiF6NScz4/maxresdefault.jpg",
           "position": 0,
           "duration": "PT3M11S",
+          "playlistItemStatus": "public"
+        },
+        {
+          "videoId": "Rjqr83QqUp4",
+          "title": "teaser",
+          "description": "",
+          "playlistAddedAt": "2026-03-31T12:26:41Z",
+          "videoPublishedAt": "2026-03-31T14:08:21Z",
+          "publishedAt": "2026-03-31T12:26:41Z",
+          "thumbnail": "https://i.ytimg.com/vi/Rjqr83QqUp4/maxresdefault.jpg",
+          "position": 1,
+          "duration": "PT1M25S",
           "playlistItemStatus": "public"
         }
       ],
@@ -980,6 +978,30 @@ window.KRISPY_VIDEO_DATA = {
               "thumbnail": "https://i.ytimg.com/vi/7dpiF6NScz4/maxresdefault.jpg",
               "position": 0,
               "duration": "PT3M11S",
+              "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "Rjqr83QqUp4",
+              "title": "teaser",
+              "description": "",
+              "playlistAddedAt": "2026-03-31T12:26:41Z",
+              "videoPublishedAt": "2026-03-31T14:08:21Z",
+              "publishedAt": "2026-03-31T12:26:41Z",
+              "thumbnail": "https://i.ytimg.com/vi/Rjqr83QqUp4/maxresdefault.jpg",
+              "position": 1,
+              "duration": "PT1M25S",
+              "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "MUpIlUdrX7c",
+              "title": "Combined Arms: Allies Mission 4 Can Kiss My Ass",
+              "description": "Combined Arms is a standalone mod for OpenRA which brings the factions of GDI/Nod/Allies/Soviets/Scrin altogether with units taken from across multiple games in their respective series. The mod comes with 45+ campaign mission and skirmish/online play available too.\n\nYou can download the mod yourself at https://www.moddb.com/mods/command-conquer-combined-arms\n\nThis video was taken and clipped together from my stream at https://www.twitch.tv/krispykp on 28th March 2026",
+              "playlistAddedAt": "2026-03-31T14:06:48Z",
+              "videoPublishedAt": "2026-03-31T14:08:02Z",
+              "publishedAt": "2026-03-31T14:06:48Z",
+              "thumbnail": "https://i.ytimg.com/vi/MUpIlUdrX7c/maxresdefault.jpg",
+              "position": 2,
+              "duration": "PT3M52S",
               "playlistItemStatus": "public"
             }
           ]
