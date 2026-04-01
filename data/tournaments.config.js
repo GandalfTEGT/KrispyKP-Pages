@@ -257,7 +257,7 @@ END OF GUIDE
 window.KRISPY_TOURNAMENTS = {
   currentEventId: null,
   events: [
-    /*
+    /* */
     {
       id: "td-open-1",
       status: "upcoming",
@@ -280,15 +280,15 @@ window.KRISPY_TOURNAMENTS = {
       registrationMode: "challonge",
       registrationUrl: "https://challonge.com/your_signup_page",
 
-      participantSource: "mixed",
+      participantSource: "manual",
 
       streamUrl: "https://www.twitch.tv/KrispyKP",
       rulesUrl: "assets/tournaments/td-open-1/rules.pdf",
 
-      bracketMode: "embed",
+      bracketMode: "manual",
       bracketTitle: "Tournament Bracket",
-      bracketUrl: "https://challonge.com/your_bracket_page",
-      bracketEmbedUrl: "https://challonge.com/your_bracket_page/module",
+      /*bracketUrl: "https://challonge.com/your_bracket_page",
+      bracketEmbedUrl: "https://challonge.com/your_bracket_page/module",*/
 
       // Only used when bracketMode = "manual"
       manualBracket: {
@@ -298,11 +298,11 @@ window.KRISPY_TOURNAMENTS = {
             matches: [
               {
                 title: "QF1",
-                player1: "Player One",
-                player2: "Player Two",
+                player1: "Player Two",
+                player2: "Player Three",
                 score1: "2",
                 score2: "1",
-                winner: "Player One",
+                winner: "Player Two",
                 note: "Bo3",
                 time: "2026-07-20 19:00 UTC"
               }
@@ -331,15 +331,15 @@ window.KRISPY_TOURNAMENTS = {
       ],
 
       featuredMatches: [
-        { title: "Opening Match", players: "Player One vs Player Two", time: "2026-07-20 19:00 UTC" }
+        { title: "Opening Match", players: "Player Two vs Player Three", time: "2026-07-20 19:00 UTC" }
       ],
 
       results: [
-        { place: "1st", name: "Player One", note: "Champion" },
+        { place: "1st", name: "Krispy", note: "Champion" },
         { place: "2nd", name: "Player Two" },
         { place: "3rd", name: "Player Three" }
       ]
     }
-    */
+    /**/
   ]
 };
