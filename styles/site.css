@@ -102,18 +102,30 @@ textarea {
       rgba(79, 210, 255, 0.00) 68%);
 }
 
-.radar::after {
-  content: "";
+.radar-sweep,
+.radar-grid,
+.radar-blips,
+.radar-vignette {
   position: fixed;
-  inset: -90vmax;
-  z-index: 0;
+  inset: 0;
   pointer-events: none;
+}
+
+.radar-sweep {
+  z-index: 0;
+  overflow: hidden;
+}
+
+.radar-sweep::before {
+  content: "";
+  position: absolute;
+  inset: -90vmax;
   border-radius: 50%;
   opacity: 0.92;
   mix-blend-mode: screen;
   filter: blur(4px);
   transform-origin: center center;
-  animation: radarSweep 4.2s linear infinite;
+  will-change: transform;
   background:
     conic-gradient(
       from 180deg,
@@ -141,11 +153,6 @@ textarea {
     rgba(0, 0, 0, 0.55) 92%,
     rgba(0, 0, 0, 0) 100%
   );
-}
-
-@keyframes radarSweep {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
 }
 
 
