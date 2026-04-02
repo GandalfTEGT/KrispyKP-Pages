@@ -9,7 +9,7 @@
   const TRIGGER_WINDOW_DEG = 9;
   const REARM_WINDOW_DEG = 18;
   const TRIGGER_CHANCE = 0.72;
-  const SWEEP_HEAD_OFFSET_DEG = 154;
+  const SWEEP_HEAD_OFFSET_DEG = 150;
 
   const blips = [];
   const startTime = performance.now();
