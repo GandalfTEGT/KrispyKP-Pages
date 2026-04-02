@@ -66,11 +66,11 @@ END OF GUIDE
       scotland: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
           <rect width="64" height="48" fill="#005eb8"/>
-          <path d="M0 0 L22 0 L64 31 L64 48 L42 48 L0 17 Z" fill="#ffffff"/>
-          <path d="M64 0 L42 0 L0 31 L0 48 L22 48 L64 17 Z" fill="#ffffff"/>
+          <line x1="0" y1="0" x2="64" y2="48" stroke="#ffffff" stroke-width="6"/>
+          <line x1="64" y1="0" x2="0" y2="48" stroke="#ffffff" stroke-width="6"/>
         </svg>
       `),
-
+      
       england: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
           <rect width="64" height="48" fill="#ffffff"/>

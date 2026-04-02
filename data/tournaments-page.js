@@ -48,6 +48,7 @@
   };
 
   let currentEventId = data.currentEventId || null;
+  let bracketResizeRaf = 0;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -287,6 +288,31 @@
     };
   }
 
+  function getGroupConnectorColor(groupKind) {
+    if (groupKind === "winners") return "rgba(125, 255, 136, 0.55)";
+    if (groupKind === "losers") return "rgba(255, 211, 110, 0.55)";
+    if (groupKind === "grand-final") return "rgba(79, 210, 255, 0.75)";
+    return "rgba(79, 210, 255, 0.45)";
+  }
+
+  function createSvg(tagName) {
+    return document.createElementNS("http://www.w3.org/2000/svg", tagName);
+  }
+
+  function getContentRelativeRect(element, container) {
+    const elementRect = element.getBoundingClientRect();
+    const containerRect = container.getBoundingClientRect();
+
+    return {
+      left: elementRect.left - containerRect.left + container.scrollLeft,
+      right: elementRect.right - containerRect.left + container.scrollLeft,
+      top: elementRect.top - containerRect.top + container.scrollTop,
+      bottom: elementRect.bottom - containerRect.top + container.scrollTop,
+      width: elementRect.width,
+      height: elementRect.height
+    };
+  }
+
   function createManualMatchElement(match, matchIndex) {
     const matchEl = document.createElement("article");
     matchEl.className = "tournament-manual-match";
@@ -349,6 +375,8 @@
   function createManualBracketGroup(group) {
     const groupEl = document.createElement("section");
     groupEl.className = `tournament-manual-group is-${group.kind}`;
+    groupEl.dataset.groupKind = group.kind;
+    groupEl.dataset.groupKey = group.key;
 
     const groupHead = document.createElement("div");
     groupHead.className = "tournament-manual-group-head";
@@ -376,6 +404,13 @@
         )}</div>
       </div>
     `;
+
+    const bracketSurface = document.createElement("div");
+    bracketSurface.className = "tournament-manual-group-surface";
+
+    const connectorSvg = createSvg("svg");
+    connectorSvg.classList.add("tournament-manual-connector-svg");
+    connectorSvg.setAttribute("aria-hidden", "true");
 
     const bracketEl = document.createElement("div");
     bracketEl.className = "tournament-manual-bracket";
@@ -417,8 +452,88 @@
       bracketEl.appendChild(roundEl);
     });
 
-    groupEl.append(groupHead, bracketEl);
+    bracketSurface.append(connectorSvg, bracketEl);
+    groupEl.append(groupHead, bracketSurface);
     return groupEl;
+  }
+
+  function drawGroupConnectors(groupEl) {
+    const surface = groupEl.querySelector(".tournament-manual-group-surface");
+    const bracketEl = groupEl.querySelector(".tournament-manual-bracket");
+    const svg = groupEl.querySelector(".tournament-manual-connector-svg");
+    if (!surface || !bracketEl || !svg) return;
+
+    const matchEls = Array.from(groupEl.querySelectorAll(".tournament-manual-match[data-match-id]"));
+    const matchMap = new Map();
+
+    matchEls.forEach((matchEl) => {
+      matchMap.set(matchEl.dataset.matchId, matchEl);
+      matchEl.classList.remove("is-feed-target", "is-feed-source");
+    });
+
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    svg.setAttribute("width", String(Math.ceil(bracketEl.scrollWidth)));
+    svg.setAttribute("height", String(Math.ceil(bracketEl.scrollHeight)));
+    svg.setAttribute("viewBox", `0 0 ${Math.ceil(bracketEl.scrollWidth)} ${Math.ceil(bracketEl.scrollHeight)}`);
+
+    const color = getGroupConnectorColor(groupEl.dataset.groupKind || "standard");
+    const paths = [];
+
+    matchEls.forEach((targetEl) => {
+      const sources = [targetEl.dataset.slot1From, targetEl.dataset.slot2From].filter(Boolean);
+
+      sources.forEach((sourceId) => {
+        const sourceEl = matchMap.get(sourceId);
+        if (!sourceEl) return;
+
+        sourceEl.classList.add("is-feed-source");
+        targetEl.classList.add("is-feed-target");
+
+        const sourceRect = getContentRelativeRect(sourceEl, bracketEl);
+        const targetRect = getContentRelativeRect(targetEl, bracketEl);
+
+        const x1 = sourceRect.right;
+        const y1 = sourceRect.top + sourceRect.height / 2;
+        const x4 = targetRect.left;
+        const y4 = targetRect.top + targetRect.height / 2;
+        const midX = x1 + Math.max(20, (x4 - x1) * 0.5);
+
+        const path = createSvg("path");
+        path.setAttribute("class", "tournament-manual-connector-path");
+        path.setAttribute("d", `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y4}, ${x4} ${y4}`);
+        path.setAttribute("stroke", color);
+        path.setAttribute("fill", "none");
+        paths.push(path);
+
+        const sourceDot = createSvg("circle");
+        sourceDot.setAttribute("class", "tournament-manual-connector-node");
+        sourceDot.setAttribute("cx", String(x1));
+        sourceDot.setAttribute("cy", String(y1));
+        sourceDot.setAttribute("r", "3");
+        sourceDot.setAttribute("fill", color);
+        paths.push(sourceDot);
+
+        const targetDot = createSvg("circle");
+        targetDot.setAttribute("class", "tournament-manual-connector-node");
+        targetDot.setAttribute("cx", String(x4));
+        targetDot.setAttribute("cy", String(y4));
+        targetDot.setAttribute("r", "3");
+        targetDot.setAttribute("fill", color);
+        paths.push(targetDot);
+      });
+    });
+
+    paths.forEach((node) => svg.appendChild(node));
+  }
+
+  function scheduleConnectorDraw() {
+    cancelAnimationFrame(bracketResizeRaf);
+    bracketResizeRaf = requestAnimationFrame(() => {
+      if (!els.manualBracketWrap || els.manualBracketWrap.hidden) return;
+      const groups = els.manualBracketWrap.querySelectorAll(".tournament-manual-group");
+      groups.forEach((groupEl) => drawGroupConnectors(groupEl));
+    });
   }
 
   function renderManualBracket(event) {
@@ -441,6 +556,8 @@
     groups.forEach((group) => {
       els.manualBracketWrap.appendChild(createManualBracketGroup(group));
     });
+
+    scheduleConnectorDraw();
   }
 
   function renderBracket(event) {
@@ -806,5 +923,6 @@
     renderEvent(featured);
   }
 
+  window.addEventListener("resize", scheduleConnectorDraw);
   renderPage();
 })();
