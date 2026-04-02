@@ -1,22 +1,27 @@
+[hidden] {
+  display: none !important;
+}
+
 .tournament-hero-meta:empty,
 .tournament-hero-actions:empty {
   display: none;
 }
 
 .tournament-page-hero {
-  padding-bottom: 6px;
+  padding-bottom: 10px;
 }
 
 .tournament-main-section {
-  padding-top: 8px;
+  padding-top: 6px;
 }
 
 .tournament-hero-panel {
   overflow: hidden;
+  padding: 28px;
 }
 
 .tournament-actions-note {
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--muted);
   font-size: 13px;
   line-height: 1.6;
@@ -29,7 +34,6 @@
 
 .tournament-empty-hero,
 .tournament-empty-public-card,
-.tournament-summary-card,
 .tournament-details-card,
 .tournament-bracket-card,
 .tournament-switch-panel,
@@ -55,7 +59,7 @@
 }
 
 .tournament-empty-cta {
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .tournament-empty-public-grid {
@@ -68,44 +72,61 @@
   padding: 0;
   overflow: hidden;
   margin-bottom: 18px;
+  border-radius: 0;
 }
 
 .tournament-banner {
   display: block;
   width: 100%;
-  height: auto;
+  max-height: 360px;
+  object-fit: cover;
 }
 
-.tournament-section-top {
+.tournament-section-top,
+.tournament-section-tight,
+.tournament-results-section,
+.tournament-archive-section {
   padding-top: 0;
 }
 
 .tournament-overview-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  grid-template-columns: 1fr;
   gap: 18px;
 }
 
+.tournament-details-card--full {
+  padding: 22px;
+}
+
 .tournament-description {
-  margin: 0;
+  margin: 12px 0 18px;
   color: var(--text);
-  line-height: 1.75;
-  font-size: 15px;
+  line-height: 1.8;
+  font-size: 16px;
+  max-width: 78ch;
 }
 
-.tournament-summary-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: 18px;
+.tournament-quick-info-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
 }
 
-.tournament-section-tight {
-  padding-top: 0;
+.tournament-quick-info-list li {
+  align-items: flex-start;
+  padding: 14px 16px;
+  border: 1px solid rgba(79, 210, 255, 0.12);
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.14));
+}
+
+.tournament-quick-info-list li span:first-child {
+  font-weight: 700;
+  color: var(--text);
 }
 
 .tournament-bracket-card {
-  padding: 20px;
+  padding: 22px;
 }
 
 .tournament-bracket-head {
@@ -113,11 +134,12 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 
 .tournament-bracket-title {
   margin: 0;
+  font-size: clamp(24px, 3vw, 34px);
 }
 
 .tournament-bracket-actions {
@@ -240,7 +262,7 @@
 .tournament-archive-banner {
   display: block;
   width: 100%;
-  aspect-ratio: 16 / 6;
+  aspect-ratio: 16 / 7;
   border: 1px solid rgba(79, 210, 255, 0.12);
   background: #0b1014 center / cover no-repeat;
 }
@@ -292,9 +314,21 @@
   gap: 18px;
 }
 
-.tournament-results-section,
-.tournament-archive-section {
-  padding-top: 0;
+.tournament-info-panel,
+.tournament-results-panel,
+.tournament-archive-card,
+.tournament-switch-panel {
+  padding: 22px;
+}
+
+.tournament-info-panel .list,
+.tournament-results-panel .list {
+  gap: 12px;
+}
+
+.tournament-info-panel .list li,
+.tournament-results-panel .list li {
+  padding: 14px 16px;
 }
 
 @media (max-width: 1200px) {
@@ -304,10 +338,6 @@
 }
 
 @media (max-width: 1100px) {
-  .tournament-overview-grid {
-    grid-template-columns: 1fr;
-  }
-
   .tournament-bracket-embed-wrap,
   .tournament-bracket-embed {
     min-height: 640px;
@@ -318,7 +348,8 @@
   .tournament-empty-public-grid,
   .tournament-switch-grid,
   .tournament-archive-grid,
-  .tournament-info-grid {
+  .tournament-info-grid,
+  .tournament-quick-info-list {
     grid-template-columns: 1fr;
   }
 
@@ -333,12 +364,27 @@
 }
 
 @media (max-width: 640px) {
+  .tournament-hero-panel,
+  .tournament-details-card--full,
+  .tournament-bracket-card,
+  .tournament-info-panel,
+  .tournament-results-panel,
+  .tournament-archive-card,
+  .tournament-switch-panel {
+    padding: 18px;
+  }
+
   .tournament-empty-state {
     gap: 14px;
   }
 
-  .tournament-summary-tags {
-    gap: 8px;
+  .tournament-banner {
+    max-height: 220px;
+  }
+
+  .tournament-description {
+    font-size: 15px;
+    line-height: 1.75;
   }
 
   .tournament-bracket-embed-wrap,
