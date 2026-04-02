@@ -950,12 +950,12 @@
 
     if (els.heroMeta) {
       els.heroMeta.innerHTML = "";
-      els.heroMeta.appendChild(createMetaPill(createStatusLabel(text(event.status, "upcoming")), text(event.status, "upcoming")));
-
-      if (event.game) els.heroMeta.appendChild(createMetaPill(event.game));
-      if (event.format) els.heroMeta.appendChild(createMetaPill(event.format));
-      if (event.startDate) els.heroMeta.appendChild(createMetaPill(`Starts: ${event.startDate}`));
-      if (event.prizePool) els.heroMeta.appendChild(createMetaPill(`Prize Pool: ${event.prizePool}`));
+      els.heroMeta.appendChild(
+        createMetaPill(
+          createStatusLabel(text(event.status, "upcoming")),
+          text(event.status, "upcoming")
+        )
+      );
     }
 
     renderActions(event);
