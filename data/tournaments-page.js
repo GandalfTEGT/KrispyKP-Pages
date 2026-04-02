@@ -29,6 +29,7 @@
     switcherTitle: document.getElementById("tournamentSwitcherTitle"),
     switcherGrid: document.getElementById("tournamentSwitcherGrid"),
 
+    scheduleSection: document.getElementById("tournamentScheduleSection"),
     scheduleCard: document.getElementById("tournamentScheduleCard"),
     schedule: document.getElementById("tournamentSchedule"),
 
@@ -37,9 +38,6 @@
 
     rulesCard: document.getElementById("tournamentRulesCard"),
     rules: document.getElementById("tournamentRules"),
-
-    featuredMatchesCard: document.getElementById("tournamentFeaturedMatchesCard"),
-    featuredMatches: document.getElementById("tournamentFeaturedMatches"),
 
     resultsSection: document.getElementById("tournamentResultsSection"),
     results: document.getElementById("tournamentResults"),
@@ -92,13 +90,8 @@
     const events = getEvents();
     if (!events.length) return null;
 
-    if (currentEventId) {
-      return getEventById(currentEventId);
-    }
-
-    if (data.currentEventId) {
-      return getEventById(data.currentEventId);
-    }
+    if (currentEventId) return getEventById(currentEventId);
+    if (data.currentEventId) return getEventById(data.currentEventId);
 
     return (
       events.find((event) => event.status === "live") ||
@@ -109,15 +102,17 @@
   }
 
   function getOtherActiveEvents(featuredEvent) {
-    return getEvents().filter((event) => {
-      return event.id !== featuredEvent?.id && (event.status === "live" || event.status === "upcoming");
-    });
+    return getEvents().filter((event) => (
+      event.id !== featuredEvent?.id &&
+      (event.status === "live" || event.status === "upcoming")
+    ));
   }
 
   function getCompletedEvents(featuredEvent) {
-    return getEvents().filter((event) => {
-      return event.id !== featuredEvent?.id && event.status === "completed";
-    });
+    return getEvents().filter((event) => (
+      event.id !== featuredEvent?.id &&
+      event.status === "completed"
+    ));
   }
 
   function jumpToTop() {
@@ -214,16 +209,16 @@
   }
 
   function resetDataAreas() {
+    if (els.quickInfo) els.quickInfo.innerHTML = "";
     if (els.schedule) els.schedule.innerHTML = "";
     if (els.players) els.players.innerHTML = "";
     if (els.rules) els.rules.innerHTML = "";
-    if (els.featuredMatches) els.featuredMatches.innerHTML = "";
     if (els.results) els.results.innerHTML = "";
 
+    if (els.scheduleSection) els.scheduleSection.hidden = true;
     if (els.scheduleCard) els.scheduleCard.hidden = true;
     if (els.playersCard) els.playersCard.hidden = true;
     if (els.rulesCard) els.rulesCard.hidden = true;
-    if (els.featuredMatchesCard) els.featuredMatchesCard.hidden = true;
     if (els.resultsSection) els.resultsSection.hidden = true;
   }
 
@@ -235,40 +230,22 @@
   }
 
   function getManualBracketGroups(event) {
-    const groups = [];
-
-    if (isArray(event.manualBracketGroups) && event.manualBracketGroups.length) {
-      event.manualBracketGroups.forEach((group, index) => {
-        const rounds = isArray(group?.rounds);
-        if (!rounds.length) return;
-
-        const rawKey = text(group.key, `group-${index + 1}`).toLowerCase();
+    return isArray(event.manualBracketGroups)
+      .map((group, index) => {
+        const rawKey = text(group?.key, `group-${index + 1}`).toLowerCase();
         let kind = "standard";
-
         if (rawKey.includes("winner")) kind = "winners";
         else if (rawKey.includes("loser")) kind = "losers";
         else if (rawKey.includes("grand")) kind = "grand-final";
 
-        groups.push({
+        return {
           key: rawKey,
           kind,
-          title: text(group.title, `Bracket ${index + 1}`),
-          rounds
-        });
-      });
-    }
-
-    const legacyRounds = isArray(event.manualBracket?.rounds);
-    if (!groups.length && legacyRounds.length) {
-      groups.push({
-        key: "main",
-        kind: "standard",
-        title: text(event.bracketTitle, "Bracket"),
-        rounds: legacyRounds
-      });
-    }
-
-    return groups;
+          title: text(group?.title, `Bracket ${index + 1}`),
+          rounds: isArray(group?.rounds)
+        };
+      })
+      .filter((group) => group.rounds.length > 0);
   }
 
   function createManualMatchElement(match, matchIndex) {
@@ -419,9 +396,7 @@
     const hasLink = !!event.bracketUrl;
     const hasManual = getManualBracketGroups(event).length > 0;
 
-    if (mode === "none" && !hasLink && !hasEmbed && !hasManual) {
-      return;
-    }
+    if (mode === "none" && !hasLink && !hasEmbed && !hasManual) return;
 
     if (els.bracketSection) els.bracketSection.hidden = false;
     if (els.bracketTitle) els.bracketTitle.textContent = text(event.bracketTitle, "Bracket");
@@ -437,7 +412,7 @@
       return;
     }
 
-    if (mode === "manual" || hasManual) {
+    if (mode === "manual" && hasManual) {
       renderManualBracket(event);
       return;
     }
@@ -567,33 +542,29 @@
     const otherActive = getOtherActiveEvents(featuredEvent);
     const completed = getCompletedEvents(featuredEvent);
 
-    if (els.switcherSection && els.switcherGrid) {
-      if (otherActive.length) {
-        els.switcherSection.hidden = false;
-        if (els.switcherTitle) {
-          els.switcherTitle.textContent =
-            otherActive.length === 1 ? "Other Active / Upcoming Event" : "Other Active / Upcoming Events";
-        }
-
-        otherActive.forEach((event) => {
-          els.switcherGrid.appendChild(
-            renderSwitcherCard(event, event.status === "live" ? "Live Event" : "Upcoming Event", "active")
-          );
-        });
+    if (els.switcherSection && els.switcherGrid && otherActive.length) {
+      els.switcherSection.hidden = false;
+      if (els.switcherTitle) {
+        els.switcherTitle.textContent =
+          otherActive.length === 1 ? "Other Active / Upcoming Event" : "Other Active / Upcoming Events";
       }
+
+      otherActive.forEach((event) => {
+        els.switcherGrid.appendChild(
+          renderSwitcherCard(event, event.status === "live" ? "Live Event" : "Upcoming Event", "active")
+        );
+      });
     }
 
-    if (els.archiveCardsSection && els.archiveCardsGrid) {
-      if (completed.length) {
-        els.archiveCardsSection.hidden = false;
-        if (els.archiveCardsTitle) {
-          els.archiveCardsTitle.textContent = completed.length === 1 ? "Past Event" : "Past Events";
-        }
-
-        completed.forEach((event) => {
-          els.archiveCardsGrid.appendChild(renderSwitcherCard(event, "Completed Event", "archive"));
-        });
+    if (els.archiveCardsSection && els.archiveCardsGrid && completed.length) {
+      els.archiveCardsSection.hidden = false;
+      if (els.archiveCardsTitle) {
+        els.archiveCardsTitle.textContent = completed.length === 1 ? "Past Event" : "Past Events";
       }
+
+      completed.forEach((event) => {
+        els.archiveCardsGrid.appendChild(renderSwitcherCard(event, "Completed Event", "archive"));
+      });
     }
   }
 
@@ -642,23 +613,25 @@
     }
 
     renderQuickInfo(event);
-    renderBracket(event);
-    renderSwitchers(event);
 
-    const schedule = isArray(event.schedule);
-    if (els.scheduleCard) els.scheduleCard.hidden = !schedule.length;
-    if (schedule.length) {
+    const results = isArray(event.results);
+    const showResults = event.status === "completed" && results.length > 0;
+    if (els.resultsSection) els.resultsSection.hidden = !showResults;
+    if (showResults) {
       renderList(
-        els.schedule,
-        schedule,
+        els.results,
+        results,
         (item) => `
-          <div class="tournament-schedule-item">
-            <span class="tournament-schedule-label">${escapeHtml(text(item.label, "Stage"))}</span>
-            <span class="tournament-schedule-value">${escapeHtml(text(item.value, "TBA"))}</span>
+          <div class="tournament-result-item">
+            <span class="tournament-result-place">${escapeHtml(text(item.place, "-"))}</span>
+            <span class="tournament-result-name">${escapeHtml(text(item.name, "TBD"))}</span>
+            ${item.note ? `<span class="tournament-result-note">${escapeHtml(item.note)}</span>` : ""}
           </div>
         `
       );
     }
+
+    renderBracket(event);
 
     const players = isArray(event.players);
     if (els.playersCard) els.playersCard.hidden = !players.length;
@@ -694,26 +667,24 @@
       );
     }
 
-    const featuredMatches = isArray(event.featuredMatches);
-    if (els.featuredMatchesCard) els.featuredMatchesCard.hidden = !featuredMatches.length;
-    if (featuredMatches.length) {
-      renderList(els.featuredMatches, featuredMatches, (item) => `
-        <span>${escapeHtml(text(item.title || item.players, "Match"))}</span>
-        <span class="muted">${escapeHtml(text(item.time || item.players, ""))}</span>
-      `);
+    const schedule = isArray(event.schedule);
+    const showSchedule = schedule.length > 0;
+    if (els.scheduleSection) els.scheduleSection.hidden = !showSchedule;
+    if (els.scheduleCard) els.scheduleCard.hidden = !showSchedule;
+    if (showSchedule) {
+      renderList(
+        els.schedule,
+        schedule,
+        (item) => `
+          <div class="tournament-schedule-item">
+            <span class="tournament-schedule-label">${escapeHtml(text(item.label, "Stage"))}</span>
+            <span class="tournament-schedule-value">${escapeHtml(text(item.value, "TBA"))}</span>
+          </div>
+        `
+      );
     }
 
-    const results = isArray(event.results);
-    if (els.resultsSection) els.resultsSection.hidden = !results.length;
-    if (results.length) {
-      renderList(els.results, results, (item) => `
-        <div class="tournament-result-item">
-          <span class="tournament-result-place">${escapeHtml(text(item.place, "-"))}</span>
-          <span class="tournament-result-name">${escapeHtml(text(item.name, "TBD"))}</span>
-          ${item.note ? `<span class="tournament-result-note">${escapeHtml(item.note)}</span>` : ""}
-        </div>
-      `);
-    }
+    renderSwitchers(event);
   }
 
   function renderEmptyState() {
@@ -727,7 +698,7 @@
     if (els.title) els.title.textContent = "Events & Coverage";
     if (els.subtitle) {
       els.subtitle.textContent =
-        "Tournament information, brackets, players, rules, featured matches, and results will appear here whenever an event is active.";
+        "Tournament information, brackets, players, rules, and results will appear here whenever an event is active.";
     }
 
     if (els.heroMeta) els.heroMeta.innerHTML = "";
@@ -757,6 +728,5 @@
     renderEvent(featured);
   }
 
-  currentEventId = data.currentEventId || null;
   renderPage();
 })();

@@ -50,7 +50,7 @@
             <div class="section-title">Tournament Hub</div>
             <h1 id="tournamentTitle" class="h1">Events &amp; Coverage</h1>
             <p id="tournamentSubtitle" class="sub">
-              Tournament information, brackets, players, rules, featured matches, and results will appear here whenever an event is active.
+              Tournament information, brackets, players, rules, and results will appear here whenever an event is active.
             </p>
 
             <div id="tournamentHeroMeta" class="meta-row tournament-hero-meta"></div>
@@ -69,7 +69,7 @@
             <h2 class="tournament-empty-title">No tournaments are currently running.</h2>
             <p class="tournament-empty-text">
               When an event is announced, this page will show all the important details here, including
-              schedule, players, rules, bracket information, featured matches, and final results.
+              schedule, players, rules, bracket information, and final results.
             </p>
 
             <div class="cta-row tournament-empty-cta">
@@ -119,6 +119,13 @@
             </div>
           </section>
 
+          <section id="tournamentResultsSection" class="section tournament-section-tight tournament-results-section" hidden>
+            <div class="frame feature tournament-results-panel">
+              <div class="section-title">Results</div>
+              <ul id="tournamentResults" class="list tournament-results-list"></ul>
+            </div>
+          </section>
+
           <section id="tournamentBracketSection" class="section tournament-section-tight" hidden>
             <div class="frame feature tournament-bracket-card">
               <div class="tournament-bracket-head">
@@ -144,12 +151,7 @@
           </section>
 
           <section class="section tournament-section-tight">
-            <div class="tournament-info-grid">
-              <div id="tournamentScheduleCard" class="frame feature tournament-info-panel" hidden>
-                <div class="section-title">Schedule</div>
-                <ul id="tournamentSchedule" class="list tournament-schedule-list"></ul>
-              </div>
-
+            <div class="tournament-info-grid tournament-info-grid--primary">
               <div id="tournamentPlayersCard" class="frame feature tournament-info-panel" hidden>
                 <div class="section-title">Players</div>
                 <ul id="tournamentPlayers" class="list tournament-players-list"></ul>
@@ -159,18 +161,13 @@
                 <div class="section-title">Rules</div>
                 <ul id="tournamentRules" class="list"></ul>
               </div>
-
-              <div id="tournamentFeaturedMatchesCard" class="frame feature tournament-info-panel" hidden>
-                <div class="section-title">Featured Matches</div>
-                <ul id="tournamentFeaturedMatches" class="list"></ul>
-              </div>
             </div>
           </section>
 
-          <section id="tournamentResultsSection" class="section tournament-section-tight tournament-results-section" hidden>
-            <div class="frame feature tournament-results-panel">
-              <div class="section-title">Results</div>
-              <ul id="tournamentResults" class="list tournament-results-list"></ul>
+          <section id="tournamentScheduleSection" class="section tournament-section-tight" hidden>
+            <div id="tournamentScheduleCard" class="frame feature tournament-info-panel tournament-schedule-panel" hidden>
+              <div class="section-title">Schedule</div>
+              <ul id="tournamentSchedule" class="list tournament-schedule-list"></ul>
             </div>
           </section>
 
@@ -213,8 +210,8 @@
     </footer>
   </div>
 
+  <script src="data/radar-effects.js"></script>
   <script src="data/tournaments.config.js"></script>
   <script src="data/tournaments-page.js"></script>
-  <script src="data/radar-effects.js"></script>
 </body>
 </html>

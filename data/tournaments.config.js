@@ -5,46 +5,16 @@ KRISPYKP TOURNAMENT CONFIG GUIDE
 
 This file controls the tournaments page.
 
-QUICK STATE REFERENCE
----------------------
-No tournaments:
-- currentEventId: null
-- events: []
+RULE FOR MANUAL BRACKETS
+------------------------
+Use manualBracketGroups for every manual event.
 
-Single tournament:
-- add one event object to events
-- it becomes the featured event automatically
+Single bracket event:
+- manualBracketGroups contains 1 entry
 
-Multiple tournaments:
-- add more event objects to events
-- one becomes featured
-- other live/upcoming events appear underneath as switchable cards
-- completed events appear in the past events area
-
-MAIN STRUCTURE
---------------
-currentEventId:
-- Set to an event id to force that event to be featured on page load.
-- Use null to auto-pick:
-  1. first live event
-  2. otherwise first upcoming event
-  3. otherwise first completed event
-  4. otherwise empty state
-
-events:
-- Array of tournament objects.
-
-NOTES FOR MANUAL BRACKETS
--------------------------
-Single manual bracket:
-- Use manualBracket.rounds
-
-Multiple manual brackets (useful for double elimination):
-- Use manualBracketGroups: []
-- Example groups:
-  - Winners Bracket
-  - Losers Bracket
-  - Grand Final
+Double elimination event:
+- manualBracketGroups contains multiple entries
+  e.g. Winners Bracket / Losers Bracket / Grand Final
 
 SAFE EMPTY DEFAULTS
 -------------------
@@ -81,7 +51,7 @@ window.KRISPY_TOURNAMENTS = {
       bannerImage: "assets/tournaments/test-live-banner.jpg",
 
       description:
-        "A fully mocked live tournament used to test the redesigned page layout. This event includes a proper manual double-elimination structure, a full player list, detailed schedule entries, featured matches, and placeholder results so every major block on the page can be checked on both desktop and mobile.",
+        "A fully mocked live tournament used to test the redesigned tournament page. This one includes winners bracket, losers bracket, and a grand final so the full manual bracket layout can be tested.",
 
       registrationMode: "closed",
       registrationUrl: "",
@@ -101,86 +71,23 @@ window.KRISPY_TOURNAMENTS = {
             {
               title: "Winners Round 1",
               matches: [
-                {
-                  title: "WB1",
-                  player1: "KrispyKP",
-                  player2: "IronFox",
-                  score1: "2",
-                  score2: "0",
-                  winner: "KrispyKP",
-                  note: "Bo3",
-                  time: "2026-07-20 18:00 UTC"
-                },
-                {
-                  title: "WB2",
-                  player1: "Meds",
-                  player2: "Jamie",
-                  score1: "2",
-                  score2: "1",
-                  winner: "Meds",
-                  note: "Bo3",
-                  time: "2026-07-20 18:30 UTC"
-                },
-                {
-                  title: "WB3",
-                  player1: "Gazza",
-                  player2: "Bruzer",
-                  score1: "1",
-                  score2: "2",
-                  winner: "Bruzer",
-                  note: "Bo3",
-                  time: "2026-07-20 19:00 UTC"
-                },
-                {
-                  title: "WB4",
-                  player1: "Delta",
-                  player2: "Nomad",
-                  score1: "0",
-                  score2: "2",
-                  winner: "Nomad",
-                  note: "Bo3",
-                  time: "2026-07-20 19:30 UTC"
-                }
+                { title: "WB1", player1: "KrispyKP", player2: "IronFox", score1: "2", score2: "0", winner: "KrispyKP", note: "Bo3", time: "2026-07-20 18:00 UTC" },
+                { title: "WB2", player1: "Meds", player2: "Jamie", score1: "2", score2: "1", winner: "Meds", note: "Bo3", time: "2026-07-20 18:30 UTC" },
+                { title: "WB3", player1: "Gazza", player2: "Bruzer", score1: "1", score2: "2", winner: "Bruzer", note: "Bo3", time: "2026-07-20 19:00 UTC" },
+                { title: "WB4", player1: "Delta", player2: "Nomad", score1: "0", score2: "2", winner: "Nomad", note: "Bo3", time: "2026-07-20 19:30 UTC" }
               ]
             },
             {
               title: "Winners Semi Finals",
               matches: [
-                {
-                  title: "WBSF1",
-                  player1: "KrispyKP",
-                  player2: "Meds",
-                  score1: "2",
-                  score2: "1",
-                  winner: "KrispyKP",
-                  note: "Bo3",
-                  time: "2026-07-20 20:15 UTC"
-                },
-                {
-                  title: "WBSF2",
-                  player1: "Bruzer",
-                  player2: "Nomad",
-                  score1: "0",
-                  score2: "2",
-                  winner: "Nomad",
-                  note: "Bo3",
-                  time: "2026-07-20 20:45 UTC"
-                }
+                { title: "WBSF1", player1: "KrispyKP", player2: "Meds", score1: "2", score2: "1", winner: "KrispyKP", note: "Bo3", time: "2026-07-20 20:15 UTC" },
+                { title: "WBSF2", player1: "Bruzer", player2: "Nomad", score1: "0", score2: "2", winner: "Nomad", note: "Bo3", time: "2026-07-20 20:45 UTC" }
               ]
             },
             {
               title: "Winners Final",
               matches: [
-                {
-                  title: "WBF",
-                  player1: "KrispyKP",
-                  player2: "Nomad",
-                  score1: "1",
-                  score2: "2",
-                  winner: "Nomad",
-                  note: "Bo5",
-                  time: "2026-07-20 21:30 UTC"
-                }
+                { title: "WBF", player1: "KrispyKP", player2: "Nomad", score1: "1", score2: "2", winner: "Nomad", note: "Bo5", time: "2026-07-20 21:30 UTC" }
               ]
             }
           ]
@@ -192,81 +99,27 @@ window.KRISPY_TOURNAMENTS = {
             {
               title: "Losers Round 1",
               matches: [
-                {
-                  title: "LB1",
-                  player1: "IronFox",
-                  player2: "Jamie",
-                  score1: "2",
-                  score2: "0",
-                  winner: "IronFox",
-                  note: "Bo3",
-                  time: "2026-07-20 20:00 UTC"
-                },
-                {
-                  title: "LB2",
-                  player1: "Gazza",
-                  player2: "Delta",
-                  score1: "2",
-                  score2: "1",
-                  winner: "Gazza",
-                  note: "Bo3",
-                  time: "2026-07-20 20:00 UTC"
-                }
+                { title: "LB1", player1: "IronFox", player2: "Jamie", score1: "2", score2: "0", winner: "IronFox", note: "Bo3", time: "2026-07-20 20:00 UTC" },
+                { title: "LB2", player1: "Gazza", player2: "Delta", score1: "2", score2: "1", winner: "Gazza", note: "Bo3", time: "2026-07-20 20:00 UTC" }
               ]
             },
             {
               title: "Losers Quarter Finals",
               matches: [
-                {
-                  title: "LBQF1",
-                  player1: "IronFox",
-                  player2: "Bruzer",
-                  score1: "0",
-                  score2: "2",
-                  winner: "Bruzer",
-                  note: "Bo3",
-                  time: "2026-07-20 21:00 UTC"
-                },
-                {
-                  title: "LBQF2",
-                  player1: "Gazza",
-                  player2: "Meds",
-                  score1: "1",
-                  score2: "2",
-                  winner: "Meds",
-                  note: "Bo3",
-                  time: "2026-07-20 21:00 UTC"
-                }
+                { title: "LBQF1", player1: "IronFox", player2: "Bruzer", score1: "0", score2: "2", winner: "Bruzer", note: "Bo3", time: "2026-07-20 21:00 UTC" },
+                { title: "LBQF2", player1: "Gazza", player2: "Meds", score1: "1", score2: "2", winner: "Meds", note: "Bo3", time: "2026-07-20 21:00 UTC" }
               ]
             },
             {
               title: "Losers Semi Final",
               matches: [
-                {
-                  title: "LBSF",
-                  player1: "Bruzer",
-                  player2: "Meds",
-                  score1: "2",
-                  score2: "1",
-                  winner: "Bruzer",
-                  note: "Bo3",
-                  time: "2026-07-20 21:45 UTC"
-                }
+                { title: "LBSF", player1: "Bruzer", player2: "Meds", score1: "2", score2: "1", winner: "Bruzer", note: "Bo3", time: "2026-07-20 21:45 UTC" }
               ]
             },
             {
               title: "Losers Final",
               matches: [
-                {
-                  title: "LBF",
-                  player1: "Bruzer",
-                  player2: "KrispyKP",
-                  score1: "1",
-                  score2: "2",
-                  winner: "KrispyKP",
-                  note: "Bo5",
-                  time: "2026-07-20 22:15 UTC"
-                }
+                { title: "LBF", player1: "Bruzer", player2: "KrispyKP", score1: "1", score2: "2", winner: "KrispyKP", note: "Bo5", time: "2026-07-20 22:15 UTC" }
               ]
             }
           ]
@@ -278,16 +131,7 @@ window.KRISPY_TOURNAMENTS = {
             {
               title: "Grand Final",
               matches: [
-                {
-                  title: "GF",
-                  player1: "Nomad",
-                  player2: "KrispyKP",
-                  score1: "2",
-                  score2: "1",
-                  winner: "",
-                  note: "Bo7 - Live",
-                  time: "2026-07-20 23:00 UTC"
-                }
+                { title: "GF", player1: "Nomad", player2: "KrispyKP", score1: "2", score2: "1", winner: "", note: "Bo7 - Live", time: "2026-07-20 23:00 UTC" }
               ]
             }
           ]
@@ -324,23 +168,11 @@ window.KRISPY_TOURNAMENTS = {
       ],
 
       featuredMatches: [
-        {
-          title: "Live Main Event",
-          players: "Nomad vs KrispyKP",
-          time: "2026-07-20 23:00 UTC"
-        },
-        {
-          title: "Losers Final Feature",
-          players: "Bruzer vs KrispyKP",
-          time: "2026-07-20 22:15 UTC"
-        }
+        { title: "Live Main Event", players: "Nomad vs KrispyKP", time: "2026-07-20 23:00 UTC" },
+        { title: "Losers Final Feature", players: "Bruzer vs KrispyKP", time: "2026-07-20 22:15 UTC" }
       ],
 
-      results: [
-        { place: "1st", name: "TBD", note: "Grand Final in progress" },
-        { place: "2nd", name: "TBD" },
-        { place: "3rd", name: "Bruzer" }
-      ]
+      results: []
     },
 
     {
@@ -361,7 +193,7 @@ window.KRISPY_TOURNAMENTS = {
       bannerImage: "assets/tournaments/test-upcoming-banner.jpg",
 
       description:
-        "A second fake event included to populate the event switcher and test how upcoming tournaments sit beneath a featured live one. This one uses a simple manual single-elimination bracket so you can compare both bracket styles on the same page system.",
+        "A second fake event included to populate the event switcher and test how upcoming tournaments sit beneath a featured live one. This one uses a single manual bracket group.",
 
       registrationMode: "external",
       registrationUrl: "https://example.com/register/red-alert-weekender-2",
@@ -373,95 +205,36 @@ window.KRISPY_TOURNAMENTS = {
       bracketMode: "manual",
       bracketTitle: "Projected Bracket",
 
-      manualBracket: {
-        rounds: [
-          {
-            title: "Quarter Finals",
-            matches: [
-              {
-                title: "QF1",
-                player1: "AlphaOne",
-                player2: "Bravo",
-                score1: "",
-                score2: "",
-                winner: "",
-                note: "Bo3",
-                time: "2026-08-08 18:00 UTC"
-              },
-              {
-                title: "QF2",
-                player1: "Charlie",
-                player2: "Delta",
-                score1: "",
-                score2: "",
-                winner: "",
-                note: "Bo3",
-                time: "2026-08-08 18:30 UTC"
-              },
-              {
-                title: "QF3",
-                player1: "Echo",
-                player2: "Foxtrot",
-                score1: "",
-                score2: "",
-                winner: "",
-                note: "Bo3",
-                time: "2026-08-08 19:00 UTC"
-              },
-              {
-                title: "QF4",
-                player1: "Ghost",
-                player2: "Havoc",
-                score1: "",
-                score2: "",
-                winner: "",
-                note: "Bo3",
-                time: "2026-08-08 19:30 UTC"
-              }
-            ]
-          },
-          {
-            title: "Semi Finals",
-            matches: [
-              {
-                title: "SF1",
-                player1: "TBD",
-                player2: "TBD",
-                score1: "",
-                score2: "",
-                winner: "",
-                note: "Bo5",
-                time: "2026-08-09 19:00 UTC"
-              },
-              {
-                title: "SF2",
-                player1: "TBD",
-                player2: "TBD",
-                score1: "",
-                score2: "",
-                winner: "",
-                note: "Bo5",
-                time: "2026-08-09 19:45 UTC"
-              }
-            ]
-          },
-          {
-            title: "Final",
-            matches: [
-              {
-                title: "Final",
-                player1: "TBD",
-                player2: "TBD",
-                score1: "",
-                score2: "",
-                winner: "",
-                note: "Bo7",
-                time: "2026-08-09 21:00 UTC"
-              }
-            ]
-          }
-        ]
-      },
+      manualBracketGroups: [
+        {
+          key: "main",
+          title: "Projected Bracket",
+          rounds: [
+            {
+              title: "Quarter Finals",
+              matches: [
+                { title: "QF1", player1: "AlphaOne", player2: "Bravo", score1: "", score2: "", winner: "", note: "Bo3", time: "2026-08-08 18:00 UTC" },
+                { title: "QF2", player1: "Charlie", player2: "Delta", score1: "", score2: "", winner: "", note: "Bo3", time: "2026-08-08 18:30 UTC" },
+                { title: "QF3", player1: "Echo", player2: "Foxtrot", score1: "", score2: "", winner: "", note: "Bo3", time: "2026-08-08 19:00 UTC" },
+                { title: "QF4", player1: "Ghost", player2: "Havoc", score1: "", score2: "", winner: "", note: "Bo3", time: "2026-08-08 19:30 UTC" }
+              ]
+            },
+            {
+              title: "Semi Finals",
+              matches: [
+                { title: "SF1", player1: "TBD", player2: "TBD", score1: "", score2: "", winner: "", note: "Bo5", time: "2026-08-09 19:00 UTC" },
+                { title: "SF2", player1: "TBD", player2: "TBD", score1: "", score2: "", winner: "", note: "Bo5", time: "2026-08-09 19:45 UTC" }
+              ]
+            },
+            {
+              title: "Final",
+              matches: [
+                { title: "Final", player1: "TBD", player2: "TBD", score1: "", score2: "", winner: "", note: "Bo7", time: "2026-08-09 21:00 UTC" }
+              ]
+            }
+          ]
+        }
+      ],
 
       players: [
         { name: "AlphaOne", seed: 1, discord: "alphaone", flag: "🇬🇧" },
@@ -490,16 +263,8 @@ window.KRISPY_TOURNAMENTS = {
       ],
 
       featuredMatches: [
-        {
-          title: "Opening Broadcast",
-          players: "AlphaOne vs Bravo",
-          time: "2026-08-08 18:00 UTC"
-        },
-        {
-          title: "Expected Final Slot",
-          players: "Top seed vs top seed",
-          time: "2026-08-09 21:00 UTC"
-        }
+        { title: "Opening Broadcast", players: "AlphaOne vs Bravo", time: "2026-08-08 18:00 UTC" },
+        { title: "Expected Final Slot", players: "Top seed vs top seed", time: "2026-08-09 21:00 UTC" }
       ],
 
       results: []
@@ -523,7 +288,7 @@ window.KRISPY_TOURNAMENTS = {
       bannerImage: "assets/tournaments/test-completed-banner.jpg",
 
       description:
-        "A completed mock event used to populate the archive and results areas. This gives you a proper past-event example with filled results so you can see how the lower page sections behave once an event has finished.",
+        "A completed mock event used to populate the archive and results areas. This gives you a proper past-event example with filled results.",
 
       registrationMode: "none",
       registrationUrl: "",
@@ -535,50 +300,27 @@ window.KRISPY_TOURNAMENTS = {
       bracketMode: "manual",
       bracketTitle: "Completed Bracket",
 
-      manualBracket: {
-        rounds: [
-          {
-            title: "Semi Finals",
-            matches: [
-              {
-                title: "SF1",
-                player1: "Nomad",
-                player2: "Rift",
-                score1: "2",
-                score2: "1",
-                winner: "Nomad",
-                note: "Bo3",
-                time: "2026-05-10 19:00 UTC"
-              },
-              {
-                title: "SF2",
-                player1: "Vortex",
-                player2: "Shade",
-                score1: "0",
-                score2: "2",
-                winner: "Shade",
-                note: "Bo3",
-                time: "2026-05-10 19:45 UTC"
-              }
-            ]
-          },
-          {
-            title: "Grand Final",
-            matches: [
-              {
-                title: "GF",
-                player1: "Nomad",
-                player2: "Shade",
-                score1: "3",
-                score2: "2",
-                winner: "Nomad",
-                note: "Bo5",
-                time: "2026-05-10 21:00 UTC"
-              }
-            ]
-          }
-        ]
-      },
+      manualBracketGroups: [
+        {
+          key: "main",
+          title: "Completed Bracket",
+          rounds: [
+            {
+              title: "Semi Finals",
+              matches: [
+                { title: "SF1", player1: "Nomad", player2: "Rift", score1: "2", score2: "1", winner: "Nomad", note: "Bo3", time: "2026-05-10 19:00 UTC" },
+                { title: "SF2", player1: "Vortex", player2: "Shade", score1: "0", score2: "2", winner: "Shade", note: "Bo3", time: "2026-05-10 19:45 UTC" }
+              ]
+            },
+            {
+              title: "Grand Final",
+              matches: [
+                { title: "GF", player1: "Nomad", player2: "Shade", score1: "3", score2: "2", winner: "Nomad", note: "Bo5", time: "2026-05-10 21:00 UTC" }
+              ]
+            }
+          ]
+        }
+      ],
 
       players: [
         { name: "Nomad", seed: 1, discord: "nomad", flag: "🇬🇧" },
@@ -601,11 +343,7 @@ window.KRISPY_TOURNAMENTS = {
       ],
 
       featuredMatches: [
-        {
-          title: "Grand Final Replay",
-          players: "Nomad vs Shade",
-          time: "2026-05-10 21:00 UTC"
-        }
+        { title: "Grand Final Replay", players: "Nomad vs Shade", time: "2026-05-10 21:00 UTC" }
       ],
 
       results: [
