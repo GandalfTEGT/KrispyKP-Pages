@@ -20,7 +20,7 @@
     Because the sweep is visually wide, a slightly asymmetric band
     usually feels better than a perfectly symmetric one.
   */
-  const LEADING_WINDOW_DEG = 7;
+  const LEADING_WINDOW_DEG = 3;
   const TRAILING_WINDOW_DEG = 1;
   const REARM_GAP_DEG = 14;
 
