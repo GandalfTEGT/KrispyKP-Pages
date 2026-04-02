@@ -8,18 +8,7 @@
   const BLIP_COUNT = 18;
   const TRIGGER_CHANCE = 0.72;
 
-  /*
-    Calibration:
-    This is the angle of the brightest visible part of the sweep
-    relative to the raw rotation angle.
-  */
   const SWEEP_BRIGHT_CENTER_OFFSET_DEG = 154;
-
-  /*
-    Detection band around the bright center.
-    Because the sweep is visually wide, a slightly asymmetric band
-    usually feels better than a perfectly symmetric one.
-  */
   const LEADING_WINDOW_DEG = 3;
   const TRAILING_WINDOW_DEG = 1;
   const REARM_GAP_DEG = 14;
@@ -46,30 +35,33 @@
       `rotate(${sweepAngle - SWEEP_BRIGHT_CENTER_OFFSET_DEG}deg)`;
   }
 
+  function viewportRadiusPx() {
+    return Math.min(window.innerWidth, window.innerHeight) * 0.42;
+  }
+
   function createBlip() {
     const el = document.createElement("div");
     el.className = "radar-blip";
 
-    const radius = Math.sqrt(Math.random()) * 42;
+    const radarRadius = viewportRadiusPx();
+    const radius = Math.sqrt(Math.random()) * radarRadius;
     const theta = Math.random() * Math.PI * 2;
 
-    const x = 50 + Math.cos(theta) * radius;
-    const y = 50 + Math.sin(theta) * radius;
+    const dx = Math.cos(theta) * radius;
+    const dy = Math.sin(theta) * radius;
 
-    el.style.left = x + "%";
-    el.style.top = y + "%";
+    el.style.left = `calc(50vw + ${dx}px)`;
+    el.style.top = `calc(50vh + ${dy}px)`;
 
     blipLayer.appendChild(el);
 
-    const dx = x - 50;
-    const dy = y - 50;
-
-    // 0deg = up, increasing clockwise
     const angle = normalizeAngle((Math.atan2(dy, dx) * 180 / Math.PI) + 90);
 
     blips.push({
       el,
       angle,
+      dx,
+      dy,
       armed: true
     });
   }
@@ -80,16 +72,20 @@
     blip.el.classList.add("active");
   }
 
+  function positionBlips() {
+    for (const blip of blips) {
+      blip.el.style.left = `calc(50vw + ${blip.dx}px)`;
+      blip.el.style.top = `calc(50vh + ${blip.dy}px)`;
+    }
+  }
+
   function tick(now) {
     const sweepAngle = getSweepAngle(now);
     setSweepRotation(sweepAngle);
 
     for (const blip of blips) {
-      // How far ahead the blip is in the sweep's direction of travel
       const ahead = forwardDelta(sweepAngle, blip.angle);
 
-      // Trigger when the blip lies just ahead of the bright center,
-      // or just behind it after the center has passed.
       const inTriggerBand =
         ahead <= LEADING_WINDOW_DEG ||
         ahead >= 360 - TRAILING_WINDOW_DEG;
@@ -116,6 +112,8 @@
   for (let i = 0; i < BLIP_COUNT; i += 1) {
     createBlip();
   }
+
+  window.addEventListener("resize", positionBlips);
 
   requestAnimationFrame(tick);
 })();
