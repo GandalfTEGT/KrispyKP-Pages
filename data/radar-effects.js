@@ -21,7 +21,7 @@
     usually feels better than a perfectly symmetric one.
   */
   const LEADING_WINDOW_DEG = 7;
-  const TRAILING_WINDOW_DEG = 4;
+  const TRAILING_WINDOW_DEG = 1;
   const REARM_GAP_DEG = 14;
 
   const blips = [];
