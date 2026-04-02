@@ -822,12 +822,49 @@ volumeEl.oninput = () => {
   audio.volume = Number(volumeEl.value);
 };
 
-seekEl.onclick = event => {
+function updateSeekFromClientX(clientX) {
   if (!audio.duration) return;
+
   const rect = seekEl.getBoundingClientRect();
-  const percent = (event.clientX - rect.left) / rect.width;
+  const rawPercent = (clientX - rect.left) / rect.width;
+  const percent = Math.max(0, Math.min(1, rawPercent));
+
   audio.currentTime = percent * audio.duration;
-};
+}
+
+let isSeeking = false;
+
+seekEl.addEventListener("pointerdown", event => {
+  if (!audio.duration) return;
+
+  isSeeking = true;
+  seekEl.setPointerCapture(event.pointerId);
+  updateSeekFromClientX(event.clientX);
+});
+
+seekEl.addEventListener("pointermove", event => {
+  if (!isSeeking) return;
+  updateSeekFromClientX(event.clientX);
+});
+
+seekEl.addEventListener("pointerup", event => {
+  if (!isSeeking) return;
+
+  updateSeekFromClientX(event.clientX);
+  isSeeking = false;
+
+  if (seekEl.hasPointerCapture(event.pointerId)) {
+    seekEl.releasePointerCapture(event.pointerId);
+  }
+});
+
+seekEl.addEventListener("pointercancel", event => {
+  isSeeking = false;
+
+  if (seekEl.hasPointerCapture(event.pointerId)) {
+    seekEl.releasePointerCapture(event.pointerId);
+  }
+});
 
 audio.volume = Number(volumeEl.value);
 

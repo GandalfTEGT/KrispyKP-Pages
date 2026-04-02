@@ -118,6 +118,10 @@
   display:none;
 }
 
+.bar {
+  cursor: pointer;
+}
+
 @media (max-width: 980px){
   .custom-builder-top{
     grid-template-columns:1fr;
