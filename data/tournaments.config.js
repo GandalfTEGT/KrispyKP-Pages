@@ -1,242 +1,333 @@
 /*
 ========================================
-KRISPYKP TOURNAMENT CONFIG GUIDE
+KRISPYKP TOURNAMENT CONFIG TEMPLATE
 ========================================
 
-This file controls the tournaments page.
+IMPORTANT:
+If you paste this file exactly as-is, the actual config starts on line 257.
 
-RULE FOR MANUAL BRACKETS
-------------------------
-Use manualBracketGroups for every manual event.
+WHAT THIS FILE DOES
+-------------------
+This file provides the data used by tournaments-page.js.
+The page reads window.KRISPY_TOURNAMENTS and renders:
+- the featured tournament
+- results for completed events
+- manual bracket groups
+- players
+- rules
+- schedule
+- other active events
+- past events
 
-Single bracket event:
-- manualBracketGroups contains 1 entry
+TOP-LEVEL STRUCTURE
+-------------------
+currentEventId
+- Type: string or null
+- Use null to auto-pick the featured event.
+- Use an event id string to force a specific event to load first.
+- Example: "my-event-id"
 
-Double elimination event:
-- manualBracketGroups contains multiple entries
-  e.g. Winners Bracket / Losers Bracket / Grand Final
+events
+- Type: array
+- Contains all tournament objects.
+- Leave empty for a fully empty page.
 
-OPTIONAL FLAG IMAGE SUPPORT
----------------------------
-Players can now use:
-- flag: "Scotland"
-- flagImage: "<svg/png path or data URI>"
+EVENT FIELD REFERENCE
+---------------------
+id
+- Unique string. Required.
 
-If flagImage exists, it will be shown instead of emoji text.
+status
+- Options: "live", "upcoming", "completed"
+- Required.
+- Results only show when status is "completed".
+
+title
+- Main visible tournament title. Required.
+
+subtitle
+- Short visible subtitle under the title. Optional.
+
+organizer
+- Name shown in the organiser area. Optional.
+
+game
+- Name of the game. Optional.
+
+format
+- Example: "Single Elimination", "Double Elimination", "Round Robin". Optional.
+
+startDate / endDate
+- Strings for the event window shown in Event Details.
+- Example: "2026-07-20 18:00"
+- Optional but recommended.
+
+timezone
+- Example: "UTC+0"
+- Used in Event Details and can also be reused by schedule entries.
+
+prizePool
+- Example: "£100" or "$250"
+- Optional.
+
+bannerImage
+- Path to the hero/background image.
+- Example: "assets/tournaments/my-banner.jpg"
+- 1920 x 800
+- Optional.
+
+description
+- Main event description shown in Event Details.
+- Optional.
+
+registrationMode
+- Options: "none", "closed", "external", "challonge"
+- "none" = no signup button
+- "closed" = no signup button, shows closed note
+- "external" = uses registrationUrl
+- "challonge" = uses registrationUrl
+- Optional, but recommended.
+
+registrationUrl
+- External signup link.
+- Used when registrationMode is "external" or "challonge".
+
+streamUrl
+- External stream link.
+- Optional.
+
+rulesUrl
+- External rules link or file path.
+- Optional.
+
+bracketMode
+- Options: "manual", "embed", "link", "none"
+- Use "manual" for your custom renderer.
+- Use "embed" if you have an embeddable bracket URL.
+- Use "link" if you only want an external bracket button.
+- Use "none" if no bracket should show.
+
+bracketTitle
+- Visible title above the bracket.
+- Optional but recommended.
+
+bracketEmbedUrl
+- Used when bracketMode is "embed".
+
+bracketUrl
+- Used when bracketMode is "link"
+- Can also be used as an external open button.
+
+manualBracketGroups
+- Array of bracket groups.
+- Single elimination: use 1 group.
+- Double elimination: usually use 3 groups:
+  Winners Bracket / Losers Bracket / Grand Final
+- Each group has:
+  key: internal identifier
+  title: visible heading
+  rounds: array of rounds
+
+MANUAL MATCH OPTIONS
+--------------------
+id
+- Optional but strongly recommended unique match id.
+- Needed for mapped connectors between matches.
+
+slot1From / slot2From
+- Optional strings containing upstream match ids.
+- Use these when a match is fed by earlier matches.
+- Example:
+  slot1From: "wb1"
+  slot2From: "wb2"
+
+title
+- Visible match title such as "QF1" or "WB2"
+
+player1 / player2
+- Player names shown in the match box.
+
+score1 / score2
+- Optional score strings.
+- Leave as "" if not played yet.
+
+winner
+- Winner name string.
+- Leave as "" if not decided yet.
+
+note
+- Extra label such as "Bo3" or "Bo5"
+
+time
+- Displayed inside the match card.
+- Example: "2026-07-20 18:00 UTC"
+
+PLAYER OPTIONS
+--------------
+name
+- Required player name.
+
+seed
+- Optional number or string.
+- If blank or missing, no seed is shown.
+
+flag
+- Optional text label such as "Scotland", "England", "Germany"
+
+flagImage
+- Optional image path or data URI.
+- If present, this is shown instead of plain emoji/text flag output.
+
+discord
+- Optional Discord username without @
+
+note
+- Optional extra label such as "Host" or "Guest Player"
 
 SCHEDULE FORMAT
 ---------------
 Prefer:
 {
-  title: "Winners Final Matches Start",
+  title: "Grand Final Matches Start",
   date: "2026-07-20",
-  time: "21:30",
+  time: "21:00",
   timezone: "UTC+0"
 }
 
-BRACKET GROUNDWORK
-------------------
-Manual matches can optionally include:
-- id
-- slot1From
-- slot2From
+You can also still use:
+{
+  label: "Grand Final",
+  value: "2026-07-20 21:00 UTC"
+}
+but the title/date/time/timezone format is cleaner.
 
-This gives the renderer enough data to show feed sources now
-and makes future connector upgrades easier.
+RULES FORMAT
+------------
+rules: [
+  "Rule one",
+  "Rule two"
+]
 
-SAFE EMPTY DEFAULTS
--------------------
-Prefer:
-players: []
-schedule: []
-rules: []
-results: []
+RESULTS FORMAT
+--------------
+results: [
+  { place: "1st", name: "Player Name", note: "Champion" },
+  { place: "2nd", name: "Player Name", note: "Runner-up" }
+]
+
+Results only show when:
+- status is "completed"
+- results has at least one entry
+
+EMPTY DEFAULTS
+--------------
+Use empty arrays for:
+players, schedule, rules, results, manualBracketGroups
+
+SETUP EXAMPLES
+--------------
+No tournaments:
+- currentEventId: null
+- events: []
+
+Single elimination manual event:
+- status: "upcoming" or "live"
+- bracketMode: "manual"
+- manualBracketGroups: [
+    { key: "main", title: "Tournament Bracket", rounds: [...] }
+  ]
+
+Double elimination manual event:
+- bracketMode: "manual"
+- manualBracketGroups:
+  winners / losers / grand-final
+
+Embedded bracket event:
+- bracketMode: "embed"
+- bracketEmbedUrl: "https://..."
+
+Link-only bracket event:
+- bracketMode: "link"
+- bracketUrl: "https://..."
 
 ========================================
 END OF GUIDE
 ========================================
+====================================================================================================
+====================================================================================================
+====================================================================================================
+====================================================================================================
+====================================================================================================
 */
 
-(function () {
-  function svgDataUri(svg) {
-    return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
-  }
+window.KRISPY_TOURNAMENTS = {
+  currentEventId: null,
+  events: [
+    /*
+    ADD EVENT OBJECTS HERE.
 
-    const FLAG_SVGS = {
-      scotland: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="48" fill="#005eb8"/>
-          <line x1="0" y1="0" x2="64" y2="48" stroke="#ffffff" stroke-width="6"/>
-          <line x1="64" y1="0" x2="0" y2="48" stroke="#ffffff" stroke-width="6"/>
-        </svg>
-      `),
+    EXAMPLE SINGLE ELIMINATION EVENT:
+    {
+      id: "my-single-elim-event",
+      status: "upcoming",
+      title: "My Tournament Title",
+      subtitle: "Optional short subtitle",
+      organizer: "Your Name",
+      game: "Game Name",
+      format: "Single Elimination",
+      startDate: "2026-07-20 18:00",
+      endDate: "2026-07-20 22:00",
+      timezone: "UTC+0",
+      prizePool: "£0",
+      bannerImage: "",
+      description: "Optional description.",
+      registrationMode: "none",
+      registrationUrl: "",
+      streamUrl: "",
+      rulesUrl: "",
+      bracketMode: "manual",
+      bracketTitle: "Tournament Bracket",
+      manualBracketGroups: [
+        {
+          key: "main",
+          title: "Tournament Bracket",
+          rounds: [
+            {
+              title: "Semi Finals",
+              matches: [
+                {
+                  id: "sf1",
+                  title: "SF1",
+                  player1: "Player A",
+                  player2: "Player B",
+                  score1: "",
+                  score2: "",
+                  winner: "",
+                  note: "Bo3",
+                  time: "2026-07-20 18:00 UTC"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      players: [],
+      schedule: [],
+      rules: [],
+      results: []
+    }
+    */
 
-      england: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="48" fill="#ffffff"/>
-          <rect x="26" width="12" height="48" fill="#cf142b"/>
-          <rect y="18" width="64" height="12" fill="#cf142b"/>
-        </svg>
-      `),
+    /*
 
-      usa: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="48" fill="#ffffff"/>
-          <g fill="#b22234">
-            <rect y="0" width="64" height="3.692"/>
-            <rect y="7.384" width="64" height="3.692"/>
-            <rect y="14.768" width="64" height="3.692"/>
-            <rect y="22.152" width="64" height="3.692"/>
-            <rect y="29.536" width="64" height="3.692"/>
-            <rect y="36.920" width="64" height="3.692"/>
-            <rect y="44.304" width="64" height="3.696"/>
-          </g>
-          <rect width="25.6" height="25.846" fill="#3c3b6e"/>
-          <g fill="#ffffff">
-            <circle cx="3.2" cy="3.2" r="0.9"/><circle cx="8.0" cy="3.2" r="0.9"/><circle cx="12.8" cy="3.2" r="0.9"/><circle cx="17.6" cy="3.2" r="0.9"/><circle cx="22.4" cy="3.2" r="0.9"/>
-            <circle cx="5.6" cy="6.4" r="0.9"/><circle cx="10.4" cy="6.4" r="0.9"/><circle cx="15.2" cy="6.4" r="0.9"/><circle cx="20.0" cy="6.4" r="0.9"/>
-            <circle cx="3.2" cy="9.6" r="0.9"/><circle cx="8.0" cy="9.6" r="0.9"/><circle cx="12.8" cy="9.6" r="0.9"/><circle cx="17.6" cy="9.6" r="0.9"/><circle cx="22.4" cy="9.6" r="0.9"/>
-            <circle cx="5.6" cy="12.8" r="0.9"/><circle cx="10.4" cy="12.8" r="0.9"/><circle cx="15.2" cy="12.8" r="0.9"/><circle cx="20.0" cy="12.8" r="0.9"/>
-            <circle cx="3.2" cy="16.0" r="0.9"/><circle cx="8.0" cy="16.0" r="0.9"/><circle cx="12.8" cy="16.0" r="0.9"/><circle cx="17.6" cy="16.0" r="0.9"/><circle cx="22.4" cy="16.0" r="0.9"/>
-            <circle cx="5.6" cy="19.2" r="0.9"/><circle cx="10.4" cy="19.2" r="0.9"/><circle cx="15.2" cy="19.2" r="0.9"/><circle cx="20.0" cy="19.2" r="0.9"/>
-            <circle cx="3.2" cy="22.4" r="0.9"/><circle cx="8.0" cy="22.4" r="0.9"/><circle cx="12.8" cy="22.4" r="0.9"/><circle cx="17.6" cy="22.4" r="0.9"/><circle cx="22.4" cy="22.4" r="0.9"/>
-          </g>
-        </svg>
-      `),
+    ====================================================================================================
+    ====================================================================================================
+    ====================================================================================================
+    ====================================================================================================
+    ====================================================================================================
+    ====================================================================================================
 
-      canada: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="48" fill="#ffffff"/>
-          <rect width="16" height="48" x="0" fill="#d80621"/>
-          <rect width="16" height="48" x="48" fill="#d80621"/>
-
-          <!-- improved maple leaf -->
-          <g transform="translate(32,24)">
-            <path fill="#d80621" d="
-              M0 -12
-              L2 -6 L7 -8 L5 -3
-              L10 -2 L5 1 L7 6
-              L2 4 L0 10
-              L-2 4 L-7 6
-              L-5 1 L-10 -2
-              L-5 -3 L-7 -8
-              L-2 -6 Z
-            "/>
-            <rect x="-1.2" y="10" width="2.4" height="8" fill="#d80621"/>
-          </g>
-        </svg>
-      `),
-
-      germany: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="16" y="0" fill="#000000"/>
-          <rect width="64" height="16" y="16" fill="#dd0000"/>
-          <rect width="64" height="16" y="32" fill="#ffce00"/>
-        </svg>
-      `),
-
-      finland: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="48" fill="#ffffff"/>
-          <rect x="18" width="10" height="48" fill="#003580"/>
-          <rect y="19" width="64" height="10" fill="#003580"/>
-        </svg>
-      `),
-
-      sweden: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="48" fill="#006aa7"/>
-          <rect x="20" width="8" height="48" fill="#fecc00"/>
-          <rect y="20" width="64" height="8" fill="#fecc00"/>
-        </svg>
-      `),
-
-      spain: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="48" fill="#c60b1e"/>
-          <rect y="12" width="64" height="24" fill="#ffc400"/>
-
-          <!-- simplified coat of arms -->
-          <g transform="translate(18,14)">
-            <rect width="10" height="14" rx="1.5" fill="#c60b1e" stroke="#8c0a15" stroke-width="1"/>
-            <rect x="2" y="3" width="6" height="4" fill="#ffc400"/>
-            <rect x="3" y="8" width="4" height="4" fill="#ffc400"/>
-            <circle cx="5" cy="-2" r="2" fill="#ffc400" stroke="#8c0a15" stroke-width="0.8"/>
-          </g>
-        </svg>
-      `),
-
-      belgium: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="21.333" height="48" x="0" fill="#000000"/>
-          <rect width="21.333" height="48" x="21.333" fill="#ffd90c"/>
-          <rect width="21.334" height="48" x="42.666" fill="#ef3340"/>
-        </svg>
-      `),
-
-      croatia: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="16" y="0" fill="#ff0000"/>
-          <rect width="64" height="16" y="16" fill="#ffffff"/>
-          <rect width="64" height="16" y="32" fill="#171796"/>
-          <g transform="translate(24,12)">
-            <rect width="16" height="20" fill="#ffffff" stroke="#171796" stroke-width="1"/>
-            <rect x="0" y="0" width="4" height="4" fill="#ff0000"/><rect x="8" y="0" width="4" height="4" fill="#ff0000"/>
-            <rect x="4" y="4" width="4" height="4" fill="#ff0000"/><rect x="12" y="4" width="4" height="4" fill="#ff0000"/>
-            <rect x="0" y="8" width="4" height="4" fill="#ff0000"/><rect x="8" y="8" width="4" height="4" fill="#ff0000"/>
-            <rect x="4" y="12" width="4" height="4" fill="#ff0000"/><rect x="12" y="12" width="4" height="4" fill="#ff0000"/>
-            <rect x="0" y="16" width="4" height="4" fill="#ff0000"/><rect x="8" y="16" width="4" height="4" fill="#ff0000"/>
-          </g>
-        </svg>
-      `),
-
-      slovenia: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="16" y="0" fill="#ffffff"/>
-          <rect width="64" height="16" y="16" fill="#005ce6"/>
-          <rect width="64" height="16" y="32" fill="#d50000"/>
-          <g transform="translate(10,7)">
-            <path d="M0 0h14v10c0 6-7 10-7 10S0 16 0 10z" fill="#005ce6" stroke="#ffffff" stroke-width="1"/>
-            <path d="M2 5l3-3 2 2 2-2 3 3" fill="none" stroke="#ffffff" stroke-width="1.2"/>
-            <path d="M3 12h8" stroke="#ffffff" stroke-width="1.2"/>
-            <path d="M2 14h10" stroke="#d50000" stroke-width="1.2"/>
-          </g>
-        </svg>
-      `),
-
-      russia: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="16" y="0" fill="#ffffff"/>
-          <rect width="64" height="16" y="16" fill="#0039a6"/>
-          <rect width="64" height="16" y="32" fill="#d52b1e"/>
-        </svg>
-      `),
-
-      ukraine: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="24" y="0" fill="#0057b7"/>
-          <rect width="64" height="24" y="24" fill="#ffd700"/>
-        </svg>
-      `),
-
-      wales: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="64" height="24" y="0" fill="#ffffff"/>
-          <rect width="64" height="24" y="24" fill="#00a651"/>
-          <path fill="#d21034" d="M17 30l3-5 5-2 3-5 4 1 3-2 2 2 4 0 2 3 4 1 1 3-3 2 1 4-4-1-3 3-4-1-3 3-4-1-4 2-3-2-4 1 2-4-2-3 3-1z"/>
-        </svg>
-      `),
-
-      ireland: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
-          <rect width="21.333" height="48" x="0" fill="#169b62"/>
-          <rect width="21.333" height="48" x="21.333" fill="#ffffff"/>
-          <rect width="21.334" height="48" x="42.666" fill="#ff883e"/>
-        </svg>
-      `)
-    };
-
-  window.KRISPY_TOURNAMENTS = {
+    window.KRISPY_TOURNAMENTS = {
     currentEventId: null,
     events: [
       {
@@ -288,90 +379,8 @@ END OF GUIDE
                     note: "Bo3",
                     time: "2026-07-20 18:00 UTC"
                   },
-                  {
-                    id: "wb2",
-                    title: "WB2",
-                    player1: "Meds",
-                    player2: "Jamie",
-                    score1: "2",
-                    score2: "1",
-                    winner: "Meds",
-                    note: "Bo3",
-                    time: "2026-07-20 18:30 UTC"
-                  },
-                  {
-                    id: "wb3",
-                    title: "WB3",
-                    player1: "Gazza",
-                    player2: "Bruzer",
-                    score1: "1",
-                    score2: "2",
-                    winner: "Bruzer",
-                    note: "Bo3",
-                    time: "2026-07-20 19:00 UTC"
-                  },
-                  {
-                    id: "wb4",
-                    title: "WB4",
-                    player1: "Delta",
-                    player2: "Nomad",
-                    score1: "0",
-                    score2: "2",
-                    winner: "Nomad",
-                    note: "Bo3",
-                    time: "2026-07-20 19:30 UTC"
-                  }
                 ]
               },
-              {
-                title: "Winners Semi Finals",
-                matches: [
-                  {
-                    id: "wbsf1",
-                    title: "WBSF1",
-                    slot1From: "wb1",
-                    slot2From: "wb2",
-                    player1: "KrispyKP",
-                    player2: "Meds",
-                    score1: "2",
-                    score2: "1",
-                    winner: "KrispyKP",
-                    note: "Bo3",
-                    time: "2026-07-20 20:15 UTC"
-                  },
-                  {
-                    id: "wbsf2",
-                    title: "WBSF2",
-                    slot1From: "wb3",
-                    slot2From: "wb4",
-                    player1: "Bruzer",
-                    player2: "Nomad",
-                    score1: "0",
-                    score2: "2",
-                    winner: "Nomad",
-                    note: "Bo3",
-                    time: "2026-07-20 20:45 UTC"
-                  }
-                ]
-              },
-              {
-                title: "Winners Final",
-                matches: [
-                  {
-                    id: "wbf",
-                    title: "WBF",
-                    slot1From: "wbsf1",
-                    slot2From: "wbsf2",
-                    player1: "KrispyKP",
-                    player2: "Nomad",
-                    score1: "1",
-                    score2: "2",
-                    winner: "Nomad",
-                    note: "Bo5",
-                    time: "2026-07-20 21:30 UTC"
-                  }
-                ]
-              }
             ]
           },
           {
@@ -392,84 +401,6 @@ END OF GUIDE
                     note: "Bo3",
                     time: "2026-07-20 20:00 UTC"
                   },
-                  {
-                    id: "lb2",
-                    title: "LB2",
-                    player1: "Gazza",
-                    player2: "Delta",
-                    score1: "2",
-                    score2: "1",
-                    winner: "Gazza",
-                    note: "Bo3",
-                    time: "2026-07-20 20:00 UTC"
-                  }
-                ]
-              },
-              {
-                title: "Losers Quarter Finals",
-                matches: [
-                  {
-                    id: "lbqf1",
-                    title: "LBQF1",
-                    slot1From: "lb1",
-                    slot2From: "wb3",
-                    player1: "IronFox",
-                    player2: "Bruzer",
-                    score1: "0",
-                    score2: "2",
-                    winner: "Bruzer",
-                    note: "Bo3",
-                    time: "2026-07-20 21:00 UTC"
-                  },
-                  {
-                    id: "lbqf2",
-                    title: "LBQF2",
-                    slot1From: "lb2",
-                    slot2From: "wb2",
-                    player1: "Gazza",
-                    player2: "Meds",
-                    score1: "1",
-                    score2: "2",
-                    winner: "Meds",
-                    note: "Bo3",
-                    time: "2026-07-20 21:00 UTC"
-                  }
-                ]
-              },
-              {
-                title: "Losers Semi Final",
-                matches: [
-                  {
-                    id: "lbsf",
-                    title: "LBSF",
-                    slot1From: "lbqf1",
-                    slot2From: "lbqf2",
-                    player1: "Bruzer",
-                    player2: "Meds",
-                    score1: "2",
-                    score2: "1",
-                    winner: "Bruzer",
-                    note: "Bo3",
-                    time: "2026-07-20 21:45 UTC"
-                  }
-                ]
-              },
-              {
-                title: "Losers Final",
-                matches: [
-                  {
-                    id: "lbf",
-                    title: "LBF",
-                    slot1From: "lbsf",
-                    slot2From: "wbsf1",
-                    player1: "Bruzer",
-                    player2: "KrispyKP",
-                    score1: "1",
-                    score2: "2",
-                    winner: "KrispyKP",
-                    note: "Bo5",
-                    time: "2026-07-20 22:15 UTC"
-                  }
                 ]
               }
             ]
@@ -700,7 +631,7 @@ END OF GUIDE
           { place: "3rd", name: "Rift", note: "Semi Finalist" },
           { place: "4th", name: "Vortex", note: "Semi Finalist" }
         ]
-      }
-    ]
-  };
-})();
+      } 
+    */
+  ]
+};
