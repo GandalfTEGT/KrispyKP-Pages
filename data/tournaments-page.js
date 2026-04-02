@@ -7,12 +7,10 @@
     heroMeta: document.getElementById("tournamentHeroMeta"),
     heroActions: document.getElementById("tournamentHeroActions"),
     heroNote: document.getElementById("tournamentHeroNote"),
+    heroBackdrop: document.getElementById("tournamentHeroBackdrop"),
 
     emptyState: document.getElementById("tournamentEmptyState"),
     content: document.getElementById("tournamentContent"),
-
-    bannerWrap: document.getElementById("tournamentBannerWrap"),
-    banner: document.getElementById("tournamentBanner"),
 
     description: document.getElementById("tournamentDescription"),
     quickInfo: document.getElementById("tournamentQuickInfo"),
@@ -88,32 +86,6 @@
     }
   }
 
-  function participantSourceLabel(value) {
-    switch (value) {
-      case "challonge":
-        return "Challonge";
-      case "mixed":
-        return "Mixed";
-      case "manual":
-      default:
-        return "Manual";
-    }
-  }
-
-  function bracketModeLabel(value) {
-    switch (value) {
-      case "embed":
-        return "Embedded";
-      case "link":
-        return "External Link";
-      case "manual":
-        return "Manual";
-      case "none":
-      default:
-        return "None";
-    }
-  }
-
   function getCurrentEvent() {
     const events = getEvents();
     if (!events.length) return null;
@@ -135,30 +107,27 @@
   }
 
   function getOtherActiveEvents(featuredEvent) {
-    return getEvents().filter(
-      (event) =>
-        event.id !== featuredEvent?.id &&
-        (event.status === "live" || event.status === "upcoming")
-    );
+    return getEvents().filter((event) => {
+      return event.id !== featuredEvent?.id && (event.status === "live" || event.status === "upcoming");
+    });
   }
 
   function getCompletedEvents(featuredEvent) {
-    return getEvents().filter(
-      (event) =>
-        event.id !== featuredEvent?.id &&
-        event.status === "completed"
-    );
+    return getEvents().filter((event) => {
+      return event.id !== featuredEvent?.id && event.status === "completed";
+    });
   }
 
-  function createMetaPill(label) {
+  function createMetaPill(label, status = "") {
     const el = document.createElement("div");
-    el.className = "status-pill";
+    el.className = `status-pill${status ? ` is-${status}` : ""}`;
     el.textContent = label;
     return el;
   }
 
   function createActionLink(label, href, primary = false) {
     if (!href) return null;
+
     const a = document.createElement("a");
     a.className = primary ? "btn primary" : "btn";
     a.href = href;
@@ -180,6 +149,7 @@
   function renderList(container, items, renderItem) {
     if (!container) return;
     container.innerHTML = "";
+
     items.forEach((item) => {
       const li = document.createElement("li");
       li.innerHTML = renderItem(item);
@@ -187,20 +157,42 @@
     });
   }
 
+  function setHeroBackdrop(event) {
+    if (!els.heroBackdrop) return;
+
+    if (event?.bannerImage) {
+      els.heroBackdrop.hidden = false;
+      els.heroBackdrop.style.backgroundImage = `
+        linear-gradient(180deg, rgba(5, 9, 12, 0.28), rgba(5, 9, 12, 0.80)),
+        linear-gradient(90deg, rgba(6, 9, 11, 0.92), rgba(6, 9, 11, 0.58)),
+        url("${event.bannerImage}")
+      `;
+    } else {
+      els.heroBackdrop.hidden = true;
+      els.heroBackdrop.style.removeProperty("background-image");
+    }
+  }
+
   function resetBracketArea() {
-    if (!els.bracketSection) return;
+    if (els.bracketSection) els.bracketSection.hidden = true;
 
-    els.bracketSection.hidden = true;
+    if (els.bracketActions) {
+      els.bracketActions.innerHTML = "";
+    }
 
-    if (els.bracketActions) els.bracketActions.innerHTML = "";
+    if (els.bracketEmbedWrap) {
+      els.bracketEmbedWrap.hidden = true;
+    }
 
-    if (els.bracketEmbedWrap) els.bracketEmbedWrap.hidden = true;
-    if (els.bracketEmbed) els.bracketEmbed.removeAttribute("src");
+    if (els.bracketEmbed) {
+      els.bracketEmbed.removeAttribute("src");
+    }
 
     if (els.manualBracketWrap) {
       els.manualBracketWrap.hidden = true;
       els.manualBracketWrap.innerHTML = "";
       els.manualBracketWrap.style.removeProperty("--manual-round-count");
+      els.manualBracketWrap.classList.remove("is-scrollable");
     }
 
     if (els.bracketFallback) {
@@ -225,23 +217,32 @@
     const wrapper = document.createElement("div");
     wrapper.className = "tournament-manual-bracket";
 
-    els.manualBracketWrap.style.setProperty(
-      "--manual-round-count",
-      String(Math.max(rounds.length, 1))
-    );
+    els.manualBracketWrap.hidden = false;
+    els.manualBracketWrap.classList.add("is-scrollable");
+    els.manualBracketWrap.style.setProperty("--manual-round-count", String(Math.max(rounds.length, 1)));
 
     rounds.forEach((round, roundIndex) => {
-      const roundEl = document.createElement("div");
-      roundEl.className = "tournament-manual-round frame";
+      const roundEl = document.createElement("section");
+      roundEl.className = "tournament-manual-round";
+      roundEl.style.setProperty("--match-count", String(Math.max(isArray(round.matches).length, 1)));
+
+      const roundHead = document.createElement("div");
+      roundHead.className = "tournament-manual-round-head";
 
       const roundTitle = document.createElement("div");
       roundTitle.className = "tournament-manual-round-title";
       roundTitle.textContent = text(round.title, `Round ${roundIndex + 1}`);
-      roundEl.appendChild(roundTitle);
 
-      const matches = isArray(round.matches);
+      const roundCount = document.createElement("div");
+      roundCount.className = "tournament-manual-round-count";
+      roundCount.textContent = `${isArray(round.matches).length} match${isArray(round.matches).length === 1 ? "" : "es"}`;
+
+      roundHead.append(roundTitle, roundCount);
+
       const matchesWrap = document.createElement("div");
       matchesWrap.className = "tournament-manual-matches";
+
+      const matches = isArray(round.matches);
 
       if (!matches.length) {
         const empty = document.createElement("div");
@@ -250,7 +251,7 @@
         matchesWrap.appendChild(empty);
       } else {
         matches.forEach((match, matchIndex) => {
-          const matchEl = document.createElement("div");
+          const matchEl = document.createElement("article");
           matchEl.className = "tournament-manual-match";
 
           const top = document.createElement("div");
@@ -260,23 +261,26 @@
             <span class="muted">${escapeHtml(text(match.note, ""))}</span>
           `;
 
+          const players = document.createElement("div");
+          players.className = "tournament-manual-match-players";
+
           const player1 = document.createElement("div");
           player1.className =
-            "tournament-manual-player" +
-            (match.winner && match.winner === match.player1 ? " is-winner" : "");
+            "tournament-manual-player" + (match.winner && match.winner === match.player1 ? " is-winner" : "");
           player1.innerHTML = `
-            <span>${escapeHtml(text(match.player1, "TBD"))}</span>
-            <span class="muted">${escapeHtml(text(match.score1, ""))}</span>
+            <span class="tournament-manual-player-name">${escapeHtml(text(match.player1, "TBD"))}</span>
+            <span class="tournament-manual-player-score">${escapeHtml(text(match.score1, ""))}</span>
           `;
 
           const player2 = document.createElement("div");
           player2.className =
-            "tournament-manual-player" +
-            (match.winner && match.winner === match.player2 ? " is-winner" : "");
+            "tournament-manual-player" + (match.winner && match.winner === match.player2 ? " is-winner" : "");
           player2.innerHTML = `
-            <span>${escapeHtml(text(match.player2, "TBD"))}</span>
-            <span class="muted">${escapeHtml(text(match.score2, ""))}</span>
+            <span class="tournament-manual-player-name">${escapeHtml(text(match.player2, "TBD"))}</span>
+            <span class="tournament-manual-player-score">${escapeHtml(text(match.score2, ""))}</span>
           `;
+
+          players.append(player1, player2);
 
           const footer = document.createElement("div");
           footer.className = "tournament-manual-match-footer";
@@ -285,16 +289,15 @@
             <span>${match.winner ? `Winner: ${escapeHtml(match.winner)}` : ""}</span>
           `;
 
-          matchEl.append(top, player1, player2, footer);
+          matchEl.append(top, players, footer);
           matchesWrap.appendChild(matchEl);
         });
       }
 
-      roundEl.appendChild(matchesWrap);
+      roundEl.append(roundHead, matchesWrap);
       wrapper.appendChild(roundEl);
     });
 
-    els.manualBracketWrap.hidden = false;
     els.manualBracketWrap.appendChild(wrapper);
   }
 
@@ -310,17 +313,15 @@
       return;
     }
 
-    els.bracketSection.hidden = false;
+    if (els.bracketSection) {
+      els.bracketSection.hidden = false;
+    }
 
     if (els.bracketTitle) {
       els.bracketTitle.textContent = text(event.bracketTitle, "Bracket");
     }
 
-    const openBracket = createActionLink(
-      "Open Bracket",
-      event.bracketUrl || event.bracketEmbedUrl,
-      true
-    );
+    const openBracket = createActionLink("Open Bracket", event.bracketUrl || event.bracketEmbedUrl, true);
     if (openBracket && els.bracketActions) {
       els.bracketActions.appendChild(openBracket);
     }
@@ -338,8 +339,7 @@
 
     if (mode === "link" && hasLink) {
       els.bracketFallback.hidden = false;
-      els.bracketFallback.textContent =
-        "This event uses an external bracket page. Use the button above to open it.";
+      els.bracketFallback.textContent = "This event uses an external bracket page. Use the button above to open it.";
       return;
     }
 
@@ -356,8 +356,7 @@
     }
 
     els.bracketFallback.hidden = false;
-    els.bracketFallback.textContent =
-      "Bracket information is not currently available for this event.";
+    els.bracketFallback.textContent = "Bracket information is not currently available for this event.";
   }
 
   function renderQuickInfo(event) {
@@ -368,17 +367,16 @@
       ["Prize Pool", text(event.prizePool, "TBA")],
       ["Dates", [event.startDate, event.endDate].filter(Boolean).join(" to ") || "TBA"],
       ["Timezone", text(event.timezone, "TBA")],
-      ["Organizer", text(event.organizer, "KrispyKP")],
-      ["Host Type", event.hostType === "external" ? "External Event" : "KrispyKP Event"],
-      ["Players Source", participantSourceLabel(event.participantSource)],
-      ["Bracket Mode", bracketModeLabel(event.bracketMode)]
+      ["Organizer", text(event.organizer, "KrispyKP")]
     ];
 
     renderList(
       els.quickInfo,
       quickInfo,
-      ([label, value]) =>
-        `<span>${escapeHtml(label)}</span><span class="muted">${escapeHtml(value)}</span>`
+      ([label, value]) => `
+        <span class="tournament-detail-label">${escapeHtml(label)}</span>
+        <span class="tournament-detail-value">${escapeHtml(value)}</span>
+      `
     );
   }
 
@@ -389,15 +387,11 @@
 
     const actions = [];
 
-    if (
-      (event.registrationMode === "challonge" ||
-        event.registrationMode === "external") &&
-      event.registrationUrl
-    ) {
+    if ((event.registrationMode === "challonge" || event.registrationMode === "external") && event.registrationUrl) {
       actions.push(createActionLink("Register", event.registrationUrl, true));
     }
 
-    actions.push(createActionLink("Bracket", event.bracketUrl));
+    actions.push(createActionLink("Bracket", event.bracketUrl || event.bracketEmbedUrl));
     actions.push(createActionLink("Watch Stream", event.streamUrl));
     actions.push(createActionLink("Rules", event.rulesUrl));
 
@@ -417,43 +411,23 @@
 
   function renderSwitcherCard(event, label, sectionKind) {
     const article = document.createElement("article");
-    article.className =
-      "frame " +
-      (sectionKind === "archive"
-        ? "tournament-archive-item"
-        : "tournament-switch-item");
+    article.className = "frame " + (sectionKind === "archive" ? "tournament-archive-item" : "tournament-switch-item");
 
     const banner = event.bannerImage
-      ? `<div class="${
-          sectionKind === "archive"
-            ? "tournament-archive-banner"
-            : "tournament-switch-thumb"
-        }" style="background-image:url('${escapeHtml(event.bannerImage)}')"></div>`
+      ? `<div class="${sectionKind === "archive" ? "tournament-archive-banner" : "tournament-switch-thumb"}" style="background-image:url('${escapeHtml(event.bannerImage)}')"></div>`
       : `<div class="tournament-switch-thumb tournament-switch-thumb--empty"></div>`;
 
     article.innerHTML = `
       ${banner}
-      <div class="${
-        sectionKind === "archive"
-          ? "tournament-archive-copy"
-          : "tournament-switch-copy"
-      }">
+      <div class="${sectionKind === "archive" ? "tournament-archive-copy" : "tournament-switch-copy"}">
         <div class="section-title">${escapeHtml(label)}</div>
-        <h3 class="${
-          sectionKind === "archive"
-            ? "tournament-archive-title"
-            : "tournament-switch-title"
-        }">${escapeHtml(text(event.title, "Tournament"))}</h3>
-        <p class="${
-          sectionKind === "archive"
-            ? "tournament-archive-text"
-            : "tournament-switch-text"
-        }">${escapeHtml(text(event.subtitle || event.description, "Tournament event."))}</p>
-        <div class="${
-          sectionKind === "archive"
-            ? "tournament-archive-meta"
-            : "tournament-switch-meta"
-        } badge-line">
+        <h3 class="${sectionKind === "archive" ? "tournament-archive-title" : "tournament-switch-title"}">
+          ${escapeHtml(text(event.title, "Tournament"))}
+        </h3>
+        <p class="${sectionKind === "archive" ? "tournament-archive-text" : "tournament-switch-text"}">
+          ${escapeHtml(text(event.subtitle || event.description, "Tournament event."))}
+        </p>
+        <div class="${sectionKind === "archive" ? "tournament-archive-meta" : "tournament-switch-meta"} badge-line">
           <span class="tag">${escapeHtml(createStatusLabel(text(event.status, "upcoming")))}</span>
           ${event.game ? `<span class="tag">${escapeHtml(event.game)}</span>` : ""}
         </div>
@@ -494,17 +468,11 @@
       if (otherActive.length) {
         els.switcherSection.hidden = false;
         els.switcherTitle.textContent =
-          otherActive.length === 1
-            ? "Other Active / Upcoming Event"
-            : "Other Active / Upcoming Events";
+          otherActive.length === 1 ? "Other Active / Upcoming Event" : "Other Active / Upcoming Events";
 
         otherActive.forEach((event) => {
           els.switcherGrid.appendChild(
-            renderSwitcherCard(
-              event,
-              event.status === "live" ? "Live Event" : "Upcoming Event",
-              "active"
-            )
+            renderSwitcherCard(event, event.status === "live" ? "Live Event" : "Upcoming Event", "active")
           );
         });
       } else {
@@ -517,13 +485,10 @@
 
       if (completed.length) {
         els.archiveCardsSection.hidden = false;
-        els.archiveCardsTitle.textContent =
-          completed.length === 1 ? "Past Event" : "Past Events";
+        els.archiveCardsTitle.textContent = completed.length === 1 ? "Past Event" : "Past Events";
 
         completed.forEach((event) => {
-          els.archiveCardsGrid.appendChild(
-            renderSwitcherCard(event, "Completed Event", "archive")
-          );
+          els.archiveCardsGrid.appendChild(renderSwitcherCard(event, "Completed Event", "archive"));
         });
       } else {
         els.archiveCardsSection.hidden = true;
@@ -540,40 +505,28 @@
     if (els.emptyState) els.emptyState.hidden = true;
     if (els.content) els.content.hidden = false;
 
-    if (els.title) els.title.textContent = text(event.title, "Tournament");
-    if (els.subtitle) {
-      els.subtitle.textContent = text(
-        event.subtitle || event.description,
-        "Event information and coverage."
-      );
+    if (els.title) {
+      els.title.textContent = text(event.title, "Tournament");
     }
+
+    if (els.subtitle) {
+      els.subtitle.textContent = text(event.subtitle || event.description, "Event information and coverage.");
+    }
+
+    setHeroBackdrop(event);
 
     if (els.heroMeta) {
       els.heroMeta.innerHTML = "";
-      els.heroMeta.appendChild(
-        createMetaPill(createStatusLabel(text(event.status, "upcoming")))
-      );
+
+      els.heroMeta.appendChild(createMetaPill(createStatusLabel(text(event.status, "upcoming")), text(event.status, "upcoming")));
 
       if (event.game) els.heroMeta.appendChild(createMetaPill(event.game));
       if (event.format) els.heroMeta.appendChild(createMetaPill(event.format));
-      if (event.prizePool) {
-        els.heroMeta.appendChild(createMetaPill(`Prize Pool: ${event.prizePool}`));
-      }
+      if (event.startDate) els.heroMeta.appendChild(createMetaPill(`Starts: ${event.startDate}`));
+      if (event.prizePool) els.heroMeta.appendChild(createMetaPill(`Prize Pool: ${event.prizePool}`));
     }
 
     renderActions(event);
-
-    if (els.bannerWrap && els.banner) {
-      if (event.bannerImage) {
-        els.bannerWrap.hidden = false;
-        els.banner.src = event.bannerImage;
-        els.banner.alt = `${text(event.title, "Tournament")} banner`;
-      } else {
-        els.bannerWrap.hidden = true;
-        els.banner.removeAttribute("src");
-        els.banner.alt = "";
-      }
-    }
 
     if (els.description) {
       const descriptionText = text(event.description, "");
@@ -588,27 +541,26 @@
     const schedule = isArray(event.schedule);
     if (els.scheduleCard) els.scheduleCard.hidden = !schedule.length;
     if (schedule.length) {
-      renderList(els.schedule, schedule, (item) => {
-        return `<span>${escapeHtml(text(item.label, "Item"))}</span><span class="muted">${escapeHtml(
-          text(item.value, "")
-        )}</span>`;
-      });
+      renderList(
+        els.schedule,
+        schedule,
+        (item) => `
+          <span>${escapeHtml(text(item.label))}</span>
+          <span class="muted">${escapeHtml(text(item.value))}</span>
+        `
+      );
     }
 
     const players = isArray(event.players);
     if (els.playersCard) els.playersCard.hidden = !players.length;
     if (players.length) {
       renderList(els.players, players, (item) => {
-        const left = [
-          item.seed ? `#${item.seed}` : "",
-          text(item.name, "Unnamed Player")
-        ]
-          .filter(Boolean)
-          .join(" ");
+        const left = [item.seed ? `#${item.seed}` : "", text(item.name, "Unnamed Player")].filter(Boolean).join(" ");
         const right = item.note || item.flag || item.discord || "";
-        return `<span>${escapeHtml(left)}</span><span class="muted">${escapeHtml(
-          text(right)
-        )}</span>`;
+        return `
+          <span>${escapeHtml(left)}</span>
+          <span class="muted">${escapeHtml(text(right))}</span>
+        `;
       });
     }
 
@@ -618,7 +570,10 @@
       renderList(
         els.rules,
         rules,
-        (item) => `<span>${escapeHtml(text(item))}</span><span class="muted">Rule</span>`
+        (item) => `
+          <span>${escapeHtml(text(item))}</span>
+          <span class="muted">Rule</span>
+        `
       );
     }
 
@@ -628,9 +583,10 @@
       renderList(els.featuredMatches, featuredMatches, (item) => {
         const left = item.title || item.players || "Match";
         const right = item.time || item.players || "";
-        return `<span>${escapeHtml(text(left))}</span><span class="muted">${escapeHtml(
-          text(right)
-        )}</span>`;
+        return `
+          <span>${escapeHtml(text(left))}</span>
+          <span class="muted">${escapeHtml(text(right))}</span>
+        `;
       });
     }
 
@@ -640,9 +596,10 @@
       renderList(els.results, results, (item) => {
         const left = [item.place || "", item.name || ""].filter(Boolean).join(" - ");
         const right = item.note || "";
-        return `<span>${escapeHtml(text(left))}</span><span class="muted">${escapeHtml(
-          text(right)
-        )}</span>`;
+        return `
+          <span>${escapeHtml(text(left))}</span>
+          <span class="muted">${escapeHtml(text(right))}</span>
+        `;
       });
     }
   }
@@ -665,18 +622,26 @@
       els.heroNote.textContent = "";
     }
 
+    if (els.heroBackdrop) {
+      els.heroBackdrop.hidden = true;
+      els.heroBackdrop.style.removeProperty("background-image");
+    }
+
     if (els.switcherSection) els.switcherSection.hidden = true;
     if (els.archiveCardsSection) els.archiveCardsSection.hidden = true;
   }
 
   function renderPage() {
     const featured = getCurrentEvent();
+
     if (!featured) {
       renderEmptyState();
       return;
     }
+
     renderEvent(featured);
   }
 
+  currentEventId = data.currentEventId || null;
   renderPage();
 })();
