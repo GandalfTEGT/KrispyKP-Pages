@@ -49,7 +49,7 @@ window.KRISPY_VIDEO_DATA = {
         {
           "videoId": "RGBjjGtLPN4",
           "title": "Tib Dawn Ladder & Customs & Campaign 26/03/26",
-          "description": "This video was taken and clipped together from my 24 hour stream at https://www.twitch.tv/krispy on the 26th & 27th March 2026",
+          "description": "This video was taken and clipped together from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th & 27th March 2026",
           "playlistAddedAt": "2026-03-30T21:50:41Z",
           "videoPublishedAt": "2026-03-31T01:57:16Z",
           "publishedAt": "2026-03-30T21:50:41Z",
@@ -214,7 +214,7 @@ window.KRISPY_VIDEO_DATA = {
         {
           "videoId": "RGBjjGtLPN4",
           "title": "Tib Dawn Ladder & Customs & Campaign 26/03/26",
-          "description": "This video was taken and clipped together from my 24 hour stream at https://www.twitch.tv/krispy on the 26th & 27th March 2026",
+          "description": "This video was taken and clipped together from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th & 27th March 2026",
           "playlistAddedAt": "2026-03-30T21:50:41Z",
           "videoPublishedAt": "2026-03-31T01:57:16Z",
           "publishedAt": "2026-03-30T21:50:41Z",
@@ -583,7 +583,7 @@ window.KRISPY_VIDEO_DATA = {
             {
               "videoId": "RGBjjGtLPN4",
               "title": "Tib Dawn Ladder & Customs & Campaign 26/03/26",
-              "description": "This video was taken and clipped together from my 24 hour stream at https://www.twitch.tv/krispy on the 26th & 27th March 2026",
+              "description": "This video was taken and clipped together from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th & 27th March 2026",
               "playlistAddedAt": "2026-03-30T21:50:41Z",
               "videoPublishedAt": "2026-03-31T01:57:16Z",
               "publishedAt": "2026-03-30T21:50:41Z",
