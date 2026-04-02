@@ -166,7 +166,7 @@
   font-size: 24px;
   line-height: 1.2;
   font-weight: 800;
-  color: var(--text);
+  color: var(--cyan-soft);
 }
 
 .tournament-quick-info-list {
@@ -227,10 +227,23 @@
   max-width: 100%;
 }
 
-.tournament-results-panel .list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.tournament-results-panel {
+  padding: 22px;
+  border-color: rgba(79, 210, 255, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(79, 210, 255, 0.08), transparent 30%),
+    linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0)),
+    rgba(3, 9, 13, 0.55);
+}
+
+.tournament-results-panel .section-title {
+  margin-bottom: 12px;
+}
+
+.tournament-results-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
 }
 
 .tournament-results-panel .list li {
@@ -241,35 +254,44 @@
 }
 
 .tournament-result-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 12px;
-  border: 1px solid rgba(79, 210, 255, 0.12);
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid rgba(79, 210, 255, 0.16);
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0)),
-    rgba(0, 0, 0, 0.16);
+    linear-gradient(180deg, rgba(255,255,255,0.035), rgba(255,255,255,0)),
+    rgba(0, 0, 0, 0.18);
+  min-height: 100%;
 }
 
 .tournament-result-place {
   color: var(--cyan-soft);
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
 }
 
 .tournament-result-name {
-  color: var(--text);
-  font-size: 15px;
-  font-weight: 800;
+  font-size: 20px;
   line-height: 1.2;
+  font-weight: 900;
+  color: var(--text);
 }
 
 .tournament-result-note {
   color: var(--muted);
-  font-size: 12px;
-  line-height: 1.3;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.tournament-results-list li:nth-child(1) .tournament-result-item {
+  border-color: rgba(79, 210, 255, 0.30);
+  box-shadow: 0 0 0 1px rgba(79, 210, 255, 0.08) inset;
+}
+
+.tournament-results-list li:nth-child(1) .tournament-result-name {
+  color: var(--cyan-soft);
 }
 
 .tournament-bracket-head {
@@ -588,6 +610,20 @@
   text-transform: uppercase;
 }
 
+.tournament-manual-match-source {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: fit-content;
+  padding: 6px 8px;
+  border: 1px solid rgba(79, 210, 255, 0.12);
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.02);
+}
+
 .tournament-manual-match-players {
   display: grid;
   gap: 8px;
@@ -710,27 +746,59 @@
   background: rgba(255, 255, 255, 0.02);
 }
 
+.tournament-player-flag-pill {
+  gap: 7px;
+}
+
+.tournament-player-flag-image {
+  width: 16px;
+  height: 12px;
+  object-fit: cover;
+  border: 1px solid rgba(79, 210, 255, 0.14);
+  background: rgba(255,255,255,0.04);
+  border-radius: 2px;
+  flex: 0 0 auto;
+}
+
 .tournament-schedule-panel {
-  max-width: 840px;
+  max-width: none;
+}
+
+.tournament-schedule-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.tournament-schedule-list li {
+  display: block;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
 }
 
 .tournament-schedule-item {
   display: grid;
-  gap: 6px;
+  gap: 7px;
+  min-height: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(79, 210, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0)),
+    rgba(0, 0, 0, 0.16);
 }
 
-.tournament-schedule-label {
-  color: var(--muted);
-  font-size: 11px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.tournament-schedule-value {
+.tournament-schedule-title {
   color: var(--text);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.35;
   font-weight: 800;
+}
+
+.tournament-schedule-detail {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
 }
 
 .tournament-switch-grid,
@@ -815,7 +883,8 @@
   .tournament-info-grid,
   .tournament-switch-grid,
   .tournament-archive-grid,
-  .tournament-players-list {
+  .tournament-players-list,
+  .tournament-schedule-list {
     grid-template-columns: 1fr;
   }
 
@@ -833,10 +902,6 @@
 
   .tournament-bracket-actions {
     width: 100%;
-  }
-
-  .tournament-schedule-panel {
-    max-width: none;
   }
 }
 
@@ -863,7 +928,7 @@
   .tournament-organizer-value,
   .tournament-detail-value,
   .tournament-player-name,
-  .tournament-schedule-value,
+  .tournament-schedule-title,
   .tournament-result-name {
     font-size: 15px;
   }
@@ -906,11 +971,7 @@
     white-space: normal;
   }
 
-  .tournament-results-panel .list {
-    gap: 8px;
-  }
-
-  .tournament-result-item {
-    flex-wrap: wrap;
+  .tournament-results-list {
+    grid-template-columns: 1fr;
   }
 }

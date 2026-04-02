@@ -165,9 +165,9 @@
     if (!container) return;
     container.innerHTML = "";
 
-    items.forEach((item) => {
+    items.forEach((item, index) => {
       const li = document.createElement("li");
-      li.innerHTML = renderItem(item);
+      li.innerHTML = renderItem(item, index);
       container.appendChild(li);
     });
   }
@@ -234,6 +234,7 @@
       .map((group, index) => {
         const rawKey = text(group?.key, `group-${index + 1}`).toLowerCase();
         let kind = "standard";
+
         if (rawKey.includes("winner")) kind = "winners";
         else if (rawKey.includes("loser")) kind = "losers";
         else if (rawKey.includes("grand")) kind = "grand-final";
@@ -248,9 +249,56 @@
       .filter((group) => group.rounds.length > 0);
   }
 
+  function formatLongDate(dateString) {
+    if (!dateString) return "";
+    const date = new Date(`${dateString}T00:00:00`);
+    if (Number.isNaN(date.getTime())) return dateString;
+
+    return new Intl.DateTimeFormat("en-GB", {
+      day: "numeric",
+      month: "long",
+      year: "numeric"
+    }).format(date);
+  }
+
+  function formatScheduleText(item, event) {
+    const title = text(item.title || item.label, "Stage");
+    const time = text(item.time, "");
+    const date = text(item.date, "");
+    const timezone = text(item.timezone || event.timezone, "");
+
+    if (time || date || timezone) {
+      const parts = [];
+      if (time) parts.push(time);
+      if (date) parts.push(`on ${formatLongDate(date)}`);
+
+      let detail = parts.join(" ");
+      if (timezone) detail += `${detail ? " " : ""}(${timezone})`;
+
+      return {
+        title,
+        detail: detail || "TBA"
+      };
+    }
+
+    return {
+      title,
+      detail: text(item.value, "TBA")
+    };
+  }
+
   function createManualMatchElement(match, matchIndex) {
     const matchEl = document.createElement("article");
     matchEl.className = "tournament-manual-match";
+
+    if (match.id) matchEl.dataset.matchId = match.id;
+    if (match.slot1From) matchEl.dataset.slot1From = match.slot1From;
+    if (match.slot2From) matchEl.dataset.slot2From = match.slot2From;
+
+    const sourceBits = [match.slot1From, match.slot2From].filter(Boolean);
+    const sourceMarkup = sourceBits.length
+      ? `<div class="tournament-manual-match-source">Feeds from ${sourceBits.map((item) => escapeHtml(item)).join(" / ")}</div>`
+      : "";
 
     const top = document.createElement("div");
     top.className = "tournament-manual-match-top";
@@ -286,8 +334,15 @@
     `;
 
     players.append(player1, player2);
-    matchEl.append(top, players, footer);
+    matchEl.append(top, players);
 
+    if (sourceMarkup) {
+      const sourceWrap = document.createElement("div");
+      sourceWrap.innerHTML = sourceMarkup;
+      matchEl.appendChild(sourceWrap.firstElementChild);
+    }
+
+    matchEl.append(footer);
     return matchEl;
   }
 
@@ -617,6 +672,7 @@
     const results = isArray(event.results);
     const showResults = event.status === "completed" && results.length > 0;
     if (els.resultsSection) els.resultsSection.hidden = !showResults;
+
     if (showResults) {
       renderList(
         els.results,
@@ -635,10 +691,27 @@
 
     const players = isArray(event.players);
     if (els.playersCard) els.playersCard.hidden = !players.length;
+
     if (players.length) {
       renderList(els.players, players, (item) => {
         const metaBits = [];
-        if (item.flag) metaBits.push(`<span class="tournament-player-meta-pill">${escapeHtml(item.flag)}</span>`);
+
+        if (item.flagImage) {
+          metaBits.push(`
+            <span class="tournament-player-meta-pill tournament-player-flag-pill">
+              <img
+                class="tournament-player-flag-image"
+                src="${escapeHtml(item.flagImage)}"
+                alt="${escapeHtml(text(item.flag, "Flag"))}"
+                loading="lazy"
+                decoding="async">
+              <span>${escapeHtml(text(item.flag, ""))}</span>
+            </span>
+          `);
+        } else if (item.flag) {
+          metaBits.push(`<span class="tournament-player-meta-pill">${escapeHtml(item.flag)}</span>`);
+        }
+
         if (item.note) metaBits.push(`<span class="tournament-player-meta-pill">${escapeHtml(item.note)}</span>`);
         if (item.discord) metaBits.push(`<span class="tournament-player-meta-pill">@${escapeHtml(item.discord)}</span>`);
 
@@ -656,6 +729,7 @@
 
     const rules = isArray(event.rules);
     if (els.rulesCard) els.rulesCard.hidden = !rules.length;
+
     if (rules.length) {
       renderList(
         els.rules,
@@ -671,16 +745,20 @@
     const showSchedule = schedule.length > 0;
     if (els.scheduleSection) els.scheduleSection.hidden = !showSchedule;
     if (els.scheduleCard) els.scheduleCard.hidden = !showSchedule;
+
     if (showSchedule) {
       renderList(
         els.schedule,
         schedule,
-        (item) => `
-          <div class="tournament-schedule-item">
-            <span class="tournament-schedule-label">${escapeHtml(text(item.label, "Stage"))}</span>
-            <span class="tournament-schedule-value">${escapeHtml(text(item.value, "TBA"))}</span>
-          </div>
-        `
+        (item) => {
+          const formatted = formatScheduleText(item, event);
+          return `
+            <div class="tournament-schedule-item">
+              <span class="tournament-schedule-title">${escapeHtml(formatted.title)}</span>
+              <span class="tournament-schedule-detail">${escapeHtml(formatted.detail)}</span>
+            </div>
+          `;
+        }
       );
     }
 
