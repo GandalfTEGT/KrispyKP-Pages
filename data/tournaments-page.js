@@ -413,10 +413,11 @@
     else if (group.kind === "grand-final") routeText = "Final meeting of Winners and Losers brackets";
 
     groupHead.innerHTML = `
-      <div class="tournament-manual-group-kicker-row">
-        <div class="section-title">Manual Bracket</div>
-        ${routeText ? `<div class="tournament-manual-route">${escapeHtml(routeText)}</div>` : ""}
-      </div>
+      ${routeText ? `
+        <div class="tournament-manual-group-kicker-row">
+          <div class="tournament-manual-route">${escapeHtml(routeText)}</div>
+        </div>
+      ` : ""}
       <div class="tournament-manual-group-title-row">
         <div class="tournament-manual-group-title">${escapeHtml(text(group.title, "Bracket"))}</div>
         <div class="tournament-manual-group-badge">${escapeHtml(
@@ -593,6 +594,13 @@
 
         const sourceGroup = sourceEl.closest(".tournament-manual-group");
         if (!sourceGroup || sourceGroup === targetGroup) return;
+
+        const sourceKind = sourceGroup.dataset.groupKind || "";
+        const targetKind = targetGroup.dataset.groupKind || "";
+
+        // Skip cross-group lines from Winners Bracket into Losers Bracket.
+        // Keep all other cross-group lines, especially into Grand Final.
+        if (sourceKind === "winners" && targetKind === "losers") return;
 
         const sourceRect = getElementRectRelativeToStage(sourceEl, stageEl);
         const targetRect = getElementRectRelativeToStage(targetEl, stageEl);
