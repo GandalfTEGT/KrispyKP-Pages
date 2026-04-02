@@ -102,7 +102,18 @@
             <div class="tournament-overview-grid">
               <article class="frame feature tournament-details-card">
                 <div class="section-title">Event Details</div>
-                <p id="tournamentDescription" class="tournament-description" hidden></p>
+
+                <div class="tournament-details-top">
+                  <div class="tournament-details-main">
+                    <p id="tournamentDescription" class="tournament-description" hidden></p>
+                  </div>
+
+                  <aside id="tournamentOrganizerPanel" class="tournament-organizer-panel" hidden>
+                    <div class="tournament-organizer-label">Organised By</div>
+                    <div id="tournamentOrganizerValue" class="tournament-organizer-value"></div>
+                  </aside>
+                </div>
+
                 <ul id="tournamentQuickInfo" class="tournament-quick-info-list"></ul>
               </article>
             </div>
@@ -136,12 +147,12 @@
             <div class="tournament-info-grid">
               <div id="tournamentScheduleCard" class="frame feature tournament-info-panel" hidden>
                 <div class="section-title">Schedule</div>
-                <ul id="tournamentSchedule" class="list"></ul>
+                <ul id="tournamentSchedule" class="list tournament-schedule-list"></ul>
               </div>
 
               <div id="tournamentPlayersCard" class="frame feature tournament-info-panel" hidden>
                 <div class="section-title">Players</div>
-                <ul id="tournamentPlayers" class="list"></ul>
+                <ul id="tournamentPlayers" class="list tournament-players-list"></ul>
               </div>
 
               <div id="tournamentRulesCard" class="frame feature tournament-info-panel" hidden>
@@ -159,7 +170,7 @@
           <section id="tournamentResultsSection" class="section tournament-section-tight tournament-results-section" hidden>
             <div class="frame feature tournament-results-panel">
               <div class="section-title">Results</div>
-              <ul id="tournamentResults" class="list"></ul>
+              <ul id="tournamentResults" class="list tournament-results-list"></ul>
             </div>
           </section>
 
