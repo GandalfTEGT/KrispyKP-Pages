@@ -120,6 +120,16 @@
     });
   }
 
+  function scrollPageTop() {
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    });
+  }
+
   function createMetaPill(label, status = "") {
     const el = document.createElement("div");
     el.className = `status-pill${status ? ` is-${status}` : ""}`;
@@ -178,17 +188,10 @@
   function resetBracketArea() {
     if (els.bracketSection) els.bracketSection.hidden = true;
 
-    if (els.bracketActions) {
-      els.bracketActions.innerHTML = "";
-    }
+    if (els.bracketActions) els.bracketActions.innerHTML = "";
 
-    if (els.bracketEmbedWrap) {
-      els.bracketEmbedWrap.hidden = true;
-    }
-
-    if (els.bracketEmbed) {
-      els.bracketEmbed.removeAttribute("src");
-    }
+    if (els.bracketEmbedWrap) els.bracketEmbedWrap.hidden = true;
+    if (els.bracketEmbed) els.bracketEmbed.removeAttribute("src");
 
     if (els.manualBracketWrap) {
       els.manualBracketWrap.hidden = true;
@@ -201,6 +204,20 @@
       els.bracketFallback.textContent = "";
       els.bracketFallback.innerHTML = "";
     }
+  }
+
+  function resetDataAreas() {
+    if (els.schedule) els.schedule.innerHTML = "";
+    if (els.players) els.players.innerHTML = "";
+    if (els.rules) els.rules.innerHTML = "";
+    if (els.featuredMatches) els.featuredMatches.innerHTML = "";
+    if (els.results) els.results.innerHTML = "";
+
+    if (els.scheduleCard) els.scheduleCard.hidden = true;
+    if (els.playersCard) els.playersCard.hidden = true;
+    if (els.rulesCard) els.rulesCard.hidden = true;
+    if (els.featuredMatchesCard) els.featuredMatchesCard.hidden = true;
+    if (els.resultsSection) els.resultsSection.hidden = true;
   }
 
   function getManualBracketGroups(event) {
@@ -342,6 +359,7 @@
       return;
     }
 
+    els.manualBracketWrap.innerHTML = "";
     els.manualBracketWrap.hidden = false;
     els.manualBracketWrap.classList.add("is-scrollable");
 
@@ -362,13 +380,8 @@
       return;
     }
 
-    if (els.bracketSection) {
-      els.bracketSection.hidden = false;
-    }
-
-    if (els.bracketTitle) {
-      els.bracketTitle.textContent = text(event.bracketTitle, "Bracket");
-    }
+    if (els.bracketSection) els.bracketSection.hidden = false;
+    if (els.bracketTitle) els.bracketTitle.textContent = text(event.bracketTitle, "Bracket");
 
     const openBracket = createActionLink("Open Bracket", event.bracketUrl || event.bracketEmbedUrl, true);
     if (openBracket && els.bracketActions) {
@@ -491,7 +504,7 @@
         () => {
           currentEventId = event.id;
           renderPage();
-          window.scrollTo({ top: 0, behavior: "smooth" });
+          scrollPageTop();
         },
         true
       )
@@ -550,13 +563,12 @@
       return;
     }
 
+    resetDataAreas();
+
     if (els.emptyState) els.emptyState.hidden = true;
     if (els.content) els.content.hidden = false;
 
-    if (els.title) {
-      els.title.textContent = text(event.title, "Tournament");
-    }
-
+    if (els.title) els.title.textContent = text(event.title, "Tournament");
     if (els.subtitle) {
       els.subtitle.textContent = text(event.subtitle || event.description, "Event information and coverage.");
     }
@@ -565,7 +577,6 @@
 
     if (els.heroMeta) {
       els.heroMeta.innerHTML = "";
-
       els.heroMeta.appendChild(createMetaPill(createStatusLabel(text(event.status, "upcoming")), text(event.status, "upcoming")));
 
       if (event.game) els.heroMeta.appendChild(createMetaPill(event.game));
@@ -622,7 +633,7 @@
               ${item.seed != null && item.seed !== "" ? `<span class="tournament-player-seed">#${escapeHtml(item.seed)}</span>` : ""}
               <span class="tournament-player-name">${escapeHtml(text(item.name, "Unnamed Player"))}</span>
             </div>
-            <div class="tournament-player-meta">${metaBits.join("")}</div>
+            ${metaBits.length ? `<div class="tournament-player-meta">${metaBits.join("")}</div>` : ""}
           </div>
         `;
       });
@@ -668,6 +679,9 @@
   }
 
   function renderEmptyState() {
+    resetDataAreas();
+    resetBracketArea();
+
     if (els.emptyState) els.emptyState.hidden = false;
     if (els.content) els.content.hidden = true;
 
@@ -690,10 +704,7 @@
       els.heroBackdrop.style.removeProperty("background-image");
     }
 
-    if (els.organizerPanel) {
-      els.organizerPanel.hidden = true;
-    }
-
+    if (els.organizerPanel) els.organizerPanel.hidden = true;
     if (els.switcherSection) els.switcherSection.hidden = true;
     if (els.archiveCardsSection) els.archiveCardsSection.hidden = true;
   }
