@@ -120,13 +120,21 @@
     });
   }
 
-  function scrollPageTop() {
-    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+  function jumpToTop() {
+    window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
+  }
+
+  function selectEvent(eventId) {
+    currentEventId = eventId;
+    jumpToTop();
 
     requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+      renderPage();
+      requestAnimationFrame(() => {
+        jumpToTop();
+      });
     });
   }
 
@@ -187,7 +195,6 @@
 
   function resetBracketArea() {
     if (els.bracketSection) els.bracketSection.hidden = true;
-
     if (els.bracketActions) els.bracketActions.innerHTML = "";
 
     if (els.bracketEmbedWrap) els.bracketEmbedWrap.hidden = true;
@@ -220,42 +227,49 @@
     if (els.resultsSection) els.resultsSection.hidden = true;
   }
 
-function getManualBracketGroups(event) {
-  const groups = [];
+  function resetSwitchers() {
+    if (els.switcherGrid) els.switcherGrid.innerHTML = "";
+    if (els.archiveCardsGrid) els.archiveCardsGrid.innerHTML = "";
+    if (els.switcherSection) els.switcherSection.hidden = true;
+    if (els.archiveCardsSection) els.archiveCardsSection.hidden = true;
+  }
 
-  if (isArray(event.manualBracketGroups) && event.manualBracketGroups.length) {
-    event.manualBracketGroups.forEach((group, index) => {
-      const rounds = isArray(group?.rounds);
-      if (!rounds.length) return;
+  function getManualBracketGroups(event) {
+    const groups = [];
 
-      const rawKey = text(group.key, `group-${index + 1}`).toLowerCase();
-      let kind = "standard";
+    if (isArray(event.manualBracketGroups) && event.manualBracketGroups.length) {
+      event.manualBracketGroups.forEach((group, index) => {
+        const rounds = isArray(group?.rounds);
+        if (!rounds.length) return;
 
-      if (rawKey.includes("winner")) kind = "winners";
-      else if (rawKey.includes("loser")) kind = "losers";
-      else if (rawKey.includes("grand")) kind = "grand-final";
+        const rawKey = text(group.key, `group-${index + 1}`).toLowerCase();
+        let kind = "standard";
 
-      groups.push({
-        key: rawKey,
-        kind,
-        title: text(group.title, `Bracket ${index + 1}`),
-        rounds
+        if (rawKey.includes("winner")) kind = "winners";
+        else if (rawKey.includes("loser")) kind = "losers";
+        else if (rawKey.includes("grand")) kind = "grand-final";
+
+        groups.push({
+          key: rawKey,
+          kind,
+          title: text(group.title, `Bracket ${index + 1}`),
+          rounds
+        });
       });
-    });
-  }
+    }
 
-  const legacyRounds = isArray(event.manualBracket?.rounds);
-  if (!groups.length && legacyRounds.length) {
-    groups.push({
-      key: "main",
-      kind: "standard",
-      title: text(event.bracketTitle, "Bracket"),
-      rounds: legacyRounds
-    });
-  }
+    const legacyRounds = isArray(event.manualBracket?.rounds);
+    if (!groups.length && legacyRounds.length) {
+      groups.push({
+        key: "main",
+        kind: "standard",
+        title: text(event.bracketTitle, "Bracket"),
+        rounds: legacyRounds
+      });
+    }
 
-  return groups;
-}
+    return groups;
+  }
 
   function createManualMatchElement(match, matchIndex) {
     const matchEl = document.createElement("article");
@@ -300,84 +314,80 @@ function getManualBracketGroups(event) {
     return matchEl;
   }
 
-function createManualBracketGroup(group) {
-  const groupEl = document.createElement("section");
-  groupEl.className = `tournament-manual-group is-${group.kind}`;
+  function createManualBracketGroup(group) {
+    const groupEl = document.createElement("section");
+    groupEl.className = `tournament-manual-group is-${group.kind}`;
 
-  const groupHead = document.createElement("div");
-  groupHead.className = "tournament-manual-group-head";
+    const groupHead = document.createElement("div");
+    groupHead.className = "tournament-manual-group-head";
 
-  let routeText = "";
-  if (group.kind === "winners") {
-    routeText = "Feeds winner into Grand Final";
-  } else if (group.kind === "losers") {
-    routeText = "Feeds survivor into Grand Final";
-  } else if (group.kind === "grand-final") {
-    routeText = "Final meeting of Winners and Losers brackets";
+    let routeText = "";
+    if (group.kind === "winners") routeText = "Feeds winner into Grand Final";
+    else if (group.kind === "losers") routeText = "Feeds survivor into Grand Final";
+    else if (group.kind === "grand-final") routeText = "Final meeting of Winners and Losers brackets";
+
+    groupHead.innerHTML = `
+      <div class="tournament-manual-group-kicker-row">
+        <div class="section-title">Manual Bracket</div>
+        ${routeText ? `<div class="tournament-manual-route">${escapeHtml(routeText)}</div>` : ""}
+      </div>
+      <div class="tournament-manual-group-title-row">
+        <div class="tournament-manual-group-title">${escapeHtml(text(group.title, "Bracket"))}</div>
+        <div class="tournament-manual-group-badge">${escapeHtml(
+          group.kind === "winners"
+            ? "Upper"
+            : group.kind === "losers"
+            ? "Lower"
+            : group.kind === "grand-final"
+            ? "Final"
+            : "Bracket"
+        )}</div>
+      </div>
+    `;
+
+    const bracketEl = document.createElement("div");
+    bracketEl.className = "tournament-manual-bracket";
+
+    group.rounds.forEach((round, roundIndex) => {
+      const roundEl = document.createElement("section");
+      roundEl.className = "tournament-manual-round";
+
+      const roundHead = document.createElement("div");
+      roundHead.className = "tournament-manual-round-head";
+
+      const roundTitle = document.createElement("div");
+      roundTitle.className = "tournament-manual-round-title";
+      roundTitle.textContent = text(round.title, `Round ${roundIndex + 1}`);
+
+      const matches = isArray(round.matches);
+
+      const roundCount = document.createElement("div");
+      roundCount.className = "tournament-manual-round-count";
+      roundCount.textContent = `${matches.length} match${matches.length === 1 ? "" : "es"}`;
+
+      roundHead.append(roundTitle, roundCount);
+
+      const matchesWrap = document.createElement("div");
+      matchesWrap.className = "tournament-manual-matches";
+
+      if (!matches.length) {
+        const empty = document.createElement("div");
+        empty.className = "notice";
+        empty.textContent = "No matches added for this round yet.";
+        matchesWrap.appendChild(empty);
+      } else {
+        matches.forEach((match, matchIndex) => {
+          matchesWrap.appendChild(createManualMatchElement(match, matchIndex));
+        });
+      }
+
+      roundEl.append(roundHead, matchesWrap);
+      bracketEl.appendChild(roundEl);
+    });
+
+    groupEl.append(groupHead, bracketEl);
+    return groupEl;
   }
-
-  groupHead.innerHTML = `
-    <div class="tournament-manual-group-kicker-row">
-      <div class="section-title">Manual Bracket</div>
-      ${routeText ? `<div class="tournament-manual-route">${escapeHtml(routeText)}</div>` : ""}
-    </div>
-    <div class="tournament-manual-group-title-row">
-      <div class="tournament-manual-group-title">${escapeHtml(text(group.title, "Bracket"))}</div>
-      <div class="tournament-manual-group-badge">${escapeHtml(
-        group.kind === "winners"
-          ? "Upper"
-          : group.kind === "losers"
-          ? "Lower"
-          : group.kind === "grand-final"
-          ? "Final"
-          : "Bracket"
-      )}</div>
-    </div>
-  `;
-
-  const bracketEl = document.createElement("div");
-  bracketEl.className = "tournament-manual-bracket";
-
-  group.rounds.forEach((round, roundIndex) => {
-    const roundEl = document.createElement("section");
-    roundEl.className = "tournament-manual-round";
-
-    const roundHead = document.createElement("div");
-    roundHead.className = "tournament-manual-round-head";
-
-    const roundTitle = document.createElement("div");
-    roundTitle.className = "tournament-manual-round-title";
-    roundTitle.textContent = text(round.title, `Round ${roundIndex + 1}`);
-
-    const matches = isArray(round.matches);
-
-    const roundCount = document.createElement("div");
-    roundCount.className = "tournament-manual-round-count";
-    roundCount.textContent = `${matches.length} match${matches.length === 1 ? "" : "es"}`;
-
-    roundHead.append(roundTitle, roundCount);
-
-    const matchesWrap = document.createElement("div");
-    matchesWrap.className = "tournament-manual-matches";
-
-    if (!matches.length) {
-      const empty = document.createElement("div");
-      empty.className = "notice";
-      empty.textContent = "No matches added for this round yet.";
-      matchesWrap.appendChild(empty);
-    } else {
-      matches.forEach((match, matchIndex) => {
-        matchesWrap.appendChild(createManualMatchElement(match, matchIndex));
-      });
-    }
-
-    roundEl.append(roundHead, matchesWrap);
-    bracketEl.appendChild(roundEl);
-  });
-
-  groupEl.append(groupHead, bracketEl);
-  return groupEl;
-}
 
   function renderManualBracket(event) {
     if (!els.manualBracketWrap) return;
@@ -422,36 +432,37 @@ function createManualBracketGroup(group) {
     }
 
     if (mode === "embed" && hasEmbed) {
-      els.bracketEmbedWrap.hidden = false;
-      els.bracketEmbed.src = event.bracketEmbedUrl;
+      if (els.bracketEmbedWrap) els.bracketEmbedWrap.hidden = false;
+      if (els.bracketEmbed) els.bracketEmbed.src = event.bracketEmbedUrl;
       return;
     }
 
-    if (mode === "manual") {
+    if (mode === "manual" || hasManual) {
       renderManualBracket(event);
       return;
     }
 
     if (mode === "link" && hasLink) {
-      els.bracketFallback.hidden = false;
-      els.bracketFallback.textContent = "This event uses an external bracket page. Use the button above to open it.";
+      if (els.bracketFallback) {
+        els.bracketFallback.hidden = false;
+        els.bracketFallback.textContent = "This event uses an external bracket page. Use the button above to open it.";
+      }
       return;
     }
 
     if (mode === "embed" && !hasEmbed && hasLink) {
+      if (els.bracketFallback) {
+        els.bracketFallback.hidden = false;
+        els.bracketFallback.textContent =
+          "An embedded bracket has not been configured for this event yet. Use the button above to open the bracket externally.";
+      }
+      return;
+    }
+
+    if (els.bracketFallback) {
       els.bracketFallback.hidden = false;
-      els.bracketFallback.textContent =
-        "An embedded bracket has not been configured for this event yet. Use the button above to open the bracket externally.";
-      return;
+      els.bracketFallback.textContent = "Bracket information is not currently available for this event.";
     }
-
-    if (hasManual) {
-      renderManualBracket(event);
-      return;
-    }
-
-    els.bracketFallback.hidden = false;
-    els.bracketFallback.textContent = "Bracket information is not currently available for this event.";
   }
 
   function renderQuickInfo(event) {
@@ -535,9 +546,7 @@ function createManualBracketGroup(group) {
       createLocalActionButton(
         "View Event",
         () => {
-          currentEventId = event.id;
-          renderPage();
-          scrollPageTop();
+          selectEvent(event.id);
         },
         true
       )
@@ -553,39 +562,37 @@ function createManualBracketGroup(group) {
   }
 
   function renderSwitchers(featuredEvent) {
+    resetSwitchers();
+
     const otherActive = getOtherActiveEvents(featuredEvent);
     const completed = getCompletedEvents(featuredEvent);
 
     if (els.switcherSection && els.switcherGrid) {
-      els.switcherGrid.innerHTML = "";
-
       if (otherActive.length) {
         els.switcherSection.hidden = false;
-        els.switcherTitle.textContent =
-          otherActive.length === 1 ? "Other Active / Upcoming Event" : "Other Active / Upcoming Events";
+        if (els.switcherTitle) {
+          els.switcherTitle.textContent =
+            otherActive.length === 1 ? "Other Active / Upcoming Event" : "Other Active / Upcoming Events";
+        }
 
         otherActive.forEach((event) => {
           els.switcherGrid.appendChild(
             renderSwitcherCard(event, event.status === "live" ? "Live Event" : "Upcoming Event", "active")
           );
         });
-      } else {
-        els.switcherSection.hidden = true;
       }
     }
 
     if (els.archiveCardsSection && els.archiveCardsGrid) {
-      els.archiveCardsGrid.innerHTML = "";
-
       if (completed.length) {
         els.archiveCardsSection.hidden = false;
-        els.archiveCardsTitle.textContent = completed.length === 1 ? "Past Event" : "Past Events";
+        if (els.archiveCardsTitle) {
+          els.archiveCardsTitle.textContent = completed.length === 1 ? "Past Event" : "Past Events";
+        }
 
         completed.forEach((event) => {
           els.archiveCardsGrid.appendChild(renderSwitcherCard(event, "Completed Event", "archive"));
         });
-      } else {
-        els.archiveCardsSection.hidden = true;
       }
     }
   }
@@ -597,6 +604,8 @@ function createManualBracketGroup(group) {
     }
 
     resetDataAreas();
+    resetBracketArea();
+    resetSwitchers();
 
     if (els.emptyState) els.emptyState.hidden = true;
     if (els.content) els.content.hidden = false;
@@ -688,32 +697,29 @@ function createManualBracketGroup(group) {
     const featuredMatches = isArray(event.featuredMatches);
     if (els.featuredMatchesCard) els.featuredMatchesCard.hidden = !featuredMatches.length;
     if (featuredMatches.length) {
-      renderList(els.featuredMatches, featuredMatches, (item) => {
-        return `
-          <span>${escapeHtml(text(item.title || item.players, "Match"))}</span>
-          <span class="muted">${escapeHtml(text(item.time || item.players, ""))}</span>
-        `;
-      });
+      renderList(els.featuredMatches, featuredMatches, (item) => `
+        <span>${escapeHtml(text(item.title || item.players, "Match"))}</span>
+        <span class="muted">${escapeHtml(text(item.time || item.players, ""))}</span>
+      `);
     }
 
     const results = isArray(event.results);
     if (els.resultsSection) els.resultsSection.hidden = !results.length;
     if (results.length) {
-      renderList(els.results, results, (item) => {
-        return `
-          <div class="tournament-result-item">
-            <span class="tournament-result-place">${escapeHtml(text(item.place, "-"))}</span>
-            <span class="tournament-result-name">${escapeHtml(text(item.name, "TBD"))}</span>
-            ${item.note ? `<span class="tournament-result-note">${escapeHtml(item.note)}</span>` : ""}
-          </div>
-        `;
-      });
+      renderList(els.results, results, (item) => `
+        <div class="tournament-result-item">
+          <span class="tournament-result-place">${escapeHtml(text(item.place, "-"))}</span>
+          <span class="tournament-result-name">${escapeHtml(text(item.name, "TBD"))}</span>
+          ${item.note ? `<span class="tournament-result-note">${escapeHtml(item.note)}</span>` : ""}
+        </div>
+      `);
     }
   }
 
   function renderEmptyState() {
     resetDataAreas();
     resetBracketArea();
+    resetSwitchers();
 
     if (els.emptyState) els.emptyState.hidden = false;
     if (els.content) els.content.hidden = true;
@@ -738,8 +744,6 @@ function createManualBracketGroup(group) {
     }
 
     if (els.organizerPanel) els.organizerPanel.hidden = true;
-    if (els.switcherSection) els.switcherSection.hidden = true;
-    if (els.archiveCardsSection) els.archiveCardsSection.hidden = true;
   }
 
   function renderPage() {
