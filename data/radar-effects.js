@@ -6,10 +6,13 @@
 
   const SWEEP_DURATION_MS = 4200;
   const BLIP_COUNT = 18;
-  const TRIGGER_WINDOW_DEG = 9;
-  const REARM_WINDOW_DEG = 18;
   const TRIGGER_CHANCE = 0.72;
-  const SWEEP_HEAD_OFFSET_DEG = 150;
+
+  /*
+    This is the angle of the BRIGHTEST PART of the sweep relative to the
+    raw rotation. Tweak this for calibration.
+  */
+  const SWEEP_BRIGHT_CENTER_OFFSET_DEG = 154;
 
   const blips = [];
   const startTime = performance.now();
@@ -18,19 +21,25 @@
     return ((deg % 360) + 360) % 360;
   }
 
-  function angleDelta(a, b) {
-    const diff = Math.abs(normalizeAngle(a) - normalizeAngle(b));
-    return Math.min(diff, 360 - diff);
+  function shortestSignedAngle(from, to) {
+    const a = normalizeAngle(from);
+    const b = normalizeAngle(to);
+    let diff = b - a;
+
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+
+    return diff;
   }
 
   function getSweepAngle(now) {
     const elapsed = now - startTime;
     const progress = (elapsed % SWEEP_DURATION_MS) / SWEEP_DURATION_MS;
-    return normalizeAngle((progress * 360) + SWEEP_HEAD_OFFSET_DEG);
+    return normalizeAngle((progress * 360) + SWEEP_BRIGHT_CENTER_OFFSET_DEG);
   }
 
   function setSweepRotation(angle) {
-    sweepLayer.style.transform = `rotate(${angle - SWEEP_HEAD_OFFSET_DEG}deg)`;
+    sweepLayer.style.transform = `rotate(${angle - SWEEP_BRIGHT_CENTER_OFFSET_DEG}deg)`;
   }
 
   function createBlip() {
@@ -51,12 +60,14 @@
     const dx = x - 50;
     const dy = y - 50;
 
+    // 0deg = up, clockwise positive
     const angle = normalizeAngle((Math.atan2(dy, dx) * 180 / Math.PI) + 90);
 
     blips.push({
       el,
       angle,
-      armed: true
+      armed: true,
+      lastDiff: null
     });
   }
 
@@ -68,22 +79,33 @@
 
   function tick(now) {
     const sweepAngle = getSweepAngle(now);
-
     setSweepRotation(sweepAngle);
 
     for (const blip of blips) {
-      const delta = angleDelta(sweepAngle, blip.angle);
+      const diff = shortestSignedAngle(sweepAngle, blip.angle);
 
-      if (blip.armed && delta <= TRIGGER_WINDOW_DEG) {
-        if (Math.random() <= TRIGGER_CHANCE) {
-          activateBlip(blip);
+      if (blip.lastDiff !== null) {
+        const crossed =
+          (blip.lastDiff > 0 && diff <= 0) ||
+          (blip.lastDiff < 0 && diff >= 0);
+
+        if (blip.armed && crossed) {
+          if (Math.random() <= TRIGGER_CHANCE) {
+            activateBlip(blip);
+          }
+          blip.armed = false;
         }
-        blip.armed = false;
+
+        /*
+          Rearm once the sweep has moved well away from the blip again.
+          This prevents repeated firing while the sweep is near the same angle.
+        */
+        if (!blip.armed && Math.abs(diff) > 20) {
+          blip.armed = true;
+        }
       }
 
-      if (!blip.armed && delta >= REARM_WINDOW_DEG) {
-        blip.armed = true;
-      }
+      blip.lastDiff = diff;
     }
 
     requestAnimationFrame(tick);
