@@ -70,7 +70,7 @@ END OF GUIDE
           <line x1="64" y1="0" x2="0" y2="48" stroke="#ffffff" stroke-width="6"/>
         </svg>
       `),
-      
+
       england: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
           <rect width="64" height="48" fill="#ffffff"/>
@@ -109,8 +109,21 @@ END OF GUIDE
           <rect width="64" height="48" fill="#ffffff"/>
           <rect width="16" height="48" x="0" fill="#d80621"/>
           <rect width="16" height="48" x="48" fill="#d80621"/>
-          <path fill="#d80621" d="M32 8l2 5 5-2-2 5 5 1-5 2 3 4-5-1 1 6h-4l1-6-5 1 3-4-5-2 5-1-2-5 5 2z"/>
-          <rect x="30.5" y="24" width="3" height="10" fill="#d80621"/>
+
+          <!-- improved maple leaf -->
+          <g transform="translate(32,24)">
+            <path fill="#d80621" d="
+              M0 -12
+              L2 -6 L7 -8 L5 -3
+              L10 -2 L5 1 L7 6
+              L2 4 L0 10
+              L-2 4 L-7 6
+              L-5 1 L-10 -2
+              L-5 -3 L-7 -8
+              L-2 -6 Z
+            "/>
+            <rect x="-1.2" y="10" width="2.4" height="8" fill="#d80621"/>
+          </g>
         </svg>
       `),
 
@@ -142,6 +155,14 @@ END OF GUIDE
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 48">
           <rect width="64" height="48" fill="#c60b1e"/>
           <rect y="12" width="64" height="24" fill="#ffc400"/>
+
+          <!-- simplified coat of arms -->
+          <g transform="translate(18,14)">
+            <rect width="10" height="14" rx="1.5" fill="#c60b1e" stroke="#8c0a15" stroke-width="1"/>
+            <rect x="2" y="3" width="6" height="4" fill="#ffc400"/>
+            <rect x="3" y="8" width="4" height="4" fill="#ffc400"/>
+            <circle cx="5" cy="-2" r="2" fill="#ffc400" stroke="#8c0a15" stroke-width="0.8"/>
+          </g>
         </svg>
       `),
 
