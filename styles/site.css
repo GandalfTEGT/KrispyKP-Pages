@@ -102,7 +102,6 @@ textarea {
       rgba(79, 210, 255, 0.00) 68%);
 }
 
-.radar-sweep,
 .radar-grid,
 .radar-blips,
 .radar-vignette {
@@ -112,14 +111,10 @@ textarea {
 }
 
 .radar-sweep {
-  z-index: 0;
-  overflow: hidden;
-}
-
-.radar-sweep::before {
-  content: "";
-  position: absolute;
+  position: fixed;
   inset: -90vmax;
+  z-index: 0;
+  pointer-events: none;
   border-radius: 50%;
   opacity: 0.92;
   mix-blend-mode: screen;
