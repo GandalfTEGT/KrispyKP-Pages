@@ -372,9 +372,35 @@
     return matchEl;
   }
 
+  function sanitizeGroupKey(value) {
+    return String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+  }
+
+  function getElementRectRelativeToStage(element, stage) {
+    const elementRect = element.getBoundingClientRect();
+    const stageRect = stage.getBoundingClientRect();
+
+    return {
+      left: elementRect.left - stageRect.left,
+      right: elementRect.right - stageRect.left,
+      top: elementRect.top - stageRect.top,
+      bottom: elementRect.bottom - stageRect.top,
+      width: elementRect.width,
+      height: elementRect.height
+    };
+  }
+
+  function isDesktopBracketLayout() {
+    return !window.matchMedia("(max-width: 980px)").matches;
+  }
+
   function createManualBracketGroup(group) {
     const groupEl = document.createElement("section");
-    groupEl.className = `tournament-manual-group is-${group.kind}`;
+    const groupKeyClass = sanitizeGroupKey(group.key);
+    groupEl.className = `tournament-manual-group is-${group.kind} group-key-${groupKeyClass}`;
     groupEl.dataset.groupKind = group.kind;
     groupEl.dataset.groupKey = group.key;
 
@@ -458,10 +484,9 @@
   }
 
   function drawGroupConnectors(groupEl) {
-    const surface = groupEl.querySelector(".tournament-manual-group-surface");
     const bracketEl = groupEl.querySelector(".tournament-manual-bracket");
     const svg = groupEl.querySelector(".tournament-manual-connector-svg");
-    if (!surface || !bracketEl || !svg) return;
+    if (!bracketEl || !svg) return;
 
     const matchEls = Array.from(groupEl.querySelectorAll(".tournament-manual-match[data-match-id]"));
     const matchMap = new Map();
@@ -478,7 +503,7 @@
     svg.setAttribute("viewBox", `0 0 ${Math.ceil(bracketEl.scrollWidth)} ${Math.ceil(bracketEl.scrollHeight)}`);
 
     const color = getGroupConnectorColor(groupEl.dataset.groupKind || "standard");
-    const paths = [];
+    const nodes = [];
 
     matchEls.forEach((targetEl) => {
       const sources = [targetEl.dataset.slot1From, targetEl.dataset.slot2From].filter(Boolean);
@@ -497,14 +522,14 @@
         const y1 = sourceRect.top + sourceRect.height / 2;
         const x4 = targetRect.left;
         const y4 = targetRect.top + targetRect.height / 2;
-        const midX = x1 + Math.max(20, (x4 - x1) * 0.5);
+        const midX = x1 + Math.max(24, (x4 - x1) * 0.5);
 
         const path = createSvg("path");
         path.setAttribute("class", "tournament-manual-connector-path");
         path.setAttribute("d", `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y4}, ${x4} ${y4}`);
         path.setAttribute("stroke", color);
         path.setAttribute("fill", "none");
-        paths.push(path);
+        nodes.push(path);
 
         const sourceDot = createSvg("circle");
         sourceDot.setAttribute("class", "tournament-manual-connector-node");
@@ -512,7 +537,7 @@
         sourceDot.setAttribute("cy", String(y1));
         sourceDot.setAttribute("r", "3");
         sourceDot.setAttribute("fill", color);
-        paths.push(sourceDot);
+        nodes.push(sourceDot);
 
         const targetDot = createSvg("circle");
         targetDot.setAttribute("class", "tournament-manual-connector-node");
@@ -520,19 +545,102 @@
         targetDot.setAttribute("cy", String(y4));
         targetDot.setAttribute("r", "3");
         targetDot.setAttribute("fill", color);
-        paths.push(targetDot);
+        nodes.push(targetDot);
       });
     });
 
-    paths.forEach((node) => svg.appendChild(node));
+    nodes.forEach((node) => svg.appendChild(node));
+  }
+
+  function drawStageConnectors(stageEl) {
+    const stageSvg = stageEl.querySelector(".tournament-manual-stage-svg");
+    if (!stageSvg) return;
+
+    while (stageSvg.firstChild) stageSvg.removeChild(stageSvg.firstChild);
+
+    if (!isDesktopBracketLayout()) {
+      stageSvg.setAttribute("width", "0");
+      stageSvg.setAttribute("height", "0");
+      stageSvg.setAttribute("viewBox", "0 0 0 0");
+      return;
+    }
+
+    const matchEls = Array.from(stageEl.querySelectorAll(".tournament-manual-match[data-match-id]"));
+    const matchMap = new Map();
+
+    matchEls.forEach((matchEl) => {
+      matchMap.set(matchEl.dataset.matchId, matchEl);
+    });
+
+    const width = Math.ceil(stageEl.scrollWidth || stageEl.getBoundingClientRect().width);
+    const height = Math.ceil(stageEl.scrollHeight || stageEl.getBoundingClientRect().height);
+
+    stageSvg.setAttribute("width", String(width));
+    stageSvg.setAttribute("height", String(height));
+    stageSvg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+    const nodes = [];
+
+    matchEls.forEach((targetEl) => {
+      const targetGroup = targetEl.closest(".tournament-manual-group");
+      if (!targetGroup) return;
+
+      const sources = [targetEl.dataset.slot1From, targetEl.dataset.slot2From].filter(Boolean);
+
+      sources.forEach((sourceId) => {
+        const sourceEl = matchMap.get(sourceId);
+        if (!sourceEl) return;
+
+        const sourceGroup = sourceEl.closest(".tournament-manual-group");
+        if (!sourceGroup || sourceGroup === targetGroup) return;
+
+        const sourceRect = getElementRectRelativeToStage(sourceEl, stageEl);
+        const targetRect = getElementRectRelativeToStage(targetEl, stageEl);
+
+        const x1 = sourceRect.right;
+        const y1 = sourceRect.top + sourceRect.height / 2;
+        const x4 = targetRect.left;
+        const y4 = targetRect.top + targetRect.height / 2;
+        const midX = x1 + Math.max(36, (x4 - x1) * 0.5);
+
+        const path = createSvg("path");
+        path.setAttribute("class", "tournament-manual-stage-path");
+        path.setAttribute("d", `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y4}, ${x4} ${y4}`);
+        path.setAttribute("stroke", "rgba(79, 210, 255, 0.78)");
+        path.setAttribute("fill", "none");
+        nodes.push(path);
+
+        const sourceDot = createSvg("circle");
+        sourceDot.setAttribute("class", "tournament-manual-stage-node");
+        sourceDot.setAttribute("cx", String(x1));
+        sourceDot.setAttribute("cy", String(y1));
+        sourceDot.setAttribute("r", "3.5");
+        sourceDot.setAttribute("fill", "rgba(79, 210, 255, 0.88)");
+        nodes.push(sourceDot);
+
+        const targetDot = createSvg("circle");
+        targetDot.setAttribute("class", "tournament-manual-stage-node");
+        targetDot.setAttribute("cx", String(x4));
+        targetDot.setAttribute("cy", String(y4));
+        targetDot.setAttribute("r", "3.5");
+        targetDot.setAttribute("fill", "rgba(79, 210, 255, 0.88)");
+        nodes.push(targetDot);
+      });
+    });
+
+    nodes.forEach((node) => stageSvg.appendChild(node));
   }
 
   function scheduleConnectorDraw() {
     cancelAnimationFrame(bracketResizeRaf);
     bracketResizeRaf = requestAnimationFrame(() => {
       if (!els.manualBracketWrap || els.manualBracketWrap.hidden) return;
+
       const groups = els.manualBracketWrap.querySelectorAll(".tournament-manual-group");
       groups.forEach((groupEl) => drawGroupConnectors(groupEl));
+
+      const stage = els.manualBracketWrap.querySelector(".tournament-manual-stage");
+      if (stage) drawStageConnectors(stage);
     });
   }
 
@@ -553,10 +661,27 @@
     els.manualBracketWrap.hidden = false;
     els.manualBracketWrap.classList.add("is-scrollable");
 
+    const hasWinners = groups.some((group) => group.kind === "winners");
+    const hasLosers = groups.some((group) => group.kind === "losers");
+    const hasGrandFinal = groups.some((group) => group.kind === "grand-final");
+
+    const stage = document.createElement("div");
+    stage.className = "tournament-manual-stage";
+    if (hasWinners && hasLosers && hasGrandFinal) {
+      stage.classList.add("is-double-elim");
+    }
+
+    const stageSvg = createSvg("svg");
+    stageSvg.classList.add("tournament-manual-stage-svg");
+    stageSvg.setAttribute("aria-hidden", "true");
+
+    stage.appendChild(stageSvg);
+
     groups.forEach((group) => {
-      els.manualBracketWrap.appendChild(createManualBracketGroup(group));
+      stage.appendChild(createManualBracketGroup(group));
     });
 
+    els.manualBracketWrap.appendChild(stage);
     scheduleConnectorDraw();
   }
 
