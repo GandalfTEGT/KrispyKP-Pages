@@ -9,10 +9,20 @@
   const TRIGGER_CHANCE = 0.72;
 
   /*
-    This is the angle of the BRIGHTEST PART of the sweep relative to the
-    raw rotation. Tweak this for calibration.
+    Calibration:
+    This is the angle of the brightest visible part of the sweep
+    relative to the raw rotation angle.
   */
   const SWEEP_BRIGHT_CENTER_OFFSET_DEG = 154;
+
+  /*
+    Detection band around the bright center.
+    Because the sweep is visually wide, a slightly asymmetric band
+    usually feels better than a perfectly symmetric one.
+  */
+  const LEADING_WINDOW_DEG = 6;
+  const TRAILING_WINDOW_DEG = 3;
+  const REARM_GAP_DEG = 14;
 
   const blips = [];
   const startTime = performance.now();
@@ -21,15 +31,8 @@
     return ((deg % 360) + 360) % 360;
   }
 
-  function shortestSignedAngle(from, to) {
-    const a = normalizeAngle(from);
-    const b = normalizeAngle(to);
-    let diff = b - a;
-
-    if (diff > 180) diff -= 360;
-    if (diff < -180) diff += 360;
-
-    return diff;
+  function forwardDelta(fromDeg, toDeg) {
+    return normalizeAngle(toDeg - fromDeg);
   }
 
   function getSweepAngle(now) {
@@ -38,8 +41,9 @@
     return normalizeAngle((progress * 360) + SWEEP_BRIGHT_CENTER_OFFSET_DEG);
   }
 
-  function setSweepRotation(angle) {
-    sweepLayer.style.transform = `rotate(${angle - SWEEP_BRIGHT_CENTER_OFFSET_DEG}deg)`;
+  function setSweepRotation(sweepAngle) {
+    sweepLayer.style.transform =
+      `rotate(${sweepAngle - SWEEP_BRIGHT_CENTER_OFFSET_DEG}deg)`;
   }
 
   function createBlip() {
@@ -60,14 +64,13 @@
     const dx = x - 50;
     const dy = y - 50;
 
-    // 0deg = up, clockwise positive
+    // 0deg = up, increasing clockwise
     const angle = normalizeAngle((Math.atan2(dy, dx) * 180 / Math.PI) + 90);
 
     blips.push({
       el,
       angle,
-      armed: true,
-      lastDiff: null
+      armed: true
     });
   }
 
@@ -82,30 +85,29 @@
     setSweepRotation(sweepAngle);
 
     for (const blip of blips) {
-      const diff = shortestSignedAngle(sweepAngle, blip.angle);
+      // How far ahead the blip is in the sweep's direction of travel
+      const ahead = forwardDelta(sweepAngle, blip.angle);
 
-      if (blip.lastDiff !== null) {
-        const crossed =
-          (blip.lastDiff > 0 && diff <= 0) ||
-          (blip.lastDiff < 0 && diff >= 0);
+      // Trigger when the blip lies just ahead of the bright center,
+      // or just behind it after the center has passed.
+      const inTriggerBand =
+        ahead <= LEADING_WINDOW_DEG ||
+        ahead >= 360 - TRAILING_WINDOW_DEG;
 
-        if (blip.armed && crossed) {
-          if (Math.random() <= TRIGGER_CHANCE) {
-            activateBlip(blip);
-          }
-          blip.armed = false;
+      const farEnoughAway =
+        ahead > REARM_GAP_DEG &&
+        ahead < 360 - REARM_GAP_DEG;
+
+      if (blip.armed && inTriggerBand) {
+        if (Math.random() <= TRIGGER_CHANCE) {
+          activateBlip(blip);
         }
-
-        /*
-          Rearm once the sweep has moved well away from the blip again.
-          This prevents repeated firing while the sweep is near the same angle.
-        */
-        if (!blip.armed && Math.abs(diff) > 20) {
-          blip.armed = true;
-        }
+        blip.armed = false;
       }
 
-      blip.lastDiff = diff;
+      if (!blip.armed && farEnoughAway) {
+        blip.armed = true;
+      }
     }
 
     requestAnimationFrame(tick);
