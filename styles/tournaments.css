@@ -311,6 +311,22 @@
   margin-top: 0;
 }
 
+.tournament-bracket-head-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.tournament-bracket-body {
+  display: grid;
+  gap: 14px;
+}
+
+.tournament-bracket-toggle {
+  display: none;
+}
+
 .tournament-bracket-embed-wrap {
   position: relative;
   width: 100%;
@@ -904,7 +920,6 @@
 
 @media (max-width: 980px) {
   .tournament-empty-public-grid,
-  .tournament-quick-info-list,
   .tournament-details-top,
   .tournament-info-grid,
   .tournament-switch-grid,
@@ -914,25 +929,28 @@
     grid-template-columns: 1fr;
   }
 
-  .tournament-bracket-head,
-  .tournament-manual-group-kicker-row,
-  .tournament-manual-group-title-row {
-    flex-direction: column;
-    align-items: flex-start;
+  .tournament-quick-info-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tournament-page-hero {
+    padding-bottom: 4px;
+  }
+
+  .tournament-main-section {
+    padding-top: 0;
+  }
+
+  .tournament-hero-panel,
+  .tournament-hero-inner {
+    min-height: 280px;
   }
 
   .tournament-hero-inner {
-    padding: 24px;
-    min-height: 320px;
+    padding: 20px;
+    gap: 6px;
   }
 
-  .tournament-bracket-actions {
-    width: 100%;
-  }
-}
-
-@media (max-width: 640px) {
-  .tournament-hero-inner,
   .tournament-details-card,
   .tournament-bracket-card,
   .tournament-switch-panel,
@@ -942,57 +960,248 @@
     padding: 16px;
   }
 
-  .tournament-empty-state {
-    gap: 14px;
+  .tournament-details-top {
+    gap: 12px;
+    margin: 10px 0 14px;
   }
 
-  .tournament-description {
-    font-size: 14px;
-    line-height: 1.7;
+  .tournament-organizer-value {
+    font-size: 20px;
   }
 
-  .tournament-organizer-value,
-  .tournament-detail-value,
-  .tournament-player-name,
-  .tournament-schedule-title,
-  .tournament-result-name {
+  .tournament-quick-info-list li {
+    min-height: 68px;
+    padding: 12px;
+  }
+
+  .tournament-detail-value {
     font-size: 15px;
+  }
+
+  .tournament-results-list {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .tournament-result-item {
+    padding: 14px;
+  }
+
+  .tournament-info-panel .list li {
+    padding: 10px 12px;
+  }
+
+  .tournament-schedule-item {
+    padding: 12px 14px;
+  }
+
+  .tournament-switch-item,
+  .tournament-archive-item {
+    padding: 10px;
+  }
+
+  .tournament-switch-thumb,
+  .tournament-archive-banner {
+    aspect-ratio: 16 / 8;
+  }
+
+  .tournament-bracket-head,
+  .tournament-manual-group-kicker-row,
+  .tournament-manual-group-title-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tournament-bracket-head-actions,
+  .tournament-bracket-actions {
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .tournament-bracket-actions .btn,
+  .tournament-bracket-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .tournament-bracket-toggle {
+    display: inline-flex;
+  }
+
+  .tournament-bracket-body {
+    margin-top: 12px;
   }
 
   .tournament-bracket-embed-wrap,
   .tournament-bracket-embed {
-    min-height: 560px;
+    min-height: 420px;
   }
 
   .tournament-manual-bracket-wrap {
-    padding: 14px;
+    padding: 12px;
+    overflow: visible;
+  }
+
+  .tournament-manual-stage,
+  .tournament-manual-bracket {
+    width: 100%;
+    min-width: 100%;
   }
 
   .tournament-manual-bracket {
     display: grid;
-    min-width: 100%;
-    gap: 16px;
+    gap: 14px;
+    padding: 4px 0 0;
+  }
+
+  .tournament-manual-group {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .tournament-manual-group::before,
+  .tournament-manual-group + .tournament-manual-group::after,
+  .tournament-manual-connector-svg,
+  .tournament-manual-stage-svg {
+    display: none !important;
   }
 
   .tournament-manual-round {
     width: 100%;
   }
 
-  .tournament-manual-group + .tournament-manual-group::after {
-    display: none;
+  .tournament-manual-matches {
+    gap: 12px;
+    padding-right: 0;
+  }
+
+  .tournament-manual-match {
+    padding: 10px;
+    gap: 8px;
   }
 
   .tournament-manual-match-top,
   .tournament-manual-match-footer {
     flex-direction: column;
+    gap: 6px;
+  }
+
+  .tournament-manual-match-source {
+    font-size: 9px;
+    padding: 5px 7px;
   }
 
   .tournament-manual-player-name {
     white-space: normal;
   }
+}
 
-  .tournament-results-list {
-    grid-template-columns: 1fr;
+@media (max-width: 640px) {
+  .tournament-hero-panel,
+  .tournament-hero-inner {
+    min-height: 240px;
+  }
+
+  .tournament-hero-inner,
+  .tournament-details-card,
+  .tournament-bracket-card,
+  .tournament-switch-panel,
+  .tournament-info-panel,
+  .tournament-results-panel,
+  .tournament-archive-card {
+    padding: 14px;
+  }
+
+  .tournament-empty-state {
+    gap: 12px;
+  }
+
+  .tournament-empty-text,
+  .tournament-description,
+  .tournament-switch-text,
+  .tournament-archive-text {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .tournament-organizer-panel {
+    padding: 12px;
+  }
+
+  .tournament-organizer-value {
+    font-size: 18px;
+  }
+
+  .tournament-quick-info-list {
+    gap: 8px;
+  }
+
+  .tournament-quick-info-list li {
+    min-height: 60px;
+    padding: 10px 12px;
+    gap: 6px;
+  }
+
+  .tournament-detail-label,
+  .tournament-result-place,
+  .tournament-schedule-label,
+  .tournament-manual-round-count,
+  .tournament-manual-route {
+    font-size: 10px;
+  }
+
+  .tournament-detail-value,
+  .tournament-player-name,
+  .tournament-schedule-title,
+  .tournament-result-name {
+    font-size: 14px;
+  }
+
+  .tournament-player-meta-pill,
+  .tournament-manual-group-badge,
+  .tournament-manual-match-source {
+    font-size: 10px;
+  }
+
+  .tournament-player-seed {
+    min-width: 38px;
+    padding: 6px 8px;
+  }
+
+  .tournament-results-list,
+  .tournament-switch-grid,
+  .tournament-archive-grid {
+    gap: 8px;
+  }
+
+  .tournament-result-item,
+  .tournament-schedule-item,
+  .tournament-switch-item,
+  .tournament-archive-item,
+  .tournament-manual-group,
+  .tournament-manual-match {
+    padding: 10px;
+  }
+
+  .tournament-bracket-body {
+    margin-top: 10px;
+  }
+
+  .tournament-bracket-embed-wrap,
+  .tournament-bracket-embed {
+    min-height: 360px;
+  }
+
+  .tournament-manual-bracket-wrap {
+    padding: 10px;
+  }
+
+  .tournament-manual-group-title {
+    font-size: 17px;
+  }
+
+  .tournament-manual-round-title {
+    font-size: 12px;
   }
 }
 

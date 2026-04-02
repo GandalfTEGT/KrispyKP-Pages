@@ -133,20 +133,35 @@
                   <div class="section-title">Bracket</div>
                   <div id="tournamentBracketTitle" class="section-big tournament-bracket-title">Tournament Bracket</div>
                 </div>
-                <div id="tournamentBracketActions" class="cta-row tournament-bracket-actions"></div>
+
+                <div class="tournament-bracket-head-actions">
+                  <button
+                    id="tournamentBracketToggle"
+                    class="btn tournament-bracket-toggle"
+                    type="button"
+                    hidden
+                    aria-expanded="false"
+                    aria-controls="tournamentBracketBody">
+                    Show Bracket
+                  </button>
+
+                  <div id="tournamentBracketActions" class="cta-row tournament-bracket-actions"></div>
+                </div>
               </div>
 
-              <div id="tournamentBracketEmbedWrap" class="tournament-bracket-embed-wrap" hidden>
-                <iframe
-                  id="tournamentBracketEmbed"
-                  class="tournament-bracket-embed"
-                  title="Tournament bracket"
-                  loading="lazy"
-                  referrerpolicy="strict-origin-when-cross-origin"></iframe>
-              </div>
+              <div id="tournamentBracketBody" class="tournament-bracket-body">
+                <div id="tournamentBracketEmbedWrap" class="tournament-bracket-embed-wrap" hidden>
+                  <iframe
+                    id="tournamentBracketEmbed"
+                    class="tournament-bracket-embed"
+                    title="Tournament bracket"
+                    loading="lazy"
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
+                </div>
 
-              <div id="tournamentManualBracketWrap" class="tournament-manual-bracket-wrap" hidden></div>
-              <div id="tournamentBracketFallback" class="notice" hidden></div>
+                <div id="tournamentManualBracketWrap" class="tournament-manual-bracket-wrap" hidden></div>
+                <div id="tournamentBracketFallback" class="notice" hidden></div>
+              </div>
             </div>
           </section>
 

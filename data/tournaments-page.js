@@ -24,6 +24,8 @@
     bracketEmbed: document.getElementById("tournamentBracketEmbed"),
     manualBracketWrap: document.getElementById("tournamentManualBracketWrap"),
     bracketFallback: document.getElementById("tournamentBracketFallback"),
+    bracketBody: document.getElementById("tournamentBracketBody"),
+    bracketToggle: document.getElementById("tournamentBracketToggle"),
 
     switcherSection: document.getElementById("tournamentSwitcherSection"),
     switcherTitle: document.getElementById("tournamentSwitcherTitle"),
@@ -49,6 +51,7 @@
 
   let currentEventId = data.currentEventId || null;
   let bracketResizeRaf = 0;
+  let isMobileBracketOpen = false;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -120,6 +123,35 @@
     window.scrollTo(0, 0);
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
+  }
+
+  function isCompactBracketLayout() {
+    return window.matchMedia("(max-width: 980px)").matches;
+  }
+
+  function updateBracketVisibility(forceClosed = false) {
+    if (!els.bracketToggle || !els.bracketBody) return;
+
+    const hasBracket = !!els.bracketSection && !els.bracketSection.hidden;
+    const useMobileToggle = hasBracket && isCompactBracketLayout();
+
+    if (!useMobileToggle) {
+      isMobileBracketOpen = true;
+      els.bracketToggle.hidden = true;
+      els.bracketBody.hidden = false;
+      els.bracketToggle.textContent = "Show Bracket";
+      els.bracketToggle.setAttribute("aria-expanded", "true");
+      return;
+    }
+
+    if (forceClosed) {
+      isMobileBracketOpen = false;
+    }
+
+    els.bracketToggle.hidden = false;
+    els.bracketBody.hidden = !isMobileBracketOpen;
+    els.bracketToggle.textContent = isMobileBracketOpen ? "Hide Bracket" : "Show Bracket";
+    els.bracketToggle.setAttribute("aria-expanded", String(isMobileBracketOpen));
   }
 
   function selectEvent(eventId) {
@@ -206,6 +238,16 @@
       els.bracketFallback.hidden = true;
       els.bracketFallback.textContent = "";
       els.bracketFallback.innerHTML = "";
+    }
+
+    if (els.bracketBody) {
+      els.bracketBody.hidden = false;
+    }
+
+    if (els.bracketToggle) {
+      els.bracketToggle.hidden = true;
+      els.bracketToggle.textContent = "Show Bracket";
+      els.bracketToggle.setAttribute("aria-expanded", "false");
     }
   }
 
@@ -499,6 +541,13 @@
 
     while (svg.firstChild) svg.removeChild(svg.firstChild);
 
+    if (!isDesktopBracketLayout()) {
+      svg.setAttribute("width", "0");
+      svg.setAttribute("height", "0");
+      svg.setAttribute("viewBox", "0 0 0 0");
+      return;
+    }
+
     svg.setAttribute("width", String(Math.ceil(bracketEl.scrollWidth)));
     svg.setAttribute("height", String(Math.ceil(bracketEl.scrollHeight)));
     svg.setAttribute("viewBox", `0 0 ${Math.ceil(bracketEl.scrollWidth)} ${Math.ceil(bracketEl.scrollHeight)}`);
@@ -714,11 +763,13 @@
     if (mode === "embed" && hasEmbed) {
       if (els.bracketEmbedWrap) els.bracketEmbedWrap.hidden = false;
       if (els.bracketEmbed) els.bracketEmbed.src = event.bracketEmbedUrl;
+      updateBracketVisibility(true);
       return;
     }
 
     if (mode === "manual" && hasManual) {
       renderManualBracket(event);
+      updateBracketVisibility(true);
       return;
     }
 
@@ -727,6 +778,7 @@
         els.bracketFallback.hidden = false;
         els.bracketFallback.textContent = "This event uses an external bracket page. Use the button above to open it.";
       }
+      updateBracketVisibility(true);
       return;
     }
 
@@ -736,6 +788,7 @@
         els.bracketFallback.textContent =
           "An embedded bracket has not been configured for this event yet. Use the button above to open the bracket externally.";
       }
+      updateBracketVisibility(true);
       return;
     }
 
@@ -743,6 +796,8 @@
       els.bracketFallback.hidden = false;
       els.bracketFallback.textContent = "Bracket information is not currently available for this event.";
     }
+
+    updateBracketVisibility(true);
   }
 
   function renderQuickInfo(event) {
@@ -1045,6 +1100,24 @@
     if (els.organizerPanel) els.organizerPanel.hidden = true;
   }
 
+  if (els.bracketToggle) {
+    els.bracketToggle.addEventListener("click", () => {
+      if (!isCompactBracketLayout()) return;
+
+      isMobileBracketOpen = !isMobileBracketOpen;
+      updateBracketVisibility(false);
+
+      if (isMobileBracketOpen) {
+        scheduleConnectorDraw();
+      }
+    });
+  }
+
+  function handleResponsiveTournamentResize() {
+    updateBracketVisibility(false);
+    scheduleConnectorDraw();
+  }
+
   function renderPage() {
     const featured = getCurrentEvent();
 
@@ -1056,6 +1129,6 @@
     renderEvent(featured);
   }
 
-  window.addEventListener("resize", scheduleConnectorDraw);
+  window.addEventListener("resize", handleResponsiveTournamentResize);
   renderPage();
 })();
