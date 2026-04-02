@@ -408,6 +408,198 @@
   gap: 8px;
 }
 
+.tournament-manual-group {
+  position: relative;
+  gap: 18px;
+  padding: 18px;
+  border: 1px solid rgba(79, 210, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0)),
+    rgba(4, 10, 14, 0.42);
+}
+
+.tournament-manual-group::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(79, 210, 255, 0.08);
+  pointer-events: none;
+}
+
+.tournament-manual-group.is-winners {
+  border-color: rgba(125, 255, 136, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(125, 255, 136, 0.04);
+}
+
+.tournament-manual-group.is-losers {
+  border-color: rgba(255, 211, 110, 0.18);
+  box-shadow: inset 0 0 0 1px rgba(255, 211, 110, 0.04);
+}
+
+.tournament-manual-group.is-grand-final {
+  border-color: rgba(79, 210, 255, 0.26);
+  background:
+    radial-gradient(circle at top right, rgba(79, 210, 255, 0.09), transparent 35%),
+    linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0)),
+    rgba(4, 10, 14, 0.52);
+}
+
+.tournament-manual-group-head {
+  gap: 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(79, 210, 255, 0.10);
+}
+
+.tournament-manual-group-kicker-row,
+.tournament-manual-group-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.tournament-manual-route {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.tournament-manual-group-title {
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tournament-manual-group-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  border: 1px solid rgba(79, 210, 255, 0.16);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cyan-soft);
+  background: rgba(79, 210, 255, 0.06);
+}
+
+.tournament-manual-group.is-winners .tournament-manual-group-badge {
+  color: var(--green);
+  border-color: rgba(125, 255, 136, 0.24);
+  background: rgba(125, 255, 136, 0.07);
+}
+
+.tournament-manual-group.is-losers .tournament-manual-group-badge {
+  color: var(--amber);
+  border-color: rgba(255, 211, 110, 0.24);
+  background: rgba(255, 211, 110, 0.07);
+}
+
+.tournament-manual-group.is-grand-final .tournament-manual-group-badge {
+  color: #071014;
+  border-color: transparent;
+  background: linear-gradient(180deg, var(--cyan-soft), var(--cyan));
+}
+
+.tournament-manual-group.is-grand-final .tournament-manual-bracket {
+  min-width: 0;
+}
+
+.tournament-manual-group.is-grand-final .tournament-manual-round {
+  width: min(420px, 100%);
+}
+
+.tournament-manual-group.is-grand-final .tournament-manual-match {
+  border-color: rgba(79, 210, 255, 0.28);
+  box-shadow:
+    0 12px 28px rgba(0, 0, 0, 0.26),
+    0 0 0 1px rgba(79, 210, 255, 0.08) inset;
+}
+
+.tournament-manual-group.is-grand-final .tournament-manual-round:not(:last-child)::after,
+.tournament-manual-group.is-grand-final .tournament-manual-match::after {
+  display: none;
+}
+
+.tournament-manual-bracket-wrap {
+  gap: 24px;
+}
+
+.tournament-manual-group + .tournament-manual-group {
+  position: relative;
+}
+
+.tournament-manual-group + .tournament-manual-group::after {
+  content: "";
+  position: absolute;
+  top: -14px;
+  left: 24px;
+  right: 24px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(79, 210, 255, 0.20),
+    transparent
+  );
+}
+
+.tournament-manual-round-head {
+  padding: 0 2px;
+}
+
+.tournament-manual-round-title {
+  color: var(--text);
+}
+
+.tournament-manual-match {
+  transition: transform var(--transition), border-color var(--transition), box-shadow var(--transition);
+}
+
+.tournament-manual-match:hover {
+  transform: translateY(-2px);
+  border-color: rgba(79, 210, 255, 0.28);
+  box-shadow:
+    0 14px 28px rgba(0, 0, 0, 0.28),
+    inset 0 0 0 1px rgba(79, 210, 255, 0.05);
+}
+
+.tournament-manual-group.is-winners .tournament-manual-round:not(:last-child)::after,
+.tournament-manual-group.is-winners .tournament-manual-match::after {
+  border-color: rgba(125, 255, 136, 0.22);
+}
+
+.tournament-manual-group.is-losers .tournament-manual-round:not(:last-child)::after,
+.tournament-manual-group.is-losers .tournament-manual-match::after {
+  border-color: rgba(255, 211, 110, 0.22);
+}
+
+@media (max-width: 980px) {
+  .tournament-manual-group-kicker-row,
+  .tournament-manual-group-title-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 640px) {
+  .tournament-manual-group {
+    padding: 14px;
+  }
+
+  .tournament-manual-group + .tournament-manual-group::after {
+    display: none;
+  }
+
+  .tournament-manual-route {
+    letter-spacing: 0.1em;
+  }
+}
+
 .tournament-manual-player {
   display: grid;
   grid-template-columns: 1fr auto;

@@ -220,33 +220,42 @@
     if (els.resultsSection) els.resultsSection.hidden = true;
   }
 
-  function getManualBracketGroups(event) {
-    const groups = [];
+function getManualBracketGroups(event) {
+  const groups = [];
 
-    if (isArray(event.manualBracketGroups) && event.manualBracketGroups.length) {
-      event.manualBracketGroups.forEach((group, index) => {
-        const rounds = isArray(group?.rounds);
-        if (!rounds.length) return;
+  if (isArray(event.manualBracketGroups) && event.manualBracketGroups.length) {
+    event.manualBracketGroups.forEach((group, index) => {
+      const rounds = isArray(group?.rounds);
+      if (!rounds.length) return;
 
-        groups.push({
-          key: text(group.key, `group-${index + 1}`),
-          title: text(group.title, `Bracket ${index + 1}`),
-          rounds
-        });
-      });
-    }
+      const rawKey = text(group.key, `group-${index + 1}`).toLowerCase();
+      let kind = "standard";
 
-    const legacyRounds = isArray(event.manualBracket?.rounds);
-    if (!groups.length && legacyRounds.length) {
+      if (rawKey.includes("winner")) kind = "winners";
+      else if (rawKey.includes("loser")) kind = "losers";
+      else if (rawKey.includes("grand")) kind = "grand-final";
+
       groups.push({
-        key: "main",
-        title: text(event.bracketTitle, "Bracket"),
-        rounds: legacyRounds
+        key: rawKey,
+        kind,
+        title: text(group.title, `Bracket ${index + 1}`),
+        rounds
       });
-    }
-
-    return groups;
+    });
   }
+
+  const legacyRounds = isArray(event.manualBracket?.rounds);
+  if (!groups.length && legacyRounds.length) {
+    groups.push({
+      key: "main",
+      kind: "standard",
+      title: text(event.bracketTitle, "Bracket"),
+      rounds: legacyRounds
+    });
+  }
+
+  return groups;
+}
 
   function createManualMatchElement(match, matchIndex) {
     const matchEl = document.createElement("article");
@@ -291,60 +300,84 @@
     return matchEl;
   }
 
-  function createManualBracketGroup(group) {
-    const groupEl = document.createElement("section");
-    groupEl.className = "tournament-manual-group";
+function createManualBracketGroup(group) {
+  const groupEl = document.createElement("section");
+  groupEl.className = `tournament-manual-group is-${group.kind}`;
 
-    const groupHead = document.createElement("div");
-    groupHead.className = "tournament-manual-group-head";
-    groupHead.innerHTML = `
-      <div class="section-title">Manual Bracket</div>
-      <div class="tournament-manual-group-title">${escapeHtml(text(group.title, "Bracket"))}</div>
-    `;
+  const groupHead = document.createElement("div");
+  groupHead.className = "tournament-manual-group-head";
 
-    const bracketEl = document.createElement("div");
-    bracketEl.className = "tournament-manual-bracket";
-
-    group.rounds.forEach((round, roundIndex) => {
-      const roundEl = document.createElement("section");
-      roundEl.className = "tournament-manual-round";
-
-      const roundHead = document.createElement("div");
-      roundHead.className = "tournament-manual-round-head";
-
-      const roundTitle = document.createElement("div");
-      roundTitle.className = "tournament-manual-round-title";
-      roundTitle.textContent = text(round.title, `Round ${roundIndex + 1}`);
-
-      const matches = isArray(round.matches);
-
-      const roundCount = document.createElement("div");
-      roundCount.className = "tournament-manual-round-count";
-      roundCount.textContent = `${matches.length} match${matches.length === 1 ? "" : "es"}`;
-
-      roundHead.append(roundTitle, roundCount);
-
-      const matchesWrap = document.createElement("div");
-      matchesWrap.className = "tournament-manual-matches";
-
-      if (!matches.length) {
-        const empty = document.createElement("div");
-        empty.className = "notice";
-        empty.textContent = "No matches added for this round yet.";
-        matchesWrap.appendChild(empty);
-      } else {
-        matches.forEach((match, matchIndex) => {
-          matchesWrap.appendChild(createManualMatchElement(match, matchIndex));
-        });
-      }
-
-      roundEl.append(roundHead, matchesWrap);
-      bracketEl.appendChild(roundEl);
-    });
-
-    groupEl.append(groupHead, bracketEl);
-    return groupEl;
+  let routeText = "";
+  if (group.kind === "winners") {
+    routeText = "Feeds winner into Grand Final";
+  } else if (group.kind === "losers") {
+    routeText = "Feeds survivor into Grand Final";
+  } else if (group.kind === "grand-final") {
+    routeText = "Final meeting of Winners and Losers brackets";
   }
+
+  groupHead.innerHTML = `
+    <div class="tournament-manual-group-kicker-row">
+      <div class="section-title">Manual Bracket</div>
+      ${routeText ? `<div class="tournament-manual-route">${escapeHtml(routeText)}</div>` : ""}
+    </div>
+    <div class="tournament-manual-group-title-row">
+      <div class="tournament-manual-group-title">${escapeHtml(text(group.title, "Bracket"))}</div>
+      <div class="tournament-manual-group-badge">${escapeHtml(
+        group.kind === "winners"
+          ? "Upper"
+          : group.kind === "losers"
+          ? "Lower"
+          : group.kind === "grand-final"
+          ? "Final"
+          : "Bracket"
+      )}</div>
+    </div>
+  `;
+
+  const bracketEl = document.createElement("div");
+  bracketEl.className = "tournament-manual-bracket";
+
+  group.rounds.forEach((round, roundIndex) => {
+    const roundEl = document.createElement("section");
+    roundEl.className = "tournament-manual-round";
+
+    const roundHead = document.createElement("div");
+    roundHead.className = "tournament-manual-round-head";
+
+    const roundTitle = document.createElement("div");
+    roundTitle.className = "tournament-manual-round-title";
+    roundTitle.textContent = text(round.title, `Round ${roundIndex + 1}`);
+
+    const matches = isArray(round.matches);
+
+    const roundCount = document.createElement("div");
+    roundCount.className = "tournament-manual-round-count";
+    roundCount.textContent = `${matches.length} match${matches.length === 1 ? "" : "es"}`;
+
+    roundHead.append(roundTitle, roundCount);
+
+    const matchesWrap = document.createElement("div");
+    matchesWrap.className = "tournament-manual-matches";
+
+    if (!matches.length) {
+      const empty = document.createElement("div");
+      empty.className = "notice";
+      empty.textContent = "No matches added for this round yet.";
+      matchesWrap.appendChild(empty);
+    } else {
+      matches.forEach((match, matchIndex) => {
+        matchesWrap.appendChild(createManualMatchElement(match, matchIndex));
+      });
+    }
+
+    roundEl.append(roundHead, matchesWrap);
+    bracketEl.appendChild(roundEl);
+  });
+
+  groupEl.append(groupHead, bracketEl);
+  return groupEl;
+}
 
   function renderManualBracket(event) {
     if (!els.manualBracketWrap) return;
