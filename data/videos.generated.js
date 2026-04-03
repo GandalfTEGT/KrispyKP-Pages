@@ -11,6 +11,18 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 16,
       "latest": [
         {
+          "videoId": "T_UR2iMo9PU",
+          "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 2",
+          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
+          "playlistAddedAt": "2026-04-03T11:19:14Z",
+          "videoPublishedAt": "2026-04-03T11:18:58Z",
+          "publishedAt": "2026-04-03T11:19:14Z",
+          "thumbnail": "https://i.ytimg.com/vi/T_UR2iMo9PU/hqdefault.jpg",
+          "position": 1,
+          "duration": "P0D",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "t8_KG_UDBsw",
           "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 1",
           "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
@@ -18,7 +30,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-04-03T03:55:35Z",
           "publishedAt": "2026-04-03T02:17:58Z",
           "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
-          "position": 1,
+          "position": 0,
           "duration": "PT12H",
           "playlistItemStatus": "public"
         },
@@ -188,18 +200,6 @@ window.KRISPY_VIDEO_DATA = {
           "thumbnail": "https://i.ytimg.com/vi/3AbvlKWYmAE/maxresdefault.jpg",
           "position": 1,
           "duration": "PT2H7M7S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "ozfokbQfFsM",
-          "title": "OpenRA: Combined Arms Campaign 29/03/26",
-          "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 29th March 2026",
-          "playlistAddedAt": "2026-03-30T21:04:02Z",
-          "videoPublishedAt": "2026-03-30T21:33:38Z",
-          "publishedAt": "2026-03-30T21:04:02Z",
-          "thumbnail": "https://i.ytimg.com/vi/ozfokbQfFsM/maxresdefault.jpg",
-          "position": 2,
-          "duration": "PT3H6M57S",
           "playlistItemStatus": "public"
         }
       ],
@@ -911,6 +911,18 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 12,
       "latest": [
         {
+          "videoId": "T_UR2iMo9PU",
+          "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 2",
+          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
+          "playlistAddedAt": "2026-04-03T11:19:14Z",
+          "videoPublishedAt": "2026-04-03T11:18:58Z",
+          "publishedAt": "2026-04-03T11:19:14Z",
+          "thumbnail": "https://i.ytimg.com/vi/T_UR2iMo9PU/hqdefault.jpg",
+          "position": 1,
+          "duration": "P0D",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "t8_KG_UDBsw",
           "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 1",
           "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
@@ -918,7 +930,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-04-03T03:55:35Z",
           "publishedAt": "2026-04-03T02:17:58Z",
           "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
-          "position": 1,
+          "position": 0,
           "duration": "PT12H",
           "playlistItemStatus": "public"
         }
@@ -937,8 +949,20 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-04-03T03:55:35Z",
               "publishedAt": "2026-04-03T02:17:58Z",
               "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
-              "position": 1,
+              "position": 0,
               "duration": "PT12H",
+              "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "T_UR2iMo9PU",
+              "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 2",
+              "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
+              "playlistAddedAt": "2026-04-03T11:19:14Z",
+              "videoPublishedAt": "2026-04-03T11:18:58Z",
+              "publishedAt": "2026-04-03T11:19:14Z",
+              "thumbnail": "https://i.ytimg.com/vi/T_UR2iMo9PU/hqdefault.jpg",
+              "position": 1,
+              "duration": "P0D",
               "playlistItemStatus": "public"
             }
           ]
