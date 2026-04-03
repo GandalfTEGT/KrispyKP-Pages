@@ -112,13 +112,11 @@ textarea {
 
 .radar-sweep {
   position: fixed;
-  inset: -90vmax;
+  inset: -70vmax;
   z-index: 0;
   pointer-events: none;
   border-radius: 50%;
-  opacity: 0.92;
-  mix-blend-mode: screen;
-  filter: blur(4px);
+  opacity: 0.8;
   transform-origin: center center;
   will-change: transform;
   background:
@@ -126,12 +124,12 @@ textarea {
       from 180deg,
       transparent 0deg,
       transparent 302deg,
-      rgba(79, 210, 255, 0.02) 320deg,
-      rgba(79, 210, 255, 0.08) 334deg,
-      rgba(79, 210, 255, 0.20) 344deg,
-      rgba(170, 240, 255, 0.95) 350deg,
-      rgba(79, 210, 255, 0.18) 354deg,
-      rgba(79, 210, 255, 0.06) 357deg,
+      rgba(79, 210, 255, 0.015) 320deg,
+      rgba(79, 210, 255, 0.05) 334deg,
+      rgba(79, 210, 255, 0.14) 344deg,
+      rgba(170, 240, 255, 0.72) 350deg,
+      rgba(79, 210, 255, 0.12) 354deg,
+      rgba(79, 210, 255, 0.04) 357deg,
       transparent 360deg
     );
   -webkit-mask-image: radial-gradient(
