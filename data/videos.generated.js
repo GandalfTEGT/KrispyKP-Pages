@@ -15,11 +15,11 @@ window.KRISPY_VIDEO_DATA = {
           "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 1",
           "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
           "playlistAddedAt": "2026-04-03T02:17:58Z",
-          "videoPublishedAt": "2026-04-03T02:16:41Z",
+          "videoPublishedAt": "2026-04-03T03:55:35Z",
           "publishedAt": "2026-04-03T02:17:58Z",
-          "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/hqdefault.jpg",
+          "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
           "position": 1,
-          "duration": "P0D",
+          "duration": "PT12H",
           "playlistItemStatus": "public"
         },
         {
@@ -915,11 +915,11 @@ window.KRISPY_VIDEO_DATA = {
           "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 1",
           "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
           "playlistAddedAt": "2026-04-03T02:17:58Z",
-          "videoPublishedAt": "2026-04-03T02:16:41Z",
+          "videoPublishedAt": "2026-04-03T03:55:35Z",
           "publishedAt": "2026-04-03T02:17:58Z",
-          "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/hqdefault.jpg",
+          "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
           "position": 1,
-          "duration": "P0D",
+          "duration": "PT12H",
           "playlistItemStatus": "public"
         }
       ],
@@ -934,11 +934,11 @@ window.KRISPY_VIDEO_DATA = {
               "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 1",
               "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
               "playlistAddedAt": "2026-04-03T02:17:58Z",
-              "videoPublishedAt": "2026-04-03T02:16:41Z",
+              "videoPublishedAt": "2026-04-03T03:55:35Z",
               "publishedAt": "2026-04-03T02:17:58Z",
-              "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/hqdefault.jpg",
+              "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
               "position": 1,
-              "duration": "P0D",
+              "duration": "PT12H",
               "playlistItemStatus": "public"
             }
           ]
