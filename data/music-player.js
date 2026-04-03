@@ -131,7 +131,7 @@ function updateRepeatButton() {
     off: "Repeat: Off",
     library: "Repeat: All",
     playlist: "Repeat: List",
-    track: "Repeat: 1"
+    track: "Repeat: Song"
   };
 
   repeatBtn.textContent = labels[repeatMode] || "Repeat: Off";
