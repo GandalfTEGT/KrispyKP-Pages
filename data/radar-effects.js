@@ -16,6 +16,8 @@
   const blips = [];
   const startTime = performance.now();
 
+  let rafId = 0;
+
   function normalizeAngle(deg) {
     return ((deg % 360) + 360) % 360;
   }
@@ -106,8 +108,29 @@
       }
     }
 
-    requestAnimationFrame(tick);
+    rafId = requestAnimationFrame(tick);
   }
+
+  function startRadar() {
+    if (!rafId) {
+      rafId = requestAnimationFrame(tick);
+    }
+  }
+
+  function stopRadar() {
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+      rafId = 0;
+    }
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopRadar();
+    } else {
+      startRadar();
+    }
+  });
 
   for (let i = 0; i < BLIP_COUNT; i += 1) {
     createBlip();
@@ -115,5 +138,5 @@
 
   window.addEventListener("resize", positionBlips);
 
-  requestAnimationFrame(tick);
+  startRadar();
 })();
