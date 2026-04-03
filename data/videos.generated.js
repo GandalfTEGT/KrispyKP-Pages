@@ -11,6 +11,18 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 16,
       "latest": [
         {
+          "videoId": "t8_KG_UDBsw",
+          "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 1",
+          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
+          "playlistAddedAt": "2026-04-03T02:17:58Z",
+          "videoPublishedAt": "2026-04-03T03:55:35Z",
+          "publishedAt": "2026-04-03T02:17:58Z",
+          "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
+          "position": 1,
+          "duration": "PT12H",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "MUpIlUdrX7c",
           "title": "Combined Arms: Allies Mission 4 Can Kiss My Ass",
           "description": "Combined Arms is a standalone mod for OpenRA which brings the factions of GDI/Nod/Allies/Soviets/Scrin altogether with units taken from across multiple games in their respective series. The mod comes with 45+ campaign mission and skirmish/online play available too.\n\nYou can download the mod yourself at https://www.moddb.com/mods/command-conquer-combined-arms\n\nThis video was taken and clipped together from my stream at https://www.twitch.tv/krispykp on 28th March 2026",
@@ -188,18 +200,6 @@ window.KRISPY_VIDEO_DATA = {
           "thumbnail": "https://i.ytimg.com/vi/ozfokbQfFsM/maxresdefault.jpg",
           "position": 2,
           "duration": "PT3H6M57S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "ldh6ljAqN3Y",
-          "title": "C&C Renegade 26/03/26",
-          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispy on the 26th March 2026",
-          "playlistAddedAt": "2026-03-30T20:41:39Z",
-          "videoPublishedAt": "2026-03-30T21:50:26Z",
-          "publishedAt": "2026-03-30T20:41:39Z",
-          "thumbnail": "https://i.ytimg.com/vi/ldh6ljAqN3Y/maxresdefault.jpg",
-          "position": 1,
-          "duration": "PT2H26M6S",
           "playlistItemStatus": "public"
         }
       ],
@@ -909,13 +909,39 @@ window.KRISPY_VIDEO_DATA = {
       "title": "Special Streams",
       "featuredVideoId": "fGJUjX-FsLM",
       "latestCount": 12,
-      "latest": [],
+      "latest": [
+        {
+          "videoId": "t8_KG_UDBsw",
+          "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 1",
+          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
+          "playlistAddedAt": "2026-04-03T02:17:58Z",
+          "videoPublishedAt": "2026-04-03T03:55:35Z",
+          "publishedAt": "2026-04-03T02:17:58Z",
+          "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
+          "position": 1,
+          "duration": "PT12H",
+          "playlistItemStatus": "public"
+        }
+      ],
       "subTabs": [
         {
           "id": "stream-1",
           "title": "24 Hour Streams",
           "playlistId": "PLJm5aHMhZ8oVJYe0izUL9F2WygH-x_uhR",
-          "items": []
+          "items": [
+            {
+              "videoId": "t8_KG_UDBsw",
+              "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 1",
+              "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
+              "playlistAddedAt": "2026-04-03T02:17:58Z",
+              "videoPublishedAt": "2026-04-03T03:55:35Z",
+              "publishedAt": "2026-04-03T02:17:58Z",
+              "thumbnail": "https://i.ytimg.com/vi/t8_KG_UDBsw/maxresdefault.jpg",
+              "position": 1,
+              "duration": "PT12H",
+              "playlistItemStatus": "public"
+            }
+          ]
         }
       ]
     },
