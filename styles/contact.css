@@ -1,0 +1,176 @@
+/* =========================================================
+   CONTACT PAGE
+   Public-facing contact hub, forms, and success state
+========================================================= */
+
+.contact-grid,
+.contact-forms-layout,
+.contact-bottom-grid {
+  align-items: stretch;
+}
+
+.contact-highlight-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-highlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top right, rgba(79, 210, 255, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(79, 210, 255, 0.025), transparent 42%);
+}
+
+.contact-email-link {
+  display: inline-block;
+  margin-top: 14px;
+  color: var(--cyan-soft);
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  word-break: break-word;
+  text-shadow: 0 0 12px rgba(79, 210, 255, 0.14);
+}
+
+.contact-method-list {
+  margin-top: 16px;
+}
+
+.form-shell {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+}
+
+.form-intro {
+  margin: 0;
+  line-height: 1.65;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+.field label {
+  display: block;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
+}
+
+.field input,
+.field textarea,
+.field select {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 54px;
+  padding: 14px 16px;
+  border: 1px solid rgba(79, 210, 255, 0.18);
+  background:
+    linear-gradient(180deg, rgba(24, 36, 44, 0.96), rgba(13, 21, 27, 0.98));
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
+}
+
+.field textarea {
+  min-height: 172px;
+  resize: vertical;
+}
+
+.field select {
+  color-scheme: dark;
+  appearance: auto;
+}
+
+.field select option,
+.field select optgroup {
+  background-color: #0f161a;
+  color: var(--text);
+}
+
+.field input::placeholder,
+.field textarea::placeholder {
+  color: rgba(147, 178, 188, 0.82);
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow:
+    0 0 0 1px rgba(79, 210, 255, 0.14),
+    0 0 14px rgba(79, 210, 255, 0.14);
+}
+
+.form-actions {
+  align-items: start;
+  margin-top: 4px;
+}
+
+.form-actions .btn {
+  min-width: 220px;
+}
+
+.honeypot-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.contact-success-panel {
+  border-color: rgba(125, 255, 136, 0.22);
+  box-shadow:
+    var(--shadow),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 0 18px rgba(125, 255, 136, 0.08);
+}
+
+.contact-success-panel .section-title {
+  color: #bff8c5;
+}
+
+.contact-success-copy {
+  margin: 0;
+}
+
+.js-submit-button[disabled] {
+  cursor: wait;
+  opacity: 0.82;
+  filter: saturate(0.86);
+  box-shadow: none;
+}
+
+@media (max-width: 980px) {
+  .form-actions .btn {
+    width: 100%;
+    min-width: 0;
+  }
+}

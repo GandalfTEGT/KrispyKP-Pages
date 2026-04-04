@@ -1,7 +1,7 @@
 :root {
   --bg: #06090b;
   --bg-alt: #0c1114;
-  --panel: rgba(10, 16, 18, 0.90);
+  --panel: rgba(10, 16, 18, 0.9);
   --panel-strong: rgba(14, 22, 25, 0.94);
   --line: rgba(64, 255, 216, 0.18);
   --line-strong: rgba(79, 210, 255, 0.55);
@@ -18,20 +18,24 @@
   --transition: 0.18s ease;
 }
 
-/* ------------------------------
-   Base reset
------------------------------- */
+/* =========================================================
+   1. Reset / base
+========================================================= */
 * {
   box-sizing: border-box;
 }
 
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 body {
   margin: 0;
   min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
   font-family: "Segoe UI", Arial, sans-serif;
   color: var(--text);
   background:
@@ -57,9 +61,13 @@ textarea {
   font: inherit;
 }
 
-/* ------------------------------
-   Page shell + atmosphere
------------------------------- */
+[hidden] {
+  display: none !important;
+}
+
+/* =========================================================
+   2. Page shell / radar atmosphere
+========================================================= */
 .shell {
   position: relative;
   min-height: 100vh;
@@ -78,9 +86,7 @@ textarea {
     transparent 1px 4px
   );
 }
-/* ------------------------------
-   Radar background
------------------------------- */
+
 .radar {
   position: relative;
   isolation: isolate;
@@ -95,11 +101,13 @@ textarea {
   border-radius: 50%;
   opacity: 0.42;
   background:
-    radial-gradient(circle at center,
+    radial-gradient(
+      circle at center,
       rgba(79, 210, 255, 0.05) 0%,
       rgba(79, 210, 255, 0.025) 22%,
       rgba(79, 210, 255, 0.012) 42%,
-      rgba(79, 210, 255, 0.00) 68%);
+      rgba(79, 210, 255, 0) 68%
+    );
 }
 
 .radar-grid,
@@ -148,22 +156,14 @@ textarea {
   );
 }
 
-
-.radar-grid,
-.radar-blips,
-.radar-vignette {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-}
-
 .radar-grid {
   z-index: 0;
   opacity: 0.36;
   background:
     linear-gradient(rgba(79, 210, 255, 0.12), rgba(79, 210, 255, 0.12)) center / 1px 100% no-repeat,
     linear-gradient(90deg, rgba(79, 210, 255, 0.12), rgba(79, 210, 255, 0.12)) center / 100% 1px no-repeat,
-    radial-gradient(circle at center,
+    radial-gradient(
+      circle at center,
       transparent 0 11.5%,
       rgba(79, 210, 255, 0.14) 11.7% 11.95%,
       transparent 12.1% 23.5%,
@@ -197,11 +197,13 @@ textarea {
 .radar-vignette {
   z-index: 0;
   background:
-    radial-gradient(circle at center,
+    radial-gradient(
+      circle at center,
       rgba(0, 0, 0, 0) 48%,
-      rgba(0, 0, 0, 0.10) 68%,
+      rgba(0, 0, 0, 0.1) 68%,
       rgba(0, 0, 0, 0.24) 84%,
-      rgba(0, 0, 0, 0.46) 100%);
+      rgba(0, 0, 0, 0.46) 100%
+    );
 }
 
 .radar-blips {
@@ -238,18 +240,38 @@ textarea {
 }
 
 @keyframes radarBlipHit {
-  0%   { opacity: 0; transform: scale(0.55); }
-  2%   { opacity: 1; transform: scale(1); }
-  12%  { opacity: 0.95; transform: scale(1.08); }
-  100% { opacity: 0; transform: scale(1.55); }
+  0% {
+    opacity: 0;
+    transform: scale(0.55);
+  }
+  2% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  12% {
+    opacity: 0.95;
+    transform: scale(1.08);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.55);
+  }
 }
 
 @keyframes radarPulseHit {
-  0%   { opacity: 0.9; transform: scale(0.6); }
-  100% { opacity: 0; transform: scale(2.3); }
+  0% {
+    opacity: 0.9;
+    transform: scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.3);
+  }
 }
 
-
+/* =========================================================
+   3. Shared layout
+========================================================= */
 .container {
   position: relative;
   z-index: 1;
@@ -257,9 +279,114 @@ textarea {
   margin: 0 auto;
 }
 
-/* ------------------------------
-   Top navigation
------------------------------- */
+.hero {
+  padding: 72px 0 28px;
+}
+
+.page-hero {
+  padding: 56px 0 10px;
+}
+
+.page-hero .h1 {
+  font-size: clamp(36px, 5vw, 72px);
+}
+
+.section {
+  padding: 22px 0;
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.12fr 0.88fr;
+  gap: 24px;
+  align-items: stretch;
+}
+
+.hero-card,
+.video-list,
+.project-list {
+  display: grid;
+  gap: 14px;
+}
+
+.hero-brand {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 22px;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.hero-logo {
+  width: 140px;
+  max-width: 100%;
+  filter: drop-shadow(0 0 20px rgba(69, 251, 254, 0.18));
+}
+
+.link-grid,
+.cards,
+.music-grid,
+.video-grid,
+.about-grid,
+.contact-grid,
+.project-grid,
+.two-col,
+.small-grid,
+.split-grid,
+.stat-grid,
+.track-grid {
+  display: grid;
+  gap: 18px;
+}
+
+.link-grid,
+.cards,
+.track-grid {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.music-grid,
+.video-grid,
+.about-grid,
+.contact-grid,
+.project-grid,
+.small-grid,
+.split-grid {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.two-col {
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.stat-grid {
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* =========================================================
+   4. Navigation
+========================================================= */
 .topbar {
   position: sticky;
   top: 0;
@@ -328,7 +455,10 @@ textarea {
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
 }
 
 .nav-links a:hover,
@@ -338,13 +468,15 @@ textarea {
   border-color: var(--line);
 }
 
-/* ------------------------------
-   Shared panels and text
------------------------------- */
+/* =========================================================
+   5. Shared panels / typography
+========================================================= */
 .frame {
   position: relative;
   border: 1px solid var(--line);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)), var(--panel);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0)),
+    var(--panel);
   box-shadow: var(--shadow), inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 }
 
@@ -441,9 +573,9 @@ textarea {
   font-size: 14px;
 }
 
-/* ------------------------------
-   Buttons and status chips
------------------------------- */
+/* =========================================================
+   6. Shared actions / pills / tags
+========================================================= */
 .cta-row,
 .meta-row,
 .badge-line,
@@ -477,7 +609,10 @@ textarea {
   letter-spacing: 0.12em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: filter var(--transition), box-shadow var(--transition), transform var(--transition);
+  transition:
+    filter var(--transition),
+    box-shadow var(--transition),
+    transform var(--transition);
 }
 
 .btn:hover,
@@ -525,102 +660,9 @@ textarea {
   white-space: nowrap;
 }
 
-/* ------------------------------
-   Page layout blocks
------------------------------- */
-.hero {
-  padding: 72px 0 28px;
-}
-
-.page-hero {
-  padding: 56px 0 10px;
-}
-
-.page-hero .h1 {
-  font-size: clamp(36px, 5vw, 72px);
-}
-
-.hero-grid {
-  display: grid;
-  grid-template-columns: 1.12fr 0.88fr;
-  gap: 24px;
-  align-items: stretch;
-}
-
-.hero-card,
-.video-list,
-.project-list {
-  display: grid;
-  gap: 14px;
-}
-
-.hero-brand {
-  display: grid;
-  grid-template-columns: 140px 1fr;
-  gap: 22px;
-  align-items: center;
-  margin-bottom: 18px;
-}
-
-.hero-logo {
-  width: 140px;
-  max-width: 100%;
-  filter: drop-shadow(0 0 20px rgba(69, 251, 254, 0.18));
-}
-
-.section {
-  padding: 22px 0;
-}
-
-.section-head {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 18px;
-}
-
-.link-grid,
-.cards,
-.music-grid,
-.video-grid,
-.about-grid,
-.contact-grid,
-.project-grid,
-.two-col,
-.small-grid,
-.split-grid,
-.stat-grid,
-.track-grid {
-  display: grid;
-  gap: 18px;
-}
-
-.link-grid,
-.cards,
-.track-grid {
-  grid-template-columns: repeat(3, 1fr);
-}
-
-.music-grid,
-.video-grid,
-.about-grid,
-.contact-grid,
-.project-grid,
-.small-grid,
-.split-grid {
-  grid-template-columns: repeat(2, 1fr);
-}
-
-.two-col {
-  grid-template-columns: 1.1fr 0.9fr;
-}
-
-.stat-grid {
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
-
+/* =========================================================
+   7. Shared card / list components
+========================================================= */
 .card,
 .link-card {
   display: flex;
@@ -696,7 +738,7 @@ textarea {
   justify-content: space-between;
   gap: 16px;
   padding: 12px 14px;
-  border: 1px solid rgba(79, 210, 255, 0.10);
+  border: 1px solid rgba(79, 210, 255, 0.1);
   background: rgba(0, 0, 0, 0.16);
 }
 
@@ -732,9 +774,9 @@ textarea {
   font-size: 18px;
 }
 
-/* ------------------------------
-   Embedded media blocks
------------------------------- */
+/* =========================================================
+   8. Shared embed wrappers
+========================================================= */
 .embed-wrap {
   display: grid;
   gap: 12px;
@@ -756,9 +798,11 @@ textarea {
   border: 0;
 }
 
-/* ------------------------------
-   Music player
------------------------------- */
+/* =========================================================
+   9. Shared music player base
+   (kept here because music.html depends on these shared
+   player / track list / form control styles)
+========================================================= */
 .player-layout {
   display: grid;
   grid-template-columns: 360px 1fr;
@@ -853,7 +897,7 @@ textarea {
   white-space: nowrap;
 }
 
-/* Playlist dropdown fix */
+/* Shared select styling */
 select {
   width: 100%;
   min-width: 0;
@@ -870,7 +914,6 @@ select optgroup {
   background-color: #0f161a;
   color: var(--text);
 }
-
 
 select:focus {
   outline: none;
@@ -992,9 +1035,9 @@ input[type="range"] {
   white-space: nowrap;
 }
 
-/* ------------------------------
-   Footer
------------------------------- */
+/* =========================================================
+   10. Footer
+========================================================= */
 .footer {
   padding: 38px 0 50px;
   color: var(--muted);
@@ -1007,10 +1050,11 @@ input[type="range"] {
   flex-wrap: wrap;
 }
 
-/* ------------------------------
-   Safari Fixes
------------------------------- */
-/* Prevent grid/flex children from forcing horizontal overflow */
+
+
+/* =========================================================
+   11. Overflow / Safari safety
+========================================================= */
 .player-layout,
 .music-tools,
 .playlist-toolbar,
@@ -1050,7 +1094,6 @@ input[type="range"] {
   min-width: 0;
 }
 
-/* Make long text and controls shrink properly */
 button,
 select,
 input,
@@ -1065,16 +1108,9 @@ textarea,
   min-width: 0;
 }
 
-/* Hard stop for accidental sideways scrolling */
-html,
-body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* ------------------------------
-   Responsive
------------------------------- */
+/* =========================================================
+   12. Responsive
+========================================================= */
 @media (max-width: 1100px) {
   .player-layout {
     grid-template-columns: 1fr;
@@ -1131,7 +1167,7 @@ body {
 
 @media (max-width: 640px) {
   .container {
-    width: min(var(--site-max-width), calc(100% - 24px));
+    width: calc(100% - 24px);
   }
 
   .panel,
@@ -1170,16 +1206,6 @@ body {
     font-size: 24px;
   }
 
-  .player-meta {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 640px) {
-  .container {
-    width: calc(100% - 24px);
-  }
-
   .nav-links {
     width: 100%;
   }
@@ -1189,7 +1215,7 @@ body {
     text-align: center;
   }
 
-  .custom-builder-top {
+  .player-meta {
     grid-template-columns: 1fr;
   }
 

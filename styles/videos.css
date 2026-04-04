@@ -1,3 +1,15 @@
+/* =========================================================
+   VIDEOS PAGE
+   1. Hero and top player
+   2. Category / playlist controls
+   3. Library grid
+   4. Pagination / empty states
+   5. Responsive
+========================================================= */
+
+/* ------------------------------
+   Hero + featured player
+------------------------------ */
 .videos-page-hero {
   padding-bottom: 6px;
 }
@@ -8,6 +20,12 @@
 
 .videos-top-section {
   padding-top: 10px;
+}
+
+.videos-top-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
 }
 
 .videos-feature-shell,
@@ -70,6 +88,9 @@
   border: 0;
 }
 
+/* ------------------------------
+   Controls / tabs / filtering
+------------------------------ */
 .videos-browser-section {
   padding-top: 8px;
 }
@@ -159,7 +180,8 @@
   content: "▴";
 }
 
-.videos-more-toggle.active {
+.videos-more-toggle.active,
+.videos-more-item.active {
   color: #071014;
   border-color: transparent;
   background: linear-gradient(180deg, var(--cyan-soft), var(--cyan));
@@ -188,12 +210,6 @@
   justify-content: flex-start;
   padding: 12px 14px;
   text-align: left;
-}
-
-.videos-more-item.active {
-  color: #071014;
-  border-color: transparent;
-  background: linear-gradient(180deg, var(--cyan-soft), var(--cyan));
 }
 
 .videos-subtabs {
@@ -272,7 +288,10 @@
   color: var(--text);
   font-size: 13px;
   letter-spacing: 0.04em;
-  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition),
+    background var(--transition);
 }
 
 .videos-search-input::placeholder {
@@ -304,6 +323,9 @@
   background-repeat: no-repeat;
 }
 
+/* ------------------------------
+   Library grid
+------------------------------ */
 .videos-library-shell {
   margin-top: 12px;
 }
@@ -354,7 +376,8 @@
 }
 
 .videos-card-meta,
-.videos-card-date {
+.videos-card-date,
+.videos-card-duration {
   color: var(--muted);
   font-size: 12px;
   letter-spacing: 0.12em;
@@ -369,13 +392,12 @@
 }
 
 .videos-card-duration {
-  color: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
   white-space: nowrap;
 }
 
+/* ------------------------------
+   Pagination / empty states
+------------------------------ */
 .videos-pager {
   display: flex;
   align-items: center;
@@ -408,6 +430,9 @@
   line-height: 1.6;
 }
 
+/* ------------------------------
+   Responsive
+------------------------------ */
 @media (max-width: 1200px) {
   .videos-library-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));

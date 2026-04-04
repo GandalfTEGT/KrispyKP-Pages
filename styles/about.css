@@ -1,0 +1,111 @@
+/* =========================================================
+   ABOUT PAGE
+   Public-facing layout and presentation
+========================================================= */
+
+.about-layout,
+.about-grid,
+.about-two-col {
+  align-items: stretch;
+}
+
+.about-layout {
+  display: grid;
+  grid-template-columns: 1.18fr 0.82fr;
+  gap: 18px;
+}
+
+.about-hero-panel,
+.about-highlight-card,
+.about-intro-card,
+.about-quote-card,
+.about-footer-panel {
+  overflow: hidden;
+}
+
+.about-hero-panel {
+  position: relative;
+}
+
+.about-hero-panel::after,
+.about-highlight-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at top right, rgba(79, 210, 255, 0.08), transparent 28%),
+    linear-gradient(180deg, rgba(79, 210, 255, 0.025), transparent 42%);
+}
+
+.about-copy {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.about-highlight-stack {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.about-highlight-item {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border: 1px solid rgba(79, 210, 255, 0.12);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0)),
+    rgba(0, 0, 0, 0.16);
+}
+
+.about-highlight-label {
+  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.about-feature-grid {
+  align-items: stretch;
+}
+
+.about-mini {
+  min-height: 100%;
+}
+
+.about-quote {
+  margin: 12px 0 0;
+}
+
+.about-roadmap-list {
+  margin-top: 16px;
+}
+
+.about-footer-copy {
+  max-width: 74ch;
+  margin-top: 10px;
+  font-size: 17px;
+}
+
+.about-section-visible {
+  animation: aboutFadeUp 0.45s ease-out;
+}
+
+@keyframes aboutFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 980px) {
+  .about-layout {
+    grid-template-columns: 1fr;
+  }
+}

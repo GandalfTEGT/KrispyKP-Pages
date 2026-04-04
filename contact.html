@@ -8,6 +8,7 @@
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06090b">
 <title>KrispyKP // Contact</title>
 <link rel="stylesheet" href="styles/site.css">
+<link rel="stylesheet" href="styles/contact.css">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
@@ -16,8 +17,9 @@
 <body>
 <div class="radar-grid" aria-hidden="true"></div>
 <div class="radar-blips" aria-hidden="true"></div>
-<div class="radar-vignette" aria-hidden="true"></div>  
+<div class="radar-vignette" aria-hidden="true"></div>
 <div class="radar-sweep" aria-hidden="true"></div>
+
 <div class="shell radar">
 <header class="topbar">
   <div class="container nav">
@@ -28,6 +30,7 @@
         <span class="brand-sub">Stream // Music // YouTube // C&amp;C</span>
       </span>
     </a>
+
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="music.html">Music</a>
@@ -44,60 +47,249 @@
     <div class="frame panel">
       <div class="section-title">Contact</div>
       <h1 class="h1">Get In Touch</h1>
-      <p class="sub">This page is ready for direct contact options as they are added. For now, the structure is in place for email, a contact form, community links, and secondary social channels.</p>
+      <p class="sub">
+        For collaborations, tournament enquiries, business messages, and general questions,
+        this is the best place to reach KrispyKP.
+      </p>
+
+      <div class="meta-row">
+        <div class="status-pill"><span class="dot"></span> Public Email</div>
+        <div class="status-pill"><span class="dot"></span> Contact Form</div>
+        <div class="status-pill"><span class="dot"></span> Tournament Signup</div>
+      </div>
     </div>
   </div>
 </main>
 
+<section class="section" id="form-success" hidden>
+  <div class="container">
+    <div class="frame panel contact-success-panel">
+      <div class="section-title">Message Received</div>
+      <p id="form-success-text" class="sub contact-success-copy"></p>
+    </div>
+  </div>
+</section>
+
 <section class="section">
   <div class="container contact-grid">
-    <article class="frame contact-option">
-      <div class="section-title">Primary</div>
+    <article class="frame contact-option contact-highlight-card">
+      <div class="section-title">Primary Contact</div>
       <h3>Email</h3>
-      <p class="form-note">Best for business enquiries, collaborations, longer messages, or anything that needs a reliable written reply.</p>
-      <div class="notice">A dedicated public email address can be added here when it is ready to publish.</div>
-    </article>
+      <p class="form-note">
+        For direct enquiries, partnerships, media requests, and anything that needs a reply,
+        email is the main public contact route.
+      </p>
 
-    <article class="frame contact-option">
-      <div class="section-title">Future Option</div>
-      <h3>Contact Form</h3>
-      <p class="form-note">A form is the cleanest long-term option for the site and can be routed through a lightweight service with spam protection.</p>
-      <div class="notice">This page is already structured so a form can be dropped in later without changing the wider layout.</div>
-    </article>
+      <a class="contact-email-link" href="mailto:contact@krispykp.com?subject=KrispyKP%20Website%20Enquiry">
+        contact@krispykp.com
+      </a>
 
-    <article class="frame contact-option">
-      <div class="section-title">Community</div>
-      <h3>Channel Platforms</h3>
-      <p class="form-note">Twitch and YouTube are the current public-facing platforms and remain the best direct routes for channel-related messages and updates.</p>
       <div class="cta-row">
-        <a class="btn primary" href="https://www.twitch.tv/KrispyKP" target="_blank" rel="noopener noreferrer">Twitch</a>
-        <a class="btn" href="https://www.youtube.com/@KrispyKremePie" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a class="btn primary" href="mailto:contact@krispykp.com?subject=KrispyKP%20Website%20Enquiry">
+          Send Email
+        </a>
+      </div>
+
+      <p class="form-note">
+        For anything tournament related wether its an idea you have or for information on an upcoming/completed tournament use this email address instead.
+      </p>
+
+      <a class="contact-email-link" href="mailto:events@krispykp.com?subject=Tournament%20Enquiry">
+        events@krispykp.com
+      </a>
+
+      <div class="cta-row">
+        <a class="btn primary" href="mailto:events@krispykp.com?subject=Tournament%20Enquiry">
+          Send Email
+        </a>
       </div>
     </article>
 
     <article class="frame contact-option">
-      <div class="section-title">Secondary</div>
-      <h3>Additional Links</h3>
-      <p class="form-note">Discord, social links, or a public enquiry route can be added later if they become worth exposing directly on the site.</p>
-      <div class="notice">The contact page is built to grow without needing a redesign when more channels are ready.</div>
+      <div class="section-title">Tournaments</div>
+      <h3>Signups &amp; Event Queries</h3>
+      <p class="form-note">
+        If a tournament is not using Challonge registration, use the tournament form below.
+        It collects only the details needed for event admin, communication, and matchmaking.
+      </p>
+
+      <ul class="list contact-method-list">
+        <li><span>Tournament</span><span class="muted">Selected event</span></li>
+        <li><span>Player name</span><span class="muted">Public display name</span></li>
+        <li><span>In-game name</span><span class="muted">For tournament admin</span></li>
+        <li><span>Nationality</span><span class="muted">Optional public info</span></li>
+        <li><span>Timezone</span><span class="muted">Scheduling</span></li>
+        <li><span>Contact method</span><span class="muted">Required for updates</span></li>
+      </ul>
+    </article>
+
+    <article class="frame contact-option">
+      <div class="section-title">Where To Find Me</div>
+      <h3>Current Platforms</h3>
+      <p class="form-note">
+        Twitch, YouTube, and the website are the main public-facing platforms currently linked to KrispyKP.
+      </p>
+
+      <div class="cta-row">
+        <a class="btn primary" href="https://www.twitch.tv/KrispyKP" target="_blank" rel="noopener noreferrer">Twitch</a>
+        <a class="btn" href="https://www.youtube.com/@KrispyKremePie" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a class="btn" href="index.html">Website</a>
+      </div>
+    </article>
+
+    <article class="frame contact-option">
+      <div class="section-title">Response</div>
+      <h3>Best Way To Reach Out</h3>
+      <p class="form-note">
+        For short direct contact, email is usually the quickest route. For event participation,
+        use the tournament form so all signup details stay together in one place.
+      </p>
+
+      <div class="notice">
+        Discord and additional social platforms will be added here later as I get round to making them.
+      </div>
     </article>
   </div>
 </section>
 
 <section class="section">
-  <div class="container two-col">
+  <div class="container two-col contact-forms-layout">
+    <section class="frame feature form-shell">
+      <div class="section-title">Contact Form</div>
+      <div class="section-big">General Enquiries</div>
+      <p class="muted form-intro">
+        Use this form for collaborations, questions, and general messages.
+      </p>
+
+      <form
+        action="https://formspree.io/f/mdapwzez"
+        method="POST"
+        class="form-grid js-formspree-form"
+        data-success-type="contact"
+      >
+        <input type="hidden" name="_subject" value="KrispyKP Contact Form Submission">
+        <input type="hidden" name="_next" value="https://krispykp.com/contact.html?sent=contact">
+        <input type="hidden" name="form_type" value="general_contact">
+
+        <div class="field">
+          <label for="contact-name">Name</label>
+          <input id="contact-name" name="name" type="text" autocomplete="name" required>
+        </div>
+
+        <div class="field">
+          <label for="contact-email">Email</label>
+          <input id="contact-email" name="email" type="email" autocomplete="email" required>
+        </div>
+
+        <div class="field field-full">
+          <label for="contact-subject">Subject</label>
+          <input id="contact-subject" name="subject" type="text" required>
+        </div>
+
+        <div class="field field-full">
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" name="message" rows="7" required></textarea>
+        </div>
+
+        <div class="field field-full honeypot-field" aria-hidden="true">
+          <label for="contact-company">Company</label>
+          <input id="contact-company" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="field field-full form-actions">
+          <button class="btn primary js-submit-button" type="submit">Send Message</button>
+        </div>
+      </form>
+    </section>
+
+    <section id="tournament-signup" class="frame feature form-shell">
+      <div class="section-title">Tournament Signup</div>
+      <div class="section-big">Register Interest</div>
+      <p class="muted form-intro">
+        Use this form if you are signing up outside of Challonge.
+      </p>
+
+      <form
+        action="https://formspree.io/f/xykbnjeb"
+        method="POST"
+        class="form-grid js-formspree-form"
+        data-success-type="tournament"
+      >
+        <input type="hidden" name="_subject" value="KrispyKP Tournament Signup">
+        <input type="hidden" name="_next" value="https://krispykp.com/contact.html?sent=tournament">
+        <input type="hidden" name="form_type" value="tournament_signup">
+
+       <div class="field field-full">
+        <label for="signup-tournament">Tournament</label>
+        <select id="signup-tournament" name="tournament" required>
+          <option value="">Select a tournament</option>
+          <option value="Future / Other Event">Future / Other Event</option>
+        </select>
+      </div>
+
+        <div class="field">
+          <label for="player-display-name">Player Name</label>
+          <input id="player-display-name" name="player_name" type="text" placeholder="Display Name i.e. Krispy" autocomplete="nickname" required>
+        </div>
+
+        <div class="field">
+          <label for="player-ign">In-Game Name</label>
+          <input id="player-ign" name="in_game_name" type="text" required>
+        </div>
+
+        <div class="field">
+          <label for="player-nationality">Nationality</label>
+          <input id="player-nationality" name="nationality" type="text" required>
+        </div>
+
+        <div class="field">
+          <label for="player-timezone">Timezone</label>
+          <input id="player-timezone" name="timezone" type="text" placeholder="BST / UTC+1" required>
+        </div>
+
+        <div class="field field-full">
+          <label for="player-contact-method">Contact Email or Discord Username</label>
+          <input id="player-contact-method" name="contact_method" type="text" placeholder="name@example.com or @username" required>
+        </div>
+
+        <div class="field field-full">
+          <label for="player-notes">Notes</label>
+          <textarea id="player-notes" name="notes" rows="5" placeholder="Availability, preferred times, anything useful"></textarea>
+        </div>
+
+        <div class="field field-full honeypot-field" aria-hidden="true">
+          <label for="signup-website">Website</label>
+          <input id="signup-website" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="field field-full form-actions">
+          <button class="btn primary js-submit-button" type="submit">Submit Signup</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container two-col contact-bottom-grid">
     <div class="frame feature">
-      <div class="section-title">Recommended Setup</div>
+      <div class="section-title">Contact Routes</div>
       <ul class="list">
-        <li><span>Public channel email</span><span class="muted">Best first step</span></li>
-        <li><span>Spam-protected contact form</span><span class="muted">Best upgrade</span></li>
-        <li><span>Optional community links</span><span class="muted">Later</span></li>
+        <li><span>contact@krispykp.com</span><span class="muted">General enquiries</span></li>
+        <li><span>events@krispykp.com</span><span class="muted">Tournament admin</span></li>
+        <li><span>Website forms</span><span class="muted">Direct site contact</span></li>
       </ul>
     </div>
 
     <div class="frame feature">
-      <div class="section-title">Why This Matters</div>
-      <p class="muted">A clear contact route makes it easier to handle enquiries, collaborations, event questions, and anything that does not fit naturally into Twitch chat or YouTube comments.</p>
+      <div class="section-title">Before You Send</div>
+      <p class="muted">
+        For tournament registration, make sure your player name, in-game name, timezone,
+        and preferred contact method are correct so updates can reach you without delays.
+      </p>
+      <p class="muted" style="margin-top:12px;">
+        For general contact, include enough context in the subject and message so replies can be handled more quickly.
+      </p>
     </div>
   </div>
 </section>
@@ -107,8 +299,11 @@
     <div class="footer-box frame">
       <div>
         <div class="section-title">KrispyKP Command Uplink</div>
-        <div style="margin-top:10px;">Public-facing contact options will be added here as the channel setup expands.</div>
+        <div style="margin-top:10px;">
+          Public contact, tournament registration, and future community links all connect here.
+        </div>
       </div>
+
       <div class="footer-nav">
         <a href="index.html">Home</a>
         <a href="music.html">Music</a>
@@ -123,6 +318,7 @@
 </div>
 
 <script src="data/radar-effects.js"></script>
-
+<script src="data/tournaments.config.js"></script>
+<script src="data/contact.js" defer></script>
 </body>
 </html>

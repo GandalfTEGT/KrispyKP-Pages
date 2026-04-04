@@ -8,6 +8,7 @@
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06090b">
 <title>KrispyKP // Home</title>
 <link rel="stylesheet" href="styles/site.css">
+<link rel="stylesheet" href="styles/home.css">
 <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png">
@@ -44,11 +45,15 @@
     <div class="container hero-grid">
       <div class="frame panel">
         <div class="kicker">Battlefield Uplink Established</div>
+
         <div class="hero-brand">
           <img class="hero-logo" src="assets/logo.png" alt="KrispyKP logo">
           <div>
             <h1 class="h1">KrispyKP</h1>
-            <p class="sub">Welcome to the home of KrispyKP or simply Krispy, a somewhat decent Command & Conquer player from Scotland who loves to make silly content for the internet.</p>
+            <p class="sub">
+              Welcome to the home of Krispy, a semi decent Command & Conquer player from Scotland 
+              who is sometimes good at other games and usually bad at most.
+            </p>
           </div>
         </div>
 
@@ -78,9 +83,8 @@
           </ul>
           <p>
             Please note that as this schedule is 7 days a week, streams may come and go as life events catch up with me ♡♡
-          <br>
-          <br>
-          (All times are UTC+0)
+            <br><br>
+            (All times are UTC+0)
           </p>
         </div>
       </div>
@@ -90,37 +94,146 @@
           <div class="section-title">Live Stream</div>
           <div class="embed-wrap">
             <div class="embed-box">
-              <iframe src="https://player.twitch.tv/?channel=KrispyKP&parent=krispykp.com&muted=true" allowfullscreen title="KrispyKP Twitch stream"></iframe>
+              <iframe
+                src="https://player.twitch.tv/?channel=KrispyKP&parent=krispykp.com&muted=true"
+                allowfullscreen
+                title="KrispyKP Twitch stream">
+              </iframe>
             </div>
           </div>
         </div>
 
-        <div class="frame panel">
-          <div class="section-title">What You Will Find Here</div>
-          <div class="stat-grid">
-            <div class="mini">
-              <span class="label">Live Content</span>
-              <span class="value">Streams</span>
-              <div class="small">Direct access to Twitch, schedules, and current channel focus.</div>
+        <div class="frame panel home-uplink-panel home-live-panel">
+          <div class="section-title">Current Uplink</div>
+
+          <div class="home-uplink-summary">
+            <div class="home-uplink-summary-item">
+              <span class="home-uplink-summary-label">Upcoming</span>
+              <span class="home-uplink-summary-value">Working on a new KrispyKP Stats Page</span>
             </div>
-            <div class="mini">
+            <div class="home-uplink-summary-item">
+              <span class="home-uplink-summary-label">Upcoming</span>
+              <span class="home-uplink-summary-value">New overlay projects for C&C Tib Dawn</span>
+            </div>
+          </div>
+          <div class="stat-grid home-uplink-grid">
+            <div class="mini home-live-pulse">
+              <span class="label">Live Content</span>
+              <span class="value">Live Streams</span>
+              <div class="small">Check out the stream above or by clicking the "OPEN TWITCH" button to the left.</div>
+            </div>
+            <div class="mini home-live-pulse">
               <span class="label">Music</span>
               <span class="value">Player</span>
-              <div class="small">A built-in browser player for original tracks, remixes, and releases.</div>
+              <div class="small">Original tracks, album groupings, and custom saved playlists.</div>
             </div>
-            <div class="mini">
+            <div class="mini home-live-pulse">
               <span class="label">Video Archive</span>
               <span class="value">YouTube</span>
-              <div class="small">Featured uploads, VOD links, and future archive expansion.</div>
+              <div class="small">Featured uploads, VODs, playlists, and latest channel drops.</div>
             </div>
-            <div class="mini">
+            <div class="mini home-live-pulse">
               <span class="label">Events</span>
               <span class="value">Tournaments</span>
-              <div class="small">A dedicated page ready for brackets, signups, and stream coverage.</div>
+              <div class="small">A dedicated event hub for coverage, brackets, and results.</div>
             </div>
           </div>
         </div>
       </aside>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container two-col home-feature-grid">
+      <section class="frame panel home-feature-panel home-video-feature">
+        <div class="home-block-head">
+          <div>
+            <div class="section-title">Featured Video</div>
+            <div id="homeFeaturedVideoTitle" class="section-big">Loading latest upload...</div>
+            <div id="homeFeaturedVideoMeta" class="muted">Syncing video archive</div>
+          </div>
+        </div>
+
+        <div class="home-video-wrap">
+          <iframe
+            id="homeFeaturedVideoFrame"
+            title="KrispyKP featured homepage video"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin">
+          </iframe>
+        </div>
+
+        <p id="homeFeaturedVideoNote" class="muted home-feature-note"></p>
+
+        <div class="cta-row home-video-actions">
+          <a id="homeFeaturedVideoLink" class="btn primary" href="videos.html">Watch on YouTube</a>
+          <a class="btn" href="videos.html">Browse Library</a>
+        </div>
+      </section>
+
+      <section class="frame panel home-feature-panel home-track-feature">
+        <div class="home-block-head">
+          <div>
+            <div class="section-title">Featured Tracks</div>
+            <div class="section-big">Music Picks</div>
+            <div class="muted">A rotating selection from the site music library.</div>
+          </div>
+        </div>
+
+        <div id="homeFeaturedTracksGrid" class="home-featured-tracks-grid">
+          <article class="home-featured-track-card">
+            <div class="home-featured-track-head">
+              <div class="thumb home-featured-track-art" style="background-image:url('assets/logo.png')"></div>
+              <div class="home-featured-track-copy">
+                <div class="t-name">Loading track...</div>
+                <div class="t-tag">Featured Release</div>
+                <div class="t-artist">Syncing music library</div>
+              </div>
+            </div>
+
+            <div class="cta-row home-featured-track-actions">
+              <button class="btn primary" type="button" disabled>Play Preview</button>
+            </div>
+          </article>
+
+          <article class="home-featured-track-card">
+            <div class="home-featured-track-head">
+              <div class="thumb home-featured-track-art" style="background-image:url('assets/logo.png')"></div>
+              <div class="home-featured-track-copy">
+                <div class="t-name">Loading track...</div>
+                <div class="t-tag">Featured Release</div>
+                <div class="t-artist">Syncing music library</div>
+              </div>
+            </div>
+
+            <div class="cta-row home-featured-track-actions">
+              <button class="btn primary" type="button" disabled>Play Preview</button>
+            </div>
+          </article>
+
+          <article class="home-featured-track-card">
+            <div class="home-featured-track-head">
+              <div class="thumb home-featured-track-art" style="background-image:url('assets/logo.png')"></div>
+              <div class="home-featured-track-copy">
+                <div class="t-name">Loading track...</div>
+                <div class="t-tag">Featured Release</div>
+                <div class="t-artist">Syncing music library</div>
+              </div>
+            </div>
+
+            <div class="cta-row home-featured-track-actions">
+              <button class="btn primary" type="button" disabled>Play Preview</button>
+            </div>
+          </article>
+        </div>
+
+        <audio id="homeFeaturedTrackAudio" preload="none"></audio>
+
+        <div class="cta-row home-track-footer-actions">
+          <a class="btn" href="music.html">Open Music</a>
+        </div>
+      </section>
     </div>
   </section>
 
@@ -133,10 +246,10 @@
         </div>
       </div>
 
-      <div class="link-grid">
+      <div class="link-grid home-site-grid">
         <article class="frame link-card">
           <h3>Music</h3>
-          <p>Listen to tracks directly on the site using the built-in player.</p>
+          <p>Listen through the browser player, browse releases, and build your own custom playlists.</p>
           <div class="cta-row">
             <a class="btn primary" href="music.html">Open Music</a>
           </div>
@@ -144,17 +257,36 @@
 
         <article class="frame link-card">
           <h3>Videos</h3>
-          <p>Browse YouTube uploads, playlists, and VODs by game.</p>
+          <p>Browse uploads, game categories, VODs, and the latest YouTube content.</p>
           <div class="cta-row">
             <a class="btn primary" href="videos.html">Watch Videos</a>
           </div>
         </article>
 
-        <article class="frame link-card">
-          <h3>Tournaments</h3>
-          <p>Upcoming events, signups, and match coverage will appear here.</p>
-          <div class="cta-row">
-            <a class="btn primary" href="tournaments.html">View Events</a>
+        <article id="homeTournamentCard" class="frame link-card home-tournament-card">
+          <div class="home-tournament-shell">
+            <div
+              id="homeTournamentBanner"
+              class="home-tournament-banner home-tournament-banner--empty"
+              aria-hidden="true">
+            </div>
+
+            <div class="home-tournament-copy">
+              <div class="home-tournament-topline">
+                <span id="homeTournamentStatus" class="tag">Tournament Hub</span>
+              </div>
+
+              <h3 id="homeTournamentTitle">Tournaments</h3>
+              <p id="homeTournamentText">
+                Upcoming events, signups, brackets, results, and stream-linked coverage will live here.
+              </p>
+
+              <div id="homeTournamentMeta" class="home-tournament-meta"></div>
+
+              <div class="cta-row home-tournament-actions">
+                <a id="homeTournamentLink" class="btn primary" href="tournaments.html">View Events</a>
+              </div>
+            </div>
           </div>
         </article>
       </div>
@@ -164,29 +296,28 @@
   <section class="section">
     <div class="container two-col">
       <div class="frame feature">
-        <div class="section-title">Channel Focus</div>
+        <div class="section-title">Current Focus</div>
         <ul class="list">
-          <li><span>Tiberian Dawn ladder games</span><span class="muted">Main content</span></li>
-          <li><span>StarCraft II sessions</span><span class="muted">Regular</span></li>
-          <li><span>Command & Conquer variety</span><span class="muted">Renegade / Mods</span></li>
-          <li><span>Stream VODs & highlights</span><span class="muted">YouTube</span></li>
-          <li><span>Music & remixes</span><span class="muted">Side projects</span></li>
+          <li><span>Tiberian Dawn ladder sessions</span><span class="muted">Main stream focus</span></li>
+          <li><span>StarCraft II nights</span><span class="muted">Regular rotation</span></li>
+          <li><span>Command &amp; Conquer variety</span><span class="muted">Renegade / Combined Arms</span></li>
+          <li><span>Original music &amp; soundtrack drops</span><span class="muted">Ongoing project</span></li>
+          <li><span>YouTube archive expansion</span><span class="muted">Clips / VODs / playlists</span></li>
         </ul>
       </div>
 
       <div class="frame feature">
-        <div class="section-title">What Is Next</div>
+        <div class="section-title">Command Feed</div>
         <div class="big-quote">
-          This site will grow alongside the channel.
+          One Vision. One Purpose.
         </div>
-
         <p class="muted">
-          Future additions may include:
-          – Tournament events and brackets  
-          – Expanded video archive  
-          – More music releases  
-          – Additional site features as needed  
+          My main plan for this site is to create an area that hosts all of my content and ideas from all platforms in a single place.
+          It is mostly for my own use and amusement but I hope you get some use out of it too.
+          <br><br>
+          - Krispy
         </p>
+        <p class="muted home-dashboard-timestamp">Last sync // --:--</p>
       </div>
     </div>
   </section>
@@ -212,6 +343,10 @@
 </footer>
 </div>
 
+<script src="data/videos.generated.js"></script>
+<script src="data/tracks.js"></script>
+<script src="data/tournaments.config.js"></script>
+<script src="data/home-page.js"></script>
 <script src="data/radar-effects.js"></script>
 
 </body>
