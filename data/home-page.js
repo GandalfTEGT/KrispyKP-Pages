@@ -165,7 +165,7 @@
     }
 
     if (els.featuredVideoLink) {
-      els.featuredVideoLink.href = video.url || "videos.html";
+      els.featuredVideoLink.href = video.url || "/videos/";
       els.featuredVideoLink.target = "_blank";
       els.featuredVideoLink.rel = "noopener noreferrer";
       els.featuredVideoLink.textContent = "Watch on YouTube";
@@ -481,7 +481,7 @@
       }
 
       if (els.tournamentLink) {
-        els.tournamentLink.href = "tournaments.html";
+        els.tournamentLink.href = "/tournaments/";
         els.tournamentLink.textContent = "View Events";
       }
 
@@ -520,7 +520,7 @@
     }
 
     if (els.tournamentLink) {
-      els.tournamentLink.href = "tournaments.html";
+      els.tournamentLink.href = "/tournaments/";
       els.tournamentLink.textContent =
         event.status === "live" ? "Open Live Event" : "View Event";
     }
