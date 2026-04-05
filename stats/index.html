@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#06090b">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#06090b">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06090b">
+<title>KrispyKP // Stats</title>
+<link rel="stylesheet" href="/styles/site.css">
+<link rel="stylesheet" href="/styles/stats.css">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+</head>
+<body>
+<div class="radar-grid" aria-hidden="true"></div>
+<div class="radar-blips" aria-hidden="true"></div>
+<div class="radar-vignette" aria-hidden="true"></div>
+<div class="radar-sweep" aria-hidden="true"></div>
+
+<div class="shell radar">
+  <header class="topbar">
+    <div class="container nav">
+      <a class="brand" href="/">
+        <img class="brand-logo" src="/assets/logo.png" alt="KrispyKP logo">
+        <span class="brand-copy">
+          <span class="brand-mark">KrispyKP</span>
+          <span class="brand-sub">Stream // Music // YouTube // C&amp;C</span>
+        </span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="/">Home</a>
+        <a href="/music/">Music</a>
+        <a href="/videos/">Videos</a>
+        <a href="/tournaments/">Tournaments</a>
+        <a href="/stats/" class="active">Stats</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero stats-page-hero">
+      <div class="container">
+        <div class="frame panel stats-hero-panel">
+          <div class="kicker">Command Uplink // Ladder Intelligence</div>
+          <h1 class="h1">Stats</h1>
+          <p class="sub stats-hero-copy">
+            Ladder profile data, recent match history, head to head breakdowns, and searchable player information for Tiberian Dawn.
+          </p>
+
+          <div class="meta-row">
+            <div class="status-pill"><span class="dot"></span> Profile Summary</div>
+            <div class="status-pill"><span class="dot"></span> Recent Matches</div>
+            <div class="status-pill"><span class="dot"></span> Player Search</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section stats-main-section">
+      <div class="container stats-layout">
+        <section class="frame panel stats-main-panel">
+          <div class="stats-panel-head">
+            <div>
+              <div class="section-title">Player Lookup</div>
+              <div class="section-big">Search &amp; Profile</div>
+            </div>
+          </div>
+
+          <div class="stats-toolbar">
+            <div class="field">
+              <label for="statsGame">Game</label>
+              <select id="statsGame">
+                <option value="TD" selected>Tiberian Dawn</option>
+                <option value="RA">Red Alert</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="statsSeason">Season</label>
+              <input id="statsSeason" type="text" value="23" inputmode="numeric" autocomplete="off">
+            </div>
+
+            <div class="field stats-search-field">
+              <label for="statsPlayerSearch">Search player</label>
+              <input id="statsPlayerSearch" type="text" placeholder="Type a player name">
+            </div>
+
+            <div class="field stats-button-field">
+              <label>&nbsp;</label>
+              <button id="statsSearchButton" class="btn primary" type="button">Search</button>
+            </div>
+          </div>
+
+          <div id="statsSearchStatus" class="center-note">Loading leaderboard…</div>
+
+          <div id="statsSearchResults" class="stats-search-results" hidden></div>
+
+          <div class="stats-summary-grid">
+            <article class="frame stats-mini-card">
+              <div class="stats-mini-label">Player</div>
+              <div class="stats-mini-value" id="statsPlayerName">Krispy</div>
+              <div class="stats-mini-sub" id="statsPlayerId">Steam ID loading…</div>
+            </article>
+
+            <article class="frame stats-mini-card">
+              <div class="stats-mini-label">Rank</div>
+              <div class="stats-mini-value" id="statsRank">--</div>
+              <div class="stats-mini-sub">Current ladder rank</div>
+            </article>
+
+            <article class="frame stats-mini-card">
+              <div class="stats-mini-label">Points</div>
+              <div class="stats-mini-value" id="statsPoints">--</div>
+              <div class="stats-mini-sub">Current ladder points</div>
+            </article>
+
+            <article class="frame stats-mini-card">
+              <div class="stats-mini-label">Wins</div>
+              <div class="stats-mini-value" id="statsWins">--</div>
+              <div class="stats-mini-sub">Total wins</div>
+            </article>
+
+            <article class="frame stats-mini-card">
+              <div class="stats-mini-label">Losses</div>
+              <div class="stats-mini-value" id="statsLosses">--</div>
+              <div class="stats-mini-sub">Total losses</div>
+            </article>
+
+            <article class="frame stats-mini-card">
+              <div class="stats-mini-label">Win Rate</div>
+              <div class="stats-mini-value" id="statsRatio">--</div>
+              <div class="stats-mini-sub" id="statsRatioChange">Previous ratio: --</div>
+            </article>
+          </div>
+
+          <div class="stats-two-col">
+            <section class="frame panel stats-block">
+              <div class="stats-block-head">
+                <div>
+                  <div class="section-title">Latest Match</div>
+                  <div class="section-big stats-block-title">Most Recent Result</div>
+                </div>
+              </div>
+
+              <div id="statsLatestMatch" class="stats-latest-match">
+                <div class="notice">No match loaded yet.</div>
+              </div>
+            </section>
+
+            <section class="frame panel stats-block">
+              <div class="stats-block-head">
+                <div>
+                  <div class="section-title">Head to Head</div>
+                  <div class="section-big stats-block-title">Versus Selected Opponent</div>
+                </div>
+              </div>
+
+              <div class="stats-h2h-toolbar">
+                <div class="field">
+                  <label for="statsOpponentSearch">Opponent name</label>
+                  <input id="statsOpponentSearch" type="text" placeholder="Type an opponent name">
+                </div>
+                <div class="field stats-button-field">
+                  <label>&nbsp;</label>
+                  <button id="statsOpponentButton" class="btn" type="button">Build H2H</button>
+                </div>
+              </div>
+
+              <div id="statsH2H" class="stats-h2h-panel">
+                <div class="notice">Choose an opponent to build a head to head view from the loaded match history.</div>
+              </div>
+            </section>
+          </div>
+
+          <section class="frame panel stats-block stats-table-shell">
+            <div class="stats-block-head">
+              <div>
+                <div class="section-title">Match History</div>
+                <div class="section-big stats-block-title">Recent Matches</div>
+              </div>
+            </div>
+
+            <div class="stats-table-wrap">
+              <table class="stats-table">
+                <thead>
+                  <tr>
+                    <th>Opponent</th>
+                    <th>Map</th>
+                    <th>Result</th>
+                    <th>Duration</th>
+                    <th>Started</th>
+                  </tr>
+                </thead>
+                <tbody id="statsMatchesBody">
+                  <tr>
+                    <td colspan="5" class="stats-empty-row">Loading match history…</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </section>
+
+        <aside class="stats-side-panel">
+          <section class="frame panel stats-side-card">
+            <div class="section-title">Current Focus</div>
+            <div class="section-big stats-side-title">Page Status</div>
+            <ul class="list">
+              <li><span>Own profile summary</span><span class="muted">Included now</span></li>
+              <li><span>Recent matches</span><span class="muted">Included now</span></li>
+              <li><span>Player search</span><span class="muted">Included now</span></li>
+              <li><span>Head to head</span><span class="muted">Included now</span></li>
+              <li><span>Global match feed</span><span class="muted">Later step</span></li>
+            </ul>
+          </section>
+
+          <section class="frame panel stats-side-card">
+            <div class="section-title">Data Route</div>
+            <div class="section-big stats-side-title">Source</div>
+            <p class="muted">
+              This page is designed to run on the website while pulling stat data through your existing proxy layer.
+            </p>
+            <div class="notice">
+              GitHub Pages hosts the page itself. The data proxy remains separate.
+            </div>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-shell frame">
+        <div class="footer-grid">
+          <section class="footer-brand-block">
+            <a class="footer-brand" href="/">
+              <img class="footer-brand-logo" src="/assets/logo.png" alt="KrispyKP logo">
+              <div class="footer-brand-copy">
+                <div class="footer-brand-title">KrispyKP</div>
+                <div class="footer-brand-sub">Stream // Music // YouTube // C&amp;C</div>
+              </div>
+            </a>
+
+            <p class="footer-text">
+              The main hub for streams, videos, music, tournament coverage, stat tracking, and future community content.
+            </p>
+
+            <div class="footer-platforms">
+              <a class="btn primary" href="https://www.twitch.tv/KrispyKP" target="_blank" rel="noopener noreferrer">Twitch</a>
+              <a class="btn" href="https://www.youtube.com/@KrispyKremePie" target="_blank" rel="noopener noreferrer">YouTube</a>
+            </div>
+          </section>
+
+          <nav class="footer-nav-block" aria-label="Footer navigation">
+            <div class="footer-heading">Navigation</div>
+            <div class="footer-links">
+              <a href="/">Home</a>
+              <a href="/music/">Music</a>
+              <a href="/videos/">Videos</a>
+              <a href="/tournaments/">Tournaments</a>
+              <a href="/stats/">Stats</a>
+              <a href="/about/">About</a>
+              <a href="/contact/">Contact</a>
+            </div>
+          </nav>
+
+          <section class="footer-contact-block">
+            <div class="footer-heading">Contact</div>
+            <ul class="footer-contact-list">
+              <li>
+                <span class="footer-contact-label">General</span>
+                <a href="mailto:contact@krispykp.com">contact@krispykp.com</a>
+              </li>
+              <li>
+                <span class="footer-contact-label">Events</span>
+                <a href="mailto:events@krispykp.com">events@krispykp.com</a>
+              </li>
+            </ul>
+          </section>
+
+          <section class="footer-status-block">
+            <div class="footer-heading">Site</div>
+            <ul class="footer-meta-list">
+              <li><span>Content</span><span class="muted">Streams, music, videos, events, stats</span></li>
+              <li><span>Platform</span><span class="muted">GitHub Pages + Cloudflare</span></li>
+              <li><span>Region</span><span class="muted">Scotland, UK</span></li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="footer-bottom">
+          <div class="footer-bottom-left">
+            © 2026 KrispyKP. All rights reserved.
+          </div>
+          <div class="footer-bottom-right">
+            Built as the central public hub for the KrispyKP name.
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="/data/stats-page.js"></script>
+<script src="/data/radar-effects.js"></script>
+</body>
+</html>
