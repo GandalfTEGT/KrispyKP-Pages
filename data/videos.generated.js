@@ -11,6 +11,30 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 16,
       "latest": [
         {
+          "videoId": "y8C4siS7ZHc",
+          "title": "Combined Arms Campaign Continued 04/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
+          "playlistAddedAt": "2026-04-04T21:05:44Z",
+          "videoPublishedAt": "2026-04-05T01:06:13Z",
+          "publishedAt": "2026-04-04T21:05:44Z",
+          "thumbnail": "https://i.ytimg.com/vi/y8C4siS7ZHc/maxresdefault.jpg",
+          "position": 3,
+          "duration": "PT1H46M41S",
+          "playlistItemStatus": "public"
+        },
+        {
+          "videoId": "F-vn4P7T6ZM",
+          "title": "TD Ladder To Regain My Sanity 04/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
+          "playlistAddedAt": "2026-04-04T21:05:33Z",
+          "videoPublishedAt": "2026-04-04T23:28:51Z",
+          "publishedAt": "2026-04-04T21:05:33Z",
+          "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
+          "position": 13,
+          "duration": "PT44M58S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "T_UR2iMo9PU",
           "title": "24 Hour Affiliate Anniversary Stream 26/03/26 || Part 2",
           "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispykp on the 26th March 2026",
@@ -177,30 +201,6 @@ window.KRISPY_VIDEO_DATA = {
           "position": 4,
           "duration": "PT1H55M59S",
           "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "d1Nfzkbo254",
-          "title": "Trying to De-Rust in Tib Dawn 11/03/26",
-          "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 11th March 2026",
-          "playlistAddedAt": "2026-03-30T21:39:34Z",
-          "videoPublishedAt": "2026-03-30T23:49:34Z",
-          "publishedAt": "2026-03-30T21:39:34Z",
-          "thumbnail": "https://i.ytimg.com/vi/d1Nfzkbo254/maxresdefault.jpg",
-          "position": 3,
-          "duration": "PT2H25M13S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "3AbvlKWYmAE",
-          "title": "StarCraft II 26/03/26",
-          "description": "This video was taken from my 24 hour stream at https://www.twitch.tv/krispy on the 26th March 2026",
-          "playlistAddedAt": "2026-03-30T21:05:37Z",
-          "videoPublishedAt": "2026-03-30T22:24:35Z",
-          "publishedAt": "2026-03-30T21:05:37Z",
-          "thumbnail": "https://i.ytimg.com/vi/3AbvlKWYmAE/maxresdefault.jpg",
-          "position": 1,
-          "duration": "PT2H7M7S",
-          "playlistItemStatus": "public"
         }
       ],
       "subTabs": []
@@ -211,6 +211,18 @@ window.KRISPY_VIDEO_DATA = {
       "featuredVideoId": "W7Q9PdkNQD8",
       "latestCount": 12,
       "latest": [
+        {
+          "videoId": "F-vn4P7T6ZM",
+          "title": "TD Ladder To Regain My Sanity 04/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
+          "playlistAddedAt": "2026-04-04T21:05:33Z",
+          "videoPublishedAt": "2026-04-04T23:28:51Z",
+          "publishedAt": "2026-04-04T21:05:33Z",
+          "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
+          "position": 13,
+          "duration": "PT44M58S",
+          "playlistItemStatus": "public"
+        },
         {
           "videoId": "RGBjjGtLPN4",
           "title": "Tib Dawn Ladder & Customs & Campaign 26/03/26",
@@ -341,18 +353,6 @@ window.KRISPY_VIDEO_DATA = {
           "thumbnail": "https://i.ytimg.com/vi/2L0Z7n_mDgY/maxresdefault.jpg",
           "position": 1,
           "duration": "PT3H4M43S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "0LjS2daiauo",
-          "title": "Late Night TD Ladder!! 22/03/25",
-          "description": "This vod was taken from my stream at https://www.twitch.tv/krispykp on 22nd March 2025",
-          "playlistAddedAt": "2026-03-30T16:49:32Z",
-          "videoPublishedAt": "2026-03-30T17:19:04Z",
-          "publishedAt": "2026-03-30T16:49:32Z",
-          "thumbnail": "https://i.ytimg.com/vi/0LjS2daiauo/maxresdefault.jpg",
-          "position": 0,
-          "duration": "PT3H3M33S",
           "playlistItemStatus": "public"
         }
       ],
@@ -591,6 +591,18 @@ window.KRISPY_VIDEO_DATA = {
               "position": 12,
               "duration": "PT8H23M17S",
               "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "F-vn4P7T6ZM",
+              "title": "TD Ladder To Regain My Sanity 04/04/26",
+              "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
+              "playlistAddedAt": "2026-04-04T21:05:33Z",
+              "videoPublishedAt": "2026-04-04T23:28:51Z",
+              "publishedAt": "2026-04-04T21:05:33Z",
+              "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
+              "position": 13,
+              "duration": "PT44M58S",
+              "playlistItemStatus": "public"
             }
           ]
         }
@@ -733,6 +745,18 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 12,
       "latest": [
         {
+          "videoId": "y8C4siS7ZHc",
+          "title": "Combined Arms Campaign Continued 04/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
+          "playlistAddedAt": "2026-04-04T21:05:44Z",
+          "videoPublishedAt": "2026-04-05T01:06:13Z",
+          "publishedAt": "2026-04-04T21:05:44Z",
+          "thumbnail": "https://i.ytimg.com/vi/y8C4siS7ZHc/maxresdefault.jpg",
+          "position": 3,
+          "duration": "PT1H46M41S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "ozfokbQfFsM",
           "title": "OpenRA: Combined Arms Campaign 29/03/26",
           "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 29th March 2026",
@@ -809,6 +833,18 @@ window.KRISPY_VIDEO_DATA = {
               "thumbnail": "https://i.ytimg.com/vi/ozfokbQfFsM/maxresdefault.jpg",
               "position": 2,
               "duration": "PT3H6M57S",
+              "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "y8C4siS7ZHc",
+              "title": "Combined Arms Campaign Continued 04/04/26",
+              "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
+              "playlistAddedAt": "2026-04-04T21:05:44Z",
+              "videoPublishedAt": "2026-04-05T01:06:13Z",
+              "publishedAt": "2026-04-04T21:05:44Z",
+              "thumbnail": "https://i.ytimg.com/vi/y8C4siS7ZHc/maxresdefault.jpg",
+              "position": 3,
+              "duration": "PT1H46M41S",
               "playlistItemStatus": "public"
             }
           ]
