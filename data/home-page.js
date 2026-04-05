@@ -5,7 +5,7 @@
   const tournamentData = window.KRISPY_TOURNAMENTS || { currentEventId: null, events: [] };
 
   const HOME_FEATURE_CONFIG = {
-    forcedVideoId: "MUpIlUdrX7c",
+    forcedVideoId: "",
     forcedTrackIds: [],
     shuffleTracksOnLoad: true,
     randomVideoFromLatest: false
