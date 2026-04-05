@@ -291,6 +291,52 @@
   overflow: hidden;
 }
 
+.stats-global-shell {
+  min-width: 0;
+}
+
+.stats-global-list {
+  display: grid;
+  gap: 12px;
+}
+
+.stats-global-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid rgba(79, 210, 255, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0)),
+    rgba(0, 0, 0, 0.16);
+}
+
+.stats-global-matchup {
+  font-size: 18px;
+  line-height: 1.35;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.stats-global-player {
+  color: var(--cyan-soft);
+}
+
+.stats-global-map {
+  color: var(--amber);
+  font-weight: 800;
+}
+
+.stats-global-winner {
+  color: var(--green);
+  font-weight: 800;
+}
+
+.stats-global-meta {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
 @media (max-width: 1180px) {
   .stats-layout {
     grid-template-columns: 1fr;

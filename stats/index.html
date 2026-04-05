@@ -74,11 +74,8 @@
 
           <div class="stats-toolbar">
             <div class="field">
-              <label for="statsGame">Game</label>
-              <select id="statsGame">
-                <option value="TD" selected>Tiberian Dawn</option>
-                <option value="RA">Red Alert</option>
-              </select>
+              <label for="statsGameDisplay">Game</label>
+              <input id="statsGameDisplay" type="text" value="Tiberian Dawn" readonly>
             </div>
 
             <div class="field">
@@ -177,6 +174,26 @@
               </div>
             </section>
           </div>
+
+          <section class="frame panel stats-block stats-global-shell">
+            <div class="stats-block-head">
+              <div>
+                <div class="section-title">Live Activity</div>
+                <div class="section-big stats-block-title">Recent Global Matches</div>
+              </div>
+            </div>
+
+            <div id="statsGlobalStatus" class="center-note">Loading recent global TD matches…</div>
+
+            <div id="statsGlobalMatches" class="stats-global-list">
+              <article class="stats-global-card">
+                <div class="stats-info-row">
+                  <span class="stats-info-label">Status</span>
+                  <span class="stats-info-value">Waiting for data</span>
+                </div>
+              </article>
+            </div>
+          </section>
 
           <section class="frame panel stats-block stats-table-shell">
             <div class="stats-block-head">

@@ -30,6 +30,8 @@
     opponentSearch: document.getElementById("statsOpponentSearch"),
     opponentButton: document.getElementById("statsOpponentButton"),
     h2h: document.getElementById("statsH2H")
+    globalStatus: document.getElementById("statsGlobalStatus"),
+    globalMatches: document.getElementById("statsGlobalMatches")
   };
 
   let leaderboardRows = [];
@@ -117,7 +119,7 @@
   }
 
   function getSettings() {
-    const game = (els.game?.value || STATS_CONFIG.defaultGame).trim().toUpperCase();
+    const game = "TD";
     const season = (els.season?.value || STATS_CONFIG.defaultSeason).trim();
     return { game, season };
   }
@@ -322,6 +324,82 @@
     }).join("");
   }
 
+  function renderGlobalMatches(items) {
+    if (!els.globalMatches || !els.globalStatus) return;
+
+    if (!Array.isArray(items) || !items.length) {
+      els.globalStatus.textContent = "No recent global matches are available.";
+      els.globalMatches.innerHTML = `
+        <article class="stats-global-card">
+          <div class="stats-info-row">
+            <span class="stats-info-label">Status</span>
+            <span class="stats-info-value">No data returned</span>
+          </div>
+        </article>
+      `;
+      return;
+    }
+
+    els.globalStatus.textContent = `${items.length} recent global match${items.length === 1 ? "" : "es"} loaded.`;
+
+    els.globalMatches.innerHTML = items.map((match) => `
+      <article class="stats-global-card">
+        <div class="stats-global-matchup">
+          <span class="stats-global-player">${escapeHtml(match.playerName || "?")}</span>
+          <span> v </span>
+          <span class="stats-global-player">${escapeHtml(match.opponentName || "?")}</span>
+        </div>
+
+        <div class="stats-info-row">
+          <span class="stats-info-label">Map</span>
+          <span class="stats-info-value stats-global-map">${escapeHtml(formatMapName(match.mapName || "--"))}</span>
+        </div>
+
+        <div class="stats-info-row">
+          <span class="stats-info-label">Winner</span>
+          <span class="stats-info-value stats-global-winner">${escapeHtml(match.winnerName || "?")}</span>
+        </div>
+
+        <div class="stats-global-meta">
+          Finished ${escapeHtml(match.finishedAgo || "--:--")} ago
+        </div>
+      </article>
+    `).join("");
+  }
+
+  async function loadGlobalMatches() {
+    if (!els.globalStatus) return;
+
+    els.globalStatus.textContent = "Loading recent global TD matches…";
+
+    try {
+      const response = await fetch(`/recent-global-matches?t=${Date.now()}`, {
+        cache: "no-store"
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      renderGlobalMatches(Array.isArray(data?.matches) ? data.matches : []);
+    } catch (error) {
+      console.error("global matches load failed", error);
+      els.globalStatus.textContent = "Recent global matches are currently unavailable.";
+
+      if (els.globalMatches) {
+        els.globalMatches.innerHTML = `
+          <article class="stats-global-card">
+            <div class="stats-info-row">
+              <span class="stats-info-label">Status</span>
+              <span class="stats-info-value">Endpoint unavailable</span>
+            </div>
+          </article>
+        `;
+      }
+    }
+  }
+
   function buildHeadToHead(opponentName) {
     if (!Array.isArray(currentMatches) || !currentMatches.length) {
       return {
@@ -453,6 +531,7 @@
     }
 
     await loadPlayerById(STATS_CONFIG.defaultSteamId, "Krispy");
+    await loadGlobalMatches();
   }
 
   els.searchButton?.addEventListener("click", async () => {
@@ -472,10 +551,6 @@
     els.searchButton?.click();
   });
 
-  els.game?.addEventListener("change", async () => {
-    await init();
-  });
-
   els.season?.addEventListener("change", async () => {
     await init();
   });
@@ -489,6 +564,10 @@
     event.preventDefault();
     renderHeadToHead(els.opponentSearch?.value || "");
   });
+
+  setInterval(() => {
+    loadGlobalMatches();
+  }, 30000);
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init, { once: true });
