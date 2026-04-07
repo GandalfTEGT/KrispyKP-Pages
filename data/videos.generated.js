@@ -11,6 +11,30 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 16,
       "latest": [
         {
+          "videoId": "TGf_E2IiuQQ",
+          "title": "Tib Dawn Ladder Again 06/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp.com on the 06th April 2026\n\n=============================================================\nWelcome to KrispyKP\n\nCommand & Conquer gameplay, ranked matches, and whatever else ends up happening along the way.\n\nWatch live:\nhttps://twitch.tv/krispykp\n\nFollow on Twitch:\nhttps://twitch.tv/krispykp/follow\n\nSubscribe on YouTube:\nhttps://www.youtube.com/@KrispyKP?sub_confirmation=1\n\nWebsite:\nhttps://krispykp.com\n\n---\n\nAbout this channel:\nContent is primarily focused on Command & Conquer, especially Tiberian Dawn. Most videos come from live sessions, so you’ll see full games, mistakes, and everything in between.\n\n---\n\n#CommandAndConquer #TiberianDawn #KrispyKP",
+          "playlistAddedAt": "2026-04-07T11:02:31Z",
+          "videoPublishedAt": "2026-04-07T11:47:50Z",
+          "publishedAt": "2026-04-07T11:02:31Z",
+          "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
+          "position": 14,
+          "duration": "PT53M46S",
+          "playlistItemStatus": "public"
+        },
+        {
+          "videoId": "iQAcOhOPLSw",
+          "title": "Let's Attempt Combined Arms Campaign Again 06/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 06th April 2026",
+          "playlistAddedAt": "2026-04-07T10:55:32Z",
+          "videoPublishedAt": "2026-04-07T11:36:11Z",
+          "publishedAt": "2026-04-07T10:55:32Z",
+          "thumbnail": "https://i.ytimg.com/vi/iQAcOhOPLSw/maxresdefault.jpg",
+          "position": 4,
+          "duration": "PT2H32M43S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "y8C4siS7ZHc",
           "title": "Combined Arms Campaign Continued 04/04/26",
           "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
@@ -177,30 +201,6 @@ window.KRISPY_VIDEO_DATA = {
           "position": 6,
           "duration": "PT2H7M36S",
           "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "9NAgCTGFvJY",
-          "title": "Tib Dawn Ladder 13/03/26",
-          "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 13th March 2026",
-          "playlistAddedAt": "2026-03-30T21:42:43Z",
-          "videoPublishedAt": "2026-03-30T22:30:03Z",
-          "publishedAt": "2026-03-30T21:42:43Z",
-          "thumbnail": "https://i.ytimg.com/vi/9NAgCTGFvJY/maxresdefault.jpg",
-          "position": 5,
-          "duration": "PT1H22S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "h3WVV97jcYg",
-          "title": "Can We Stay Top 10? 12/03/26",
-          "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 12th March 2026",
-          "playlistAddedAt": "2026-03-30T21:41:42Z",
-          "videoPublishedAt": "2026-03-30T23:07:22Z",
-          "publishedAt": "2026-03-30T21:41:42Z",
-          "thumbnail": "https://i.ytimg.com/vi/h3WVV97jcYg/maxresdefault.jpg",
-          "position": 4,
-          "duration": "PT1H55M59S",
-          "playlistItemStatus": "public"
         }
       ],
       "subTabs": []
@@ -211,6 +211,18 @@ window.KRISPY_VIDEO_DATA = {
       "featuredVideoId": "W7Q9PdkNQD8",
       "latestCount": 12,
       "latest": [
+        {
+          "videoId": "TGf_E2IiuQQ",
+          "title": "Tib Dawn Ladder Again 06/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp.com on the 06th April 2026\n\n=============================================================\nWelcome to KrispyKP\n\nCommand & Conquer gameplay, ranked matches, and whatever else ends up happening along the way.\n\nWatch live:\nhttps://twitch.tv/krispykp\n\nFollow on Twitch:\nhttps://twitch.tv/krispykp/follow\n\nSubscribe on YouTube:\nhttps://www.youtube.com/@KrispyKP?sub_confirmation=1\n\nWebsite:\nhttps://krispykp.com\n\n---\n\nAbout this channel:\nContent is primarily focused on Command & Conquer, especially Tiberian Dawn. Most videos come from live sessions, so you’ll see full games, mistakes, and everything in between.\n\n---\n\n#CommandAndConquer #TiberianDawn #KrispyKP",
+          "playlistAddedAt": "2026-04-07T11:02:31Z",
+          "videoPublishedAt": "2026-04-07T11:47:50Z",
+          "publishedAt": "2026-04-07T11:02:31Z",
+          "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
+          "position": 14,
+          "duration": "PT53M46S",
+          "playlistItemStatus": "public"
+        },
         {
           "videoId": "F-vn4P7T6ZM",
           "title": "TD Ladder To Regain My Sanity 04/04/26",
@@ -341,18 +353,6 @@ window.KRISPY_VIDEO_DATA = {
           "thumbnail": "https://i.ytimg.com/vi/d1Nfzkbo254/maxresdefault.jpg",
           "position": 3,
           "duration": "PT2H25M13S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "2L0Z7n_mDgY",
-          "title": "TD Ladder Time 25/03/25",
-          "description": "This video was taken from my stream at https://twitch.tv/krispykp on the 25th March 2025",
-          "playlistAddedAt": "2026-03-30T16:53:02Z",
-          "videoPublishedAt": "2026-03-30T17:53:29Z",
-          "publishedAt": "2026-03-30T16:53:02Z",
-          "thumbnail": "https://i.ytimg.com/vi/2L0Z7n_mDgY/maxresdefault.jpg",
-          "position": 1,
-          "duration": "PT3H4M43S",
           "playlistItemStatus": "public"
         }
       ],
@@ -603,6 +603,18 @@ window.KRISPY_VIDEO_DATA = {
               "position": 13,
               "duration": "PT44M58S",
               "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "TGf_E2IiuQQ",
+              "title": "Tib Dawn Ladder Again 06/04/26",
+              "description": "This video was taken from my stream at https://www.twitch.tv/krispykp.com on the 06th April 2026\n\n=============================================================\nWelcome to KrispyKP\n\nCommand & Conquer gameplay, ranked matches, and whatever else ends up happening along the way.\n\nWatch live:\nhttps://twitch.tv/krispykp\n\nFollow on Twitch:\nhttps://twitch.tv/krispykp/follow\n\nSubscribe on YouTube:\nhttps://www.youtube.com/@KrispyKP?sub_confirmation=1\n\nWebsite:\nhttps://krispykp.com\n\n---\n\nAbout this channel:\nContent is primarily focused on Command & Conquer, especially Tiberian Dawn. Most videos come from live sessions, so you’ll see full games, mistakes, and everything in between.\n\n---\n\n#CommandAndConquer #TiberianDawn #KrispyKP",
+              "playlistAddedAt": "2026-04-07T11:02:31Z",
+              "videoPublishedAt": "2026-04-07T11:47:50Z",
+              "publishedAt": "2026-04-07T11:02:31Z",
+              "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
+              "position": 14,
+              "duration": "PT53M46S",
+              "playlistItemStatus": "public"
             }
           ]
         }
@@ -745,6 +757,18 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 12,
       "latest": [
         {
+          "videoId": "iQAcOhOPLSw",
+          "title": "Let's Attempt Combined Arms Campaign Again 06/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 06th April 2026",
+          "playlistAddedAt": "2026-04-07T10:55:32Z",
+          "videoPublishedAt": "2026-04-07T11:36:11Z",
+          "publishedAt": "2026-04-07T10:55:32Z",
+          "thumbnail": "https://i.ytimg.com/vi/iQAcOhOPLSw/maxresdefault.jpg",
+          "position": 4,
+          "duration": "PT2H32M43S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "y8C4siS7ZHc",
           "title": "Combined Arms Campaign Continued 04/04/26",
           "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
@@ -845,6 +869,18 @@ window.KRISPY_VIDEO_DATA = {
               "thumbnail": "https://i.ytimg.com/vi/y8C4siS7ZHc/maxresdefault.jpg",
               "position": 3,
               "duration": "PT1H46M41S",
+              "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "iQAcOhOPLSw",
+              "title": "Let's Attempt Combined Arms Campaign Again 06/04/26",
+              "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 06th April 2026",
+              "playlistAddedAt": "2026-04-07T10:55:32Z",
+              "videoPublishedAt": "2026-04-07T11:36:11Z",
+              "publishedAt": "2026-04-07T10:55:32Z",
+              "thumbnail": "https://i.ytimg.com/vi/iQAcOhOPLSw/maxresdefault.jpg",
+              "position": 4,
+              "duration": "PT2H32M43S",
               "playlistItemStatus": "public"
             }
           ]
