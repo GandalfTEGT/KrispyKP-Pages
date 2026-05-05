@@ -18,7 +18,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-04-07T11:47:50Z",
           "publishedAt": "2026-04-07T11:02:31Z",
           "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
-          "position": 14,
+          "position": 13,
           "duration": "PT53M46S",
           "playlistItemStatus": "public"
         },
@@ -54,7 +54,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-04-04T23:28:51Z",
           "publishedAt": "2026-04-04T21:05:33Z",
           "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
-          "position": 13,
+          "position": 12,
           "duration": "PT44M58S",
           "playlistItemStatus": "public"
         },
@@ -126,7 +126,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T01:57:16Z",
           "publishedAt": "2026-03-30T21:50:41Z",
           "thumbnail": "https://i.ytimg.com/vi/RGBjjGtLPN4/maxresdefault.jpg",
-          "position": 12,
+          "position": 11,
           "duration": "PT8H23M17S",
           "playlistItemStatus": "public"
         },
@@ -138,7 +138,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T00:37:58Z",
           "publishedAt": "2026-03-30T21:49:06Z",
           "thumbnail": "https://i.ytimg.com/vi/TucaSWnZCA4/maxresdefault.jpg",
-          "position": 11,
+          "position": 10,
           "duration": "PT3H13M27S",
           "playlistItemStatus": "public"
         },
@@ -150,7 +150,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T00:46:44Z",
           "publishedAt": "2026-03-30T21:47:58Z",
           "thumbnail": "https://i.ytimg.com/vi/rHaZk8QSWWU/maxresdefault.jpg",
-          "position": 10,
+          "position": 9,
           "duration": "PT3H4M46S",
           "playlistItemStatus": "public"
         },
@@ -162,7 +162,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:22:21Z",
           "publishedAt": "2026-03-30T21:47:13Z",
           "thumbnail": "https://i.ytimg.com/vi/hQz0lN-3Rhg/maxresdefault.jpg",
-          "position": 9,
+          "position": 8,
           "duration": "PT2H59M41S",
           "playlistItemStatus": "public"
         },
@@ -174,7 +174,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:22:02Z",
           "publishedAt": "2026-03-30T21:45:40Z",
           "thumbnail": "https://i.ytimg.com/vi/YUpoQKBKuis/maxresdefault.jpg",
-          "position": 8,
+          "position": 7,
           "duration": "PT3H1S",
           "playlistItemStatus": "public"
         },
@@ -186,7 +186,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:24:15Z",
           "publishedAt": "2026-03-30T21:44:50Z",
           "thumbnail": "https://i.ytimg.com/vi/TFetnRiE0pw/maxresdefault.jpg",
-          "position": 7,
+          "position": 6,
           "duration": "PT3H11M41S",
           "playlistItemStatus": "public"
         },
@@ -198,7 +198,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:18:09Z",
           "publishedAt": "2026-03-30T21:43:38Z",
           "thumbnail": "https://i.ytimg.com/vi/9fvDwyJFZY0/maxresdefault.jpg",
-          "position": 6,
+          "position": 5,
           "duration": "PT2H7M36S",
           "playlistItemStatus": "public"
         }
@@ -219,7 +219,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-04-07T11:47:50Z",
           "publishedAt": "2026-04-07T11:02:31Z",
           "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
-          "position": 14,
+          "position": 13,
           "duration": "PT53M46S",
           "playlistItemStatus": "public"
         },
@@ -231,7 +231,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-04-04T23:28:51Z",
           "publishedAt": "2026-04-04T21:05:33Z",
           "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
-          "position": 13,
+          "position": 12,
           "duration": "PT44M58S",
           "playlistItemStatus": "public"
         },
@@ -243,7 +243,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T01:57:16Z",
           "publishedAt": "2026-03-30T21:50:41Z",
           "thumbnail": "https://i.ytimg.com/vi/RGBjjGtLPN4/maxresdefault.jpg",
-          "position": 12,
+          "position": 11,
           "duration": "PT8H23M17S",
           "playlistItemStatus": "public"
         },
@@ -255,7 +255,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T00:37:58Z",
           "publishedAt": "2026-03-30T21:49:06Z",
           "thumbnail": "https://i.ytimg.com/vi/TucaSWnZCA4/maxresdefault.jpg",
-          "position": 11,
+          "position": 10,
           "duration": "PT3H13M27S",
           "playlistItemStatus": "public"
         },
@@ -267,7 +267,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T00:46:44Z",
           "publishedAt": "2026-03-30T21:47:58Z",
           "thumbnail": "https://i.ytimg.com/vi/rHaZk8QSWWU/maxresdefault.jpg",
-          "position": 10,
+          "position": 9,
           "duration": "PT3H4M46S",
           "playlistItemStatus": "public"
         },
@@ -279,7 +279,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:22:21Z",
           "publishedAt": "2026-03-30T21:47:13Z",
           "thumbnail": "https://i.ytimg.com/vi/hQz0lN-3Rhg/maxresdefault.jpg",
-          "position": 9,
+          "position": 8,
           "duration": "PT2H59M41S",
           "playlistItemStatus": "public"
         },
@@ -291,7 +291,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:22:02Z",
           "publishedAt": "2026-03-30T21:45:40Z",
           "thumbnail": "https://i.ytimg.com/vi/YUpoQKBKuis/maxresdefault.jpg",
-          "position": 8,
+          "position": 7,
           "duration": "PT3H1S",
           "playlistItemStatus": "public"
         },
@@ -303,7 +303,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:24:15Z",
           "publishedAt": "2026-03-30T21:44:50Z",
           "thumbnail": "https://i.ytimg.com/vi/TFetnRiE0pw/maxresdefault.jpg",
-          "position": 7,
+          "position": 6,
           "duration": "PT3H11M41S",
           "playlistItemStatus": "public"
         },
@@ -315,7 +315,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:18:09Z",
           "publishedAt": "2026-03-30T21:43:38Z",
           "thumbnail": "https://i.ytimg.com/vi/9fvDwyJFZY0/maxresdefault.jpg",
-          "position": 6,
+          "position": 5,
           "duration": "PT2H7M36S",
           "playlistItemStatus": "public"
         },
@@ -327,7 +327,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T22:30:03Z",
           "publishedAt": "2026-03-30T21:42:43Z",
           "thumbnail": "https://i.ytimg.com/vi/9NAgCTGFvJY/maxresdefault.jpg",
-          "position": 5,
+          "position": 4,
           "duration": "PT1H22S",
           "playlistItemStatus": "public"
         },
@@ -339,7 +339,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:07:22Z",
           "publishedAt": "2026-03-30T21:41:42Z",
           "thumbnail": "https://i.ytimg.com/vi/h3WVV97jcYg/maxresdefault.jpg",
-          "position": 4,
+          "position": 3,
           "duration": "PT1H55M59S",
           "playlistItemStatus": "public"
         },
@@ -351,7 +351,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:49:34Z",
           "publishedAt": "2026-03-30T21:39:34Z",
           "thumbnail": "https://i.ytimg.com/vi/d1Nfzkbo254/maxresdefault.jpg",
-          "position": 3,
+          "position": 2,
           "duration": "PT2H25M13S",
           "playlistItemStatus": "public"
         }
@@ -480,7 +480,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:49:34Z",
               "publishedAt": "2026-03-30T21:39:34Z",
               "thumbnail": "https://i.ytimg.com/vi/d1Nfzkbo254/maxresdefault.jpg",
-              "position": 3,
+              "position": 2,
               "duration": "PT2H25M13S",
               "playlistItemStatus": "public"
             },
@@ -492,7 +492,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:07:22Z",
               "publishedAt": "2026-03-30T21:41:42Z",
               "thumbnail": "https://i.ytimg.com/vi/h3WVV97jcYg/maxresdefault.jpg",
-              "position": 4,
+              "position": 3,
               "duration": "PT1H55M59S",
               "playlistItemStatus": "public"
             },
@@ -504,7 +504,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T22:30:03Z",
               "publishedAt": "2026-03-30T21:42:43Z",
               "thumbnail": "https://i.ytimg.com/vi/9NAgCTGFvJY/maxresdefault.jpg",
-              "position": 5,
+              "position": 4,
               "duration": "PT1H22S",
               "playlistItemStatus": "public"
             },
@@ -516,7 +516,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:18:09Z",
               "publishedAt": "2026-03-30T21:43:38Z",
               "thumbnail": "https://i.ytimg.com/vi/9fvDwyJFZY0/maxresdefault.jpg",
-              "position": 6,
+              "position": 5,
               "duration": "PT2H7M36S",
               "playlistItemStatus": "public"
             },
@@ -528,7 +528,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:24:15Z",
               "publishedAt": "2026-03-30T21:44:50Z",
               "thumbnail": "https://i.ytimg.com/vi/TFetnRiE0pw/maxresdefault.jpg",
-              "position": 7,
+              "position": 6,
               "duration": "PT3H11M41S",
               "playlistItemStatus": "public"
             },
@@ -540,7 +540,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:22:02Z",
               "publishedAt": "2026-03-30T21:45:40Z",
               "thumbnail": "https://i.ytimg.com/vi/YUpoQKBKuis/maxresdefault.jpg",
-              "position": 8,
+              "position": 7,
               "duration": "PT3H1S",
               "playlistItemStatus": "public"
             },
@@ -552,7 +552,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:22:21Z",
               "publishedAt": "2026-03-30T21:47:13Z",
               "thumbnail": "https://i.ytimg.com/vi/hQz0lN-3Rhg/maxresdefault.jpg",
-              "position": 9,
+              "position": 8,
               "duration": "PT2H59M41S",
               "playlistItemStatus": "public"
             },
@@ -564,7 +564,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-31T00:46:44Z",
               "publishedAt": "2026-03-30T21:47:58Z",
               "thumbnail": "https://i.ytimg.com/vi/rHaZk8QSWWU/maxresdefault.jpg",
-              "position": 10,
+              "position": 9,
               "duration": "PT3H4M46S",
               "playlistItemStatus": "public"
             },
@@ -576,7 +576,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-31T00:37:58Z",
               "publishedAt": "2026-03-30T21:49:06Z",
               "thumbnail": "https://i.ytimg.com/vi/TucaSWnZCA4/maxresdefault.jpg",
-              "position": 11,
+              "position": 10,
               "duration": "PT3H13M27S",
               "playlistItemStatus": "public"
             },
@@ -588,7 +588,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-31T01:57:16Z",
               "publishedAt": "2026-03-30T21:50:41Z",
               "thumbnail": "https://i.ytimg.com/vi/RGBjjGtLPN4/maxresdefault.jpg",
-              "position": 12,
+              "position": 11,
               "duration": "PT8H23M17S",
               "playlistItemStatus": "public"
             },
@@ -600,7 +600,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-04-04T23:28:51Z",
               "publishedAt": "2026-04-04T21:05:33Z",
               "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
-              "position": 13,
+              "position": 12,
               "duration": "PT44M58S",
               "playlistItemStatus": "public"
             },
@@ -612,7 +612,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-04-07T11:47:50Z",
               "publishedAt": "2026-04-07T11:02:31Z",
               "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
-              "position": 14,
+              "position": 13,
               "duration": "PT53M46S",
               "playlistItemStatus": "public"
             }
