@@ -831,6 +831,7 @@
       actions.push(createActionLink("Register", event.registrationUrl, true));
     }
 
+    actions.push(createActionLink("View Banner", event.bannerImage));
     actions.push(createActionLink("Bracket", event.bracketUrl || event.bracketEmbedUrl));
     actions.push(createActionLink("Watch Stream", event.streamUrl));
     actions.push(createActionLink("Rules", event.rulesUrl));
