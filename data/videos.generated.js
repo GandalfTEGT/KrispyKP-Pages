@@ -11,6 +11,30 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 16,
       "latest": [
         {
+          "videoId": "TGf_E2IiuQQ",
+          "title": "Tib Dawn Ladder Again 06/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp.com on the 06th April 2026\n\n=============================================================\nWelcome to KrispyKP\n\nCommand & Conquer gameplay, ranked matches, and whatever else ends up happening along the way.\n\nWatch live:\nhttps://twitch.tv/krispykp\n\nFollow on Twitch:\nhttps://twitch.tv/krispykp/follow\n\nSubscribe on YouTube:\nhttps://www.youtube.com/@krispykp?sub_confirmation=1\n\nWebsite:\nhttps://krispykp.com\n\n---\n\nAbout this channel:\nContent is primarily focused on Command & Conquer, especially Tiberian Dawn. Most videos come from live sessions, so you’ll see full games, mistakes, and everything in between.\n\n---\n\n#CommandAndConquer #TiberianDawn #KrispyKP",
+          "playlistAddedAt": "2026-04-07T11:02:31Z",
+          "videoPublishedAt": "2026-04-07T11:47:50Z",
+          "publishedAt": "2026-04-07T11:02:31Z",
+          "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
+          "position": 13,
+          "duration": "PT53M46S",
+          "playlistItemStatus": "public"
+        },
+        {
+          "videoId": "iQAcOhOPLSw",
+          "title": "Let's Attempt Combined Arms Campaign Again 06/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 06th April 2026",
+          "playlistAddedAt": "2026-04-07T10:55:32Z",
+          "videoPublishedAt": "2026-04-07T11:36:11Z",
+          "publishedAt": "2026-04-07T10:55:32Z",
+          "thumbnail": "https://i.ytimg.com/vi/iQAcOhOPLSw/maxresdefault.jpg",
+          "position": 4,
+          "duration": "PT2H32M43S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "y8C4siS7ZHc",
           "title": "Combined Arms Campaign Continued 04/04/26",
           "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
@@ -30,7 +54,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-04-04T23:28:51Z",
           "publishedAt": "2026-04-04T21:05:33Z",
           "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
-          "position": 13,
+          "position": 12,
           "duration": "PT44M58S",
           "playlistItemStatus": "public"
         },
@@ -102,7 +126,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T01:57:16Z",
           "publishedAt": "2026-03-30T21:50:41Z",
           "thumbnail": "https://i.ytimg.com/vi/RGBjjGtLPN4/maxresdefault.jpg",
-          "position": 12,
+          "position": 11,
           "duration": "PT8H23M17S",
           "playlistItemStatus": "public"
         },
@@ -114,7 +138,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T00:37:58Z",
           "publishedAt": "2026-03-30T21:49:06Z",
           "thumbnail": "https://i.ytimg.com/vi/TucaSWnZCA4/maxresdefault.jpg",
-          "position": 11,
+          "position": 10,
           "duration": "PT3H13M27S",
           "playlistItemStatus": "public"
         },
@@ -126,7 +150,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T00:46:44Z",
           "publishedAt": "2026-03-30T21:47:58Z",
           "thumbnail": "https://i.ytimg.com/vi/rHaZk8QSWWU/maxresdefault.jpg",
-          "position": 10,
+          "position": 9,
           "duration": "PT3H4M46S",
           "playlistItemStatus": "public"
         },
@@ -138,7 +162,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:22:21Z",
           "publishedAt": "2026-03-30T21:47:13Z",
           "thumbnail": "https://i.ytimg.com/vi/hQz0lN-3Rhg/maxresdefault.jpg",
-          "position": 9,
+          "position": 8,
           "duration": "PT2H59M41S",
           "playlistItemStatus": "public"
         },
@@ -150,7 +174,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:22:02Z",
           "publishedAt": "2026-03-30T21:45:40Z",
           "thumbnail": "https://i.ytimg.com/vi/YUpoQKBKuis/maxresdefault.jpg",
-          "position": 8,
+          "position": 7,
           "duration": "PT3H1S",
           "playlistItemStatus": "public"
         },
@@ -162,7 +186,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:24:15Z",
           "publishedAt": "2026-03-30T21:44:50Z",
           "thumbnail": "https://i.ytimg.com/vi/TFetnRiE0pw/maxresdefault.jpg",
-          "position": 7,
+          "position": 6,
           "duration": "PT3H11M41S",
           "playlistItemStatus": "public"
         },
@@ -174,32 +198,8 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:18:09Z",
           "publishedAt": "2026-03-30T21:43:38Z",
           "thumbnail": "https://i.ytimg.com/vi/9fvDwyJFZY0/maxresdefault.jpg",
-          "position": 6,
-          "duration": "PT2H7M36S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "9NAgCTGFvJY",
-          "title": "Tib Dawn Ladder 13/03/26",
-          "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 13th March 2026",
-          "playlistAddedAt": "2026-03-30T21:42:43Z",
-          "videoPublishedAt": "2026-03-30T22:30:03Z",
-          "publishedAt": "2026-03-30T21:42:43Z",
-          "thumbnail": "https://i.ytimg.com/vi/9NAgCTGFvJY/maxresdefault.jpg",
           "position": 5,
-          "duration": "PT1H22S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "h3WVV97jcYg",
-          "title": "Can We Stay Top 10? 12/03/26",
-          "description": "This video was taken from my stream at https://www.twitch.tv/krispy on the 12th March 2026",
-          "playlistAddedAt": "2026-03-30T21:41:42Z",
-          "videoPublishedAt": "2026-03-30T23:07:22Z",
-          "publishedAt": "2026-03-30T21:41:42Z",
-          "thumbnail": "https://i.ytimg.com/vi/h3WVV97jcYg/maxresdefault.jpg",
-          "position": 4,
-          "duration": "PT1H55M59S",
+          "duration": "PT2H7M36S",
           "playlistItemStatus": "public"
         }
       ],
@@ -212,6 +212,18 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 12,
       "latest": [
         {
+          "videoId": "TGf_E2IiuQQ",
+          "title": "Tib Dawn Ladder Again 06/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp.com on the 06th April 2026\n\n=============================================================\nWelcome to KrispyKP\n\nCommand & Conquer gameplay, ranked matches, and whatever else ends up happening along the way.\n\nWatch live:\nhttps://twitch.tv/krispykp\n\nFollow on Twitch:\nhttps://twitch.tv/krispykp/follow\n\nSubscribe on YouTube:\nhttps://www.youtube.com/@krispykp?sub_confirmation=1\n\nWebsite:\nhttps://krispykp.com\n\n---\n\nAbout this channel:\nContent is primarily focused on Command & Conquer, especially Tiberian Dawn. Most videos come from live sessions, so you’ll see full games, mistakes, and everything in between.\n\n---\n\n#CommandAndConquer #TiberianDawn #KrispyKP",
+          "playlistAddedAt": "2026-04-07T11:02:31Z",
+          "videoPublishedAt": "2026-04-07T11:47:50Z",
+          "publishedAt": "2026-04-07T11:02:31Z",
+          "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
+          "position": 13,
+          "duration": "PT53M46S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "F-vn4P7T6ZM",
           "title": "TD Ladder To Regain My Sanity 04/04/26",
           "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
@@ -219,7 +231,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-04-04T23:28:51Z",
           "publishedAt": "2026-04-04T21:05:33Z",
           "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
-          "position": 13,
+          "position": 12,
           "duration": "PT44M58S",
           "playlistItemStatus": "public"
         },
@@ -231,7 +243,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T01:57:16Z",
           "publishedAt": "2026-03-30T21:50:41Z",
           "thumbnail": "https://i.ytimg.com/vi/RGBjjGtLPN4/maxresdefault.jpg",
-          "position": 12,
+          "position": 11,
           "duration": "PT8H23M17S",
           "playlistItemStatus": "public"
         },
@@ -243,7 +255,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T00:37:58Z",
           "publishedAt": "2026-03-30T21:49:06Z",
           "thumbnail": "https://i.ytimg.com/vi/TucaSWnZCA4/maxresdefault.jpg",
-          "position": 11,
+          "position": 10,
           "duration": "PT3H13M27S",
           "playlistItemStatus": "public"
         },
@@ -255,7 +267,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-31T00:46:44Z",
           "publishedAt": "2026-03-30T21:47:58Z",
           "thumbnail": "https://i.ytimg.com/vi/rHaZk8QSWWU/maxresdefault.jpg",
-          "position": 10,
+          "position": 9,
           "duration": "PT3H4M46S",
           "playlistItemStatus": "public"
         },
@@ -267,7 +279,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:22:21Z",
           "publishedAt": "2026-03-30T21:47:13Z",
           "thumbnail": "https://i.ytimg.com/vi/hQz0lN-3Rhg/maxresdefault.jpg",
-          "position": 9,
+          "position": 8,
           "duration": "PT2H59M41S",
           "playlistItemStatus": "public"
         },
@@ -279,7 +291,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:22:02Z",
           "publishedAt": "2026-03-30T21:45:40Z",
           "thumbnail": "https://i.ytimg.com/vi/YUpoQKBKuis/maxresdefault.jpg",
-          "position": 8,
+          "position": 7,
           "duration": "PT3H1S",
           "playlistItemStatus": "public"
         },
@@ -291,7 +303,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:24:15Z",
           "publishedAt": "2026-03-30T21:44:50Z",
           "thumbnail": "https://i.ytimg.com/vi/TFetnRiE0pw/maxresdefault.jpg",
-          "position": 7,
+          "position": 6,
           "duration": "PT3H11M41S",
           "playlistItemStatus": "public"
         },
@@ -303,7 +315,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:18:09Z",
           "publishedAt": "2026-03-30T21:43:38Z",
           "thumbnail": "https://i.ytimg.com/vi/9fvDwyJFZY0/maxresdefault.jpg",
-          "position": 6,
+          "position": 5,
           "duration": "PT2H7M36S",
           "playlistItemStatus": "public"
         },
@@ -315,7 +327,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T22:30:03Z",
           "publishedAt": "2026-03-30T21:42:43Z",
           "thumbnail": "https://i.ytimg.com/vi/9NAgCTGFvJY/maxresdefault.jpg",
-          "position": 5,
+          "position": 4,
           "duration": "PT1H22S",
           "playlistItemStatus": "public"
         },
@@ -327,7 +339,7 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:07:22Z",
           "publishedAt": "2026-03-30T21:41:42Z",
           "thumbnail": "https://i.ytimg.com/vi/h3WVV97jcYg/maxresdefault.jpg",
-          "position": 4,
+          "position": 3,
           "duration": "PT1H55M59S",
           "playlistItemStatus": "public"
         },
@@ -339,20 +351,8 @@ window.KRISPY_VIDEO_DATA = {
           "videoPublishedAt": "2026-03-30T23:49:34Z",
           "publishedAt": "2026-03-30T21:39:34Z",
           "thumbnail": "https://i.ytimg.com/vi/d1Nfzkbo254/maxresdefault.jpg",
-          "position": 3,
+          "position": 2,
           "duration": "PT2H25M13S",
-          "playlistItemStatus": "public"
-        },
-        {
-          "videoId": "2L0Z7n_mDgY",
-          "title": "TD Ladder Time 25/03/25",
-          "description": "This video was taken from my stream at https://twitch.tv/krispykp on the 25th March 2025",
-          "playlistAddedAt": "2026-03-30T16:53:02Z",
-          "videoPublishedAt": "2026-03-30T17:53:29Z",
-          "publishedAt": "2026-03-30T16:53:02Z",
-          "thumbnail": "https://i.ytimg.com/vi/2L0Z7n_mDgY/maxresdefault.jpg",
-          "position": 1,
-          "duration": "PT3H4M43S",
           "playlistItemStatus": "public"
         }
       ],
@@ -480,7 +480,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:49:34Z",
               "publishedAt": "2026-03-30T21:39:34Z",
               "thumbnail": "https://i.ytimg.com/vi/d1Nfzkbo254/maxresdefault.jpg",
-              "position": 3,
+              "position": 2,
               "duration": "PT2H25M13S",
               "playlistItemStatus": "public"
             },
@@ -492,7 +492,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:07:22Z",
               "publishedAt": "2026-03-30T21:41:42Z",
               "thumbnail": "https://i.ytimg.com/vi/h3WVV97jcYg/maxresdefault.jpg",
-              "position": 4,
+              "position": 3,
               "duration": "PT1H55M59S",
               "playlistItemStatus": "public"
             },
@@ -504,7 +504,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T22:30:03Z",
               "publishedAt": "2026-03-30T21:42:43Z",
               "thumbnail": "https://i.ytimg.com/vi/9NAgCTGFvJY/maxresdefault.jpg",
-              "position": 5,
+              "position": 4,
               "duration": "PT1H22S",
               "playlistItemStatus": "public"
             },
@@ -516,7 +516,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:18:09Z",
               "publishedAt": "2026-03-30T21:43:38Z",
               "thumbnail": "https://i.ytimg.com/vi/9fvDwyJFZY0/maxresdefault.jpg",
-              "position": 6,
+              "position": 5,
               "duration": "PT2H7M36S",
               "playlistItemStatus": "public"
             },
@@ -528,7 +528,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:24:15Z",
               "publishedAt": "2026-03-30T21:44:50Z",
               "thumbnail": "https://i.ytimg.com/vi/TFetnRiE0pw/maxresdefault.jpg",
-              "position": 7,
+              "position": 6,
               "duration": "PT3H11M41S",
               "playlistItemStatus": "public"
             },
@@ -540,7 +540,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:22:02Z",
               "publishedAt": "2026-03-30T21:45:40Z",
               "thumbnail": "https://i.ytimg.com/vi/YUpoQKBKuis/maxresdefault.jpg",
-              "position": 8,
+              "position": 7,
               "duration": "PT3H1S",
               "playlistItemStatus": "public"
             },
@@ -552,7 +552,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-30T23:22:21Z",
               "publishedAt": "2026-03-30T21:47:13Z",
               "thumbnail": "https://i.ytimg.com/vi/hQz0lN-3Rhg/maxresdefault.jpg",
-              "position": 9,
+              "position": 8,
               "duration": "PT2H59M41S",
               "playlistItemStatus": "public"
             },
@@ -564,7 +564,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-31T00:46:44Z",
               "publishedAt": "2026-03-30T21:47:58Z",
               "thumbnail": "https://i.ytimg.com/vi/rHaZk8QSWWU/maxresdefault.jpg",
-              "position": 10,
+              "position": 9,
               "duration": "PT3H4M46S",
               "playlistItemStatus": "public"
             },
@@ -576,7 +576,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-31T00:37:58Z",
               "publishedAt": "2026-03-30T21:49:06Z",
               "thumbnail": "https://i.ytimg.com/vi/TucaSWnZCA4/maxresdefault.jpg",
-              "position": 11,
+              "position": 10,
               "duration": "PT3H13M27S",
               "playlistItemStatus": "public"
             },
@@ -588,7 +588,7 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-03-31T01:57:16Z",
               "publishedAt": "2026-03-30T21:50:41Z",
               "thumbnail": "https://i.ytimg.com/vi/RGBjjGtLPN4/maxresdefault.jpg",
-              "position": 12,
+              "position": 11,
               "duration": "PT8H23M17S",
               "playlistItemStatus": "public"
             },
@@ -600,8 +600,20 @@ window.KRISPY_VIDEO_DATA = {
               "videoPublishedAt": "2026-04-04T23:28:51Z",
               "publishedAt": "2026-04-04T21:05:33Z",
               "thumbnail": "https://i.ytimg.com/vi/F-vn4P7T6ZM/maxresdefault.jpg",
-              "position": 13,
+              "position": 12,
               "duration": "PT44M58S",
+              "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "TGf_E2IiuQQ",
+              "title": "Tib Dawn Ladder Again 06/04/26",
+              "description": "This video was taken from my stream at https://www.twitch.tv/krispykp.com on the 06th April 2026\n\n=============================================================\nWelcome to KrispyKP\n\nCommand & Conquer gameplay, ranked matches, and whatever else ends up happening along the way.\n\nWatch live:\nhttps://twitch.tv/krispykp\n\nFollow on Twitch:\nhttps://twitch.tv/krispykp/follow\n\nSubscribe on YouTube:\nhttps://www.youtube.com/@krispykp?sub_confirmation=1\n\nWebsite:\nhttps://krispykp.com\n\n---\n\nAbout this channel:\nContent is primarily focused on Command & Conquer, especially Tiberian Dawn. Most videos come from live sessions, so you’ll see full games, mistakes, and everything in between.\n\n---\n\n#CommandAndConquer #TiberianDawn #KrispyKP",
+              "playlistAddedAt": "2026-04-07T11:02:31Z",
+              "videoPublishedAt": "2026-04-07T11:47:50Z",
+              "publishedAt": "2026-04-07T11:02:31Z",
+              "thumbnail": "https://i.ytimg.com/vi/TGf_E2IiuQQ/maxresdefault.jpg",
+              "position": 13,
+              "duration": "PT53M46S",
               "playlistItemStatus": "public"
             }
           ]
@@ -745,6 +757,18 @@ window.KRISPY_VIDEO_DATA = {
       "latestCount": 12,
       "latest": [
         {
+          "videoId": "iQAcOhOPLSw",
+          "title": "Let's Attempt Combined Arms Campaign Again 06/04/26",
+          "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 06th April 2026",
+          "playlistAddedAt": "2026-04-07T10:55:32Z",
+          "videoPublishedAt": "2026-04-07T11:36:11Z",
+          "publishedAt": "2026-04-07T10:55:32Z",
+          "thumbnail": "https://i.ytimg.com/vi/iQAcOhOPLSw/maxresdefault.jpg",
+          "position": 4,
+          "duration": "PT2H32M43S",
+          "playlistItemStatus": "public"
+        },
+        {
           "videoId": "y8C4siS7ZHc",
           "title": "Combined Arms Campaign Continued 04/04/26",
           "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 04th of April 2026",
@@ -845,6 +869,18 @@ window.KRISPY_VIDEO_DATA = {
               "thumbnail": "https://i.ytimg.com/vi/y8C4siS7ZHc/maxresdefault.jpg",
               "position": 3,
               "duration": "PT1H46M41S",
+              "playlistItemStatus": "public"
+            },
+            {
+              "videoId": "iQAcOhOPLSw",
+              "title": "Let's Attempt Combined Arms Campaign Again 06/04/26",
+              "description": "This video was taken from my stream at https://www.twitch.tv/krispykp on 06th April 2026",
+              "playlistAddedAt": "2026-04-07T10:55:32Z",
+              "videoPublishedAt": "2026-04-07T11:36:11Z",
+              "publishedAt": "2026-04-07T10:55:32Z",
+              "thumbnail": "https://i.ytimg.com/vi/iQAcOhOPLSw/maxresdefault.jpg",
+              "position": 4,
+              "duration": "PT2H32M43S",
               "playlistItemStatus": "public"
             }
           ]
