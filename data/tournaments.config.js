@@ -314,7 +314,7 @@ window.KRISPY_TOURNAMENTS = {
                 {
                   id: "m2",
                   title: "Match 2",
-                  player1: "SHEPPARD THE BOY WC",
+                  player1: "SHEPPARD THE BOY WONDER",
                   player2: "DR.MURK",
                   score1: "",
                   score2: "",
@@ -594,7 +594,7 @@ window.KRISPY_TOURNAMENTS = {
         { name: "DANKU", seed: 4 },
         { name: "MC RUSTY", seed: 5 },
         { name: "WTF", seed: 6 },
-        { name: "SHEPPARD THE BOY WC", seed: 7 },
+        { name: "SHEPPARD THE BOY WONDER", seed: 7 },
         { name: "TRIOTD", seed: 8 },
         { name: "JLGAZZA94", seed: 9 },
         { name: "DR.MURK", seed: 10 }
