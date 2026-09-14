@@ -373,21 +373,48 @@
   function createLibraryCard(video, sourceTitle) {
     const article = document.createElement("article");
     article.className = "frame videos-library-card";
-    article.innerHTML = `
-      <button type="button" class="videos-thumb-button">
-        <span class="videos-library-thumb" style="background-image:url('${video.thumbnail}')"></span>
-      </button>
-      <div class="videos-library-copy">
-        <div class="videos-card-title">${video.title}</div>
-        <div class="videos-card-meta">${sourceTitle || video.tag || "Video"}</div>
-        <div class="videos-card-date-row">
-          ${video.publishedAt ? `<div class="videos-card-date">${new Date(video.publishedAt).toLocaleDateString()}</div>` : ""}
-          ${video.duration ? `<div class="videos-card-duration">${formatDuration(video.duration)}</div>` : ""}
-        </div>
-      </div>
-    `;
 
-    article.querySelector(".videos-thumb-button").addEventListener("click", () => {
+    const thumbButton = document.createElement("button");
+    thumbButton.type = "button";
+    thumbButton.className = "videos-thumb-button";
+
+    const thumbnail = document.createElement("span");
+    thumbnail.className = "videos-library-thumb";
+    thumbnail.style.backgroundImage = `url(${JSON.stringify(String(video.thumbnail || ""))})`;
+    thumbButton.appendChild(thumbnail);
+
+    const copy = document.createElement("div");
+    copy.className = "videos-library-copy";
+
+    const title = document.createElement("div");
+    title.className = "videos-card-title";
+    title.textContent = video.title;
+
+    const meta = document.createElement("div");
+    meta.className = "videos-card-meta";
+    meta.textContent = sourceTitle || video.tag || "Video";
+
+    const dateRow = document.createElement("div");
+    dateRow.className = "videos-card-date-row";
+
+    if (video.publishedAt) {
+      const published = document.createElement("div");
+      published.className = "videos-card-date";
+      published.textContent = new Date(video.publishedAt).toLocaleDateString();
+      dateRow.appendChild(published);
+    }
+
+    if (video.duration) {
+      const duration = document.createElement("div");
+      duration.className = "videos-card-duration";
+      duration.textContent = formatDuration(video.duration);
+      dateRow.appendChild(duration);
+    }
+
+    copy.append(title, meta, dateRow);
+    article.append(thumbButton, copy);
+
+    thumbButton.addEventListener("click", () => {
       showSelected(video, sourceTitle || video.tag || "Video");
     });
 
@@ -478,12 +505,18 @@
           ? "This tab will fill automatically once the YouTube playlist sync is bringing in items."
           : "This playlist is connected, but there are no synced site items for it yet.";
 
-      emptyState.innerHTML = `
-        <article class="frame videos-placeholder">
-          <div class="videos-placeholder-title">${emptyTitle}</div>
-          <p>${emptyMessage}</p>
-        </article>
-      `;
+      const placeholder = document.createElement("article");
+      placeholder.className = "frame videos-placeholder";
+
+      const title = document.createElement("div");
+      title.className = "videos-placeholder-title";
+      title.textContent = emptyTitle;
+
+      const message = document.createElement("p");
+      message.textContent = emptyMessage;
+
+      placeholder.append(title, message);
+      emptyState.appendChild(placeholder);
       return;
     }
 
