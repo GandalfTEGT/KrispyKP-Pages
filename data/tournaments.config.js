@@ -275,7 +275,7 @@ window.KRISPY_TOURNAMENTS = {
       endDate: "",
       timezone: "BST",
       prizePool: "",
-      bannerImage: "",
+      bannerImage: "/assets/tbanners/td-invasion.webp",
 
       description:
         "A special crossover tournament featuring Tiberian Dawn players competing in Red Alert. The event uses a winners and losers bracket, so players must lose twice to be eliminated, except in the Grand Final. The undefeated finalist enters the Grand Final with a 1-0 advantage.",
@@ -284,8 +284,8 @@ window.KRISPY_TOURNAMENTS = {
       registrationUrl: "",
       participantSource: "manual",
 
-      streamUrl: "",
-      rulesUrl: "",
+      streamUrl: "https://www.twitch.tv/jlgazza94",
+      rulesUrl: "/assets/trules/td-invasion-rules.pdf",
 
       bracketMode: "manual",
       bracketTitle: "Tournament Bracket",
