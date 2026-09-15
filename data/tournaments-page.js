@@ -310,7 +310,7 @@
     const date = text(item.date, "");
     const timezone = text(item.timezone || event.timezone, "");
 
-    if (time || date || timezone) {
+    if (time || date) {
       const parts = [];
       if (time) parts.push(time);
       if (date) parts.push(`on ${formatLongDate(date)}`);
