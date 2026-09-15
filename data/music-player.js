@@ -302,6 +302,27 @@ function clearProgress() {
   progressEl.style.width = "0%";
   currentTimeEl.textContent = "0:00";
   durationEl.textContent = "0:00";
+  seekEl.setAttribute("aria-valuemax", "0");
+  seekEl.setAttribute("aria-valuenow", "0");
+  seekEl.setAttribute("aria-valuetext", "0:00 of 0:00");
+}
+
+function syncSeekDisplay() {
+  const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+  const currentTime = duration
+    ? Math.max(0, Math.min(audio.currentTime || 0, duration))
+    : 0;
+  const percent = duration ? (currentTime / duration) * 100 : 0;
+
+  progressEl.style.width = `${percent}%`;
+  currentTimeEl.textContent = formatTime(currentTime);
+  durationEl.textContent = formatTime(duration);
+  seekEl.setAttribute("aria-valuemax", String(Math.round(duration)));
+  seekEl.setAttribute("aria-valuenow", String(Math.round(currentTime)));
+  seekEl.setAttribute(
+    "aria-valuetext",
+    `${formatTime(currentTime)} of ${formatTime(duration)}`
+  );
 }
 
 function clearPlayerDisplay() {
@@ -399,27 +420,36 @@ function renderList() {
   }
 
   entries.forEach(({ track, index }) => {
-    const item = document.createElement("div");
+    const item = document.createElement("button");
+    item.type = "button";
+    item.dataset.trackId = track.id;
     item.className = "track-item" + (track.id === currentTrackId ? " active" : "") + (track.available ? "" : " unavailable");
-    item.onclick = () => loadTrackByIndex(index, true, true);
+    item.addEventListener("click", () => {
+      loadTrackByIndex(index, true, true);
 
-    const thumb = document.createElement("div");
+      const replacement = Array.from(tracksEl.querySelectorAll(".track-item"))
+        .find(trackItem => trackItem.dataset.trackId === track.id);
+      if (replacement) replacement.focus();
+    });
+
+    const thumb = document.createElement("span");
     thumb.className = "thumb";
     thumb.style.backgroundImage = `url(${track.art || "assets/logo.png"})`;
 
-    const meta = document.createElement("div");
+    const meta = document.createElement("span");
+    meta.className = "track-item-meta";
 
-    const name = document.createElement("div");
+    const name = document.createElement("span");
     name.className = "t-name";
     name.textContent = track.name || "Unknown track";
 
-    const artist = document.createElement("div");
+    const artist = document.createElement("span");
     artist.className = "t-artist";
     artist.textContent = track.album || track.artist || "Unknown artist";
 
     meta.append(name, artist);
 
-    const tag = document.createElement("div");
+    const tag = document.createElement("span");
     tag.className = "t-tag";
 
     if (!track.available || !track.file) {
@@ -671,6 +701,7 @@ function stopTrack() {
 function toggleShuffle() {
   shuffle = !shuffle;
   shuffleBtn.classList.toggle("active", shuffle);
+  shuffleBtn.setAttribute("aria-pressed", String(shuffle));
 
   if (shuffle) {
     rebuildShufflePool(currentTrackId, repeatMode === "library");
@@ -836,14 +867,9 @@ if (lyricsToggleBtn) {
   window.addEventListener("resize", syncLyricsPanelForViewport);
 }
 
-audio.ontimeupdate = () => {
-  if (!audio.duration) return;
-
-  const percent = (audio.currentTime / audio.duration) * 100;
-  progressEl.style.width = `${percent}%`;
-  currentTimeEl.textContent = formatTime(audio.currentTime);
-  durationEl.textContent = formatTime(audio.duration);
-};
+audio.ontimeupdate = syncSeekDisplay;
+audio.onloadedmetadata = syncSeekDisplay;
+audio.ondurationchange = syncSeekDisplay;
 
 audio.onplay = () => {
   playBtn.textContent = "⏸";
@@ -871,6 +897,36 @@ function updateSeekFromClientX(clientX) {
   const percent = Math.max(0, Math.min(1, rawPercent));
 
   audio.currentTime = percent * audio.duration;
+  syncSeekDisplay();
+}
+
+function updateSeekFromKeyboard(event) {
+  if (!audio.duration) return;
+
+  const seekSteps = {
+    ArrowLeft: -5,
+    ArrowDown: -5,
+    ArrowRight: 5,
+    ArrowUp: 5,
+    PageDown: -(audio.duration * 0.1),
+    PageUp: audio.duration * 0.1
+  };
+
+  let nextTime;
+
+  if (event.key === "Home") {
+    nextTime = 0;
+  } else if (event.key === "End") {
+    nextTime = audio.duration;
+  } else if (Object.prototype.hasOwnProperty.call(seekSteps, event.key)) {
+    nextTime = audio.currentTime + seekSteps[event.key];
+  } else {
+    return;
+  }
+
+  event.preventDefault();
+  audio.currentTime = Math.max(0, Math.min(nextTime, audio.duration));
+  syncSeekDisplay();
 }
 
 let isSeeking = false;
@@ -906,6 +962,8 @@ seekEl.addEventListener("pointercancel", event => {
     seekEl.releasePointerCapture(event.pointerId);
   }
 });
+
+seekEl.addEventListener("keydown", updateSeekFromKeyboard);
 
 audio.volume = Number(volumeEl.value);
 

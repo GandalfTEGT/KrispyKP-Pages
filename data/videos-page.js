@@ -163,7 +163,9 @@
     currentVideo = { ...video, metaLabel: metaLabel || "Playlist Video" };
 
     if (shouldScroll) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      const reduceMotion = window.matchMedia &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     }
   }
 
@@ -377,6 +379,7 @@
     const thumbButton = document.createElement("button");
     thumbButton.type = "button";
     thumbButton.className = "videos-thumb-button";
+    thumbButton.setAttribute("aria-label", `Play ${video.title || "video"}`);
 
     const thumbnail = document.createElement("span");
     thumbnail.className = "videos-library-thumb";

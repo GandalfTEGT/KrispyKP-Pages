@@ -7,6 +7,9 @@
   const SWEEP_DURATION_MS = 4200;
   const BLIP_COUNT = 18;
   const TRIGGER_CHANCE = 0.72;
+  const reducedMotionQuery = window.matchMedia
+    ? window.matchMedia("(prefers-reduced-motion: reduce)")
+    : null;
 
   const SWEEP_BRIGHT_CENTER_OFFSET_DEG = 165;
   const LEADING_WINDOW_DEG = 7;
@@ -112,7 +115,7 @@
   }
 
   function startRadar() {
-    if (!rafId) {
+    if ((!reducedMotionQuery || !reducedMotionQuery.matches) && !document.hidden && !rafId) {
       rafId = requestAnimationFrame(tick);
     }
   }
@@ -124,11 +127,22 @@
     }
   }
 
+  function applyMotionPreference() {
+    if (reducedMotionQuery && reducedMotionQuery.matches) {
+      stopRadar();
+      sweepLayer.style.transform = "rotate(0deg)";
+      blips.forEach(blip => blip.el.classList.remove("active"));
+      return;
+    }
+
+    startRadar();
+  }
+
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) {
       stopRadar();
     } else {
-      startRadar();
+      applyMotionPreference();
     }
   });
 
@@ -138,5 +152,13 @@
 
   window.addEventListener("resize", positionBlips);
 
-  startRadar();
+  if (reducedMotionQuery) {
+    if (typeof reducedMotionQuery.addEventListener === "function") {
+      reducedMotionQuery.addEventListener("change", applyMotionPreference);
+    } else if (typeof reducedMotionQuery.addListener === "function") {
+      reducedMotionQuery.addListener(applyMotionPreference);
+    }
+  }
+
+  applyMotionPreference();
 })();
