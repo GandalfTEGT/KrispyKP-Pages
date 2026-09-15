@@ -203,10 +203,18 @@ but the title/date/time/timezone format is cleaner.
 
 RULES FORMAT
 ------------
-rules: [
-  "Rule one",
-  "Rule two"
-]
+For an official generated rules PDF, use structured rules:
+rules: {
+  sections: [
+    { title: "Tournament format", paragraphs: ["Rule text."], bullets: [] }
+  ],
+  mapPool: ["Map 1", "Map 2"],
+  questions: "Contact the organiser with questions.",
+  closing: "GOOD LUCK, COMMANDERS."
+}
+
+Legacy rule arrays remain supported for website-only events, but the PDF
+generator refuses them because they do not contain enough document structure.
 
 RESULTS FORMAT
 --------------
@@ -613,15 +621,53 @@ window.KRISPY_TOURNAMENTS = {
         }
       ],
 
-      rules: [
-        "Use standard Quickmatch rules when hosting; the organiser states these are the same for Red Alert as for Tiberian Dawn.",
-        "The first host and map selector is decided by a coin toss. The other player receives spawn-pick choice. Host/map pick and spawn pick then alternate each game until the match is complete.",
-        "There are no additional in-game restrictions for this event; all units, tactics and strategies are legal.",
-        "All Winners Bracket and Losers Bracket matches are best-of-five (Bo5).",
-        "The Grand Final is best-of-seven (Bo7). The player reaching it undefeated starts with a 1-0 game advantage.",
-        "There is no deadline for completing a matchup, but once players begin their match, every game in that series must be played in one sitting.",
-        "Map pool: Canyon; (WHT) Elevation; Keep Off The Grass; Tournament Arena; Pico V3 (1v1); RAP - Lake Mizu; RAP - Hospital Hill."
-      ],
+      rules: {
+        sections: [
+          {
+            title: "Tournament format",
+            paragraphs: [
+              "The tournament uses a Winners Bracket and a Losers Bracket. A player must lose two matches to be eliminated, with the Grand Final handled under the special rule below. Because the field contains 10 players, some players receive a first-round bye.",
+              "All Winners Bracket and Losers Bracket matches are Best of 5 (Bo5). The Grand Final is Best of 7 (Bo7).",
+              "The player who reaches the Grand Final without previously losing a match starts the Grand Final 1-0 ahead. This is the advantage awarded for progressing through the Winners Bracket undefeated."
+            ]
+          },
+          {
+            title: "Match scheduling",
+            paragraphs: [
+              "The tournament starts on 14 September 2026, when the first-round draws are made. There is no fixed deadline by which an individual matchup must be played once opponents are known.",
+              "Once both players sit down to play their matchup, all games in that matchup must be completed in one sitting."
+            ]
+          },
+          {
+            title: "Hosting, map selection and spawns",
+            paragraphs: [
+              "Use the standard Quickmatch rules when hosting. The tournament organiser states that these are the same hosting rules used for Tiberian Dawn."
+            ],
+            bullets: [
+              "Game 1: use a coin toss to decide the first host and map selector.",
+              "The player who does not receive host and map selection gets spawn-pick choice.",
+              "After each game, rotate the roles: host and map selector and spawn picker alternate until the matchup is complete."
+            ]
+          },
+          {
+            title: "In-game rules",
+            paragraphs: [
+              "There are no additional in-game restrictions. The event is intended as a fun Tiberian-Dawn-to-Red-Alert crossover, and all units, strategies and tactics are legal under the tournament rules."
+            ]
+          }
+        ],
+        mapPool: [
+          "Canyon",
+          "(WHT) Elevation",
+          "Keep Off The Grass",
+          "Tournament Arena",
+          "Pico V3 (1v1)",
+          "RAP - Lake Mizu",
+          "RAP - Hospital Hill"
+        ],
+        questions: "Questions about the event or interpretation of these rules should be directed to tournament organiser JLGAZZA94. Where clarification is required during the event, the organiser's ruling governs the tournament.",
+        closing: "GOOD LUCK, COMRADES."
+      },
 
       results: []
     },

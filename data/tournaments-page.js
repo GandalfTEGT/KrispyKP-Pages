@@ -330,6 +330,22 @@
     };
   }
 
+  function getRuleItems(event) {
+    if (Array.isArray(event.rules)) return event.rules;
+    if (!event.rules || typeof event.rules !== "object") return [];
+
+    const items = [];
+    isArray(event.rules.sections).forEach((section) => {
+      isArray(section.paragraphs).forEach((paragraph) => items.push(paragraph));
+      isArray(section.bullets).forEach((bullet) => items.push(bullet));
+    });
+
+    const mapPool = isArray(event.rules.mapPool);
+    if (mapPool.length) items.push(`Map pool: ${mapPool.join("; ")}.`);
+    if (event.rules.questions) items.push(event.rules.questions);
+    return items;
+  }
+
   function getGroupConnectorColor(groupKind) {
     if (groupKind === "winners") return "rgba(125, 255, 136, 0.55)";
     if (groupKind === "losers") return "rgba(255, 211, 110, 0.55)";
@@ -1033,7 +1049,7 @@
       });
     }
 
-    const rules = isArray(event.rules);
+    const rules = getRuleItems(event);
     if (els.rulesCard) els.rulesCard.hidden = !rules.length;
 
     if (rules.length) {
