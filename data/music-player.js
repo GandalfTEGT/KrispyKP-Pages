@@ -326,7 +326,7 @@ function syncSeekDisplay() {
 }
 
 function clearPlayerDisplay() {
-  artEl.style.backgroundImage = "url('assets/logo.png')";
+  artEl.style.backgroundImage = "url('/assets/logo.png')";
   songEl.textContent = "Select a track";
   artistEl.textContent = "KrispyKP";
   clearProgress();
@@ -335,7 +335,7 @@ function clearPlayerDisplay() {
 }
 
 function updateTrackDisplay(track) {
-  artEl.style.backgroundImage = `url(${track.art || "assets/logo.png"})`;
+  artEl.style.backgroundImage = `url(${track.art || "/assets/logo.png"})`;
   songEl.textContent = track.name || "Unknown track";
   artistEl.textContent = track.artist || "Unknown artist";
   updateLyrics(track);
@@ -412,7 +412,7 @@ function renderList() {
   if (!entries.length) {
     const empty = document.createElement("div");
     empty.className = "track-item unavailable";
-    empty.innerHTML = `<div class="thumb" style="background-image:url('assets/logo.png')"></div>
+    empty.innerHTML = `<div class="thumb" style="background-image:url('/assets/logo.png')"></div>
       <div><div class="t-name">No tracks match</div><div class="t-artist">Try a different search or playlist.</div></div>
       <div class="t-tag">Empty</div>`;
     tracksEl.appendChild(empty);
@@ -434,7 +434,7 @@ function renderList() {
 
     const thumb = document.createElement("span");
     thumb.className = "thumb";
-    thumb.style.backgroundImage = `url(${track.art || "assets/logo.png"})`;
+    thumb.style.backgroundImage = `url(${track.art || "/assets/logo.png"})`;
 
     const meta = document.createElement("span");
     meta.className = "track-item-meta";

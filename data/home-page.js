@@ -401,13 +401,13 @@
     window.setInterval(setActive, 2600);
   }
 
-  function enableDashboardTimeStamp() {
+  function enableDashboardClock() {
     const feed = document.querySelector(".home-dashboard-timestamp");
     if (!feed) return;
 
     function update() {
       const now = new Date();
-      feed.textContent = `Last sync // ${now.toLocaleTimeString("en-GB", {
+      feed.textContent = `Local time // ${now.toLocaleTimeString("en-GB", {
         hour: "2-digit",
         minute: "2-digit"
       })}`;
@@ -540,7 +540,7 @@
     renderFeaturedVideo();
     renderFeaturedTracks();
     rotateLiveCards();
-    enableDashboardTimeStamp();
+    enableDashboardClock();
     renderFeaturedTournament();
   }
 
