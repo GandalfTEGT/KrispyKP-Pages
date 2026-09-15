@@ -153,7 +153,9 @@
   function showSelected(video, metaLabel, shouldScroll = true) {
     if (!playerFrame || !featureState || !selectedState || !video) return;
     stopIframe(featureFrame);
-    playerFrame.src = getEmbedSrc(video.videoId);
+    if (!currentVideo || currentVideo.videoId !== video.videoId) {
+      playerFrame.src = getEmbedSrc(video.videoId);
+    }
     playerTitle.textContent = video.title || "Selected Video";
     playerMeta.textContent = metaLabel || "Playlist Video";
     playerNote.textContent = video.note || "";
