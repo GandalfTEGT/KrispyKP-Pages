@@ -5,6 +5,11 @@ on:
   schedule:
     - cron: "17 */6 * * *"
 
+concurrency:
+  group: kkp-generated-data-sync-${{ github.ref }}
+  cancel-in-progress: false
+  queue: max
+
 jobs:
   sync-challonge:
     runs-on: ubuntu-latest
@@ -36,42 +41,34 @@ jobs:
           api_key = os.environ.get("CHALLONGE_API_KEY", "").strip()
           tournament_ids = [x.strip() for x in os.environ.get("CHALLONGE_TOURNAMENT_IDS", "").split(",") if x.strip()]
 
-          output = {
-              "syncedAt": None,
-              "tournaments": []
+          if not username or not api_key or not tournament_ids:
+              raise SystemExit("CHALLONGE_USERNAME, CHALLONGE_API_KEY and CHALLONGE_TOURNAMENT_IDS are required; preserving the existing generated snapshot.")
+
+          output = {"syncedAt": None, "tournaments": []}
+          auth = base64.b64encode(f"{username}:{api_key}".encode("utf-8")).decode("ascii")
+          headers = {
+              "Accept": "application/json",
+              "Authorization": f"Basic {auth}"
           }
 
-          if username and api_key and tournament_ids:
-              auth = base64.b64encode(f"{username}:{api_key}".encode("utf-8")).decode("ascii")
-              headers = {
-                  "Accept": "application/json",
-                  "Authorization": f"Basic {auth}"
-              }
+          def fetch(url):
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req, timeout=30) as resp:
+                  return json.loads(resp.read().decode("utf-8"))
 
-              def fetch(url):
-                  req = urllib.request.Request(url, headers=headers)
-                  with urllib.request.urlopen(req, timeout=30) as resp:
-                      return json.loads(resp.read().decode("utf-8"))
+          for tournament_id in tournament_ids:
+              tournament = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}.json")
+              participants = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}/participants.json")
+              matches = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}/matches.json")
+              output["tournaments"].append({
+                  "id": tournament_id,
+                  "tournament": tournament,
+                  "participants": participants,
+                  "matches": matches
+              })
 
-              for tournament_id in tournament_ids:
-                  try:
-                      tournament = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}.json")
-                      participants = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}/participants.json")
-                      matches = fetch(f"https://api.challonge.com/v1/tournaments/{tournament_id}/matches.json")
-                      output["tournaments"].append({
-                          "id": tournament_id,
-                          "tournament": tournament,
-                          "participants": participants,
-                          "matches": matches
-                      })
-                  except Exception as exc:
-                      output["tournaments"].append({
-                          "id": tournament_id,
-                          "error": str(exc)
-                      })
-
-              from datetime import datetime, timezone
-              output["syncedAt"] = datetime.now(timezone.utc).isoformat()
+          from datetime import datetime, timezone
+          output["syncedAt"] = datetime.now(timezone.utc).isoformat()
 
           out_path = Path("data/challonge.generated.json")
           out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -86,4 +83,5 @@ jobs:
           git add data/challonge.generated.json
           git diff --cached --quiet && exit 0
           git commit -m "Update Challonge tournament data"
+          git pull --rebase
           git push

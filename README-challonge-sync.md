@@ -18,6 +18,8 @@ and writes them into:
 
 - `data/challonge.generated.json`
 
+This is a public repository and that generated path is publicly retrievable when deployed. The current workflow stores the complete API responses rather than a reviewed public allowlist. Leave the Challonge secrets and tournament IDs unconfigured until the project owner has approved which tournament, participant and match fields may be published and the workflow has been updated to emit only that schema.
+
 It does **not** yet rewrite `data/tournaments.config.js` automatically.
 
 That is deliberate, because your config file still controls manual/site-specific things such as:
@@ -29,6 +31,8 @@ That is deliberate, because your config file still controls manual/site-specific
 - external tournaments not on Challonge
 
 ## What you need to change later
+
+The public-field review above is a required first step. The following credentials are needed only after that review and the corresponding workflow change.
 
 ### 1. Add GitHub repository secrets
 
@@ -76,6 +80,8 @@ Always store credentials in **GitHub Actions secrets**.
    - `participantSource: "challonge"` or `"mixed"`
 5. Run the workflow manually from the GitHub Actions tab, or wait for the scheduled sync.
 
+If credentials or IDs are missing, or if any configured API request fails, the workflow stops without replacing the last successfully generated snapshot. The Challonge and YouTube data writers share a branch-scoped concurrency queue and rebase before push so their same-minute schedules do not race each other.
+
 ## If you want the site to use synced data later
 
 A future upgrade can make `tournaments-page.js` read from:
@@ -89,4 +95,4 @@ That is not required to use the current tournaments page.
 
 The workflow currently uses direct API fetches and stores raw JSON.
 It does not transform Challonge data into your exact front-end layout yet.
-That keeps the setup simple and safe until you have a real live tournament to test against.
+The current empty snapshot contains no tournament records, and the website does not read this file. A reviewed allowlisted output schema is still required before enabling the workflow for a live tournament.
