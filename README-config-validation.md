@@ -6,12 +6,18 @@ Run this check after changing tournament, music or video source configuration:
 node tools/validate-site-config.mjs
 ```
 
+Authoring tools can validate an unwritten candidate while resolving website assets against the selected repository:
+
+```powershell
+node tools/validate-site-config.mjs --root "C:\path\to\KrispyKP-Pages" --tournament-config "C:\path\to\candidate.js"
+```
+
 The command has no package dependencies and does not contact external services. It exits with status 1 and lists every detected problem when configuration is incomplete or inconsistent.
 
 It checks:
 
 - tournament event IDs and the explicit `currentEventId` reference;
-- supported event status, registration and bracket modes, including fields required by a selected mode;
+- supported event status (`upcoming`, `live`, `completed`, or `cancelled`), registration and bracket modes, including fields required by a selected mode;
 - local tournament banner, rules and participant-flag paths;
 - manual bracket groups, match IDs and upstream match references;
 - structured rules and legacy string-array rules;

@@ -3,7 +3,7 @@ import vm from "node:vm";
 
 const [configPath, eventId] = process.argv.slice(2);
 if (!configPath || !eventId) {
-  console.error("Usage: node tools/export-tournament-config.mjs <config-path> <event-id>");
+  console.error("Usage: node tools/export-tournament-config.mjs <config-path> <event-id|--all>");
   process.exit(2);
 }
 
@@ -21,6 +21,11 @@ const events = context.window.KRISPY_TOURNAMENTS?.events;
 if (!Array.isArray(events)) {
   console.error("Tournament configuration must define window.KRISPY_TOURNAMENTS.events.");
   process.exit(1);
+}
+
+if (eventId === "--all") {
+  process.stdout.write(JSON.stringify(context.window.KRISPY_TOURNAMENTS));
+  process.exit(0);
 }
 
 const event = events.find((candidate) => candidate?.id === eventId);

@@ -5,21 +5,26 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 
 const args = process.argv.slice(2);
 if (args.includes("--help")) {
-  console.log("Usage: node tools/validate-site-config.mjs [--root <repository-root>]");
+  console.log("Usage: node tools/validate-site-config.mjs [--root <repository-root>] [--tournament-config <candidate-file>]");
   process.exit(0);
 }
 
 let root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const rootIndex = args.indexOf("--root");
-if (rootIndex !== -1) {
-  if (!args[rootIndex + 1] || args.length !== 2) {
-    console.error("Usage: node tools/validate-site-config.mjs [--root <repository-root>]");
+let tournamentConfigPath = null;
+for (let index = 0; index < args.length; index += 1) {
+  const argument = args[index];
+  const value = args[index + 1];
+  if (argument === "--root" && value) {
+    root = path.resolve(value);
+    index += 1;
+  } else if (argument === "--tournament-config" && value) {
+    tournamentConfigPath = path.resolve(value);
+    index += 1;
+  } else {
+    console.error(`Unknown or incomplete argument: ${argument}`);
+    console.error("Usage: node tools/validate-site-config.mjs [--root <repository-root>] [--tournament-config <candidate-file>]");
     process.exit(2);
   }
-  root = path.resolve(args[rootIndex + 1]);
-} else if (args.length) {
-  console.error(`Unknown argument: ${args[0]}`);
-  process.exit(2);
 }
 
 const errors = [];
@@ -49,7 +54,9 @@ function uniqueStrings(items, field, location) {
 }
 
 function loadClassicScript(relativePath) {
-  const filename = path.join(root, relativePath);
+  const filename = relativePath === "data/tournaments.config.js" && tournamentConfigPath
+    ? tournamentConfigPath
+    : path.join(root, relativePath);
   const context = { window: {} };
   vm.createContext(context);
   try {
@@ -122,7 +129,7 @@ function validateTournaments() {
     }
   }
 
-  const statuses = new Set(["live", "upcoming", "completed"]);
+  const statuses = new Set(["live", "upcoming", "completed", "cancelled"]);
   const registrationModes = new Set(["none", "closed", "external", "challonge"]);
   const bracketModes = new Set(["manual", "embed", "link", "none"]);
   let matchCount = 0;

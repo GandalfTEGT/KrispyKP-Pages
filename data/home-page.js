@@ -437,6 +437,7 @@
       events.find((event) => event.status === "live") ||
       events.find((event) => event.status === "upcoming") ||
       events.find((event) => event.status === "completed") ||
+      events.find((event) => event.status === "cancelled") ||
       null
     );
   }
@@ -447,6 +448,8 @@
         return "Live Event";
       case "completed":
         return "Completed Event";
+      case "cancelled":
+        return "Cancelled Event";
       case "upcoming":
       default:
         return "Upcoming Event";

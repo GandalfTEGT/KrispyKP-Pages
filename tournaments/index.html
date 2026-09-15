@@ -197,8 +197,15 @@
 
           <section id="tournamentArchiveCardsSection" class="section tournament-section-tight tournament-archive-section" hidden>
             <div class="frame feature tournament-archive-card">
-              <h2 id="tournamentArchiveCardsTitle" class="section-title">Past Events</h2>
+              <h2 id="tournamentArchiveCardsTitle" class="section-title">Tournament Archive</h2>
+              <div class="tournament-archive-filters" aria-label="Filter tournament archive">
+                <label><span>Search</span><input id="tournamentArchiveSearch" type="search" placeholder="Title, game, organiser…" autocomplete="off"></label>
+                <label><span>Game</span><select id="tournamentArchiveGame"><option value="">All games</option></select></label>
+                <label><span>Year</span><select id="tournamentArchiveYear"><option value="">All years</option></select></label>
+                <div id="tournamentArchiveCount" class="tournament-archive-count" role="status"></div>
+              </div>
               <div id="tournamentArchiveCardsGrid" class="tournament-archive-grid"></div>
+              <p id="tournamentArchiveEmpty" class="notice" hidden>No archive events match these filters.</p>
             </div>
           </section>
         </div>

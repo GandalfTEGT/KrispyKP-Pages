@@ -46,7 +46,12 @@
 
     archiveCardsSection: document.getElementById("tournamentArchiveCardsSection"),
     archiveCardsGrid: document.getElementById("tournamentArchiveCardsGrid"),
-    archiveCardsTitle: document.getElementById("tournamentArchiveCardsTitle")
+    archiveCardsTitle: document.getElementById("tournamentArchiveCardsTitle"),
+    archiveSearch: document.getElementById("tournamentArchiveSearch"),
+    archiveGame: document.getElementById("tournamentArchiveGame"),
+    archiveYear: document.getElementById("tournamentArchiveYear"),
+    archiveCount: document.getElementById("tournamentArchiveCount"),
+    archiveEmpty: document.getElementById("tournamentArchiveEmpty")
   };
 
   let currentEventId = data.currentEventId || null;
@@ -84,6 +89,8 @@
         return "Live";
       case "completed":
         return "Completed";
+      case "cancelled":
+        return "Cancelled";
       case "upcoming":
       default:
         return "Upcoming";
@@ -101,6 +108,7 @@
       events.find((event) => event.status === "live") ||
       events.find((event) => event.status === "upcoming") ||
       events.find((event) => event.status === "completed") ||
+      events.find((event) => event.status === "cancelled") ||
       null
     );
   }
@@ -112,11 +120,46 @@
     ));
   }
 
-  function getCompletedEvents(featuredEvent) {
+  function getArchiveEvents(featuredEvent) {
     return getEvents().filter((event) => (
       event.id !== featuredEvent?.id &&
-      event.status === "completed"
+      (event.status === "completed" || event.status === "cancelled")
     ));
+  }
+
+  function getEventYear(event) {
+    const match = `${text(event.startDate)} ${text(event.endDate)} ${text(event.title)}`.match(/\b(?:19|20)\d{2}\b/);
+    return match ? match[0] : "";
+  }
+
+  function filterArchiveEvents(events) {
+    const query = text(els.archiveSearch?.value).trim().toLowerCase();
+    const game = text(els.archiveGame?.value);
+    const year = text(els.archiveYear?.value);
+    return events.filter((event) => {
+      const haystack = [event.id, event.title, event.subtitle, event.description, event.game, event.organizer]
+        .map((value) => text(value))
+        .join(" ")
+        .toLowerCase();
+      return (!query || haystack.includes(query)) && (!game || event.game === game) && (!year || getEventYear(event) === year);
+    });
+  }
+
+  function syncArchiveFilterOptions(events) {
+    const sync = (select, values, emptyLabel) => {
+      if (!select) return;
+      const selected = select.value;
+      select.innerHTML = `<option value="">${escapeHtml(emptyLabel)}</option>`;
+      values.forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+      if (values.includes(selected)) select.value = selected;
+    };
+    sync(els.archiveGame, [...new Set(events.map((event) => text(event.game)).filter(Boolean))].sort(), "All games");
+    sync(els.archiveYear, [...new Set(events.map(getEventYear).filter(Boolean))].sort().reverse(), "All years");
   }
 
   function jumpToTop() {
@@ -270,6 +313,7 @@
     if (els.archiveCardsGrid) els.archiveCardsGrid.innerHTML = "";
     if (els.switcherSection) els.switcherSection.hidden = true;
     if (els.archiveCardsSection) els.archiveCardsSection.hidden = true;
+    if (els.archiveEmpty) els.archiveEmpty.hidden = true;
   }
 
   function getManualBracketGroups(event) {
@@ -917,13 +961,13 @@
     resetSwitchers();
 
     const otherActive = getOtherActiveEvents(featuredEvent);
-    const completed = getCompletedEvents(featuredEvent);
+    const archiveEvents = getArchiveEvents(featuredEvent);
 
     if (els.switcherSection && els.switcherGrid && otherActive.length) {
       els.switcherSection.hidden = false;
       if (els.switcherTitle) {
         els.switcherTitle.textContent =
-          otherActive.length === 1 ? "Other Active / Upcoming Event" : "Other Active / Upcoming Events";
+          otherActive.length === 1 ? "Current & Upcoming Tournament" : "Current & Upcoming Tournaments";
       }
 
       otherActive.forEach((event) => {
@@ -933,15 +977,17 @@
       });
     }
 
-    if (els.archiveCardsSection && els.archiveCardsGrid && completed.length) {
+    if (els.archiveCardsSection && els.archiveCardsGrid && archiveEvents.length) {
       els.archiveCardsSection.hidden = false;
-      if (els.archiveCardsTitle) {
-        els.archiveCardsTitle.textContent = completed.length === 1 ? "Past Event" : "Past Events";
-      }
-
-      completed.forEach((event) => {
-        els.archiveCardsGrid.appendChild(renderSwitcherCard(event, "Completed Event", "archive"));
+      if (els.archiveCardsTitle) els.archiveCardsTitle.textContent = "Tournament Archive";
+      syncArchiveFilterOptions(archiveEvents);
+      const filtered = filterArchiveEvents(archiveEvents);
+      filtered.forEach((event) => {
+        const label = event.status === "cancelled" ? "Cancelled Event" : "Completed Event";
+        els.archiveCardsGrid.appendChild(renderSwitcherCard(event, label, "archive"));
       });
+      if (els.archiveCount) els.archiveCount.textContent = `${filtered.length} of ${archiveEvents.length} events`;
+      if (els.archiveEmpty) els.archiveEmpty.hidden = filtered.length > 0;
     }
   }
 
@@ -1147,5 +1193,8 @@
   }
 
   window.addEventListener("resize", handleResponsiveTournamentResize);
+  [els.archiveSearch, els.archiveGame, els.archiveYear].filter(Boolean).forEach((control) => {
+    control.addEventListener(control === els.archiveSearch ? "input" : "change", () => renderPage());
+  });
   renderPage();
 })();

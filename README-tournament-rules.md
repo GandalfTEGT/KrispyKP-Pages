@@ -19,3 +19,5 @@ For a future official document:
 5. Review every rendered page and extracted text before committing the generated PDF.
 
 The generator exits with a clear error for an unknown event, legacy/unstructured rules, missing section content, an empty map pool, missing contact guidance, invalid output path, or missing required metadata. Node.js, Python, ReportLab and Pillow are required locally. No browser, backend, account or database is involved.
+
+KKP Tournament Builder uses this same workflow. It exports and validates the candidate configuration first, then invokes this generator by event ID after the owner confirms the exact write set. The Builder does not contain a second PDF layout implementation.

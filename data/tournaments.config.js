@@ -38,9 +38,9 @@ id
 - Unique string. Required.
 
 status
-- Options: "live", "upcoming", "completed"
+- Options: "live", "upcoming", "completed", "cancelled"
 - Required.
-- Results only show when status is "completed".
+- Results only show when status is "completed". Completed and cancelled events appear in the archive.
 
 title
 - Main visible tournament title. Required.
