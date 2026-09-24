@@ -1070,7 +1070,8 @@
               <img
                 class="tournament-player-flag-image"
                 src="${escapeHtml(item.flagImage)}"
-                alt="${escapeHtml(text(item.flag, "Flag"))}"
+                alt=""
+                aria-hidden="true"
                 loading="lazy"
                 decoding="async">
               <span>${escapeHtml(text(item.flag, ""))}</span>

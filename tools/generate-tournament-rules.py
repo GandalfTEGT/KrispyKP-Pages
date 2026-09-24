@@ -18,7 +18,9 @@ from reportlab.lib.enums import TA_CENTER
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import mm
+from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.pdfmetrics import stringWidth
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.platypus import (
     Image,
     KeepTogether,
@@ -42,6 +44,13 @@ CYAN = colors.HexColor("#4fd2ff")
 CYAN_SOFT = colors.HexColor("#8be3ff")
 TEXT = colors.HexColor("#e7f8ff")
 MUTED = colors.HexColor("#93b2bc")
+FONT_DIRECTORY = next((Path(value) for value in rl_config.TTFSearchPath if (Path(value) / "Vera.ttf").is_file()), None)
+if FONT_DIRECTORY is None:
+    raise RuntimeError("ReportLab's bundled Bitstream Vera fonts are required for Unicode PDF output.")
+BODY_FONT = "KKPVera"
+BOLD_FONT = "KKPVeraBold"
+pdfmetrics.registerFont(TTFont(BODY_FONT, str(FONT_DIRECTORY / "Vera.ttf")))
+pdfmetrics.registerFont(TTFont(BOLD_FONT, str(FONT_DIRECTORY / "VeraBd.ttf")))
 
 
 def fail(message: str) -> None:
@@ -56,6 +65,7 @@ def load_event(event_id: str) -> dict:
         [node, str(EXPORTER), str(CONFIG), event_id],
         cwd=ROOT,
         text=True,
+        encoding="utf-8",
         capture_output=True,
         check=False,
     )
@@ -170,13 +180,13 @@ def build_pdf(event: dict, output_override: Path | None = None) -> Path:
 
     samples = getSampleStyleSheet()
     styles = {
-        "title": ParagraphStyle("Title", parent=samples["Title"], fontName="Helvetica-Bold", fontSize=24, leading=27, alignment=TA_CENTER, textColor=TEXT, spaceAfter=2.5 * mm),
-        "subtitle": ParagraphStyle("Subtitle", parent=samples["Normal"], fontName="Helvetica-Bold", fontSize=10, leading=13, alignment=TA_CENTER, textColor=CYAN_SOFT, spaceAfter=4 * mm),
-        "heading": ParagraphStyle("Heading", parent=samples["Heading2"], fontName="Helvetica-Bold", fontSize=12, leading=15, textColor=CYAN, spaceBefore=4 * mm, spaceAfter=2 * mm, keepWithNext=True),
-        "body": ParagraphStyle("Body", parent=samples["BodyText"], fontName="Helvetica", fontSize=9.6, leading=13.5, textColor=TEXT, spaceAfter=2.2 * mm),
-        "bullet": ParagraphStyle("Bullet", parent=samples["BodyText"], fontName="Helvetica", fontSize=9.4, leading=13, leftIndent=5 * mm, firstLineIndent=-4 * mm, textColor=TEXT, spaceAfter=1.6 * mm),
-        "small": ParagraphStyle("Small", parent=samples["BodyText"], fontName="Helvetica", fontSize=8.2, leading=10.5, textColor=MUTED),
-        "callout": ParagraphStyle("Callout", parent=samples["BodyText"], fontName="Helvetica-Bold", fontSize=11, leading=14, alignment=TA_CENTER, textColor=BG),
+        "title": ParagraphStyle("Title", parent=samples["Title"], fontName=BOLD_FONT, fontSize=24, leading=27, alignment=TA_CENTER, textColor=TEXT, spaceAfter=2.5 * mm),
+        "subtitle": ParagraphStyle("Subtitle", parent=samples["Normal"], fontName=BOLD_FONT, fontSize=10, leading=13, alignment=TA_CENTER, textColor=CYAN_SOFT, spaceAfter=4 * mm),
+        "heading": ParagraphStyle("Heading", parent=samples["Heading2"], fontName=BOLD_FONT, fontSize=12, leading=15, textColor=CYAN, spaceBefore=4 * mm, spaceAfter=2 * mm, keepWithNext=True),
+        "body": ParagraphStyle("Body", parent=samples["BodyText"], fontName=BODY_FONT, fontSize=9.6, leading=13.5, textColor=TEXT, spaceAfter=2.2 * mm),
+        "bullet": ParagraphStyle("Bullet", parent=samples["BodyText"], fontName=BODY_FONT, fontSize=9.4, leading=13, leftIndent=5 * mm, firstLineIndent=-4 * mm, textColor=TEXT, spaceAfter=1.6 * mm),
+        "small": ParagraphStyle("Small", parent=samples["BodyText"], fontName=BODY_FONT, fontSize=8.2, leading=10.5, textColor=MUTED),
+        "callout": ParagraphStyle("Callout", parent=samples["BodyText"], fontName=BOLD_FONT, fontSize=11, leading=14, alignment=TA_CENTER, textColor=BG),
     }
 
     logo = repository_asset("/assets/logo.png", "logo", required=True)
@@ -191,12 +201,12 @@ def build_pdf(event: dict, output_override: Path | None = None) -> Path:
         canvas.line(16 * mm, height - 14 * mm, width - 16 * mm, height - 14 * mm)
         canvas.drawImage(str(logo), 16 * mm, height - 12 * mm, 7 * mm, 7 * mm, preserveAspectRatio=True, mask="auto")
         canvas.setFillColor(CYAN_SOFT)
-        canvas.setFont("Helvetica-Bold", 7.5)
+        canvas.setFont(BOLD_FONT, 7.5)
         canvas.drawString(25 * mm, height - 9.5 * mm, "KRISPYKP // TOURNAMENT RULES")
         canvas.setFillColor(MUTED)
-        canvas.setFont("Helvetica", 7.2)
+        canvas.setFont(BODY_FONT, 7.2)
         label = short_title
-        while stringWidth(label, "Helvetica", 7.2) > 88 * mm and len(label) > 12:
+        while stringWidth(label, BODY_FONT, 7.2) > 88 * mm and len(label) > 12:
             label = label[:-1]
         if label != short_title:
             label = label.rstrip() + "..."
@@ -233,9 +243,9 @@ def build_pdf(event: dict, output_override: Path | None = None) -> Path:
         ("BACKGROUND", (0, 0), (-1, -1), PANEL), ("BOX", (0, 0), (-1, -1), 0.8, LINE),
         ("INNERGRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#213b44")),
         ("TEXTCOLOR", (0, 0), (-1, -1), TEXT), ("TEXTCOLOR", (0, 0), (0, -1), CYAN),
-        ("TEXTCOLOR", (2, 0), (2, -1), CYAN), ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold"),
-        ("FONTNAME", (2, 0), (2, -1), "Helvetica-Bold"), ("FONTNAME", (1, 0), (1, -1), "Helvetica"),
-        ("FONTNAME", (3, 0), (3, -1), "Helvetica"), ("FONTSIZE", (0, 0), (-1, -1), 8.2),
+        ("TEXTCOLOR", (2, 0), (2, -1), CYAN), ("FONTNAME", (0, 0), (0, -1), BOLD_FONT),
+        ("FONTNAME", (2, 0), (2, -1), BOLD_FONT), ("FONTNAME", (1, 0), (1, -1), BODY_FONT),
+        ("FONTNAME", (3, 0), (3, -1), BODY_FONT), ("FONTSIZE", (0, 0), (-1, -1), 8.2),
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("TOPPADDING", (0, 0), (-1, -1), 2.2 * mm),
         ("BOTTOMPADDING", (0, 0), (-1, -1), 2.2 * mm), ("LEFTPADDING", (0, 0), (-1, -1), 2.5 * mm),
     ]))
@@ -250,7 +260,7 @@ def build_pdf(event: dict, output_override: Path | None = None) -> Path:
     map_table.setStyle(TableStyle([
         ("BACKGROUND", (0, 0), (0, -1), colors.HexColor("#113746")),
         ("BACKGROUND", (1, 0), (1, -1), PANEL), ("TEXTCOLOR", (0, 0), (-1, -1), TEXT),
-        ("TEXTCOLOR", (0, 0), (0, -1), CYAN_SOFT), ("FONTNAME", (0, 0), (0, -1), "Helvetica-Bold"),
+        ("TEXTCOLOR", (0, 0), (0, -1), CYAN_SOFT), ("FONTNAME", (0, 0), (0, -1), BOLD_FONT),
         ("FONTSIZE", (0, 0), (-1, -1), 9), ("ALIGN", (0, 0), (0, -1), "CENTER"),
         ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("GRID", (0, 0), (-1, -1), 0.35, LINE),
         ("TOPPADDING", (0, 0), (-1, -1), 1.8 * mm), ("BOTTOMPADDING", (0, 0), (-1, -1), 1.8 * mm),
