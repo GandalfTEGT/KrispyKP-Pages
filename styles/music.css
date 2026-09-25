@@ -170,6 +170,11 @@
     display: inline-flex;
   }
 
+  .tracks,
+  .custom-tracks {
+    min-height: 0;
+  }
+
   .custom-tracks {
     max-height: 360px;
   }

@@ -5,6 +5,10 @@ const lyricsLibrary = window.KRISPY_LYRICS || {};
 const CUSTOM_SELECTION_KEY = "krispykp_custom_track_ids_v1";
 const CUSTOM_PLAYLIST_NAME_KEY = "krispykp_custom_playlist_name_v1";
 
+let memoryCustomTrackIds = [];
+let memoryCustomPlaylistName = "My Selection";
+let storageUnavailable = false;
+
 let activePlaylistId = "all-tracks";
 let activeTracks = [];
 let currentTrackId = "";
@@ -60,7 +64,9 @@ function slugSafeName(name) {
 }
 
 function setStatus(text) {
-  statusEl.textContent = text;
+  statusEl.textContent = storageUnavailable
+    ? `${text} · Storage unavailable; changes are temporary`
+    : text;
 }
 
 function getPlayableTracks(trackList) {
@@ -68,24 +74,65 @@ function getPlayableTracks(trackList) {
 }
 
 function getSavedCustomTrackIds() {
-  try {
-    const parsed = JSON.parse(localStorage.getItem(CUSTOM_SELECTION_KEY) || "[]");
-    return Array.isArray(parsed) ? parsed.filter(Boolean) : [];
-  } catch (error) {
-    return [];
+  if (storageUnavailable) {
+    return [...memoryCustomTrackIds];
   }
+
+  let storedValue;
+
+  try {
+    storedValue = localStorage.getItem(CUSTOM_SELECTION_KEY);
+  } catch (error) {
+    storageUnavailable = true;
+    return [...memoryCustomTrackIds];
+  }
+
+  try {
+    const parsed = JSON.parse(storedValue || "[]");
+    memoryCustomTrackIds = Array.isArray(parsed) ? parsed.filter(Boolean) : [];
+  } catch (error) {
+    memoryCustomTrackIds = [];
+  }
+
+  return [...memoryCustomTrackIds];
 }
 
 function saveCustomTrackIds(trackIds) {
-  localStorage.setItem(CUSTOM_SELECTION_KEY, JSON.stringify(trackIds));
+  memoryCustomTrackIds = Array.isArray(trackIds) ? trackIds.filter(Boolean) : [];
+
+  if (storageUnavailable) return;
+
+  try {
+    localStorage.setItem(CUSTOM_SELECTION_KEY, JSON.stringify(memoryCustomTrackIds));
+  } catch (error) {
+    storageUnavailable = true;
+  }
 }
 
 function getSavedCustomPlaylistName() {
-  return localStorage.getItem(CUSTOM_PLAYLIST_NAME_KEY) || "My Selection";
+  if (storageUnavailable) {
+    return memoryCustomPlaylistName;
+  }
+
+  try {
+    memoryCustomPlaylistName = localStorage.getItem(CUSTOM_PLAYLIST_NAME_KEY) || "My Selection";
+  } catch (error) {
+    storageUnavailable = true;
+  }
+
+  return memoryCustomPlaylistName;
 }
 
 function saveCustomPlaylistName(name) {
-  localStorage.setItem(CUSTOM_PLAYLIST_NAME_KEY, name || "My Selection");
+  memoryCustomPlaylistName = name || "My Selection";
+
+  if (storageUnavailable) return;
+
+  try {
+    localStorage.setItem(CUSTOM_PLAYLIST_NAME_KEY, memoryCustomPlaylistName);
+  } catch (error) {
+    storageUnavailable = true;
+  }
 }
 
 function getBuiltInPlaylistById(id) {
@@ -218,6 +265,7 @@ function renderCustomTrackBuilder() {
     checkbox.checked = selectedIds.has(track.id);
 
     checkbox.addEventListener("change", () => {
+      const customSelectionWasActive = activePlaylistId === "custom-selection";
       const nextSelected = new Set(getSavedCustomTrackIds());
 
       if (checkbox.checked) {
@@ -230,22 +278,11 @@ function renderCustomTrackBuilder() {
       renderCustomTrackBuilder();
       populatePlaylistSelect();
 
-      if (activePlaylistId === "custom-selection") {
-        const previousTrackId = currentTrackId;
-        refreshActiveTracks();
-
-        if (!activeTracks.some(trackItem => trackItem.id === previousTrackId)) {
-          currentTrackId = "";
-        }
-
-        renderList();
-
-        if (!currentTrackId && activeTracks.length) {
-          loadTrackById(activeTracks[0].id, false, false);
-        } else if (!activeTracks.length) {
-          clearPlayerDisplay();
-          setStatus("Custom selection is empty");
-        }
+      if (customSelectionWasActive) {
+        syncActivePlaybackScope({
+          preserveCurrent: true,
+          emptyStatus: "Custom selection is empty"
+        });
       }
     });
 
@@ -265,10 +302,31 @@ function clearProgress() {
   progressEl.style.width = "0%";
   currentTimeEl.textContent = "0:00";
   durationEl.textContent = "0:00";
+  seekEl.setAttribute("aria-valuemax", "0");
+  seekEl.setAttribute("aria-valuenow", "0");
+  seekEl.setAttribute("aria-valuetext", "0:00 of 0:00");
+}
+
+function syncSeekDisplay() {
+  const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+  const currentTime = duration
+    ? Math.max(0, Math.min(audio.currentTime || 0, duration))
+    : 0;
+  const percent = duration ? (currentTime / duration) * 100 : 0;
+
+  progressEl.style.width = `${percent}%`;
+  currentTimeEl.textContent = formatTime(currentTime);
+  durationEl.textContent = formatTime(duration);
+  seekEl.setAttribute("aria-valuemax", String(Math.round(duration)));
+  seekEl.setAttribute("aria-valuenow", String(Math.round(currentTime)));
+  seekEl.setAttribute(
+    "aria-valuetext",
+    `${formatTime(currentTime)} of ${formatTime(duration)}`
+  );
 }
 
 function clearPlayerDisplay() {
-  artEl.style.backgroundImage = "url('assets/logo.png')";
+  artEl.style.backgroundImage = "url('/assets/logo.png')";
   songEl.textContent = "Select a track";
   artistEl.textContent = "KrispyKP";
   clearProgress();
@@ -277,7 +335,7 @@ function clearPlayerDisplay() {
 }
 
 function updateTrackDisplay(track) {
-  artEl.style.backgroundImage = `url(${track.art || "assets/logo.png"})`;
+  artEl.style.backgroundImage = `url(${track.art || "/assets/logo.png"})`;
   songEl.textContent = track.name || "Unknown track";
   artistEl.textContent = track.artist || "Unknown artist";
   updateLyrics(track);
@@ -296,6 +354,43 @@ function rebuildShufflePool(excludeTrackId = currentTrackId, useLibraryScope = f
   }
 
   shufflePool = trackIds;
+}
+
+function resetPlaybackSequence() {
+  playHistory = [];
+
+  if (shuffle) {
+    rebuildShufflePool(currentTrackId, repeatMode === "library");
+  } else {
+    shufflePool = [];
+  }
+}
+
+function syncActivePlaybackScope({ preserveCurrent = false, emptyStatus = "No playable tracks in this list" } = {}) {
+  const previousTrackId = currentTrackId;
+  refreshActiveTracks();
+
+  const currentRemainsPlayable = preserveCurrent && getPlayableTracks(activeTracks)
+    .some(track => track.id === previousTrackId);
+
+  if (!currentRemainsPlayable) {
+    currentTrackId = "";
+  }
+
+  renderList();
+
+  const firstPlayable = getPlayableTracks(activeTracks)[0];
+
+  if (!currentTrackId && firstPlayable) {
+    loadTrackById(firstPlayable.id, false, false);
+  } else if (!firstPlayable) {
+    audio.pause();
+    currentTrackId = "";
+    clearPlayerDisplay();
+    setStatus(emptyStatus);
+  }
+
+  resetPlaybackSequence();
 }
 
 function getFilteredTrackEntries() {
@@ -317,7 +412,7 @@ function renderList() {
   if (!entries.length) {
     const empty = document.createElement("div");
     empty.className = "track-item unavailable";
-    empty.innerHTML = `<div class="thumb" style="background-image:url('assets/logo.png')"></div>
+    empty.innerHTML = `<div class="thumb" style="background-image:url('/assets/logo.png')"></div>
       <div><div class="t-name">No tracks match</div><div class="t-artist">Try a different search or playlist.</div></div>
       <div class="t-tag">Empty</div>`;
     tracksEl.appendChild(empty);
@@ -325,27 +420,36 @@ function renderList() {
   }
 
   entries.forEach(({ track, index }) => {
-    const item = document.createElement("div");
+    const item = document.createElement("button");
+    item.type = "button";
+    item.dataset.trackId = track.id;
     item.className = "track-item" + (track.id === currentTrackId ? " active" : "") + (track.available ? "" : " unavailable");
-    item.onclick = () => loadTrackByIndex(index, true, true);
+    item.addEventListener("click", () => {
+      loadTrackByIndex(index, true, true);
 
-    const thumb = document.createElement("div");
+      const replacement = Array.from(tracksEl.querySelectorAll(".track-item"))
+        .find(trackItem => trackItem.dataset.trackId === track.id);
+      if (replacement) replacement.focus();
+    });
+
+    const thumb = document.createElement("span");
     thumb.className = "thumb";
-    thumb.style.backgroundImage = `url(${track.art || "assets/logo.png"})`;
+    thumb.style.backgroundImage = `url(${track.art || "/assets/logo.png"})`;
 
-    const meta = document.createElement("div");
+    const meta = document.createElement("span");
+    meta.className = "track-item-meta";
 
-    const name = document.createElement("div");
+    const name = document.createElement("span");
     name.className = "t-name";
     name.textContent = track.name || "Unknown track";
 
-    const artist = document.createElement("div");
+    const artist = document.createElement("span");
     artist.className = "t-artist";
     artist.textContent = track.album || track.artist || "Unknown artist";
 
     meta.append(name, artist);
 
-    const tag = document.createElement("div");
+    const tag = document.createElement("span");
     tag.className = "t-tag";
 
     if (!track.available || !track.file) {
@@ -597,6 +701,7 @@ function stopTrack() {
 function toggleShuffle() {
   shuffle = !shuffle;
   shuffleBtn.classList.toggle("active", shuffle);
+  shuffleBtn.setAttribute("aria-pressed", String(shuffle));
 
   if (shuffle) {
     rebuildShufflePool(currentTrackId, repeatMode === "library");
@@ -636,10 +741,9 @@ function saveCustomSelection() {
 
   if (selectedIds.length) {
     activePlaylistId = "custom-selection";
-    refreshActiveTracks();
     playlistSelectEl.value = activePlaylistId;
-    renderList();
-    setStatus("Custom selection saved");
+    syncActivePlaybackScope({ preserveCurrent: true });
+    setStatus(storageUnavailable ? "Custom selection available for this page" : "Custom selection saved");
   } else {
     setStatus("No tracks selected");
   }
@@ -654,41 +758,28 @@ function loadSavedCustomSelection() {
   }
 
   activePlaylistId = "custom-selection";
-  refreshActiveTracks();
   populatePlaylistSelect();
   playlistSelectEl.value = activePlaylistId;
   renderCustomTrackBuilder();
-  renderList();
-
-  const firstPlayable = getPlayableTracks(activeTracks)[0];
-  if (firstPlayable) {
-    loadTrackById(firstPlayable.id, false, false);
-  }
-
-  setStatus("Loaded saved selection");
+  syncActivePlaybackScope();
+  setStatus(storageUnavailable ? "Loaded selection for this page" : "Loaded saved selection");
 }
 
 function clearCustomSelection() {
+  const customSelectionWasActive = activePlaylistId === "custom-selection";
+
   saveCustomTrackIds([]);
   saveCustomPlaylistName("My Selection");
   renderCustomTrackBuilder();
   populatePlaylistSelect();
 
-  if (activePlaylistId === "custom-selection") {
+  if (customSelectionWasActive) {
     activePlaylistId = "all-tracks";
-    refreshActiveTracks();
     playlistSelectEl.value = activePlaylistId;
-    renderList();
-
-    const firstPlayable = getPlayableTracks(activeTracks)[0];
-    if (firstPlayable) {
-      loadTrackById(firstPlayable.id, false, false);
-    } else {
-      clearPlayerDisplay();
-    }
+    syncActivePlaybackScope();
   }
 
-  setStatus("Custom selection cleared");
+  setStatus(storageUnavailable ? "Custom selection cleared for this page" : "Custom selection cleared");
 }
 
 function exportCustomSelection() {
@@ -738,17 +829,11 @@ function importCustomSelection(file) {
       saveCustomPlaylistName(parsed.name || "My Selection");
       activePlaylistId = "custom-selection";
 
-      refreshActiveTracks();
       populatePlaylistSelect();
       renderCustomTrackBuilder();
-      renderList();
+      syncActivePlaybackScope();
 
-      const firstPlayable = getPlayableTracks(activeTracks)[0];
-      if (firstPlayable) {
-        loadTrackById(firstPlayable.id, false, false);
-      }
-
-      setStatus("Custom selection imported");
+      setStatus(storageUnavailable ? "Custom selection imported for this page" : "Custom selection imported");
     } catch (error) {
       setStatus("Invalid playlist file");
     }
@@ -759,20 +844,7 @@ function importCustomSelection(file) {
 
 playlistSelectEl.addEventListener("change", () => {
   activePlaylistId = playlistSelectEl.value;
-  refreshActiveTracks();
-  playHistory = [];
-  shufflePool = [];
-  renderList();
-
-  const firstPlayable = getPlayableTracks(activeTracks)[0];
-  if (firstPlayable) {
-    loadTrackById(firstPlayable.id, false, false);
-  } else {
-    audio.pause();
-    currentTrackId = "";
-    clearPlayerDisplay();
-    setStatus("No playable tracks in this list");
-  }
+  syncActivePlaybackScope();
 });
 
 searchEl.addEventListener("input", renderList);
@@ -795,14 +867,9 @@ if (lyricsToggleBtn) {
   window.addEventListener("resize", syncLyricsPanelForViewport);
 }
 
-audio.ontimeupdate = () => {
-  if (!audio.duration) return;
-
-  const percent = (audio.currentTime / audio.duration) * 100;
-  progressEl.style.width = `${percent}%`;
-  currentTimeEl.textContent = formatTime(audio.currentTime);
-  durationEl.textContent = formatTime(audio.duration);
-};
+audio.ontimeupdate = syncSeekDisplay;
+audio.onloadedmetadata = syncSeekDisplay;
+audio.ondurationchange = syncSeekDisplay;
 
 audio.onplay = () => {
   playBtn.textContent = "⏸";
@@ -830,6 +897,36 @@ function updateSeekFromClientX(clientX) {
   const percent = Math.max(0, Math.min(1, rawPercent));
 
   audio.currentTime = percent * audio.duration;
+  syncSeekDisplay();
+}
+
+function updateSeekFromKeyboard(event) {
+  if (!audio.duration) return;
+
+  const seekSteps = {
+    ArrowLeft: -5,
+    ArrowDown: -5,
+    ArrowRight: 5,
+    ArrowUp: 5,
+    PageDown: -(audio.duration * 0.1),
+    PageUp: audio.duration * 0.1
+  };
+
+  let nextTime;
+
+  if (event.key === "Home") {
+    nextTime = 0;
+  } else if (event.key === "End") {
+    nextTime = audio.duration;
+  } else if (Object.prototype.hasOwnProperty.call(seekSteps, event.key)) {
+    nextTime = audio.currentTime + seekSteps[event.key];
+  } else {
+    return;
+  }
+
+  event.preventDefault();
+  audio.currentTime = Math.max(0, Math.min(nextTime, audio.duration));
+  syncSeekDisplay();
 }
 
 let isSeeking = false;
@@ -865,6 +962,8 @@ seekEl.addEventListener("pointercancel", event => {
     seekEl.releasePointerCapture(event.pointerId);
   }
 });
+
+seekEl.addEventListener("keydown", updateSeekFromKeyboard);
 
 audio.volume = Number(volumeEl.value);
 

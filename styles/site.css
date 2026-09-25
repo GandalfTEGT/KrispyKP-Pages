@@ -502,6 +502,7 @@ textarea {
 }
 
 .section-title {
+  margin: 0;
   font-size: 14px;
   letter-spacing: 0.24em;
   text-transform: uppercase;
@@ -510,6 +511,7 @@ textarea {
 
 .section-big {
   margin-top: 8px;
+  margin-bottom: 0;
   font-size: 34px;
   font-weight: 900;
   letter-spacing: 0.05em;
@@ -573,6 +575,18 @@ textarea {
   font-size: 14px;
 }
 
+.frame > .section-title + h3 {
+  margin-top: 8px;
+}
+
+.frame > h3 + p {
+  margin-top: 10px;
+}
+
+.frame > .section-title + .list {
+  margin-top: 14px;
+}
+
 /* =========================================================
    6. Shared actions / pills / tags
 ========================================================= */
@@ -587,7 +601,12 @@ textarea {
 }
 
 .cta-row {
+  align-items: stretch;
   margin-top: 28px;
+}
+
+.cta-row > .btn {
+  flex: 1 1 150px;
 }
 
 .meta-row {
@@ -963,6 +982,7 @@ input[type="range"] {
 }
 
 .list-title {
+  margin: 0;
   font-size: 16px;
   font-weight: 800;
   letter-spacing: 0.08em;
@@ -992,6 +1012,27 @@ input[type="range"] {
   background: rgba(255, 255, 255, 0.02);
   cursor: pointer;
   transition: border-color var(--transition), background var(--transition);
+}
+
+button.track-item {
+  width: 100%;
+  appearance: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+
+.track-item-meta,
+.track-item .t-name,
+.track-item .t-artist {
+  display: block;
+  min-width: 0;
+}
+
+.bar:focus-visible,
+.track-item:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
 }
 
 .track-item:hover {
@@ -1123,6 +1164,18 @@ input[type="range"] {
   gap: 10px;
 }
 
+.footer-nav-disclosure {
+  min-width: 0;
+}
+
+.footer-nav-summary {
+  display: none;
+}
+
+.footer-nav-disclosure > .footer-links {
+  display: grid;
+}
+
 .footer-links a,
 .footer-contact-list a {
   color: var(--text);
@@ -1200,6 +1253,52 @@ input[type="range"] {
 
   .footer-bottom {
     flex-direction: column;
+  }
+
+  .footer-nav-block > .footer-heading {
+    display: none;
+  }
+
+  .footer-nav-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid rgba(79, 210, 255, 0.16);
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .footer-nav-summary::after {
+    content: "+";
+    color: var(--cyan-soft);
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .footer-nav-disclosure[open] > .footer-nav-summary::after {
+    content: "−";
+  }
+
+  .footer-nav-summary:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 3px;
+  }
+
+  .footer-nav-disclosure:not([open]) > .footer-links {
+    display: none;
+  }
+
+  .footer-nav-disclosure[open] > .footer-links {
+    display: grid;
+    padding: 12px;
+    border: 1px solid rgba(79, 210, 255, 0.12);
+    border-top: 0;
   }
 }
 
@@ -1377,5 +1476,16 @@ textarea,
   .controls-mode,
   .controls-secondary {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html,
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
   }
 }

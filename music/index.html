@@ -40,7 +40,8 @@
   </div>
 </header>
 
-<main class="page-hero">
+<main>
+<section class="page-hero">
   <div class="container">
     <div class="frame panel">
       <div class="section-title">Music</div>
@@ -49,7 +50,7 @@
       <!--<div class="notice"></div>-->
     </div>
   </div>
-</main>
+</section>
 
 <section class="section">
   <div class="container player-layout">
@@ -58,7 +59,7 @@
       <div id="playerSong" class="player-track">Select a track</div>
       <div id="playerArtist" class="player-artist">KrispyKP</div>
 
-      <div id="playerSeek" class="bar" title="Seek">
+      <div id="playerSeek" class="bar" role="slider" tabindex="0" aria-label="Seek through current track" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0" aria-valuetext="0:00 of 0:00" title="Seek">
         <div id="playerProgress" class="progress"></div>
       </div>
 
@@ -68,13 +69,13 @@
       </div>
 
       <div class="controls controls-main">
-        <button type="button" onclick="prevTrack()">⏮</button>
-        <button type="button" id="playBtn" onclick="togglePlay()">▶</button>
-        <button type="button" onclick="nextTrack()">⏭</button>
+        <button type="button" aria-label="Previous track" onclick="prevTrack()">⏮</button>
+        <button type="button" id="playBtn" aria-label="Play or pause current track" onclick="togglePlay()">▶</button>
+        <button type="button" aria-label="Next track" onclick="nextTrack()">⏭</button>
       </div>
 
       <div class="controls controls-mode">
-        <button type="button" id="shuffleBtn" onclick="toggleShuffle()">Shuffle</button>
+        <button type="button" id="shuffleBtn" aria-pressed="false" onclick="toggleShuffle()">Shuffle</button>
         <button type="button" id="repeatBtn" onclick="toggleRepeat()">Repeat: Off</button>
       </div>
 
@@ -86,7 +87,7 @@
       <div class="player-meta">
         <div class="volume-wrap">
           <span class="section-title" style="font-size:11px;">🔊</span>
-          <input id="playerVolume" type="range" min="0" max="1" step="0.01" value="0.85">
+          <input id="playerVolume" type="range" min="0" max="1" step="0.01" value="0.85" aria-label="Volume">
         </div>
         <div id="playerStatus" class="status-box">Idle</div>
       </div>
@@ -95,7 +96,7 @@
         <button type="button" id="lyricsToggleBtn" class="btn lyrics-mobile-toggle" aria-expanded="false">Show Lyrics</button>
         <div class="lyrics-box">
           <div class="lyrics-heading">
-            <div class="section-title">Lyrics</div>
+            <h2 class="section-title">Lyrics</h2>
           </div>
           <div id="lyricsCopy" class="lyrics-copy is-empty">Select a track to show lyrics. Lyrics can be added separately in data/lyrics.js using the track IDs from data/tracks.js.</div>
         </div>
@@ -108,11 +109,11 @@
       <section class="frame playlist-panel">
         <div class="playlist-toolbar">
           <div class="list-head">
-            <div class="list-title">Playlist</div>
+            <label class="list-title" for="playlistSelect">Playlist</label>
             <select id="playlistSelect" class="search-input"></select>
           </div>
           <div class="list-head">
-            <div class="list-title">Tracks</div>
+            <label class="list-title" for="trackSearch">Tracks</label>
             <input id="trackSearch" class="search-input" type="text" placeholder="Filter tracks...">
           </div>
         </div>
@@ -122,7 +123,7 @@
       <section class="frame custom-builder">
         <div class="custom-builder-top">
           <div>
-            <div class="list-title">Build a custom selection</div>
+            <h2 class="list-title">Build a custom selection</h2>
             <div class="custom-count" id="customCount">0 selected</div>
           </div>
           <div>
@@ -145,6 +146,8 @@
     </section>
   </div>
 </section>
+
+</main>
 
 <footer class="site-footer">
   <div class="container">
@@ -171,14 +174,17 @@
 
         <nav class="footer-nav-block" aria-label="Footer navigation">
           <div class="footer-heading">Navigation</div>
-          <div class="footer-links">
+          <details class="footer-nav-disclosure" open>
+            <summary class="footer-nav-summary">Site navigation</summary>
+            <div class="footer-links">
             <a href="/">Home</a>
             <a href="/music/">Music</a>
             <a href="/videos/">Videos</a>
             <a href="/tournaments/">Tournaments</a>
             <a href="/about/">About</a>
             <a href="/contact/">Contact</a>
-          </div>
+            </div>
+          </details>
         </nav>
 
         <section class="footer-contact-block">
@@ -221,6 +227,7 @@
 <script src="/data/lyrics.js"></script>
 <script src="/data/music-player.js"></script>
 <script src="/data/radar-effects.js"></script>
+<script src="/data/site-ui.js"></script>
 
 </body>
 </html>

@@ -1,0 +1,25 @@
+# Tournament rules PDF workflow
+
+Tournament facts and official rule wording live in `data/tournaments.config.js`. The Python generator contains reusable presentation logic only; it asks the small Node exporter to execute the classic-browser configuration safely and return the selected event as JSON.
+
+To generate the configured static PDF from the repository root:
+
+```text
+python tools/generate-tournament-rules.py td-invasion-red-alert-2026
+```
+
+The event's `rulesUrl` selects the output, currently `assets/trules/td-invasion-rules.pdf`. The optional `bannerImage` supplies the first-page banner. The shared `assets/logo.png` supplies restrained document branding.
+
+For a future official document:
+
+1. Add or update the event in `data/tournaments.config.js`.
+2. Provide structured `rules.sections`, `rules.mapPool`, `rules.questions`, and optionally `rules.closing`.
+3. Set a repository-local `.pdf` `rulesUrl`; optionally set an existing repository `bannerImage`.
+4. Run the command with that event ID.
+5. Review every rendered page and extracted text before committing the generated PDF.
+
+The generator exits with a clear error for an unknown event, legacy/unstructured rules, missing section content, an empty map pool, missing contact guidance, invalid output path, or missing required metadata. It decodes exported configuration as UTF-8 and uses ReportLab's bundled open Bitstream Vera fonts, preserving characters such as accented names, em dashes, and Nordic letters in both the visible document and extracted text. Node.js, Python, ReportLab and Pillow are required locally. No browser, backend, account or database is involved.
+
+KKP Tournament Builder uses this same workflow. It exports and validates the candidate configuration first, then invokes this generator by event ID after the owner confirms the exact write set. The Builder does not contain a second PDF layout implementation.
+
+The Builder also calls `node tools/export-flag-catalog.mjs` to load the repository-owned country flag catalogue. The exporter emits JSON containing the existing flag keys and their data URIs; it does not maintain a second country or artwork list.

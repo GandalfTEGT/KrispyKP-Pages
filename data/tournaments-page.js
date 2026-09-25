@@ -46,7 +46,12 @@
 
     archiveCardsSection: document.getElementById("tournamentArchiveCardsSection"),
     archiveCardsGrid: document.getElementById("tournamentArchiveCardsGrid"),
-    archiveCardsTitle: document.getElementById("tournamentArchiveCardsTitle")
+    archiveCardsTitle: document.getElementById("tournamentArchiveCardsTitle"),
+    archiveSearch: document.getElementById("tournamentArchiveSearch"),
+    archiveGame: document.getElementById("tournamentArchiveGame"),
+    archiveYear: document.getElementById("tournamentArchiveYear"),
+    archiveCount: document.getElementById("tournamentArchiveCount"),
+    archiveEmpty: document.getElementById("tournamentArchiveEmpty")
   };
 
   let currentEventId = data.currentEventId || null;
@@ -84,6 +89,8 @@
         return "Live";
       case "completed":
         return "Completed";
+      case "cancelled":
+        return "Cancelled";
       case "upcoming":
       default:
         return "Upcoming";
@@ -101,6 +108,7 @@
       events.find((event) => event.status === "live") ||
       events.find((event) => event.status === "upcoming") ||
       events.find((event) => event.status === "completed") ||
+      events.find((event) => event.status === "cancelled") ||
       null
     );
   }
@@ -112,11 +120,46 @@
     ));
   }
 
-  function getCompletedEvents(featuredEvent) {
+  function getArchiveEvents(featuredEvent) {
     return getEvents().filter((event) => (
       event.id !== featuredEvent?.id &&
-      event.status === "completed"
+      (event.status === "completed" || event.status === "cancelled")
     ));
+  }
+
+  function getEventYear(event) {
+    const match = `${text(event.startDate)} ${text(event.endDate)} ${text(event.title)}`.match(/\b(?:19|20)\d{2}\b/);
+    return match ? match[0] : "";
+  }
+
+  function filterArchiveEvents(events) {
+    const query = text(els.archiveSearch?.value).trim().toLowerCase();
+    const game = text(els.archiveGame?.value);
+    const year = text(els.archiveYear?.value);
+    return events.filter((event) => {
+      const haystack = [event.id, event.title, event.subtitle, event.description, event.game, event.organizer]
+        .map((value) => text(value))
+        .join(" ")
+        .toLowerCase();
+      return (!query || haystack.includes(query)) && (!game || event.game === game) && (!year || getEventYear(event) === year);
+    });
+  }
+
+  function syncArchiveFilterOptions(events) {
+    const sync = (select, values, emptyLabel) => {
+      if (!select) return;
+      const selected = select.value;
+      select.innerHTML = `<option value="">${escapeHtml(emptyLabel)}</option>`;
+      values.forEach((value) => {
+        const option = document.createElement("option");
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+      if (values.includes(selected)) select.value = selected;
+    };
+    sync(els.archiveGame, [...new Set(events.map((event) => text(event.game)).filter(Boolean))].sort(), "All games");
+    sync(els.archiveYear, [...new Set(events.map(getEventYear).filter(Boolean))].sort().reverse(), "All years");
   }
 
   function jumpToTop() {
@@ -183,6 +226,21 @@
     a.rel = "noopener noreferrer";
     a.textContent = label;
     return a;
+  }
+
+  function getExternalBracketLabel(href) {
+    if (!href) return "View External Bracket";
+
+    try {
+      const hostname = new URL(href, window.location.href).hostname.toLowerCase();
+      if (hostname === "challonge.com" || hostname.endsWith(".challonge.com")) {
+        return "View on Challonge";
+      }
+    } catch (_error) {
+      // Keep the generic label for malformed or relative values.
+    }
+
+    return "View External Bracket";
   }
 
   function createLocalActionButton(label, onClick, primary = false) {
@@ -270,6 +328,7 @@
     if (els.archiveCardsGrid) els.archiveCardsGrid.innerHTML = "";
     if (els.switcherSection) els.switcherSection.hidden = true;
     if (els.archiveCardsSection) els.archiveCardsSection.hidden = true;
+    if (els.archiveEmpty) els.archiveEmpty.hidden = true;
   }
 
   function getManualBracketGroups(event) {
@@ -310,7 +369,7 @@
     const date = text(item.date, "");
     const timezone = text(item.timezone || event.timezone, "");
 
-    if (time || date || timezone) {
+    if (time || date) {
       const parts = [];
       if (time) parts.push(time);
       if (date) parts.push(`on ${formatLongDate(date)}`);
@@ -328,6 +387,22 @@
       title,
       detail: text(item.value, "TBA")
     };
+  }
+
+  function getRuleItems(event) {
+    if (Array.isArray(event.rules)) return event.rules;
+    if (!event.rules || typeof event.rules !== "object") return [];
+
+    const items = [];
+    isArray(event.rules.sections).forEach((section) => {
+      isArray(section.paragraphs).forEach((paragraph) => items.push(paragraph));
+      isArray(section.bullets).forEach((bullet) => items.push(bullet));
+    });
+
+    const mapPool = isArray(event.rules.mapPool);
+    if (mapPool.length) items.push(`Map pool: ${mapPool.join("; ")}.`);
+    if (event.rules.questions) items.push(event.rules.questions);
+    return items;
   }
 
   function getGroupConnectorColor(groupKind) {
@@ -755,7 +830,8 @@
     if (els.bracketSection) els.bracketSection.hidden = false;
     if (els.bracketTitle) els.bracketTitle.textContent = text(event.bracketTitle, "Bracket");
 
-    const openBracket = createActionLink("Open Bracket", event.bracketUrl || event.bracketEmbedUrl, true);
+    const bracketUrl = event.bracketUrl || event.bracketEmbedUrl;
+    const openBracket = createActionLink(getExternalBracketLabel(bracketUrl), bracketUrl, true);
     if (openBracket && els.bracketActions) {
       els.bracketActions.appendChild(openBracket);
     }
@@ -832,7 +908,8 @@
     }
 
     actions.push(createActionLink("View Banner", event.bannerImage));
-    actions.push(createActionLink("Bracket", event.bracketUrl || event.bracketEmbedUrl));
+    const heroBracketUrl = event.bracketUrl || event.bracketEmbedUrl;
+    actions.push(createActionLink(getExternalBracketLabel(heroBracketUrl), heroBracketUrl));
     actions.push(createActionLink("Watch Stream", event.streamUrl));
     actions.push(createActionLink("Rules", event.rulesUrl));
 
@@ -889,7 +966,7 @@
     );
 
     if (sectionKind === "archive" && event.bracketUrl) {
-      const link = createActionLink("Open Bracket", event.bracketUrl, false);
+      const link = createActionLink(getExternalBracketLabel(event.bracketUrl), event.bracketUrl, false);
       if (link) actions.appendChild(link);
     }
 
@@ -901,13 +978,13 @@
     resetSwitchers();
 
     const otherActive = getOtherActiveEvents(featuredEvent);
-    const completed = getCompletedEvents(featuredEvent);
+    const archiveEvents = getArchiveEvents(featuredEvent);
 
     if (els.switcherSection && els.switcherGrid && otherActive.length) {
       els.switcherSection.hidden = false;
       if (els.switcherTitle) {
         els.switcherTitle.textContent =
-          otherActive.length === 1 ? "Other Active / Upcoming Event" : "Other Active / Upcoming Events";
+          otherActive.length === 1 ? "Current & Upcoming Tournament" : "Current & Upcoming Tournaments";
       }
 
       otherActive.forEach((event) => {
@@ -917,15 +994,17 @@
       });
     }
 
-    if (els.archiveCardsSection && els.archiveCardsGrid && completed.length) {
+    if (els.archiveCardsSection && els.archiveCardsGrid && archiveEvents.length) {
       els.archiveCardsSection.hidden = false;
-      if (els.archiveCardsTitle) {
-        els.archiveCardsTitle.textContent = completed.length === 1 ? "Past Event" : "Past Events";
-      }
-
-      completed.forEach((event) => {
-        els.archiveCardsGrid.appendChild(renderSwitcherCard(event, "Completed Event", "archive"));
+      if (els.archiveCardsTitle) els.archiveCardsTitle.textContent = "Tournament Archive";
+      syncArchiveFilterOptions(archiveEvents);
+      const filtered = filterArchiveEvents(archiveEvents);
+      filtered.forEach((event) => {
+        const label = event.status === "cancelled" ? "Cancelled Event" : "Completed Event";
+        els.archiveCardsGrid.appendChild(renderSwitcherCard(event, label, "archive"));
       });
+      if (els.archiveCount) els.archiveCount.textContent = `${filtered.length} of ${archiveEvents.length} events`;
+      if (els.archiveEmpty) els.archiveEmpty.hidden = filtered.length > 0;
     }
   }
 
@@ -1001,6 +1080,13 @@
     if (players.length) {
       renderList(els.players, players, (item) => {
         const metaBits = [];
+        const inGameName = text(item.inGameName, "").trim();
+
+        if (inGameName) {
+          metaBits.push(
+            `<span class="tournament-player-meta-pill tournament-player-in-game">In-game: <span class="tournament-player-in-game-name">${escapeHtml(inGameName)}</span></span>`
+          );
+        }
 
         if (item.flagImage) {
           metaBits.push(`
@@ -1008,7 +1094,8 @@
               <img
                 class="tournament-player-flag-image"
                 src="${escapeHtml(item.flagImage)}"
-                alt="${escapeHtml(text(item.flag, "Flag"))}"
+                alt=""
+                aria-hidden="true"
                 loading="lazy"
                 decoding="async">
               <span>${escapeHtml(text(item.flag, ""))}</span>
@@ -1033,7 +1120,7 @@
       });
     }
 
-    const rules = isArray(event.rules);
+    const rules = getRuleItems(event);
     if (els.rulesCard) els.rulesCard.hidden = !rules.length;
 
     if (rules.length) {
@@ -1131,5 +1218,8 @@
   }
 
   window.addEventListener("resize", handleResponsiveTournamentResize);
+  [els.archiveSearch, els.archiveGame, els.archiveYear].filter(Boolean).forEach((control) => {
+    control.addEventListener(control === els.archiveSearch ? "input" : "change", () => renderPage());
+  });
   renderPage();
 })();

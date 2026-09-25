@@ -42,7 +42,8 @@
   </div>
 </header>
 
-<main class="page-hero">
+<main>
+<section class="page-hero">
   <div class="container">
     <section class="frame panel about-hero-panel">
       <div class="section-title">About</div>
@@ -60,12 +61,12 @@
       </div>
     </section>
   </div>
-</main>
+</section>
 
 <section class="section">
   <div class="container about-layout">
     <section class="frame feature about-intro-card">
-      <div class="section-title">Overview</div>
+      <h2 class="section-title">Overview</h2>
       <p class="about-bio">
         The site is built as a central place for everything under the KrispyKP name.
         Rather than splitting content across disconnected links, it brings together live streams,
@@ -84,7 +85,7 @@
     </section>
 
     <aside class="frame feature about-highlight-card">
-      <div class="section-title">At A Glance</div>
+      <h2 class="section-title">At A Glance</h2>
       <div class="about-highlight-stack">
         <div class="about-highlight-item">
           <span class="about-highlight-label">Focus</span>
@@ -110,7 +111,7 @@
 <section class="section">
   <div class="container about-grid">
     <section class="frame feature">
-      <div class="section-title">What You’ll Find Here</div>
+      <h2 class="section-title">What You’ll Find Here</h2>
       <div class="small-grid about-feature-grid">
         <article class="mini about-mini">
           <span class="label">Streaming</span>
@@ -147,7 +148,7 @@
     </section>
 
     <section class="frame feature about-quote-card">
-      <div class="section-title">Approach</div>
+      <h2 class="section-title">Approach</h2>
       <blockquote class="big-quote about-quote">
         One hub. Clear routes. Everything tied back to the same name.
       </blockquote>
@@ -162,7 +163,7 @@
 <section class="section">
   <div class="container two-col about-two-col">
     <section class="frame feature">
-      <div class="section-title">Current Public Platforms</div>
+      <h2 class="section-title">Current Public Platforms</h2>
       <ul class="list">
         <li><span>Twitch</span><span class="muted">Primary live platform</span></li>
         <li><span>YouTube</span><span class="muted">Uploads and archive</span></li>
@@ -176,7 +177,7 @@
     </section>
 
     <section class="frame feature">
-      <div class="section-title">What’s Next</div>
+      <h2 class="section-title">What’s Next</h2>
       <p class="muted">
         The current site already covers streams, videos, music, tournaments, and public contact.
         Over time, more community-facing features will be added.
@@ -194,7 +195,7 @@
 <section class="section">
   <div class="container">
     <section class="frame feature about-footer-panel">
-      <div class="section-title">Why This Site Exists</div>
+      <h2 class="section-title">Why This Site Exists</h2>
       <p class="about-copy about-footer-copy">
         KrispyKP is meant to be the place where streams, music, videos, and tournaments all meet.
         Whether someone finds the channel through Twitch, a video upload, or an event page,
@@ -203,6 +204,8 @@
     </section>
   </div>
 </section>
+
+</main>
 
 <footer class="site-footer">
   <div class="container">
@@ -229,14 +232,17 @@
 
         <nav class="footer-nav-block" aria-label="Footer navigation">
           <div class="footer-heading">Navigation</div>
-          <div class="footer-links">
+          <details class="footer-nav-disclosure" open>
+            <summary class="footer-nav-summary">Site navigation</summary>
+            <div class="footer-links">
             <a href="/">Home</a>
             <a href="/music/">Music</a>
             <a href="/videos/">Videos</a>
             <a href="/tournaments/">Tournaments</a>
             <a href="/about/">About</a>
             <a href="/contact/">Contact</a>
-          </div>
+            </div>
+          </details>
         </nav>
 
         <section class="footer-contact-block">
@@ -277,6 +283,7 @@
 </div>
 
 <script src="/data/radar-effects.js"></script>
+<script src="/data/site-ui.js"></script>
 <script src="/data/about.js" defer></script>
 </body>
 </html>

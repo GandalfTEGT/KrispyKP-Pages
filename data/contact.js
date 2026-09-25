@@ -60,14 +60,8 @@
 
     return events
       .filter((event) => {
-        const status = normaliseText(event?.status).toLowerCase();
         const registrationMode = normaliseText(event?.registrationMode).toLowerCase();
-
-        const allowedStatus = status === "live" || status === "upcoming";
-        const allowedRegistration =
-          registrationMode === "external" || registrationMode === "challonge";
-
-        return allowedStatus && allowedRegistration;
+        return registrationMode === "external" || registrationMode === "challonge";
       })
       .sort((a, b) => {
         const aTime = Date.parse(a?.startDate || "") || Number.MAX_SAFE_INTEGER;
@@ -103,34 +97,43 @@
     if (!select) return;
 
     const existingValue = select.value;
-    const baseOptions = Array.from(select.querySelectorAll("option")).filter((option) => {
-      return option.value === "" || option.value === "Future / Other Event";
-    });
-
     select.innerHTML = "";
 
-    baseOptions.forEach((option) => {
-      select.appendChild(option);
-    });
-
     const events = getEligibleTournamentEvents();
+    const form = select.closest("form");
+    const submitButton = form?.querySelector(".js-submit-button");
 
     if (!events.length) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "No tournament signups currently available";
+      option.selected = true;
+      select.appendChild(option);
+      select.disabled = true;
+
+      if (submitButton) {
+        submitButton.disabled = true;
+        submitButton.setAttribute("aria-disabled", "true");
+      }
       return;
     }
 
-    const futureOption = select.querySelector('option[value="Future / Other Event"]');
+    select.disabled = false;
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.removeAttribute("aria-disabled");
+    }
+
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "Select a tournament";
+    select.appendChild(placeholder);
 
     events.forEach((event) => {
       const option = document.createElement("option");
-      option.value = normaliseText(event.title, "Untitled Tournament");
+      option.value = normaliseText(event.id);
       option.textContent = buildTournamentLabel(event);
-
-      if (futureOption) {
-        select.insertBefore(option, futureOption);
-      } else {
-        select.appendChild(option);
-      }
+      select.appendChild(option);
     });
 
     const hasExistingOption = Array.from(select.options).some(

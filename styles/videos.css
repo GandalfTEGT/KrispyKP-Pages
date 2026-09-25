@@ -48,6 +48,7 @@
 
 .videos-block-title {
   margin-top: 10px;
+  margin-bottom: 0;
   font-size: clamp(24px, 3vw, 40px);
   font-weight: 900;
   letter-spacing: 0.04em;

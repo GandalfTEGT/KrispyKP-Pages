@@ -42,7 +42,8 @@
       </div>
     </header>
 
-    <main class="page-hero tournament-page-hero">
+    <main>
+    <section class="page-hero tournament-page-hero">
       <div class="container">
         <section id="tournamentHero" class="frame panel tournament-hero-panel">
           <div id="tournamentHeroBackdrop" class="tournament-hero-backdrop" hidden></div>
@@ -60,7 +61,7 @@
           </div>
         </section>
       </div>
-    </main>
+    </section>
 
     <section class="section tournament-main-section">
       <div class="container">
@@ -102,7 +103,7 @@
           <section class="section tournament-section-top">
             <div class="tournament-overview-grid">
               <article class="frame feature tournament-details-card">
-                <div class="section-title">Event Details</div>
+                <h2 class="section-title">Event Details</h2>
 
                 <div class="tournament-details-top">
                   <div class="tournament-details-main">
@@ -122,8 +123,15 @@
 
           <section id="tournamentResultsSection" class="section tournament-section-tight tournament-results-section" hidden>
             <div class="frame feature tournament-results-panel">
-              <div class="section-title">Results</div>
+              <h2 class="section-title">Results</h2>
               <ul id="tournamentResults" class="list tournament-results-list"></ul>
+            </div>
+          </section>
+
+          <section class="section tournament-section-tight">
+            <div id="tournamentPlayersCard" class="frame feature tournament-info-panel" hidden>
+              <h2 class="section-title">Players</h2>
+              <ul id="tournamentPlayers" class="list tournament-players-list"></ul>
             </div>
           </section>
 
@@ -132,7 +140,7 @@
               <div class="tournament-bracket-head">
                 <div>
                   <div class="section-title">Bracket</div>
-                  <div id="tournamentBracketTitle" class="section-big tournament-bracket-title">Tournament Bracket</div>
+                  <h2 id="tournamentBracketTitle" class="section-big tournament-bracket-title">Tournament Bracket</h2>
                 </div>
 
                 <div class="tournament-bracket-head-actions">
@@ -167,42 +175,44 @@
           </section>
 
           <section class="section tournament-section-tight">
-            <div class="tournament-info-grid tournament-info-grid--primary">
-              <div id="tournamentPlayersCard" class="frame feature tournament-info-panel" hidden>
-                <div class="section-title">Players</div>
-                <ul id="tournamentPlayers" class="list tournament-players-list"></ul>
-              </div>
-
-              <div id="tournamentRulesCard" class="frame feature tournament-info-panel" hidden>
-                <div class="section-title">Rules</div>
-                <ul id="tournamentRules" class="list"></ul>
-              </div>
+            <div id="tournamentRulesCard" class="frame feature tournament-info-panel" hidden>
+              <h2 class="section-title">Rules</h2>
+              <ul id="tournamentRules" class="list"></ul>
             </div>
           </section>
 
           <section id="tournamentScheduleSection" class="section tournament-section-tight" hidden>
             <div id="tournamentScheduleCard" class="frame feature tournament-info-panel tournament-schedule-panel" hidden>
-              <div class="section-title">Schedule</div>
+              <h2 class="section-title">Schedule</h2>
               <ul id="tournamentSchedule" class="list tournament-schedule-list"></ul>
             </div>
           </section>
 
           <section id="tournamentSwitcherSection" class="section tournament-section-tight" hidden>
             <div class="frame feature tournament-switch-panel">
-              <div id="tournamentSwitcherTitle" class="section-title">Other Active &amp; Upcoming Events</div>
+              <h2 id="tournamentSwitcherTitle" class="section-title">Other Active &amp; Upcoming Events</h2>
               <div id="tournamentSwitcherGrid" class="tournament-switch-grid"></div>
             </div>
           </section>
 
           <section id="tournamentArchiveCardsSection" class="section tournament-section-tight tournament-archive-section" hidden>
             <div class="frame feature tournament-archive-card">
-              <div id="tournamentArchiveCardsTitle" class="section-title">Past Events</div>
+              <h2 id="tournamentArchiveCardsTitle" class="section-title">Tournament Archive</h2>
+              <div class="tournament-archive-filters" aria-label="Filter tournament archive">
+                <label><span>Search</span><input id="tournamentArchiveSearch" type="search" placeholder="Title, game, organiser…" autocomplete="off"></label>
+                <label><span>Game</span><select id="tournamentArchiveGame"><option value="">All games</option></select></label>
+                <label><span>Year</span><select id="tournamentArchiveYear"><option value="">All years</option></select></label>
+                <div id="tournamentArchiveCount" class="tournament-archive-count" role="status"></div>
+              </div>
               <div id="tournamentArchiveCardsGrid" class="tournament-archive-grid"></div>
+              <p id="tournamentArchiveEmpty" class="notice" hidden>No archive events match these filters.</p>
             </div>
           </section>
         </div>
       </div>
     </section>
+
+    </main>
 
     <footer class="site-footer">
       <div class="container">
@@ -229,14 +239,17 @@
 
             <nav class="footer-nav-block" aria-label="Footer navigation">
               <div class="footer-heading">Navigation</div>
-              <div class="footer-links">
+              <details class="footer-nav-disclosure" open>
+                <summary class="footer-nav-summary">Site navigation</summary>
+                <div class="footer-links">
                 <a href="/">Home</a>
                 <a href="/music/">Music</a>
                 <a href="/videos/">Videos</a>
                 <a href="/tournaments/">Tournaments</a>
                 <a href="/about/">About</a>
                 <a href="/contact/">Contact</a>
-              </div>
+                </div>
+              </details>
             </nav>
 
             <section class="footer-contact-block">
@@ -277,6 +290,7 @@
   </div>
 
   <script src="/data/radar-effects.js"></script>
+<script src="/data/site-ui.js"></script>
   <script src="/data/flags.js"></script>
   <script src="/data/tournaments.config.js"></script>
   <script src="/data/tournaments-page.js"></script>

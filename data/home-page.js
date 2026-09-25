@@ -134,6 +134,10 @@
     return `https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`;
   }
 
+  function getDisplayDescription(value) {
+    return String(value || "").split(/={4,}/, 1)[0].trim();
+  }
+
   function renderFeaturedVideo() {
     const video = getFeaturedVideo();
 
@@ -161,7 +165,8 @@
 
     if (els.featuredVideoNote) {
       els.featuredVideoNote.textContent =
-        video.note || "Pulled automatically from the synced video library.";
+        getDisplayDescription(video.note || video.description) ||
+        "Pulled automatically from the synced video library.";
     }
 
     if (els.featuredVideoLink) {
@@ -401,22 +406,6 @@
     window.setInterval(setActive, 2600);
   }
 
-  function enableDashboardTimeStamp() {
-    const feed = document.querySelector(".home-dashboard-timestamp");
-    if (!feed) return;
-
-    function update() {
-      const now = new Date();
-      feed.textContent = `Last sync // ${now.toLocaleTimeString("en-GB", {
-        hour: "2-digit",
-        minute: "2-digit"
-      })}`;
-    }
-
-    update();
-    window.setInterval(update, 30000);
-  }
-
   function getTournamentEvents() {
   return Array.isArray(tournamentData.events) ? tournamentData.events : [];
 }
@@ -437,6 +426,7 @@
       events.find((event) => event.status === "live") ||
       events.find((event) => event.status === "upcoming") ||
       events.find((event) => event.status === "completed") ||
+      events.find((event) => event.status === "cancelled") ||
       null
     );
   }
@@ -447,6 +437,8 @@
         return "Live Event";
       case "completed":
         return "Completed Event";
+      case "cancelled":
+        return "Cancelled Event";
       case "upcoming":
       default:
         return "Upcoming Event";
@@ -540,7 +532,6 @@
     renderFeaturedVideo();
     renderFeaturedTracks();
     rotateLiveCards();
-    enableDashboardTimeStamp();
     renderFeaturedTournament();
   }
 

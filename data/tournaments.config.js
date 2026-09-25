@@ -38,9 +38,9 @@ id
 - Unique string. Required.
 
 status
-- Options: "live", "upcoming", "completed"
+- Options: "live", "upcoming", "completed", "cancelled"
 - Required.
-- Results only show when status is "completed".
+- Results only show when status is "completed". Completed and cancelled events appear in the archive.
 
 title
 - Main visible tournament title. Required.
@@ -203,10 +203,18 @@ but the title/date/time/timezone format is cleaner.
 
 RULES FORMAT
 ------------
-rules: [
-  "Rule one",
-  "Rule two"
-]
+For an official generated rules PDF, use structured rules:
+rules: {
+  sections: [
+    { title: "Tournament format", paragraphs: ["Rule text."], bullets: [] }
+  ],
+  mapPool: ["Map 1", "Map 2"],
+  questions: "Contact the organiser with questions.",
+  closing: "GOOD LUCK, COMMANDERS."
+}
+
+Legacy rule arrays remain supported for website-only events, but the PDF
+generator refuses them because they do not contain enough document structure.
 
 RESULTS FORMAT
 --------------
@@ -260,741 +268,489 @@ END OF GUIDE
 ====================================================================================================
 */
 
+// KKP Tournament Builder managed data. Edit through the Builder where possible.
 window.KRISPY_TOURNAMENTS = {
-  currentEventId: "td-invasion-red-alert-2026",
-  events: [
+  "currentEventId": "td-invasion-red-alert-2026",
+  "events": [
     {
-      id: "td-invasion-red-alert-2026",
-      status: "live",
-      title: "TD Invasion Red Alert Tournament",
-      subtitle: "The superstars of Tiberian Dawn invade Red Alert",
-      organizer: "JLGAZZA94",
-      game: "Command & Conquer: Red Alert",
-      format: "Double Elimination",
-      startDate: "2026-09-14 12:00",
-      endDate: "",
-      timezone: "BST",
-      prizePool: "",
-      bannerImage: "/assets/tbanners/td-invasion.webp",
-
-      description:
-        "A special crossover tournament featuring Tiberian Dawn players competing in Red Alert. The event uses a winners and losers bracket, so players must lose twice to be eliminated, except in the Grand Final. The undefeated finalist enters the Grand Final with a 1-0 advantage.",
-
-      registrationMode: "closed",
-      registrationUrl: "",
-      participantSource: "manual",
-
-      streamUrl: "https://www.twitch.tv/jlgazza94",
-      rulesUrl: "/assets/trules/td-invasion-rules.pdf",
-
-      bracketMode: "manual",
-      bracketTitle: "Tournament Bracket",
-      bracketEmbedUrl: "https://challonge.com/TDGOODRABAD/module",
-      bracketUrl: "https://challonge.com/TDGOODRABAD",
-
-      manualBracketGroups: [
+      "id": "td-invasion-red-alert-2026",
+      "status": "live",
+      "title": "TD Invasion Red Alert Tournament",
+      "subtitle": "The superstars of Tiberian Dawn invade Red Alert",
+      "organizer": "JLGAZZA94",
+      "game": "Command & Conquer: Red Alert",
+      "format": "Double Elimination",
+      "competitorStructure": "1v1",
+      "startDate": "2026-09-14 12:00",
+      "endDate": "",
+      "timezone": "BST",
+      "prizePool": "",
+      "bannerImage": "/assets/tbanners/td-invasion.webp",
+      "description": "A special crossover tournament featuring Tiberian Dawn players competing in Red Alert. The event uses a winners and losers bracket, so players must lose twice to be eliminated, except in the Grand Final. The undefeated finalist enters the Grand Final with a 1-0 advantage.",
+      "registrationMode": "closed",
+      "registrationUrl": "",
+      "participantSource": "manual",
+      "streamUrl": "https://www.twitch.tv/jlgazza94",
+      "rulesUrl": "/assets/trules/td-invasion-rules.pdf",
+      "bracketMode": "manual",
+      "bracketTitle": "Tournament Bracket",
+      "bracketEmbedUrl": "https://challonge.com/TDGOODRABAD/module",
+      "bracketUrl": "https://challonge.com/TDGOODRABAD",
+      "manualBracketGroups": [
         {
-          key: "winners",
-          title: "Winners Bracket",
-          rounds: [
+          "key": "winners",
+          "title": "Winners Bracket",
+          "rounds": [
             {
-              title: "Round 1",
-              matches: [
+              "title": "Round 1",
+              "matches": [
                 {
-                  id: "m1",
-                  title: "Match 1",
-                  player1: "TRIOTD",
-                  player2: "JLGAZZA94",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m1",
+                  "title": "Match 1",
+                  "player1": "TRIOTD",
+                  "player2": "JLGAZZA94",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 },
                 {
-                  id: "m2",
-                  title: "Match 2",
-                  player1: "SHEPPARD",
-                  player2: "DR.MURK",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m2",
+                  "title": "Match 2",
+                  "player1": "SHEPPARD",
+                  "player2": "DR.MURK",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             },
             {
-              title: "Round 2",
-              matches: [
+              "title": "Round 2",
+              "matches": [
                 {
-                  id: "m5",
-                  slot2From: "m1",
-                  title: "Match 5",
-                  player1: "JAMIETD",
-                  player2: "Winner of Match 1",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m5",
+                  "title": "Match 5",
+                  "player1": "JAMIETD",
+                  "player2": "Winner of Match 1",
+                  "slot1From": "",
+                  "slot2From": "m1",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 },
                 {
-                  id: "m3",
-                  title: "Match 3",
-                  player1: "DANKU",
-                  player2: "MC RUSTY",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m3",
+                  "title": "Match 3",
+                  "player1": "DANKU",
+                  "player2": "MC RUSTY",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 },
                 {
-                  id: "m6",
-                  slot2From: "m2",
-                  title: "Match 6",
-                  player1: "KRISPY",
-                  player2: "Winner of Match 2",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m6",
+                  "title": "Match 6",
+                  "player1": "KRISPY",
+                  "player2": "Winner of Match 2",
+                  "slot1From": "",
+                  "slot2From": "m2",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 },
                 {
-                  id: "m4",
-                  title: "Match 4",
-                  player1: "FULLY",
-                  player2: "WTF",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m4",
+                  "title": "Match 4",
+                  "player1": "FULLY",
+                  "player2": "WTF",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             },
             {
-              title: "Round 3",
-              matches: [
+              "title": "Round 3",
+              "matches": [
                 {
-                  id: "m11",
-                  slot1From: "m5",
-                  slot2From: "m3",
-                  title: "Match 11",
-                  player1: "Winner of Match 5",
-                  player2: "Winner of Match 3",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m11",
+                  "title": "Match 11",
+                  "player1": "Winner of Match 5",
+                  "player2": "Winner of Match 3",
+                  "slot1From": "m5",
+                  "slot2From": "m3",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 },
                 {
-                  id: "m12",
-                  slot1From: "m6",
-                  slot2From: "m4",
-                  title: "Match 12",
-                  player1: "Winner of Match 6",
-                  player2: "Winner of Match 4",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m12",
+                  "title": "Match 12",
+                  "player1": "Winner of Match 6",
+                  "player2": "Winner of Match 4",
+                  "slot1From": "m6",
+                  "slot2From": "m4",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             },
             {
-              title: "Winners Final",
-              matches: [
+              "title": "Winners Final",
+              "matches": [
                 {
-                  id: "m16",
-                  slot1From: "m11",
-                  slot2From: "m12",
-                  title: "Match 16",
-                  player1: "Winner of Match 11",
-                  player2: "Winner of Match 12",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m16",
+                  "title": "Match 16",
+                  "player1": "Winner of Match 11",
+                  "player2": "Winner of Match 12",
+                  "slot1From": "m11",
+                  "slot2From": "m12",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             }
           ]
         },
         {
-          key: "losers",
-          title: "Losers Bracket",
-          rounds: [
+          "key": "losers",
+          "title": "Losers Bracket",
+          "rounds": [
             {
-              title: "Losers Round 1",
-              matches: [
+              "title": "Losers Round 1",
+              "matches": [
                 {
-                  id: "m8",
-                  slot1From: "m4",
-                  slot2From: "m1",
-                  title: "Match 8",
-                  player1: "Loser of Match 4",
-                  player2: "Loser of Match 1",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m8",
+                  "title": "Match 8",
+                  "player1": "Loser of Match 4",
+                  "player2": "Loser of Match 1",
+                  "slot1From": "m4",
+                  "slot2From": "m1",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 },
                 {
-                  id: "m7",
-                  slot1From: "m3",
-                  slot2From: "m2",
-                  title: "Match 7",
-                  player1: "Loser of Match 3",
-                  player2: "Loser of Match 2",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m7",
+                  "title": "Match 7",
+                  "player1": "Loser of Match 3",
+                  "player2": "Loser of Match 2",
+                  "slot1From": "m3",
+                  "slot2From": "m2",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             },
             {
-              title: "Losers Round 2",
-              matches: [
+              "title": "Losers Round 2",
+              "matches": [
                 {
-                  id: "m10",
-                  slot1From: "m6",
-                  slot2From: "m8",
-                  title: "Match 10",
-                  player1: "Loser of Match 6",
-                  player2: "Winner of Match 8",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m10",
+                  "title": "Match 10",
+                  "player1": "Loser of Match 6",
+                  "player2": "Winner of Match 8",
+                  "slot1From": "m6",
+                  "slot2From": "m8",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 },
                 {
-                  id: "m9",
-                  slot1From: "m5",
-                  slot2From: "m7",
-                  title: "Match 9",
-                  player1: "Loser of Match 5",
-                  player2: "Winner of Match 7",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m9",
+                  "title": "Match 9",
+                  "player1": "Loser of Match 5",
+                  "player2": "Winner of Match 7",
+                  "slot1From": "m5",
+                  "slot2From": "m7",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             },
             {
-              title: "Losers Round 3",
-              matches: [
+              "title": "Losers Round 3",
+              "matches": [
                 {
-                  id: "m13",
-                  slot1From: "m11",
-                  slot2From: "m10",
-                  title: "Match 13",
-                  player1: "Loser of Match 11",
-                  player2: "Winner of Match 10",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m13",
+                  "title": "Match 13",
+                  "player1": "Loser of Match 11",
+                  "player2": "Winner of Match 10",
+                  "slot1From": "m11",
+                  "slot2From": "m10",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 },
                 {
-                  id: "m14",
-                  slot1From: "m12",
-                  slot2From: "m9",
-                  title: "Match 14",
-                  player1: "Loser of Match 12",
-                  player2: "Winner of Match 9",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m14",
+                  "title": "Match 14",
+                  "player1": "Loser of Match 12",
+                  "player2": "Winner of Match 9",
+                  "slot1From": "m12",
+                  "slot2From": "m9",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             },
             {
-              title: "Losers Round 4",
-              matches: [
+              "title": "Losers Round 4",
+              "matches": [
                 {
-                  id: "m15",
-                  slot1From: "m13",
-                  slot2From: "m14",
-                  title: "Match 15",
-                  player1: "Winner of Match 13",
-                  player2: "Winner of Match 14",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m15",
+                  "title": "Match 15",
+                  "player1": "Winner of Match 13",
+                  "player2": "Winner of Match 14",
+                  "slot1From": "m13",
+                  "slot2From": "m14",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             },
             {
-              title: "Losers Final",
-              matches: [
+              "title": "Losers Final",
+              "matches": [
                 {
-                  id: "m17",
-                  slot1From: "m16",
-                  slot2From: "m15",
-                  title: "Match 17",
-                  player1: "Loser of Match 16",
-                  player2: "Winner of Match 15",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo5",
-                  time: ""
+                  "id": "m17",
+                  "title": "Match 17",
+                  "player1": "Loser of Match 16",
+                  "player2": "Winner of Match 15",
+                  "slot1From": "m16",
+                  "slot2From": "m15",
+                  "score1": "",
+                  "score2": "",
+                  "winner": "",
+                  "note": "Bo5",
+                  "time": ""
                 }
               ]
             }
           ]
         },
         {
-          key: "grand-final",
-          title: "Grand Final",
-          rounds: [
+          "key": "grand-final",
+          "title": "Grand Final",
+          "rounds": [
             {
-              title: "Grand Final",
-              matches: [
+              "title": "Grand Final",
+              "matches": [
                 {
-                  id: "m18",
-                  slot1From: "m16",
-                  slot2From: "m17",
-                  title: "Match 18",
-                  player1: "Winner of Match 16",
-                  player2: "Winner of Match 17",
-                  score1: "1",
-                  score2: "0",
-                  winner: "",
-                  note: "Bo7 · Winners-bracket finalist starts 1-0",
-                  time: ""
+                  "id": "m18",
+                  "title": "Match 18",
+                  "player1": "Winner of Match 16",
+                  "player2": "Winner of Match 17",
+                  "slot1From": "m16",
+                  "slot2From": "m17",
+                  "score1": "1",
+                  "score2": "0",
+                  "winner": "",
+                  "note": "Bo7 Â· Winners-bracket finalist starts 1-0",
+                  "time": ""
                 }
               ]
             }
           ]
         }
       ],
-
-      players: [
-        { name: "JAMIETD", seed: 1 },
-        { name: "KRISPY", seed: 2 },
-        { name: "FULLY", seed: 3 },
-        { name: "DANKU", seed: 4 },
-        { name: "MC RUSTY", seed: 5 },
-        { name: "WTF", seed: 6 },
-        { name: "SHEPPARD", seed: 7 },
-        { name: "TRIOTD", seed: 8 },
-        { name: "JLGAZZA94", seed: 9 },
-        { name: "DR.MURK", seed: 10 }
-      ],
-
-      schedule: [
+      "players": [
         {
-          title: "Tournament starts / first-round draw",
-          date: "2026-09-14",
-          time: "12:00",
-          timezone: "BST"
+          "name": "JAMIETD",
+          "seed": "1",
+          "flag": "England",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2248%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20x%3D%2226%22%20width%3D%2212%22%20height%3D%2248%22%20fill%3D%22%23cf142b%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20y%3D%2218%22%20width%3D%2264%22%20height%3D%2212%22%20fill%3D%22%23cf142b%22%2F%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "JME",
+          "note": ""
         },
         {
-          title: "Match deadline",
-          value: "No fixed deadline; once a match begins, the full series must be completed in one sitting."
-        }
-      ],
-
-      rules: [
-        "Use standard Quickmatch rules when hosting; the organiser states these are the same for Red Alert as for Tiberian Dawn.",
-        "The first host and map selector is decided by a coin toss. The other player receives spawn-pick choice. Host/map pick and spawn pick then alternate each game until the match is complete.",
-        "There are no additional in-game restrictions for this event; all units, tactics and strategies are legal.",
-        "All Winners Bracket and Losers Bracket matches are best-of-five (Bo5).",
-        "The Grand Final is best-of-seven (Bo7). The player reaching it undefeated starts with a 1-0 game advantage.",
-        "There is no deadline for completing a matchup, but once players begin their match, every game in that series must be played in one sitting.",
-        "Map pool: Canyon; (WHT) Elevation; Keep Off The Grass; Tournament Arena; Pico V3 (1v1); RAP - Lake Mizu; RAP - Hospital Hill."
-      ],
-
-      results: []
-    },
-
-    /*
-    ADD EVENT OBJECTS HERE.
-
-    EXAMPLE SINGLE ELIMINATION EVENT:
-    {
-      id: "my-single-elim-event",
-      status: "upcoming",
-      title: "My Tournament Title",
-      subtitle: "Optional short subtitle",
-      organizer: "Your Name",
-      game: "Game Name",
-      format: "Single Elimination",
-      startDate: "2026-07-20 18:00",
-      endDate: "2026-07-20 22:00",
-      timezone: "UTC+0",
-      prizePool: "£0",
-      bannerImage: "",
-      description: "Optional description.",
-      registrationMode: "external",
-      registrationUrl: "https://krispykp.com/contact.html#tournament-signup",
-      streamUrl: "",
-      rulesUrl: "",
-      bracketMode: "manual",
-      bracketTitle: "Tournament Bracket",
-      manualBracketGroups: [
+          "name": "KRISPY",
+          "seed": "2",
+          "flag": "Scotland",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2248%22%20fill%3D%22%23005eb8%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cline%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%2264%22%20y2%3D%2248%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%228%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cline%20x1%3D%2264%22%20y1%3D%220%22%20x2%3D%220%22%20y2%3D%2248%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%228%22%2F%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "ӄʀɨֆքʏ",
+          "note": ""
+        },
         {
-          key: "main",
-          title: "Tournament Bracket",
-          rounds: [
-            {
-              title: "Semi Finals",
-              matches: [
-                {
-                  id: "sf1",
-                  title: "SF1",
-                  player1: "Player A",
-                  player2: "Player B",
-                  score1: "",
-                  score2: "",
-                  winner: "",
-                  note: "Bo3",
-                  time: "2026-07-20 18:00 UTC"
-                }
-              ]
-            }
-          ]
+          "name": "FULLY",
+          "seed": "3",
+          "flag": "USA",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2248%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cg%20fill%3D%22%23b22234%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%220%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%227.384%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2214.768%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2222.152%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2229.536%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2236.920%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2244.304%22%20width%3D%2264%22%20height%3D%223.696%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2225.6%22%20height%3D%2225.846%22%20fill%3D%22%233c3b6e%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cg%20fill%3D%22%23ffffff%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%223.2%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%228.0%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2212.8%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2217.6%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2222.4%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%225.6%22%20cy%3D%226.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2210.4%22%20cy%3D%226.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2215.2%22%20cy%3D%226.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2220.0%22%20cy%3D%226.4%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%223.2%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%228.0%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2212.8%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2217.6%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2222.4%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%225.6%22%20cy%3D%2212.8%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2210.4%22%20cy%3D%2212.8%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2215.2%22%20cy%3D%2212.8%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2220.0%22%20cy%3D%2212.8%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%223.2%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%228.0%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2212.8%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2217.6%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2222.4%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%225.6%22%20cy%3D%2219.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2210.4%22%20cy%3D%2219.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2215.2%22%20cy%3D%2219.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2220.0%22%20cy%3D%2219.2%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%223.2%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%228.0%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2212.8%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2217.6%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2222.4%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "FULLY_DGAF",
+          "note": ""
+        },
+        {
+          "name": "DANKU",
+          "seed": "4",
+          "flag": "Ireland",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2221.333%22%20height%3D%2248%22%20x%3D%220%22%20fill%3D%22%23169b62%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2221.333%22%20height%3D%2248%22%20x%3D%2221.333%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2221.334%22%20height%3D%2248%22%20x%3D%2242.666%22%20fill%3D%22%23ff883e%22%2F%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "Danku",
+          "note": ""
+        },
+        {
+          "name": "MC RUSTY",
+          "seed": "5",
+          "flag": "Canada",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2248%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2216%22%20height%3D%2248%22%20x%3D%220%22%20fill%3D%22%23d80621%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2216%22%20height%3D%2248%22%20x%3D%2248%22%20fill%3D%22%23d80621%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20fill%3D%22%23d80621%22%20d%3D%22M32%208l2%205%205-2-2%205%205%201-5%202%203%204-5-1%201%206h-4l1-6-5%201%203-4-5-2%205-1-2-5%205%202z%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20x%3D%2230.5%22%20y%3D%2224%22%20width%3D%223%22%20height%3D%2210%22%20fill%3D%22%23d80621%22%2F%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "MC RUSTY",
+          "note": ""
+        },
+        {
+          "name": "WTF",
+          "seed": "6",
+          "flag": "Canada",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2248%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2216%22%20height%3D%2248%22%20x%3D%220%22%20fill%3D%22%23d80621%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2216%22%20height%3D%2248%22%20x%3D%2248%22%20fill%3D%22%23d80621%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cpath%20fill%3D%22%23d80621%22%20d%3D%22M32%208l2%205%205-2-2%205%205%201-5%202%203%204-5-1%201%206h-4l1-6-5%201%203-4-5-2%205-1-2-5%205%202z%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20x%3D%2230.5%22%20y%3D%2224%22%20width%3D%223%22%20height%3D%2210%22%20fill%3D%22%23d80621%22%2F%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "WTF.VAG",
+          "note": ""
+        },
+        {
+          "name": "SHEPPARD",
+          "seed": "7",
+          "flag": "Slovenia",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2216%22%20y%3D%220%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2216%22%20y%3D%2216%22%20fill%3D%22%23005ce6%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2216%22%20y%3D%2232%22%20fill%3D%22%23d50000%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cg%20transform%3D%22translate(10%2C7)%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M0%200h14v10c0%206-7%2010-7%2010S0%2016%200%2010z%22%20fill%3D%22%23005ce6%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M2%205l3-3%202%202%202-2%203%203%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221.2%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M3%2012h8%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%221.2%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Cpath%20d%3D%22M2%2014h10%22%20stroke%3D%22%23d50000%22%20stroke-width%3D%221.2%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "[ZeroG]SheppardSG1",
+          "note": ""
+        },
+        {
+          "name": "TRIOTD",
+          "seed": "8",
+          "flag": "Finland",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2248%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20x%3D%2218%22%20width%3D%2210%22%20height%3D%2248%22%20fill%3D%22%23003580%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20y%3D%2219%22%20width%3D%2264%22%20height%3D%2210%22%20fill%3D%22%23003580%22%2F%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "TrioTD",
+          "note": ""
+        },
+        {
+          "name": "JLGAZZA94",
+          "seed": "9",
+          "flag": "England",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2248%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20x%3D%2226%22%20width%3D%2212%22%20height%3D%2248%22%20fill%3D%22%23cf142b%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Crect%20y%3D%2218%22%20width%3D%2264%22%20height%3D%2212%22%20fill%3D%22%23cf142b%22%2F%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "JLGAZZA94",
+          "note": ""
+        },
+        {
+          "name": "DR.MURK",
+          "seed": "10",
+          "flag": "USA",
+          "flagImage": "data:image/svg+xml;charset=UTF-8,%0A%20%20%20%20%20%20%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2048%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2264%22%20height%3D%2248%22%20fill%3D%22%23ffffff%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cg%20fill%3D%22%23b22234%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%220%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%227.384%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2214.768%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2222.152%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2229.536%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2236.920%22%20width%3D%2264%22%20height%3D%223.692%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Crect%20y%3D%2244.304%22%20width%3D%2264%22%20height%3D%223.696%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%2225.6%22%20height%3D%2225.846%22%20fill%3D%22%233c3b6e%22%2F%3E%0A%20%20%20%20%20%20%20%20%3Cg%20fill%3D%22%23ffffff%22%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%223.2%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%228.0%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2212.8%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2217.6%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2222.4%22%20cy%3D%223.2%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%225.6%22%20cy%3D%226.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2210.4%22%20cy%3D%226.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2215.2%22%20cy%3D%226.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2220.0%22%20cy%3D%226.4%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%223.2%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%228.0%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2212.8%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2217.6%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2222.4%22%20cy%3D%229.6%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%225.6%22%20cy%3D%2212.8%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2210.4%22%20cy%3D%2212.8%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2215.2%22%20cy%3D%2212.8%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2220.0%22%20cy%3D%2212.8%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%223.2%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%228.0%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2212.8%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2217.6%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2222.4%22%20cy%3D%2216.0%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%225.6%22%20cy%3D%2219.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2210.4%22%20cy%3D%2219.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2215.2%22%20cy%3D%2219.2%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2220.0%22%20cy%3D%2219.2%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ccircle%20cx%3D%223.2%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%228.0%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2212.8%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2217.6%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%3Ccircle%20cx%3D%2222.4%22%20cy%3D%2222.4%22%20r%3D%220.9%22%2F%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%3C%2Fsvg%3E%0A%20%20%20%20",
+          "inGameName": "Dr.Murkinstein",
+          "note": ""
         }
       ],
-      players: [],
-      schedule: [],
-      rules: [],
-      results: []
+      "schedule": [
+        {
+          "title": "Tournament starts / first-round draw",
+          "date": "2026-09-14",
+          "time": "12:00",
+          "timezone": "BST",
+          "label": "",
+          "value": ""
+        },
+        {
+          "title": "Match deadline",
+          "date": "",
+          "time": "",
+          "timezone": "",
+          "label": "",
+          "value": "No fixed deadline; once a match begins, the full series must be completed in one sitting."
+        }
+      ],
+      "rules": {
+        "sections": [
+          {
+            "title": "Tournament format",
+            "paragraphs": [
+              "The tournament uses a Winners Bracket and a Losers Bracket. A player must lose two matches to be eliminated, with the Grand Final handled under the special rule below. Because the field contains 10 players, some players receive a first-round bye.",
+              "All Winners Bracket and Losers Bracket matches are Best of 5 (Bo5). The Grand Final is Best of 7 (Bo7).",
+              "The player who reaches the Grand Final without previously losing a match starts the Grand Final 1-0 ahead. This is the advantage awarded for progressing through the Winners Bracket undefeated."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Match scheduling",
+            "paragraphs": [
+              "The tournament starts on 14 September 2026, when the first-round draws are made. There is no fixed deadline by which an individual matchup must be played once opponents are known.",
+              "Once both players sit down to play their matchup, all games in that matchup must be completed in one sitting."
+            ],
+            "bullets": []
+          },
+          {
+            "title": "Hosting, map selection and spawns",
+            "paragraphs": [
+              "Use the standard Quickmatch rules when hosting. The tournament organiser states that these are the same hosting rules used for Tiberian Dawn."
+            ],
+            "bullets": [
+              "Game 1: use a coin toss to decide the first host and map selector.",
+              "The player who does not receive host and map selection gets spawn-pick choice.",
+              "After each game, rotate the roles: host and map selector and spawn picker alternate until the matchup is complete."
+            ]
+          },
+          {
+            "title": "In-game rules",
+            "paragraphs": [
+              "There are no additional in-game restrictions. The event is intended as a fun Tiberian-Dawn-to-Red-Alert crossover, and all units, strategies and tactics are legal under the tournament rules."
+            ],
+            "bullets": []
+          }
+        ],
+        "mapPool": [
+          "Canyon",
+          "(WHT) Elevation",
+          "Keep Off The Grass",
+          "Tournament Arena",
+          "Pico V3 (1v1)",
+          "RAP - Lake Mizu",
+          "RAP - Hospital Hill"
+        ],
+        "questions": "Questions about the event or interpretation of these rules should be directed to tournament organiser JLGAZZA94. Where clarification is required during the event, the organiser's ruling governs the tournament.",
+        "closing": "GOOD LUCK, COMRADES."
+      },
+      "results": []
     }
-    */
-
-    /*
-
-    ====================================================================================================
-    ====================================================================================================
-    ====================================================================================================
-    ====================================================================================================
-    ====================================================================================================
-    ====================================================================================================
-
-    window.KRISPY_TOURNAMENTS = {
-    currentEventId: null,
-    events: [
-      {
-        id: "td-double-elim-live",
-        status: "live",
-        title: "Tiberian Dawn Double Elim Showcase",
-        subtitle: "Live community broadcast event",
-
-        hostType: "self",
-        organizer: "KrispyKP",
-
-        game: "Command & Conquer: Tiberian Dawn",
-        format: "Double Elimination",
-        startDate: "2026-07-20 18:00",
-        endDate: "2026-07-20 23:30",
-        timezone: "UTC+0",
-        prizePool: "£150",
-        bannerImage: "assets/tournaments/test-live-banner.jpg",
-
-        description:
-          "A fully mocked live tournament used to test the redesigned tournament page. This event includes winners bracket, losers bracket, and a grand final so the grouped manual bracket layout can be tested properly.",
-
-        registrationMode: "closed",
-        registrationUrl: "",
-        participantSource: "manual",
-
-        streamUrl: "https://www.twitch.tv/KrispyKP",
-        rulesUrl: "assets/tournaments/test-live-rules.pdf",
-
-        bracketMode: "manual",
-        bracketTitle: "Tournament Bracket",
-
-        manualBracketGroups: [
-          {
-            key: "winners",
-            title: "Winners Bracket",
-            rounds: [
-              {
-                title: "Winners Round 1",
-                matches: [
-                  {
-                    id: "wb1",
-                    title: "WB1",
-                    player1: "KrispyKP",
-                    player2: "IronFox",
-                    score1: "2",
-                    score2: "0",
-                    winner: "KrispyKP",
-                    note: "Bo3",
-                    time: "2026-07-20 18:00 UTC"
-                  },
-                ]
-              },
-            ]
-          },
-          {
-            key: "losers",
-            title: "Losers Bracket",
-            rounds: [
-              {
-                title: "Losers Round 1",
-                matches: [
-                  {
-                    id: "lb1",
-                    title: "LB1",
-                    player1: "IronFox",
-                    player2: "Jamie",
-                    score1: "2",
-                    score2: "0",
-                    winner: "IronFox",
-                    note: "Bo3",
-                    time: "2026-07-20 20:00 UTC"
-                  },
-                ]
-              }
-            ]
-          },
-          {
-            key: "grand-final",
-            title: "Grand Final",
-            rounds: [
-              {
-                title: "Grand Final",
-                matches: [
-                  {
-                    id: "gf",
-                    title: "GF",
-                    slot1From: "wbf",
-                    slot2From: "lbf",
-                    player1: "Nomad",
-                    player2: "KrispyKP",
-                    score1: "2",
-                    score2: "1",
-                    winner: "",
-                    note: "Bo7 - Live",
-                    time: "2026-07-20 23:00 UTC"
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-
-        players: [
-          { name: "KrispyKP", seed: 1, note: "Host", discord: "KrispyKP", flag: "Scotland", flagImage: FLAG_SVGS.scotland },
-          { name: "IronFox", seed: 2, discord: "ironfox", flag: "Germany", flagImage: FLAG_SVGS.germany },
-          { name: "Meds", seed: 3, discord: "meds", flag: "England", flagImage: FLAG_SVGS.england },
-          { name: "Jamie", seed: 4, discord: "jamie", flag: "Wales", flagImage: FLAG_SVGS.wales },
-          { name: "Gazza", seed: 5, discord: "gazza", flag: "Croatia", flagImage: FLAG_SVGS.croatia },
-          { name: "Bruzer", seed: 6, discord: "bruzer", flag: "Canada", flagImage: FLAG_SVGS.canada },
-          { name: "Delta", discord: "delta_td", flag: "Ireland", flagImage: FLAG_SVGS.ireland },
-          { name: "Nomad", flag: "England", flagImage: FLAG_SVGS.england, note: "Guest Player" }
-        ],
-
-        schedule: [
-          { title: "Player Check-In Opens", date: "2026-07-20", time: "17:15", timezone: "UTC+0" },
-          { title: "Broadcast Begins", date: "2026-07-20", time: "17:45", timezone: "UTC+0" },
-          { title: "Winners Round 1 Matches Start", date: "2026-07-20", time: "18:00", timezone: "UTC+0" },
-          { title: "Losers Round 1 Matches Start", date: "2026-07-20", time: "20:00", timezone: "UTC+0" },
-          { title: "Winners Final Matches Start", date: "2026-07-20", time: "21:30", timezone: "UTC+0" },
-          { title: "Losers Final Matches Start", date: "2026-07-20", time: "22:15", timezone: "UTC+0" },
-          { title: "Grand Final Matches Start", date: "2026-07-20", time: "23:00", timezone: "UTC+0" }
-        ],
-
-        rules: [
-          "All matches are played on the approved tournament patch version.",
-          "Players must be ready within 10 minutes of their scheduled start time.",
-          "Map vetoes must be completed before the match lobby is launched.",
-          "Disconnect rulings are decided by the tournament admin.",
-          "Unsportsmanlike conduct may lead to warnings or disqualification."
-        ],
-
-        results: []
-      },
-
-      {
-        id: "ra-weekender-upcoming",
-        status: "upcoming",
-        title: "Red Alert Weekender #2",
-        subtitle: "Upcoming bracket preview event",
-
-        hostType: "self",
-        organizer: "KrispyKP",
-
-        game: "Command & Conquer: Red Alert",
-        format: "Single Elimination",
-        startDate: "2026-08-08 18:00",
-        endDate: "2026-08-09 22:00",
-        timezone: "UTC+0",
-        prizePool: "£75",
-        bannerImage: "assets/tournaments/test-upcoming-banner.jpg",
-
-        description:
-          "A second fake event included to populate the event switcher and test how upcoming tournaments sit beneath a featured live one. This one uses a single manual bracket group.",
-
-        registrationMode: "external",
-        registrationUrl: "https://example.com/register/red-alert-weekender-2",
-        participantSource: "manual",
-
-        streamUrl: "https://www.twitch.tv/KrispyKP",
-        rulesUrl: "assets/tournaments/test-upcoming-rules.pdf",
-
-        bracketMode: "manual",
-        bracketTitle: "Projected Bracket",
-
-        manualBracketGroups: [
-          {
-            key: "main",
-            title: "Projected Bracket",
-            rounds: [
-              {
-                title: "Quarter Finals",
-                matches: [
-                  { id: "raqf1", title: "QF1", player1: "AlphaOne", player2: "Bravo", score1: "", score2: "", winner: "", note: "Bo3", time: "2026-08-08 18:00 UTC" },
-                  { id: "raqf2", title: "QF2", player1: "Charlie", player2: "Delta", score1: "", score2: "", winner: "", note: "Bo3", time: "2026-08-08 18:30 UTC" },
-                  { id: "raqf3", title: "QF3", player1: "Echo", player2: "Foxtrot", score1: "", score2: "", winner: "", note: "Bo3", time: "2026-08-08 19:00 UTC" },
-                  { id: "raqf4", title: "QF4", player1: "Ghost", player2: "Havoc", score1: "", score2: "", winner: "", note: "Bo3", time: "2026-08-08 19:30 UTC" }
-                ]
-              },
-              {
-                title: "Semi Finals",
-                matches: [
-                  { id: "rasf1", title: "SF1", slot1From: "raqf1", slot2From: "raqf2", player1: "TBD", player2: "TBD", score1: "", score2: "", winner: "", note: "Bo5", time: "2026-08-09 19:00 UTC" },
-                  { id: "rasf2", title: "SF2", slot1From: "raqf3", slot2From: "raqf4", player1: "TBD", player2: "TBD", score1: "", score2: "", winner: "", note: "Bo5", time: "2026-08-09 19:45 UTC" }
-                ]
-              },
-              {
-                title: "Final",
-                matches: [
-                  { id: "raf", title: "Final", slot1From: "rasf1", slot2From: "rasf2", player1: "TBD", player2: "TBD", score1: "", score2: "", winner: "", note: "Bo7", time: "2026-08-09 21:00 UTC" }
-                ]
-              }
-            ]
-          }
-        ],
-
-        players: [
-          { name: "AlphaOne", seed: 1, discord: "alphaone", flag: "USA", flagImage: FLAG_SVGS.usa },
-          { name: "Bravo", seed: 2, discord: "bravo", flag: "Spain", flagImage: FLAG_SVGS.spain },
-          { name: "Charlie", seed: 3, discord: "charlie", flag: "Sweden", flagImage: FLAG_SVGS.sweden },
-          { name: "Delta", seed: 4, discord: "delta", flag: "Finland", flagImage: FLAG_SVGS.finland },
-          { name: "Echo", seed: 5, discord: "echo", flag: "Belgium", flagImage: FLAG_SVGS.belgium },
-          { name: "Foxtrot", discord: "foxtrot", flag: "Slovenia", flagImage: FLAG_SVGS.slovenia },
-          { name: "Ghost", flag: "Russia", flagImage: FLAG_SVGS.russia },
-          { name: "Havoc", note: "Late Signup", flag: "Ukraine", flagImage: FLAG_SVGS.ukraine }
-        ],
-
-        schedule: [
-          { title: "Signups Close", date: "2026-08-06", time: "23:59", timezone: "UTC+0" },
-          { title: "Bracket Reveal", date: "2026-08-07", time: "19:00", timezone: "UTC+0" },
-          { title: "Quarter Finals Matches Start", date: "2026-08-08", time: "18:00", timezone: "UTC+0" },
-          { title: "Semi Finals Matches Start", date: "2026-08-09", time: "19:00", timezone: "UTC+0" },
-          { title: "Grand Final Matches Start", date: "2026-08-09", time: "21:00", timezone: "UTC+0" }
-        ],
-
-        rules: [
-          "Standard tournament maps only.",
-          "Observers are allowed only on designated stream matches.",
-          "Players must report scores immediately after each match.",
-          "Replay files may be requested for admin review."
-        ],
-
-        results: []
-      },
-
-      {
-        id: "sole-survivor-classic-complete",
-        status: "completed",
-        title: "Sole Survivor Cup Classic",
-        subtitle: "Completed archive test event",
-
-        hostType: "self",
-        organizer: "KrispyKP",
-
-        game: "Command & Conquer: Sole Survivor",
-        format: "Round Robin into Final",
-        startDate: "2026-05-10 17:00",
-        endDate: "2026-05-10 22:00",
-        timezone: "UTC+0",
-        prizePool: "£50",
-        bannerImage: "assets/tournaments/test-completed-banner.jpg",
-
-        description:
-          "A completed mock event used to populate the archive and results areas. This gives you a proper past-event example with filled results.",
-
-        registrationMode: "none",
-        registrationUrl: "",
-        participantSource: "manual",
-
-        streamUrl: "https://www.twitch.tv/KrispyKP",
-        rulesUrl: "assets/tournaments/test-completed-rules.pdf",
-
-        bracketMode: "manual",
-        bracketTitle: "Completed Bracket",
-
-        manualBracketGroups: [
-          {
-            key: "main",
-            title: "Completed Bracket",
-            rounds: [
-              {
-                title: "Semi Finals",
-                matches: [
-                  { id: "sssf1", title: "SF1", player1: "Nomad", player2: "Rift", score1: "2", score2: "1", winner: "Nomad", note: "Bo3", time: "2026-05-10 19:00 UTC" },
-                  { id: "sssf2", title: "SF2", player1: "Vortex", player2: "Shade", score1: "0", score2: "2", winner: "Shade", note: "Bo3", time: "2026-05-10 19:45 UTC" }
-                ]
-              },
-              {
-                title: "Grand Final",
-                matches: [
-                  { id: "ssgf", title: "GF", slot1From: "sssf1", slot2From: "sssf2", player1: "Nomad", player2: "Shade", score1: "3", score2: "2", winner: "Nomad", note: "Bo5", time: "2026-05-10 21:00 UTC" }
-                ]
-              }
-            ]
-          }
-        ],
-
-        players: [
-          { name: "Nomad", seed: 1, discord: "nomad", flag: "England", flagImage: FLAG_SVGS.england },
-          { name: "Rift", seed: 2, discord: "rift", flag: "🇺🇸" },
-          { name: "Vortex", seed: 3, discord: "vortex", flag: "🇩🇪" },
-          { name: "Shade", flag: "🇳🇴" }
-        ],
-
-        schedule: [
-          { title: "Check-In Opens", date: "2026-05-10", time: "16:30", timezone: "UTC+0" },
-          { title: "Group Stage Matches Start", date: "2026-05-10", time: "17:00", timezone: "UTC+0" },
-          { title: "Semi Finals Matches Start", date: "2026-05-10", time: "19:00", timezone: "UTC+0" },
-          { title: "Grand Final Matches Start", date: "2026-05-10", time: "21:00", timezone: "UTC+0" }
-        ],
-
-        rules: [
-          "Round robin standings are decided by wins, then head-to-head.",
-          "Grand Final is played as best of five.",
-          "Admins may remake lobbies if major technical issues occur."
-        ],
-
-        results: [
-          { place: "1st", name: "Nomad", note: "Champion" },
-          { place: "2nd", name: "Shade", note: "Runner-up" },
-          { place: "3rd", name: "Rift", note: "Semi Finalist" },
-          { place: "4th", name: "Vortex", note: "Semi Finalist" }
-        ]
-      } 
-    */
   ]
 };

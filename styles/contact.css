@@ -39,6 +39,14 @@
   margin-top: 16px;
 }
 
+.contact-option > .cta-row + .form-note {
+  margin-top: 18px;
+}
+
+.contact-option > .form-note + .notice {
+  margin-top: 14px;
+}
+
 .form-shell {
   display: grid;
   gap: 14px;

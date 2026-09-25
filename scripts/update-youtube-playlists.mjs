@@ -3,6 +3,10 @@ import { VIDEO_PLAYLISTS } from "../data/video-playlists.config.mjs";
 
 const API_KEY = process.env.YOUTUBE_API_KEY;
 
+if (!API_KEY) {
+  throw new Error("YOUTUBE_API_KEY is required; preserving the existing generated catalogue.");
+}
+
 async function fetchPlaylistItems(playlistId) {
   let items = [];
   let pageToken = "";

@@ -282,7 +282,7 @@ window.KRISPY_TOURNAMENTS = {
       bannerImage: "",
       description: "Optional description.",
       registrationMode: "external",
-      registrationUrl: "https://krispykp.com/contact.html#tournament-signup",
+      registrationUrl: "https://krispykp.com/contact/#tournament-signup",
       streamUrl: "",
       rulesUrl: "",
       bracketMode: "manual",
