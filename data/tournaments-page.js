@@ -228,6 +228,21 @@
     return a;
   }
 
+  function getExternalBracketLabel(href) {
+    if (!href) return "View External Bracket";
+
+    try {
+      const hostname = new URL(href, window.location.href).hostname.toLowerCase();
+      if (hostname === "challonge.com" || hostname.endsWith(".challonge.com")) {
+        return "View on Challonge";
+      }
+    } catch (_error) {
+      // Keep the generic label for malformed or relative values.
+    }
+
+    return "View External Bracket";
+  }
+
   function createLocalActionButton(label, onClick, primary = false) {
     const button = document.createElement("button");
     button.type = "button";
@@ -815,7 +830,8 @@
     if (els.bracketSection) els.bracketSection.hidden = false;
     if (els.bracketTitle) els.bracketTitle.textContent = text(event.bracketTitle, "Bracket");
 
-    const openBracket = createActionLink("Open Bracket", event.bracketUrl || event.bracketEmbedUrl, true);
+    const bracketUrl = event.bracketUrl || event.bracketEmbedUrl;
+    const openBracket = createActionLink(getExternalBracketLabel(bracketUrl), bracketUrl, true);
     if (openBracket && els.bracketActions) {
       els.bracketActions.appendChild(openBracket);
     }
@@ -892,7 +908,8 @@
     }
 
     actions.push(createActionLink("View Banner", event.bannerImage));
-    actions.push(createActionLink("Bracket", event.bracketUrl || event.bracketEmbedUrl));
+    const heroBracketUrl = event.bracketUrl || event.bracketEmbedUrl;
+    actions.push(createActionLink(getExternalBracketLabel(heroBracketUrl), heroBracketUrl));
     actions.push(createActionLink("Watch Stream", event.streamUrl));
     actions.push(createActionLink("Rules", event.rulesUrl));
 
@@ -949,7 +966,7 @@
     );
 
     if (sectionKind === "archive" && event.bracketUrl) {
-      const link = createActionLink("Open Bracket", event.bracketUrl, false);
+      const link = createActionLink(getExternalBracketLabel(event.bracketUrl), event.bracketUrl, false);
       if (link) actions.appendChild(link);
     }
 
@@ -1063,6 +1080,13 @@
     if (players.length) {
       renderList(els.players, players, (item) => {
         const metaBits = [];
+        const inGameName = text(item.inGameName, "").trim();
+
+        if (inGameName) {
+          metaBits.push(
+            `<span class="tournament-player-meta-pill tournament-player-in-game">In-game: <span class="tournament-player-in-game-name">${escapeHtml(inGameName)}</span></span>`
+          );
+        }
 
         if (item.flagImage) {
           metaBits.push(`

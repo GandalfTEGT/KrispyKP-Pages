@@ -57,6 +57,10 @@
     return `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
   }
 
+  function getDisplayDescription(value) {
+    return String(value || "").split(/={4,}/, 1)[0].trim();
+  }
+
   function parseDate(value) {
     return Date.parse(value || 0) || 0;
   }
@@ -84,7 +88,7 @@
     return {
       videoId: video.videoId,
       title: video.title || "Untitled Video",
-      note: video.note || "",
+      note: getDisplayDescription(video.note || video.description),
       publishedAt: video.publishedAt || "",
       thumbnail: video.thumbnail || getThumbnail(video.videoId),
       tag: video.tag || fallbackTag || "Video",

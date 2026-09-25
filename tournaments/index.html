@@ -128,6 +128,13 @@
             </div>
           </section>
 
+          <section class="section tournament-section-tight">
+            <div id="tournamentPlayersCard" class="frame feature tournament-info-panel" hidden>
+              <h2 class="section-title">Players</h2>
+              <ul id="tournamentPlayers" class="list tournament-players-list"></ul>
+            </div>
+          </section>
+
           <section id="tournamentBracketSection" class="section tournament-section-tight" hidden>
             <div class="frame feature tournament-bracket-card">
               <div class="tournament-bracket-head">
@@ -168,16 +175,9 @@
           </section>
 
           <section class="section tournament-section-tight">
-            <div class="tournament-info-grid tournament-info-grid--primary">
-              <div id="tournamentPlayersCard" class="frame feature tournament-info-panel" hidden>
-                <h2 class="section-title">Players</h2>
-                <ul id="tournamentPlayers" class="list tournament-players-list"></ul>
-              </div>
-
-              <div id="tournamentRulesCard" class="frame feature tournament-info-panel" hidden>
-                <h2 class="section-title">Rules</h2>
-                <ul id="tournamentRules" class="list"></ul>
-              </div>
+            <div id="tournamentRulesCard" class="frame feature tournament-info-panel" hidden>
+              <h2 class="section-title">Rules</h2>
+              <ul id="tournamentRules" class="list"></ul>
             </div>
           </section>
 
@@ -239,14 +239,17 @@
 
             <nav class="footer-nav-block" aria-label="Footer navigation">
               <div class="footer-heading">Navigation</div>
-              <div class="footer-links">
+              <details class="footer-nav-disclosure">
+                <summary class="footer-nav-summary">Site navigation</summary>
+                <div class="footer-links">
                 <a href="/">Home</a>
                 <a href="/music/">Music</a>
                 <a href="/videos/">Videos</a>
                 <a href="/tournaments/">Tournaments</a>
                 <a href="/about/">About</a>
                 <a href="/contact/">Contact</a>
-              </div>
+                </div>
+              </details>
             </nav>
 
             <section class="footer-contact-block">
