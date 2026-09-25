@@ -1452,6 +1452,12 @@
   min-width: 0;
 }
 
+.tournament-section-disclosure > summary:focus-visible,
+.tournament-manual-group-summary:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
 .tournament-disclosure-marker {
   width: 10px;
   height: 10px;
@@ -1462,7 +1468,13 @@
 }
 
 .tournament-manual-group[open] .tournament-disclosure-marker,
-.tournament-section-disclosure[open] .tournament-disclosure-marker {
+.tournament-section-disclosure[open] .tournament-section-disclosure > summary:focus-visible,
+.tournament-manual-group-summary:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.tournament-disclosure-marker {
   transform: rotate(225deg) translate(-2px, -2px);
 }
 
