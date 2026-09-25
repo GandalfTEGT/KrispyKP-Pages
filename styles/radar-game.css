@@ -366,3 +366,142 @@ body.radar-game-visible .shell > footer { transition-delay: 0.08s; }
     transform: none;
   }
 }
+/* KKP-016 owner-remediation: the website radar becomes the play field. */
+.radar-game-overlay {
+  padding: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 54%, transparent 0 15%, rgba(97, 220, 255, .08) 15.2% 15.5%, transparent 15.8% 29%, rgba(97, 220, 255, .07) 29.2% 29.5%, transparent 29.8% 43%, rgba(97, 220, 255, .055) 43.2% 43.5%, transparent 43.8%),
+    linear-gradient(90deg, transparent 49.94%, rgba(97, 220, 255, .11) 50%, transparent 50.06%),
+    linear-gradient(0deg, transparent 49.94%, rgba(97, 220, 255, .09) 50%, transparent 50.06%),
+    repeating-linear-gradient(0deg, rgba(97, 220, 255, .025) 0 1px, transparent 1px 4px),
+    radial-gradient(circle at center, #0a2730 0%, #041116 58%, #020709 100%);
+}
+.radar-game-overlay::before {
+  content: "";
+  position: absolute;
+  inset: -35vmax;
+  pointer-events: none;
+  background: conic-gradient(from 0deg, transparent 0 82%, rgba(97, 220, 255, .16) 92%, transparent 100%);
+  opacity: .7;
+  animation: radar-game-sweep 5s linear infinite;
+}
+@keyframes radar-game-sweep { to { transform: rotate(360deg); } }
+
+.radar-game-trigger { z-index: 1100; }
+body.radar-game-active .radar-game-trigger {
+  pointer-events: auto;
+  opacity: 1;
+  color: #ffd8e3;
+  border-color: rgba(255, 115, 145, .58);
+  background: rgba(26, 5, 12, .94);
+}
+body.radar-game-active .radar-game-trigger-dot {
+  background: #ff738f;
+  box-shadow: 0 0 12px #ff738f;
+}
+
+.radar-game-chassis {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  width: 100%;
+  height: 100dvh;
+  border: 0;
+  background: rgba(2, 9, 12, .22);
+  box-shadow: inset 0 0 100px rgba(0, 0, 0, .58);
+}
+.radar-game-header,
+.radar-game-hud,
+.radar-game-help,
+.radar-game-touch {
+  position: relative;
+  z-index: 4;
+  background: rgba(2, 9, 12, .78);
+  backdrop-filter: blur(10px);
+}
+.radar-game-header { border-bottom-color: rgba(97, 220, 255, .28); }
+.radar-game-kicker::before { content: "● "; color: #52e6c2; }
+.radar-game-hud { border-bottom-color: rgba(97, 220, 255, .2); }
+.radar-game-screen {
+  min-height: 0;
+  aspect-ratio: auto;
+  background: transparent;
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, .54);
+}
+.radar-game-canvas { cursor: crosshair; }
+.radar-game-reticle {
+  opacity: .18;
+  background:
+    linear-gradient(90deg, transparent calc(50% - .5px), rgba(97,220,255,.22) 50%, transparent calc(50% + .5px)),
+    linear-gradient(transparent calc(50% - .5px), rgba(97,220,255,.22) 50%, transparent calc(50% + .5px)),
+    radial-gradient(circle at center, transparent 0 22%, rgba(97,220,255,.11) 22.2% 22.5%, transparent 22.7% 44%, rgba(97,220,255,.08) 44.2% 44.5%, transparent 44.7%);
+}
+.radar-game-help { border-top: 1px solid rgba(97,220,255,.15); }
+
+.radar-game-touch {
+  grid-template-columns: minmax(120px, 1fr) minmax(88px, .55fr);
+  justify-items: start;
+  border-top-color: rgba(97,220,255,.2);
+}
+.radar-game-joystick {
+  position: relative;
+  width: 118px;
+  height: 118px;
+  border: 1px solid rgba(97,220,255,.45);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(97,220,255,.11), rgba(2,9,12,.8) 70%);
+  box-shadow: inset 0 0 28px rgba(97,220,255,.09);
+  touch-action: none;
+  user-select: none;
+}
+.radar-game-joystick-ring {
+  position: absolute;
+  inset: 20%;
+  border: 1px dashed rgba(97,220,255,.32);
+  border-radius: 50%;
+}
+.radar-game-joystick-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 46px;
+  height: 46px;
+  border: 2px solid #8be3ff;
+  border-radius: 50%;
+  background: rgba(16,57,68,.95);
+  box-shadow: 0 0 18px rgba(97,220,255,.34);
+  transform: translate(-50%, -50%);
+}
+.radar-game-joystick-label {
+  position: absolute;
+  inset: auto 0 8px;
+  color: rgba(184,233,247,.72);
+  font: 800 9px/1 Consolas, monospace;
+  letter-spacing: .18em;
+  text-align: center;
+}
+.radar-game-touch .radar-game-fire {
+  align-self: center;
+  justify-self: end;
+  min-width: 104px;
+  min-height: 76px;
+  touch-action: none;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+@media (max-width: 640px) {
+  .radar-game-overlay { align-items: stretch; }
+  .radar-game-chassis { min-height: 100dvh; }
+  .radar-game-header h2 { font-size: clamp(18px, 6vw, 27px); }
+  .radar-game-screen { min-height: 200px; }
+  .radar-game-touch { padding-bottom: max(12px, env(safe-area-inset-bottom)); }
+}
+@media (max-width: 360px) {
+  .radar-game-joystick { width: 104px; height: 104px; }
+  .radar-game-touch .radar-game-fire { min-width: 86px; min-height: 68px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .radar-game-overlay::before { animation: none; transform: rotate(24deg); }
+}

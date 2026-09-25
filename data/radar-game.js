@@ -3,7 +3,7 @@
 
   if (window.KRISPY_RADAR_GAME) return;
 
-  const GAME_VERSION = "kkp-016-prototype-1";
+  const GAME_VERSION = "kkp-016-remediation-2";
   const STATES = Object.freeze({
     IDLE: "idle",
     TRANSITIONING_IN: "transitioning-in",
@@ -37,10 +37,13 @@
   let resizeRaf = 0;
   let lastResult = null;
   let pointerTarget = null;
+  let pointerFiring = false;
+  let mobileFiring = false;
+  let joystickPointerId = null;
+  const joystickInput = { x: 0, y: 0 };
   let nextEnemyId = 1;
   let rngState = 0x4b4b5001;
   const keys = new Set();
-  const touchDirections = new Set();
   const world = { width: 960, height: 540, scaleX: 1, scaleY: 1 };
   const player = { x: 480, y: 270, radius: 14, speed: 230, angle: -Math.PI / 2, health: 3, invulnerable: 0 };
   const bullets = [];
@@ -56,8 +59,17 @@
     if (overlay) overlay.dataset.gameState = next;
     document.body.dataset.radarGameState = next;
     updatePanels();
+    updateTrigger();
   }
 
+  function updateTrigger() {
+    if (!trigger) return;
+    const active = state !== STATES.IDLE;
+    trigger.querySelector("span:last-child").textContent = active ? "Exit radar" : "Radar mode";
+    trigger.setAttribute("aria-label", active ? "Exit Radar mode" : "Enter Radar mode");
+    trigger.setAttribute("aria-pressed", String(active));
+    trigger.disabled = state === STATES.TRANSITIONING_OUT;
+  }
   function updatePanels() {
     if (!overlay) return;
     const paused = state === STATES.PAUSED;
@@ -83,7 +95,10 @@
     trigger.innerHTML = '<span aria-hidden="true" class="radar-game-trigger-dot"></span><span>Radar mode</span>';
     trigger.setAttribute("aria-haspopup", "dialog");
     trigger.setAttribute("aria-controls", "radarGameOverlay");
-    trigger.addEventListener("click", activate);
+    trigger.addEventListener("click", () => {
+      if (state === STATES.IDLE) activate();
+      else exitGame();
+    });
 
     overlay = document.createElement("div");
     overlay.id = "radarGameOverlay";
@@ -133,13 +148,12 @@
           <span><b>Exit</b> Escape</span>
         </div>
         <div class="radar-game-touch" aria-label="Touch game controls">
-          <div class="radar-game-dpad">
-            <button type="button" data-direction="up" aria-label="Move up">▲</button>
-            <button type="button" data-direction="left" aria-label="Move left">◀</button>
-            <button type="button" data-direction="down" aria-label="Move down">▼</button>
-            <button type="button" data-direction="right" aria-label="Move right">▶</button>
+          <div class="radar-game-joystick" data-game-joystick role="application" aria-label="Movement joystick. Touch, hold and drag to move.">
+            <span class="radar-game-joystick-ring" aria-hidden="true"></span>
+            <span class="radar-game-joystick-knob" aria-hidden="true"></span>
+            <span class="radar-game-joystick-label" aria-hidden="true">MOVE</span>
           </div>
-          <button type="button" class="radar-game-fire" data-game-action="fire">Fire</button>
+          <button type="button" class="radar-game-fire" data-game-fire>Fire</button>
         </div>
       </div>
       <div class="sr-only" aria-live="polite" data-game-live></div>
@@ -156,27 +170,72 @@
     pauseButton = overlay.querySelector('[data-game-action="pause"]');
 
     overlay.addEventListener("click", handleOverlayClick);
-    canvas.addEventListener("pointerdown", handleCanvasPointer);
-    overlay.querySelectorAll("[data-direction]").forEach(bindDirectionButton);
+    canvas.tabIndex = 0;
+    canvas.addEventListener("pointermove", updatePointerAim);
+    canvas.addEventListener("pointerdown", startPointerFire);
+    canvas.addEventListener("pointerup", stopPointerFire);
+    canvas.addEventListener("pointercancel", stopPointerFire);
+    canvas.addEventListener("lostpointercapture", stopPointerFire);
+    setupJoystick(overlay.querySelector("[data-game-joystick]"));
+    setupFireControl(overlay.querySelector("[data-game-fire]"));
     document.body.append(trigger, overlay);
   }
 
-  function bindDirectionButton(button) {
-    const direction = button.dataset.direction;
-    const press = (event) => {
+  function setupJoystick(control) {
+    if (!control) return;
+    const knob = control.querySelector(".radar-game-joystick-knob");
+    const reset = (event) => {
+      if (event && joystickPointerId !== null && event.pointerId !== joystickPointerId) return;
+      joystickPointerId = null;
+      joystickInput.x = 0;
+      joystickInput.y = 0;
+      knob.style.transform = "translate(-50%, -50%)";
+    };
+    const update = (event) => {
+      if (event.pointerId !== joystickPointerId) return;
+      event.preventDefault();
+      const rect = control.getBoundingClientRect();
+      const radius = Math.max(1, Math.min(rect.width, rect.height) * 0.32);
+      let x = event.clientX - (rect.left + rect.width / 2);
+      let y = event.clientY - (rect.top + rect.height / 2);
+      const length = Math.hypot(x, y);
+      if (length > radius) {
+        x = (x / length) * radius;
+        y = (y / length) * radius;
+      }
+      joystickInput.x = x / radius;
+      joystickInput.y = y / radius;
+      knob.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
+    };
+    control.addEventListener("pointerdown", (event) => {
+      event.preventDefault();
+      if (state !== STATES.PLAYING) return;
+      joystickPointerId = event.pointerId;
+      control.setPointerCapture?.(event.pointerId);
+      update(event);
+    });
+    control.addEventListener("pointermove", update);
+    control.addEventListener("pointerup", reset);
+    control.addEventListener("pointercancel", reset);
+    control.addEventListener("lostpointercapture", reset);
+  }
+
+  function setupFireControl(button) {
+    if (!button) return;
+    const stop = (event) => {
+      event?.preventDefault();
+      mobileFiring = false;
+    };
+    button.addEventListener("pointerdown", (event) => {
       event.preventDefault();
       if (state !== STATES.PLAYING) return;
       button.setPointerCapture?.(event.pointerId);
-      touchDirections.add(direction);
-    };
-    const release = (event) => {
-      event.preventDefault();
-      touchDirections.delete(direction);
-    };
-    button.addEventListener("pointerdown", press);
-    button.addEventListener("pointerup", release);
-    button.addEventListener("pointercancel", release);
-    button.addEventListener("lostpointercapture", release);
+      mobileFiring = true;
+      fireBullet();
+    });
+    button.addEventListener("pointerup", stop);
+    button.addEventListener("pointercancel", stop);
+    button.addEventListener("lostpointercapture", stop);
   }
 
   function handleOverlayClick(event) {
@@ -186,15 +245,14 @@
     else if (action === "pause") togglePause();
     else if (action === "resume") resumeGame();
     else if (action === "restart") restartGame();
-    else if (action === "fire") fireBullet();
   }
 
   function lockWebsite() {
     scrollY = window.scrollY;
     lastFocused = document.activeElement;
-    trigger.disabled = true;
+    document.documentElement.style.backgroundColor = "#031016";
     document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
+    document.body.style.inset = `-${scrollY}px 0 auto 0`;
     document.body.style.width = "100%";
     document.body.classList.add("radar-game-active");
     document.querySelectorAll(".shell > header, .shell > main, .shell > footer").forEach((element) => {
@@ -202,22 +260,21 @@
     });
   }
 
-  function unlockWebsite() {
+  function prepareWebsiteRestore() {
+    document.body.style.removeProperty("position");
+    document.body.style.removeProperty("inset");
+    document.body.style.removeProperty("width");
+    window.scrollTo(0, scrollY);
+    void document.documentElement.offsetHeight;
+  }
+
+  function finishWebsiteRestore() {
     document.querySelectorAll(".shell > header, .shell > main, .shell > footer").forEach((element) => {
       element.inert = false;
     });
     document.body.classList.remove("radar-game-active", "radar-game-visible");
-    trigger.disabled = false;
-    document.body.style.removeProperty("position");
-    document.body.style.removeProperty("top");
-    document.body.style.removeProperty("width");
-    const restoreY = scrollY;
-    window.scrollTo(0, restoreY);
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => window.scrollTo(0, restoreY));
-    });
+    document.documentElement.style.removeProperty("background-color");
   }
-
   function activate() {
     if (state !== STATES.IDLE) return;
     pauseOnStart = false;
@@ -247,12 +304,17 @@
     cancelAnimationFrame(rafId);
     rafId = 0;
     keys.clear();
-    touchDirections.clear();
+    pointerFiring = false;
+    mobileFiring = false;
+    joystickPointerId = null;
+    joystickInput.x = 0;
+    joystickInput.y = 0;
     setState(STATES.TRANSITIONING_OUT);
-    document.body.classList.remove("radar-game-visible");
+    prepareWebsiteRestore();
+    requestAnimationFrame(() => document.body.classList.remove("radar-game-visible"));
     window.setTimeout(() => {
       overlay.hidden = true;
-      unlockWebsite();
+      finishWebsiteRestore();
       setState(STATES.IDLE);
       (lastFocused instanceof HTMLElement ? lastFocused : trigger).focus({ preventScroll: true });
       announce("Radar game closed.");
@@ -272,6 +334,10 @@
     spawnClock = 0;
     fireCooldown = 0;
     pointerTarget = null;
+    pointerFiring = false;
+    mobileFiring = false;
+    joystickInput.x = 0;
+    joystickInput.y = 0;
     rngState = 0x4b4b5001;
     updateHud();
   }
@@ -294,7 +360,10 @@
     cancelAnimationFrame(rafId);
     rafId = 0;
     keys.clear();
-    touchDirections.clear();
+    joystickInput.x = 0;
+    joystickInput.y = 0;
+    pointerFiring = false;
+    mobileFiring = false;
     setState(STATES.PAUSED);
     announce(reason);
   }
@@ -355,7 +424,7 @@
     else if (edge === 1) { x = world.width + 20; y = random() * world.height; }
     else if (edge === 2) { x = random() * world.width; y = -20; }
     else { x = random() * world.width; y = world.height + 20; }
-    enemies.push({ id: nextEnemyId++, x, y, radius: 11, speed: 52 + Math.min(score / 60, 58) });
+    enemies.push({ id: nextEnemyId++, type: "raider", x, y, radius: 12, speed: 52 + Math.min(score / 60, 58) });
   }
 
   function fireBullet() {
@@ -374,37 +443,54 @@
     fireCooldown = 0.18;
   }
 
-  function handleCanvasPointer(event) {
+  function updatePointerAim(event) {
     if (state !== STATES.PLAYING) return;
     const rect = canvas.getBoundingClientRect();
     pointerTarget = {
       x: ((event.clientX - rect.left) / rect.width) * world.width,
       y: ((event.clientY - rect.top) / rect.height) * world.height
     };
+    player.angle = Math.atan2(pointerTarget.y - player.y, pointerTarget.x - player.x);
+  }
+
+  function startPointerFire(event) {
+    if (state !== STATES.PLAYING || event.button !== 0) return;
+    event.preventDefault();
+    canvas.setPointerCapture?.(event.pointerId);
+    updatePointerAim(event);
+    pointerFiring = true;
     fireBullet();
+  }
+
+  function stopPointerFire(event) {
+    if (event?.button !== undefined && event.button !== 0) return;
+    pointerFiring = false;
   }
 
   function update(dt) {
     let dx = 0;
     let dy = 0;
-    if (keys.has("arrowleft") || keys.has("a") || touchDirections.has("left")) dx -= 1;
-    if (keys.has("arrowright") || keys.has("d") || touchDirections.has("right")) dx += 1;
-    if (keys.has("arrowup") || keys.has("w") || touchDirections.has("up")) dy -= 1;
-    if (keys.has("arrowdown") || keys.has("s") || touchDirections.has("down")) dy += 1;
+    if (keys.has("arrowleft") || keys.has("a")) dx -= 1;
+    if (keys.has("arrowright") || keys.has("d")) dx += 1;
+    if (keys.has("arrowup") || keys.has("w")) dy -= 1;
+    if (keys.has("arrowdown") || keys.has("s")) dy += 1;
+    dx += joystickInput.x;
+    dy += joystickInput.y;
     if (dx || dy) {
       const length = Math.hypot(dx, dy) || 1;
       dx /= length;
       dy /= length;
       player.x += dx * player.speed * dt;
       player.y += dy * player.speed * dt;
-      player.angle = Math.atan2(dy, dx);
-      pointerTarget = null;
+      player.angle = pointerTarget
+        ? Math.atan2(pointerTarget.y - player.y, pointerTarget.x - player.x)
+        : Math.atan2(dy, dx);
     }
     player.x = Math.max(player.radius, Math.min(world.width - player.radius, player.x));
     player.y = Math.max(player.radius, Math.min(world.height - player.radius, player.y));
     player.invulnerable = Math.max(0, player.invulnerable - dt);
     fireCooldown = Math.max(0, fireCooldown - dt);
-    if (keys.has(" ")) fireBullet();
+    if (keys.has(" ") || pointerFiring || mobileFiring) fireBullet();
 
     spawnClock += dt;
     const spawnEvery = Math.max(0.42, 1.12 - score / 4000);
@@ -480,7 +566,7 @@
   }
 
   function drawGrid() {
-    ctx.strokeStyle = "rgba(79, 210, 255, 0.12)";
+    ctx.strokeStyle = "rgba(97, 220, 255, 0.10)";
     ctx.lineWidth = 1;
     for (let x = 0; x <= world.width; x += 60) {
       ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, world.height); ctx.stroke();
@@ -488,40 +574,78 @@
     for (let y = 0; y <= world.height; y += 60) {
       ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(world.width, y); ctx.stroke();
     }
-    ctx.strokeStyle = "rgba(79, 210, 255, 0.2)";
-    [90, 180].forEach((radius) => {
+    ctx.strokeStyle = "rgba(97, 220, 255, 0.18)";
+    [90, 180, 270, 360].forEach((radius) => {
       ctx.beginPath(); ctx.arc(world.width / 2, world.height / 2, radius, 0, Math.PI * 2); ctx.stroke();
     });
     ctx.beginPath(); ctx.moveTo(world.width / 2, 0); ctx.lineTo(world.width / 2, world.height); ctx.stroke();
     ctx.beginPath(); ctx.moveTo(0, world.height / 2); ctx.lineTo(world.width, world.height / 2); ctx.stroke();
+
+    const sweep = (performance.now() / 2400) % (Math.PI * 2);
+    const gradient = ctx.createLinearGradient(world.width / 2, world.height / 2, world.width / 2 + Math.cos(sweep) * 430, world.height / 2 + Math.sin(sweep) * 430);
+    gradient.addColorStop(0, "rgba(97,220,255,.34)");
+    gradient.addColorStop(1, "rgba(97,220,255,0)");
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(world.width / 2, world.height / 2);
+    ctx.lineTo(world.width / 2 + Math.cos(sweep) * 520, world.height / 2 + Math.sin(sweep) * 520);
+    ctx.stroke();
+  }
+
+  function drawCommandVehicle() {
+    ctx.save();
+    ctx.translate(player.x, player.y);
+    ctx.rotate(player.angle);
+    ctx.fillStyle = "rgba(82, 230, 194, .18)";
+    ctx.strokeStyle = "#8be3ff";
+    ctx.lineWidth = 2.5;
+    ctx.fillRect(-15, -12, 30, 24);
+    ctx.strokeRect(-15, -12, 30, 24);
+    ctx.fillStyle = "#061317";
+    ctx.fillRect(-17, -14, 7, 28);
+    ctx.fillRect(10, -14, 7, 28);
+    ctx.strokeStyle = "rgba(82,230,194,.8)";
+    ctx.beginPath(); ctx.arc(0, 0, 7, 0, Math.PI * 2); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(3, 0); ctx.lineTo(23, 0); ctx.stroke();
+    ctx.fillStyle = "#52e6c2";
+    ctx.fillRect(-3, -3, 6, 6);
+    ctx.restore();
+  }
+
+  function drawHostile(enemy) {
+    const angle = Math.atan2(player.y - enemy.y, player.x - enemy.x);
+    ctx.save();
+    ctx.translate(enemy.x, enemy.y);
+    ctx.rotate(angle);
+    ctx.strokeStyle = "#ff738f";
+    ctx.fillStyle = "rgba(255, 115, 143, .14)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(13, 0); ctx.lineTo(6, 10); ctx.lineTo(-11, 9); ctx.lineTo(-14, 0); ctx.lineTo(-11, -9); ctx.lineTo(6, -10); ctx.closePath();
+    ctx.fill(); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-4, 0); ctx.lineTo(15, 0); ctx.stroke();
+    ctx.strokeStyle = "rgba(255,115,143,.45)";
+    ctx.strokeRect(-18, -18, 36, 36);
+    ctx.restore();
   }
 
   function draw() {
     if (!ctx) return;
     ctx.setTransform(world.scaleX, 0, 0, world.scaleY, 0, 0);
     ctx.clearRect(0, 0, world.width, world.height);
-    ctx.fillStyle = "#031016";
+    ctx.fillStyle = "rgba(2, 12, 16, .72)";
     ctx.fillRect(0, 0, world.width, world.height);
     drawGrid();
 
     ctx.fillStyle = "#ffd36e";
+    ctx.shadowColor = "rgba(255,211,110,.72)";
+    ctx.shadowBlur = 10;
     bullets.forEach((bullet) => {
       ctx.beginPath(); ctx.arc(bullet.x, bullet.y, bullet.radius, 0, Math.PI * 2); ctx.fill();
     });
-
-    enemies.forEach((enemy) => {
-      ctx.save();
-      ctx.translate(enemy.x, enemy.y);
-      ctx.rotate(Math.atan2(player.y - enemy.y, player.x - enemy.x));
-      ctx.strokeStyle = "#ff7373";
-      ctx.fillStyle = "rgba(255, 115, 115, 0.18)";
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.rect(-enemy.radius, -enemy.radius, enemy.radius * 2, enemy.radius * 2);
-      ctx.fill(); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(-6, 0); ctx.lineTo(7, 0); ctx.stroke();
-      ctx.restore();
-    });
+    ctx.shadowBlur = 0;
+    enemies.forEach(drawHostile);
 
     particles.forEach((particle) => {
       ctx.globalAlpha = Math.max(0, particle.life / 0.45);
@@ -530,20 +654,20 @@
     });
     ctx.globalAlpha = 1;
 
-    if (player.invulnerable <= 0 || Math.floor(player.invulnerable * 12) % 2 === 0) {
-      ctx.save();
-      ctx.translate(player.x, player.y);
-      ctx.rotate(player.angle);
-      ctx.fillStyle = "rgba(139, 227, 255, 0.22)";
-      ctx.strokeStyle = "#8be3ff";
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(18, 0); ctx.lineTo(-12, -11); ctx.lineTo(-7, 0); ctx.lineTo(-12, 11); ctx.closePath();
-      ctx.fill(); ctx.stroke();
-      ctx.restore();
-    }
-  }
+    if (player.invulnerable <= 0 || Math.floor(player.invulnerable * 12) % 2 === 0) drawCommandVehicle();
 
+    if (pointerTarget) {
+      ctx.strokeStyle = "rgba(139,227,255,.55)";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(pointerTarget.x, pointerTarget.y, 12, 0, Math.PI * 2); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(pointerTarget.x - 18, pointerTarget.y); ctx.lineTo(pointerTarget.x + 18, pointerTarget.y); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(pointerTarget.x, pointerTarget.y - 18); ctx.lineTo(pointerTarget.x, pointerTarget.y + 18); ctx.stroke();
+    }
+
+    ctx.fillStyle = "rgba(184,233,247,.72)";
+    ctx.font = "12px Consolas, monospace";
+    ctx.fillText("RADAR ONLINE // HOSTILE CONTACTS " + String(enemies.length).padStart(2, "0"), 18, 26);
+  }
   function gameLoop(now) {
     if (state !== STATES.PLAYING) return;
     const dt = Math.min((now - lastFrame) / 1000, 0.05);

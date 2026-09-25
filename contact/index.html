@@ -6,16 +6,18 @@
 <meta name="theme-color" content="#06090b">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#06090b">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06090b">
+<meta name="description" content="Contact KrispyKP for collaborations, tournament enquiries, media requests, and general questions.">
 <title>KrispyKP // Contact</title>
 <link rel="stylesheet" href="/styles/site.css">
   <link rel="stylesheet" href="/styles/radar-game.css">
 <link rel="stylesheet" href="/styles/contact.css">
+<link rel="stylesheet" href="/styles/command-deck.css">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
 </head>
-<body>
+<body class="page-contact">
 <div class="radar-grid" aria-hidden="true"></div>
 <div class="radar-blips" aria-hidden="true"></div>
 <div class="radar-vignette" aria-hidden="true"></div>
@@ -155,8 +157,9 @@
 </section>
 
 <section class="section">
-  <div class="container two-col contact-forms-layout">
-    <section class="frame feature form-shell">
+  <div class="container contact-workspace">
+    <div class="contact-workspace-column">
+<section class="frame feature form-shell">
       <div class="section-title">Contact Form</div>
       <h2 class="section-big">General Enquiries</h2>
       <p class="muted form-intro">
@@ -203,8 +206,17 @@
         </div>
       </form>
     </section>
-
-    <section id="tournament-signup" class="frame feature form-shell">
+<div class="frame feature">
+      <h2 class="section-title">Contact Routes</h2>
+      <ul class="list">
+        <li><span>contact@krispykp.com</span><span class="muted">General enquiries</span></li>
+        <li><span>events@krispykp.com</span><span class="muted">Tournament admin</span></li>
+        <li><span>Website forms</span><span class="muted">Direct site contact</span></li>
+      </ul>
+    </div>
+    </div>
+    <div class="contact-workspace-column">
+<section id="tournament-signup" class="frame feature form-shell">
       <div class="section-title">Tournament Signup</div>
       <h2 class="section-big">Register Interest</h2>
       <p class="muted form-intro">
@@ -268,21 +280,7 @@
         </div>
       </form>
     </section>
-  </div>
-</section>
-
-<section class="section">
-  <div class="container two-col contact-bottom-grid">
-    <div class="frame feature">
-      <h2 class="section-title">Contact Routes</h2>
-      <ul class="list">
-        <li><span>contact@krispykp.com</span><span class="muted">General enquiries</span></li>
-        <li><span>events@krispykp.com</span><span class="muted">Tournament admin</span></li>
-        <li><span>Website forms</span><span class="muted">Direct site contact</span></li>
-      </ul>
-    </div>
-
-    <div class="frame feature">
+<div class="frame feature">
       <h2 class="section-title">Before You Send</h2>
       <p class="muted">
         For tournament registration, make sure your player name, in-game name, timezone,
@@ -291,6 +289,7 @@
       <p class="muted" style="margin-top:12px;">
         For general contact, include enough context in the subject and message so replies can be handled more quickly.
       </p>
+    </div>
     </div>
   </div>
 </section>

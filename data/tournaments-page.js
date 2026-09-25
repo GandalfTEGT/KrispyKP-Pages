@@ -280,8 +280,8 @@
     if (event?.bannerImage) {
       els.heroBackdrop.hidden = false;
       els.heroBackdrop.style.backgroundImage = `
-        linear-gradient(180deg, rgba(5, 9, 12, 0.28), rgba(5, 9, 12, 0.80)),
-        linear-gradient(90deg, rgba(6, 9, 11, 0.92), rgba(6, 9, 11, 0.58)),
+        linear-gradient(180deg, rgba(5, 9, 12, 0.08), rgba(5, 9, 12, 0.52)),
+        linear-gradient(90deg, rgba(6, 9, 11, 0.92) 0%, rgba(6, 9, 11, 0.48) 46%, rgba(6, 9, 11, 0.10) 78%),
         url("${event.bannerImage}")
       `;
     } else {
@@ -531,7 +531,7 @@
     groupEl.className = `tournament-manual-group is-${group.kind} group-key-${groupKeyClass}`;
     groupEl.dataset.groupKind = group.kind;
     groupEl.dataset.groupKey = group.key;
-    groupEl.dataset.mobileDefault = group.kind === "winners" ? "open" : "closed";
+    groupEl.dataset.mobileDefault = "closed";
     groupEl.open = true;
 
     const groupSummary = document.createElement("summary");
