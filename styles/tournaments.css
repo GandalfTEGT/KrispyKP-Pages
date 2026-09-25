@@ -799,7 +799,9 @@
 
 .tournament-player-item {
   display: grid;
-  gap: 8px;
+  grid-template-columns: minmax(150px, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 10px 18px;
   min-width: 0;
   min-height: 100%;
 }
@@ -839,7 +841,9 @@
 .tournament-player-meta {
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-end;
   gap: 6px;
+  min-width: 0;
 }
 
 .tournament-player-meta-pill {
@@ -1298,6 +1302,14 @@
 }
 
 @media (max-width: 640px) {
+  .tournament-player-item {
+    grid-template-columns: 1fr;
+  }
+
+  .tournament-player-meta {
+    justify-content: flex-start;
+  }
+
   .tournament-archive-filters {
     grid-template-columns: 1fr;
   }

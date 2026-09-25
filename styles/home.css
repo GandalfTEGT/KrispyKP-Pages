@@ -14,7 +14,7 @@
 }
 
 .hero-grid {
-  align-items: start;
+  align-items: stretch;
 }
 
 .hero-card {

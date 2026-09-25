@@ -575,6 +575,18 @@ textarea {
   font-size: 14px;
 }
 
+.frame > .section-title + h3 {
+  margin-top: 8px;
+}
+
+.frame > h3 + p {
+  margin-top: 10px;
+}
+
+.frame > .section-title + .list {
+  margin-top: 14px;
+}
+
 /* =========================================================
    6. Shared actions / pills / tags
 ========================================================= */
@@ -589,7 +601,12 @@ textarea {
 }
 
 .cta-row {
+  align-items: stretch;
   margin-top: 28px;
+}
+
+.cta-row > .btn {
+  flex: 1 1 150px;
 }
 
 .meta-row {
@@ -1155,7 +1172,7 @@ button.track-item {
   display: none;
 }
 
-.footer-nav-disclosure:not([open]) > .footer-links {
+.footer-nav-disclosure > .footer-links {
   display: grid;
 }
 
