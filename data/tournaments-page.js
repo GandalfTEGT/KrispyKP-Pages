@@ -57,6 +57,8 @@
   let currentEventId = data.currentEventId || null;
   let bracketResizeRaf = 0;
   let isMobileBracketOpen = false;
+  let wasMobileSectionLayout = null;
+  let wasCompactBracketLayout = null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -177,6 +179,15 @@
 
     const hasBracket = !!els.bracketSection && !els.bracketSection.hidden;
     const useMobileToggle = hasBracket && isCompactBracketLayout();
+    const hasManualBracket = !!els.manualBracketWrap && !els.manualBracketWrap.hidden;
+
+    if (useMobileToggle && hasManualBracket) {
+      isMobileBracketOpen = true;
+      els.bracketToggle.hidden = true;
+      els.bracketBody.hidden = false;
+      els.bracketToggle.setAttribute("aria-expanded", "true");
+      return;
+    }
 
     if (!useMobileToggle) {
       isMobileBracketOpen = true;
@@ -515,11 +526,21 @@
   }
 
   function createManualBracketGroup(group) {
-    const groupEl = document.createElement("section");
+    const groupEl = document.createElement("details");
     const groupKeyClass = sanitizeGroupKey(group.key);
     groupEl.className = `tournament-manual-group is-${group.kind} group-key-${groupKeyClass}`;
     groupEl.dataset.groupKind = group.kind;
     groupEl.dataset.groupKey = group.key;
+    groupEl.dataset.mobileDefault = group.kind === "winners" ? "open" : "closed";
+    groupEl.open = true;
+
+    const groupSummary = document.createElement("summary");
+    groupSummary.className = "tournament-manual-group-summary";
+    groupSummary.innerHTML = `<span>${escapeHtml(text(group.title, "Bracket"))}</span><span aria-hidden="true" class="tournament-disclosure-marker"></span>`;
+    groupSummary.addEventListener("click", () => requestAnimationFrame(scheduleConnectorDraw));
+
+    const groupContent = document.createElement("div");
+    groupContent.className = "tournament-manual-group-content";
 
     const groupHead = document.createElement("div");
     groupHead.className = "tournament-manual-group-head";
@@ -597,7 +618,8 @@
     });
 
     bracketSurface.append(connectorSvg, bracketEl);
-    groupEl.append(groupHead, bracketSurface);
+    groupContent.append(groupHead, bracketSurface);
+    groupEl.append(groupSummary, groupContent);
     return groupEl;
   }
 
@@ -1203,7 +1225,32 @@
 
   function handleResponsiveTournamentResize() {
     updateBracketVisibility(false);
+    syncTournamentDisclosures(false);
     scheduleConnectorDraw();
+  }
+
+  function syncTournamentDisclosures(forceDefaults = false) {
+    const mobileSections = window.matchMedia("(max-width: 700px)").matches;
+    const compactBracket = isCompactBracketLayout();
+
+    document.querySelectorAll(".tournament-section-disclosure").forEach((details) => {
+      if (!mobileSections) {
+        details.open = true;
+      } else if (forceDefaults || wasMobileSectionLayout !== true) {
+        details.open = details.dataset.mobileDefault !== "closed";
+      }
+    });
+
+    document.querySelectorAll(".tournament-manual-group").forEach((details) => {
+      if (!compactBracket) {
+        details.open = true;
+      } else if (forceDefaults || wasCompactBracketLayout !== true) {
+        details.open = details.dataset.mobileDefault !== "closed";
+      }
+    });
+
+    wasMobileSectionLayout = mobileSections;
+    wasCompactBracketLayout = compactBracket;
   }
 
   function renderPage() {
@@ -1215,6 +1262,7 @@
     }
 
     renderEvent(featured);
+    syncTournamentDisclosures(true);
   }
 
   window.addEventListener("resize", handleResponsiveTournamentResize);

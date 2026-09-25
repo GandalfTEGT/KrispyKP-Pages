@@ -1,0 +1,368 @@
+.radar-game-overlay .sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.radar-game-trigger {
+  position: fixed;
+  z-index: 40;
+  left: max(14px, env(safe-area-inset-left));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 44px;
+  padding: 10px 13px;
+  border: 1px solid rgba(79, 210, 255, 0.32);
+  color: var(--cyan-soft);
+  background: rgba(4, 13, 17, 0.9);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.38), inset 0 0 18px rgba(79, 210, 255, 0.04);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.radar-game-trigger:hover,
+.radar-game-trigger:focus-visible {
+  border-color: rgba(125, 255, 136, 0.6);
+  box-shadow: 0 0 18px rgba(79, 210, 255, 0.2);
+}
+
+.radar-game-trigger-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 10px var(--green);
+}
+
+.radar-game-overlay {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(8px, 2vw, 24px);
+  overflow: auto;
+  opacity: 0;
+  visibility: hidden;
+  background:
+    radial-gradient(circle at center, rgba(14, 67, 74, 0.32), transparent 46%),
+    repeating-linear-gradient(0deg, rgba(139, 227, 255, 0.025) 0 1px, transparent 1px 4px),
+    rgba(2, 7, 9, 0.97);
+  transition: opacity 0.34s ease, visibility 0.34s step-end;
+}
+
+body.radar-game-active .radar-game-trigger {
+  pointer-events: none;
+  opacity: 0;
+}
+
+body.radar-game-visible .radar-game-overlay {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.34s ease, visibility 0s;
+}
+
+body.radar-game-active .shell > header,
+body.radar-game-active .shell > main,
+body.radar-game-active .shell > footer {
+  transform-origin: center center;
+  will-change: transform, opacity, filter;
+  transition: transform 0.58s cubic-bezier(0.2, 0.75, 0.2, 1), opacity 0.38s ease, filter 0.45s ease;
+}
+
+body.radar-game-visible .shell > header,
+body.radar-game-visible .shell > main,
+body.radar-game-visible .shell > footer {
+  opacity: 0;
+  filter: blur(7px);
+  transform: perspective(900px) translateZ(280px) scale(1.18);
+}
+
+body.radar-game-visible .shell > main { transition-delay: 0.04s; }
+body.radar-game-visible .shell > footer { transition-delay: 0.08s; }
+
+.radar-game-chassis {
+  width: min(1120px, 100%);
+  min-width: 0;
+  border: 1px solid rgba(79, 210, 255, 0.42);
+  background: rgba(5, 13, 17, 0.98);
+  box-shadow: 0 0 0 8px rgba(79, 210, 255, 0.03), 0 30px 80px rgba(0, 0, 0, 0.68), inset 0 0 55px rgba(79, 210, 255, 0.035);
+}
+
+.radar-game-header,
+.radar-game-hud,
+.radar-game-help {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.radar-game-header {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(79, 210, 255, 0.2);
+}
+
+.radar-game-kicker {
+  margin-bottom: 4px;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.radar-game-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(21px, 4vw, 34px);
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.radar-game-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.radar-game-actions button,
+.radar-game-panel button,
+.radar-game-touch button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 9px 13px;
+  border: 1px solid rgba(79, 210, 255, 0.32);
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(22, 38, 45, 0.98), rgba(9, 18, 22, 0.98));
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.radar-game-actions button:hover,
+.radar-game-actions button:focus-visible,
+.radar-game-panel button:hover,
+.radar-game-panel button:focus-visible,
+.radar-game-touch button:hover,
+.radar-game-touch button:focus-visible {
+  border-color: var(--cyan);
+  box-shadow: 0 0 14px rgba(79, 210, 255, 0.2);
+}
+
+.radar-game-hud {
+  padding: 9px 16px;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(79, 210, 255, 0.12);
+  font-family: Consolas, Menlo, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.radar-game-hud strong {
+  color: var(--cyan-soft);
+}
+
+.radar-game-screen {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #031016;
+  box-shadow: inset 0 0 38px rgba(0, 0, 0, 0.8);
+}
+
+.radar-game-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.radar-game-reticle {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.24;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 0.5px), rgba(139, 227, 255, 0.25) 50%, transparent calc(50% + 0.5px)),
+    linear-gradient(transparent calc(50% - 0.5px), rgba(139, 227, 255, 0.25) 50%, transparent calc(50% + 0.5px));
+}
+
+.radar-game-panel {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 14px;
+  padding: 20px;
+  text-align: center;
+  color: var(--text);
+  background: rgba(2, 8, 11, 0.82);
+  backdrop-filter: blur(4px);
+}
+
+.radar-game-panel strong {
+  color: var(--cyan-soft);
+  font-size: clamp(25px, 5vw, 44px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.radar-game-panel > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.radar-game-help {
+  padding: 10px 16px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.radar-game-help b {
+  color: var(--text);
+  text-transform: uppercase;
+}
+
+.radar-game-touch {
+  display: none;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 16px 16px;
+  border-top: 1px solid rgba(79, 210, 255, 0.12);
+}
+
+.radar-game-dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 48px);
+  grid-template-rows: repeat(2, 48px);
+  gap: 5px;
+}
+
+.radar-game-dpad [data-direction="up"] { grid-column: 2; grid-row: 1; }
+.radar-game-dpad [data-direction="left"] { grid-column: 1; grid-row: 2; }
+.radar-game-dpad [data-direction="down"] { grid-column: 2; grid-row: 2; }
+.radar-game-dpad [data-direction="right"] { grid-column: 3; grid-row: 2; }
+
+.radar-game-touch .radar-game-fire {
+  min-width: 92px;
+  min-height: 64px;
+  color: #071014;
+  border-color: transparent;
+  background: linear-gradient(180deg, var(--cyan-soft), var(--cyan));
+}
+
+@media (hover: none), (pointer: coarse) {
+  .radar-game-touch { display: grid; }
+  .radar-game-help { display: none; }
+}
+
+@media (max-width: 640px) {
+  .radar-game-trigger {
+    left: 10px;
+    bottom: 10px;
+  }
+
+  .radar-game-overlay {
+    align-items: start;
+    padding: 0;
+  }
+
+  .radar-game-chassis {
+    min-height: 100%;
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .radar-game-header {
+    align-items: flex-start;
+    padding: 11px;
+  }
+
+  .radar-game-actions {
+    justify-content: flex-end;
+  }
+
+  .radar-game-actions button {
+    padding: 8px 10px;
+    font-size: 11px;
+  }
+
+  .radar-game-hud {
+    flex-wrap: wrap;
+    padding: 8px 11px;
+    font-size: 10px;
+  }
+
+  .radar-game-screen {
+    aspect-ratio: 4 / 3;
+  }
+
+  .radar-game-touch {
+    display: grid;
+    padding: 12px;
+  }
+
+  .radar-game-help {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .radar-game-header {
+    display: grid;
+  }
+
+  .radar-game-actions {
+    justify-content: stretch;
+  }
+
+  .radar-game-actions button {
+    flex: 1;
+  }
+
+  .radar-game-dpad {
+    grid-template-columns: repeat(3, 44px);
+    grid-template-rows: repeat(2, 44px);
+  }
+
+  .radar-game-touch .radar-game-fire {
+    min-width: 78px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .radar-game-overlay,
+  body.radar-game-active .shell > header,
+  body.radar-game-active .shell > main,
+  body.radar-game-active .shell > footer {
+    transition-duration: 0.01ms !important;
+  }
+
+  body.radar-game-visible .shell > header,
+  body.radar-game-visible .shell > main,
+  body.radar-game-visible .shell > footer {
+    filter: none;
+    transform: none;
+  }
+}
