@@ -762,7 +762,7 @@ window.KRISPY_TOURNAMENTS = {
       "participantSource": "manual",
       "streamUrl": "",
       "rulesUrl": "",
-      "bracketMode": "link",
+      "bracketMode": "manual",
       "bracketTitle": "Final bracket",
       "bracketEmbedUrl": "",
       "schedule": [],
@@ -952,7 +952,7 @@ window.KRISPY_TOURNAMENTS = {
       "participantSource": "manual",
       "streamUrl": "",
       "rulesUrl": "",
-      "bracketMode": "link",
+      "bracketMode": "manual",
       "bracketTitle": "Final bracket",
       "bracketEmbedUrl": "",
       "schedule": [],
@@ -1348,7 +1348,7 @@ window.KRISPY_TOURNAMENTS = {
       "participantSource": "manual",
       "streamUrl": "",
       "rulesUrl": "",
-      "bracketMode": "link",
+      "bracketMode": "manual",
       "bracketTitle": "Final bracket",
       "bracketEmbedUrl": "",
       "schedule": [],
@@ -1588,8 +1588,8 @@ window.KRISPY_TOURNAMENTS = {
       "participantSource": "manual",
       "streamUrl": "",
       "rulesUrl": "",
-      "bracketMode": "link",
-      "bracketTitle": "Final bracket",
+      "bracketMode": "manual",
+      "bracketTitle": "Round Robin Results",
       "bracketEmbedUrl": "",
       "schedule": [],
       "id": "td-oceania-championship-2023",
@@ -1701,7 +1701,234 @@ window.KRISPY_TOURNAMENTS = {
           "note": "10 pts, 0-5"
         }
       ],
-      "manualBracketGroups": [],
+      "manualBracketGroups": [
+  {
+    "key": "main",
+    "title": "Round Robin",
+    "rounds": [
+      {
+        "title": "Round 1",
+        "matches": [
+          {
+            "id": "rr1",
+            "title": "Match 1",
+            "player1": "NOBLESUB",
+            "player2": "peasy",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "0",
+            "score2": "4",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr2",
+            "title": "Match 2",
+            "player1": "war machine",
+            "player2": "gazeelorps",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "gazeelorps",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr3",
+            "title": "Match 3",
+            "player1": "johnnyknows",
+            "player2": "BROTHERHOOD OF LAG",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "0",
+            "winner": "johnnyknows",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      },
+      {
+        "title": "Round 2",
+        "matches": [
+          {
+            "id": "rr4",
+            "title": "Match 4",
+            "player1": "gazeelorps",
+            "player2": "johnnyknows",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "johnnyknows",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr5",
+            "title": "Match 5",
+            "player1": "BROTHERHOOD OF LAG",
+            "player2": "NOBLESUB",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "NOBLESUB",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr6",
+            "title": "Match 6",
+            "player1": "peasy",
+            "player2": "war machine",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "2",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      },
+      {
+        "title": "Round 3",
+        "matches": [
+          {
+            "id": "rr7",
+            "title": "Match 7",
+            "player1": "BROTHERHOOD OF LAG",
+            "player2": "gazeelorps",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "3",
+            "winner": "BROTHERHOOD OF LAG",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr8",
+            "title": "Match 8",
+            "player1": "johnnyknows",
+            "player2": "peasy",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "0",
+            "score2": "4",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr9",
+            "title": "Match 9",
+            "player1": "NOBLESUB",
+            "player2": "war machine",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "2",
+            "winner": "NOBLESUB",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      },
+      {
+        "title": "Round 4",
+        "matches": [
+          {
+            "id": "rr10",
+            "title": "Match 10",
+            "player1": "war machine",
+            "player2": "johnnyknows",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "johnnyknows",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr11",
+            "title": "Match 11",
+            "player1": "peasy",
+            "player2": "BROTHERHOOD OF LAG",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "0",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr12",
+            "title": "Match 12",
+            "player1": "gazeelorps",
+            "player2": "NOBLESUB",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "3",
+            "score2": "4",
+            "winner": "NOBLESUB",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      },
+      {
+        "title": "Round 5",
+        "matches": [
+          {
+            "id": "rr13",
+            "title": "Match 13",
+            "player1": "BROTHERHOOD OF LAG",
+            "player2": "war machine",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "2",
+            "winner": "BROTHERHOOD OF LAG",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr14",
+            "title": "Match 14",
+            "player1": "NOBLESUB",
+            "player2": "johnnyknows",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "johnnyknows",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr15",
+            "title": "Match 15",
+            "player1": "gazeelorps",
+            "player2": "peasy",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "0",
+            "score2": "4",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      }
+    ]
+  }
+],
       "stageSummaries": [
         {
           "title": "Final round-robin table",

@@ -1274,3 +1274,236 @@ details[data-disclosure-animating="true"] { contain: layout; }
   z-index: 0;
 }
 .page-tournaments .tournament-hero-inner { position: relative; z-index: 1; }
+
+/* =========================================================
+   KKP-016 second-owner-retest completion
+   Shared resilience and composition corrections.
+========================================================= */
+
+/* Music established the preferred compact heading scale. */
+:where(.page-music, .page-videos, .page-about, .page-contact) .page-hero .panel {
+  min-height: 210px;
+  padding-block: clamp(28px, 3vw, 42px);
+}
+
+:where(.page-music, .page-videos, .page-about, .page-contact) .page-hero .h1 {
+  font-size: clamp(42px, 4.6vw, 68px);
+}
+
+/* Wrapped actions remain centred and readable as labels change. */
+.btn,
+.nav-toggle,
+.videos-tab,
+.videos-subtab,
+.videos-more-toggle,
+.videos-more-item {
+  text-align: center;
+  line-height: 1.25;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Footer platforms use the available brand-column width. */
+.footer-platforms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+}
+
+.footer-platforms .btn {
+  width: 100%;
+}
+
+/* Give the live player more presence without tying it to hero-copy height. */
+@media (min-width: 1201px) {
+  .page-home .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(460px, 0.8fr);
+  }
+
+  .page-home .hero-card .embed-box {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* Event artwork stays visible while foreground copy receives a stable scrim. */
+.page-tournaments .tournament-hero-inner {
+  background: linear-gradient(90deg, rgba(2, 6, 10, 0.97) 0%, rgba(2, 6, 10, 0.78) 44%, rgba(2, 6, 10, 0.18) 76%, rgba(2, 6, 10, 0.08) 100%);
+}
+
+.page-tournaments .tournament-hero-inner :where(h1, p, .section-title, .status-pill, .btn) {
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.92);
+}
+
+@media (max-width: 700px) {
+  /* The compact identity keeps the logo and Menu control on the same row. */
+  .brand-sub {
+    display: none;
+  }
+
+  .nav {
+    align-items: center;
+  }
+
+  .brand {
+    flex: 0 1 auto;
+  }
+
+  .nav-toggle {
+    flex: 0 0 auto;
+  }
+
+  /* The four hero route tags form a predictable 2 × 2 control grid. */
+  .page-home .hero .meta-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .page-home .hero .status-pill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .page-tournaments .tournament-hero-inner {
+    background: linear-gradient(180deg, rgba(2, 6, 10, 0.72) 0%, rgba(2, 6, 10, 0.78) 42%, rgba(2, 6, 10, 0.97) 82%);
+  }
+}
+
+@media (max-width: 360px) {
+  .nav {
+    gap: 8px;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand-logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand-mark {
+    font-size: clamp(18px, 6.4vw, 22px);
+    letter-spacing: 0.04em;
+  }
+
+  .nav-toggle {
+    gap: 8px;
+    padding-inline: 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 300px) {
+  .footer-platforms {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Videos: replace the inherited experiment-like side rail with one archive deck. */
+@media (min-width: 901px) {
+  .page-videos .videos-feature-shell {
+    width: 100%;
+    max-width: none;
+  }
+
+  .page-videos .videos-feature-state:not([hidden]) {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+    grid-template-areas:
+      "heading player"
+      "direct player"
+      "note player";
+    column-gap: clamp(20px, 3vw, 42px);
+    align-items: start;
+  }
+
+  .page-videos .videos-feature-state .videos-block-head {
+    grid-area: heading;
+    margin-bottom: 0;
+  }
+
+  .page-videos .videos-feature-state :is(.videos-feature-player-wrap, .videos-main-player-wrap) {
+    grid-area: player;
+  }
+
+  .page-videos .videos-feature-state .videos-direct-link {
+    grid-area: direct;
+    align-self: end;
+  }
+
+  .page-videos .videos-feature-state .videos-block-note {
+    grid-area: note;
+  }
+
+  .page-videos .videos-browser-section > .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "filters"
+      "toolbar"
+      "library";
+    gap: 14px;
+  }
+
+  .page-videos .videos-category-controls {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 0;
+    padding: 16px;
+  }
+
+  .page-videos .videos-tabs-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .page-videos .videos-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+
+  .page-videos .videos-tabs button,
+  .page-videos .videos-more-toggle {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .page-videos .videos-subtabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+    gap: 8px;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .page-videos .videos-subtabs button {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .page-videos .videos-toolbar,
+  .page-videos .videos-library-shell {
+    margin-top: 0;
+  }
+
+  .page-videos .videos-library-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  }
+}
+
+/* Contact stays in required source order and no longer inherits coupled rows. */
+.page-contact .contact-workspace {
+  grid-template-columns: minmax(0, 1fr);
+  width: min(1100px, 100%);
+}

@@ -105,8 +105,10 @@
   }
 
   function setupDisclosureAnimation(details) {
+    if (details.dataset.disclosureAnimationReady === "true") return;
     const summary = details.querySelector(":scope > summary");
     if (!summary) return;
+    details.dataset.disclosureAnimationReady = "true";
     let animation = null;
 
     function finish(open) {
