@@ -95,6 +95,7 @@
 ## Commits
 
 - Implementation and validated handoff: `816ce999d77c26ee73bb42d7e3681fb20f3e2533` (`Implement Radar RTS expansion`).
+- Owner Remediation 1 implementation and validation: `8edcd018ea5786a6d998a6f7bf2be5fac204fad2` (`Refine Radar RTS controls and feedback`).
 
 ## Remote verification
 
