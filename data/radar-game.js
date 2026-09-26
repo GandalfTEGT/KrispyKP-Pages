@@ -21,6 +21,11 @@
     engine: null,
     renderer: null,
     modules: null,
+    audio: null,
+    muted: false,
+    preferenceLoaded: false,
+    matchOptions: { mapId: "crystalReach", difficulty: "normal" },
+    lastLowPower: false,
     raf: 0,
     lastFrame: 0,
     lastHud: 0,
@@ -81,12 +86,14 @@
 
   async function loadModules() {
     if (!session.modules) {
-      const [engine, renderer, definitions] = await Promise.all([
+      const [engine, renderer, definitions, audio, icons] = await Promise.all([
         import(moduleUrl("radar-rts-engine.js")),
         import(moduleUrl("radar-rts-renderer.js")),
-        import(moduleUrl("radar-rts-definitions.js"))
+        import(moduleUrl("radar-rts-definitions.js")),
+        import(moduleUrl("radar-rts-audio.js")),
+        import(moduleUrl("radar-rts-icons.js"))
       ]);
-      session.modules = { ...engine, ...renderer, ...definitions };
+      session.modules = { ...engine, ...renderer, ...definitions, ...audio, ...icons };
     }
     return session.modules;
   }
@@ -104,13 +111,14 @@
       <div class="radar-rts-shell">
         <header class="radar-rts-header">
           <div><span class="radar-rts-kicker">Tactical uplink // live simulation</span><h2 id="radarGameTitle">RADAR COMMAND</h2></div>
-          <div class="radar-rts-actions"><button data-action="pause">Pause</button><button data-action="restart">Restart</button><button data-action="exit" class="danger">Exit</button></div>
+          <div class="radar-rts-actions"><button data-action="sfx" aria-pressed="false">SFX on</button><button data-action="pause">Pause</button><button data-action="restart">Restart</button><button data-action="exit" class="danger">Exit</button></div>
         </header>
         <div class="radar-rts-hud" aria-label="Strategic status">
           <div class="primary"><span>Credits</span><strong data-hud="credits">—</strong><small>Available funds</small></div>
           <div class="primary" data-power-cell><span>Power</span><strong data-hud="power">—</strong><small data-hud="power-state">Grid offline</small></div>
           <div><span>Construction</span><strong data-hud="construction">Idle</strong><progress data-progress="construction" max="100" value="0"></progress><small data-hud="construction-detail">No active build</small></div>
-          <div><span>Production</span><strong data-hud="production">Idle</strong><progress data-progress="production" max="100" value="0"></progress><small data-hud="production-detail">No unit queued</small></div>
+          <div><span>Infantry</span><strong data-hud="infantry">Idle</strong><progress aria-label="Infantry production" data-progress="infantry" max="100" value="0"></progress><small data-hud="infantry-detail">No unit queued</small></div>
+          <div><span>Vehicles</span><strong data-hud="vehicles">Idle</strong><progress aria-label="Vehicle production" data-progress="vehicles" max="100" value="0"></progress><small data-hud="vehicles-detail">No unit queued</small></div>
           <div><span>Ion Storm</span><strong data-hud="storm">Locked</strong><progress data-progress="storm" max="100" value="0"></progress><small data-hud="storm-detail">Requires Storm Uplink</small></div>
         </div>
         <main class="radar-rts-main">
@@ -124,12 +132,12 @@
             <div class="radar-rts-map-wrap"><canvas class="radar-rts-minimap" aria-label="Battlefield minimap"></canvas><span>MINIMAP // TAP TO NAVIGATE</span></div>
             <div class="radar-rts-selection" data-selection>No units selected</div>
             <div class="radar-rts-tabs" role="tablist" aria-label="Production categories"><button role="tab" aria-selected="true" data-tab="structures">Build</button><button role="tab" aria-selected="false" data-tab="infantry">Infantry</button><button role="tab" aria-selected="false" data-tab="vehicles">Vehicles</button><button role="tab" aria-selected="false" data-tab="special">Special</button></div>
-            <div class="radar-rts-options" data-options></div>
+            <div class="radar-rts-queues" data-queues></div><div class="radar-rts-options" data-options></div>
             <div class="radar-rts-mobile-tools"><button data-action="clear-selection">Clear selection</button><button data-action="center-base">Center base</button></div>
             <div class="radar-rts-orders"><strong>Orders</strong><span>Mouse: drag select, right-click order, wheel zoom. Touch: tap select/order, drag pan, pinch zoom; tap more friendly units to add them.</span></div>
           </aside>
           <section class="radar-rts-start" data-panel="start" aria-labelledby="radarStartTitle">
-            <div class="radar-rts-start-card"><span class="radar-rts-kicker">KrispyKP tactical prototype</span><h3 id="radarStartTitle">RADAR COMMAND</h3><p class="version">Version 1.1.0</p><p>Establish power, harvest crystal, build a strike force and destroy the hostile Command Hub.</p><div class="radar-rts-start-actions"><button data-action="start" class="start">Start game</button><button data-action="help" aria-expanded="false">Controls</button><button data-action="exit" class="danger">Exit Radar</button></div><div class="radar-rts-start-help" data-start-help hidden><p><b>Desktop:</b> click or drag to select, right-click to order, wheel/WASD to navigate.</p><p><b>Touch:</b> tap units and targets, drag the world to pan, pinch to zoom. Friendly taps build a selection.</p></div></div>
+            <div class="radar-rts-start-card"><span class="radar-rts-kicker">KrispyKP tactical prototype</span><h3 id="radarStartTitle">RADAR COMMAND</h3><p class="version">Version 1.2.0</p><p>Establish power, harvest crystal, build a strike force and destroy the hostile Command Hub.</p><div class="radar-rts-setup"><label>Difficulty<select data-difficulty aria-describedby="radarDifficultyInfo"></select><small id="radarDifficultyInfo"></small></label><label>Battlefield<select data-map aria-describedby="radarMapInfo"></select><small id="radarMapInfo"></small></label></div><div class="radar-rts-start-actions"><button data-action="start" class="start">Start game</button><button data-action="help" aria-expanded="false">Controls</button><button data-action="exit" class="danger">Exit Radar</button></div><div class="radar-rts-start-help" data-start-help hidden><p><b>Desktop:</b> click or drag to select, right-click to order, wheel/WASD to navigate. A move order disengages from combat.</p><p><b>Touch:</b> tap units and targets, drag to pan, pinch to zoom. Friendly taps build a selection.</p></div></div>
           </section>
         </main>
         <footer class="radar-rts-footer"><span data-status>Awaiting mission start.</span><span>ESC exits safely</span></footer>
@@ -151,7 +159,11 @@
     try {
       await loadModules();
       if (session.state !== STATES.LOADING) return;
+      if (!session.preferenceLoaded) { session.muted = session.modules.readSfxMuted(); session.preferenceLoaded = true; }
+      configureMenu();
       bindInterface();
+      // Flush the hidden start frame so cached modules still get an intentional entry transition.
+      void session.overlay.offsetWidth;
       document.body.classList.add("radar-game-visible");
       document.body.style.overflow = "hidden";
       setState(STATES.MENU);
@@ -166,6 +178,20 @@
   function bindInterface() {
     session.overlay.querySelectorAll("[data-action]").forEach(button => listen(button, "click", () => handleAction(button.dataset.action)));
     session.overlay.querySelectorAll("[data-tab]").forEach(button => listen(button, "click", () => setTab(button.dataset.tab)));
+    listen(session.overlay.querySelector("[data-options]"), "click", event => {
+      const button = event.target.closest("button");
+      if (!button || button.disabled || session.state !== STATES.PLAYING) return;
+      if (button.hasAttribute("data-cancel")) session.engine.cancelConstruction();
+      else if (button.dataset.id) build(button.dataset.kind, button.dataset.id);
+      refreshOptions();
+    });
+    listen(session.overlay.querySelector("[data-queues]"), "click", event => {
+      const button = event.target.closest("button");
+      if (!button || session.state !== STATES.PLAYING) return;
+      if (button.dataset.queueAction === "pause") session.engine.toggleProduction(button.dataset.producer);
+      else session.engine.cancelUnit(button.dataset.producer);
+      updateHud(session.engine.snapshot());
+    });
     const canvas = session.overlay.querySelector(".radar-game-screen");
     listen(canvas, "contextmenu", event => { event.preventDefault(); issueOrderAt(event); });
     listen(canvas, "pointerdown", pointerDown);
@@ -188,14 +214,52 @@
     setTab("structures");
   }
 
+  function configureMenu() {
+    const { MAPS, DIFFICULTIES, radarIcon } = session.modules;
+    const difficulty = session.overlay.querySelector("[data-difficulty]"), map = session.overlay.querySelector("[data-map]");
+    difficulty.innerHTML = Object.values(DIFFICULTIES).map(item => `<option value="${item.id}">${item.name}</option>`).join("");
+    map.innerHTML = Object.values(MAPS).map(item => `<option value="${item.id}">${item.name}</option>`).join("");
+    difficulty.value = session.matchOptions.difficulty; map.value = session.matchOptions.mapId;
+    const update = () => {
+      session.matchOptions = { difficulty: difficulty.value, mapId: map.value };
+      session.overlay.querySelector("#radarDifficultyInfo").textContent = DIFFICULTIES[difficulty.value].description;
+      session.overlay.querySelector("#radarMapInfo").textContent = MAPS[map.value].description;
+    };
+    listen(difficulty, "change", update); listen(map, "change", update); update();
+    session.overlay.querySelectorAll("[data-tab]").forEach(button => { button.innerHTML = radarIcon(button.dataset.tab) + `<span>${button.textContent}</span>`; });
+    session.overlay.querySelectorAll("progress").forEach(el => { if (!el.hasAttribute("aria-label")) el.setAttribute("aria-label", el.dataset.progress + " progress"); });
+    updateSfxButton();
+  }
+
+  function updateSfxButton() {
+    const button = session.overlay?.querySelector('[data-action="sfx"]');
+    if (button) { button.textContent = session.muted ? "SFX off" : "SFX on"; button.setAttribute("aria-pressed", String(session.muted)); button.setAttribute("aria-label", session.muted ? "Unmute sound effects" : "Mute sound effects"); }
+  }
+
+  function resetCamera() {
+    const map = session.engine.map;
+    session.renderer.world = session.engine.world;
+    session.renderer.setZoomAt(session.profile.startsWith("mobile") ? map.mobileZoom : map.desktopZoom);
+    session.renderer.centerOn(map.playerStart.x + 180, map.playerStart.y);
+  }
+
+  function resetInput() {
+    session.pointers.clear(); session.pinch = null; session.keys.clear();
+    session.pointerStart = null; session.pointerId = null; session.pointerMoved = false;
+    session.dragBox = null; session.pointerWorld = null; session.placement = null; session.targeting = false;
+  }
+
   function startGame() {
     if (session.state !== STATES.MENU) return;
-    session.engine = new session.modules.RadarRTSSimulation();
+    session.engine = new session.modules.RadarRTSSimulation(session.matchOptions);
     session.renderer = new session.modules.RadarRTSRenderer(
       session.overlay.querySelector(".radar-game-screen"),
-      session.overlay.querySelector(".radar-rts-minimap")
+      session.overlay.querySelector(".radar-rts-minimap"), session.engine.world
     );
-    session.renderer.centerOn(430, 800);
+    resetCamera(); resetInput();
+    session.audio = new session.modules.RadarRTSAudio({ muted: session.muted });
+    session.audio.start(); session.audio.play("start");
+    session.lastLowPower = false;
     session.lastEventId = null;
     session.targeting = false;
     session.overlay.querySelector('[data-panel="start"]').hidden = true;
@@ -378,11 +442,13 @@
     }
     const snapshot = session.engine.snapshot();
     session.renderer.render(snapshot, {
+      reducedMotion: reducedMotion.matches,
       pointerWorld: session.pointerWorld,
       placement: session.placement,
       dragBox: session.dragBox,
       superTarget: session.targeting ? session.pointerWorld : null
     });
+    session.audio?.consume(snapshot.soundEvents);
     if (now - session.lastHud > 120) {
       updateHud(snapshot);
       session.lastHud = now;
@@ -402,6 +468,8 @@
     session.overlay.querySelector('[data-hud="power"]').textContent = `${power.generated} / ${power.used}`;
     const powerCell = session.overlay.querySelector("[data-power-cell]");
     powerCell.dataset.lowPower = String(power.low);
+    if (power.low && !session.lastLowPower) session.audio?.play("low");
+    session.lastLowPower = power.low;
     session.overlay.querySelector('[data-hud="power-state"]').textContent = power.low ? "LOW POWER — systems slowed" : `${Math.max(0, power.available)} reserve`;
 
     const construction = snapshot.construction.player;
@@ -423,19 +491,14 @@
       setProgress("construction", 0);
     }
 
-    const producers = snapshot.structures.filter(item => item.side === "player" && item.queue.length);
-    const producer = producers[0];
-    const job = producer?.queue[0];
-    if (job) {
-      const percent = job.progress / job.duration * 100;
-      const queued = producers.reduce((sum, item) => sum + item.queue.length, 0);
-      session.overlay.querySelector('[data-hud="production"]').textContent = session.modules.UNITS[job.type].name;
-      session.overlay.querySelector('[data-hud="production-detail"]').textContent = `${Math.floor(percent)}% · ${queued} queued${power.low ? " · slowed" : ""}`;
-      setProgress("production", percent);
-    } else {
-      session.overlay.querySelector('[data-hud="production"]').textContent = "Idle";
-      session.overlay.querySelector('[data-hud="production-detail"]').textContent = "No unit queued";
-      setProgress("production", 0);
+    for (const [category, type] of [["infantry", "barracks"], ["vehicles", "warFactory"]]) {
+      const producers = snapshot.structures.filter(item => item.side === "player" && item.type === type);
+      const producer = producers.find(item => item.queue.length), job = producer?.queue[0];
+      const percent = job ? job.progress / job.duration * 100 : 0;
+      session.overlay.querySelector(`[data-hud="${category}"]`).textContent = job ? session.modules.UNITS[job.type].short : "Idle";
+      session.overlay.querySelector(`[data-hud="${category}-detail"]`).textContent = job ? `${Math.floor(percent)}% · ${producers.reduce((sum, item) => sum + item.queue.length, 0)} queued${producer.productionPaused ? " · paused" : power.low ? " · slowed" : ""}` : `Requires ${session.modules.STRUCTURES[type].short}`;
+      if (!job && producers.length) session.overlay.querySelector(`[data-hud="${category}-detail"]`).textContent = "Queue available";
+      setProgress(category, percent);
     }
 
     const storm = snapshot.superweapons.player;
@@ -480,23 +543,57 @@
     const container = session.overlay.querySelector("[data-options]");
     const tab = session.overlay.dataset.tab || "structures";
     const snapshot = session.engine.snapshot();
-    const signature = `${tab}|${snapshot.credits.player}|${snapshot.power.player.low}|${snapshot.construction.player?.progress.toFixed(1)}|${snapshot.pendingPlacement.player?.type}|${snapshot.superweapons.player.charge.toFixed(2)}|${snapshot.structures.map(item => `${item.type}:${item.queue.map(job => `${job.type}:${job.progress.toFixed(1)}`).join("-")}`).join(",")}`;
-    if (!force && container.dataset.signature === signature) return;
-    container.dataset.signature = signature;
-    container.innerHTML = optionDefinitions(tab).map(item => {
+    // Create controls only when the category changes. Progress must never detach a hovered/pressed node.
+    if (container.dataset.tab !== tab) {
+      container.dataset.tab = tab;
+      container.innerHTML = optionDefinitions(tab).map(item => `<button class="radar-rts-option" data-kind="${item.kind}" data-id="${item.id}" title="${item.name}: ${item.role}"><i class="radar-production-icon">${session.modules.radarIcon(item.id)}<i class="radar-sweep"></i></i><b>${item.name}</b><span>${item.cost ? `${item.cost} cr · ` : ""}${item.role}</span><em></em></button>`).join("") + (tab === "structures" ? '<button class="radar-rts-option cancel" data-cancel><b>Cancel build</b><span>75% refund</span></button>' : "");
+    }
+    optionDefinitions(tab).forEach(item => {
       const check = item.kind === "special"
-        ? { available: snapshot.superweapons.player.ready, reason: snapshot.superweapons.player.ready ? "Ready to target" : `Charging ${Math.floor(snapshot.superweapons.player.charge * 100)}%` }
+        ? { available: snapshot.superweapons.player.ready && !snapshot.power.player.low, reason: snapshot.superweapons.player.ready ? "Ready to target" : snapshot.structures.some(s => s.type === "uplink" && s.side === "player") ? `Charging ${Math.floor(snapshot.superweapons.player.charge * 100)}%` : "Requires Storm Uplink" }
         : session.engine.availability(item.kind, item.id);
-      return `<button class="radar-rts-option" data-kind="${item.kind}" data-id="${item.id}" ${check.available ? "" : "disabled"}><b>${item.name}</b><span>${item.cost ? `${item.cost} cr · ` : ""}${item.role}</span><em>${check.reason}</em></button>`;
-    }).join("") + (snapshot.construction.player || snapshot.pendingPlacement.player
-      ? '<button class="radar-rts-option cancel" data-cancel><b>Cancel construction</b><span>75% refund</span></button>'
-      : "");
-    container.querySelectorAll("[data-id]").forEach(button => { button.onclick = () => build(button.dataset.kind, button.dataset.id); });
-    container.querySelector("[data-cancel]")?.addEventListener("click", () => { session.engine.cancelConstruction(); refreshOptions(true); });
+      const producer = snapshot.structures.find(s => s.side === "player" && s.queue[0]?.type === item.id);
+      const job = item.kind === "structure" ? (snapshot.construction.player?.type === item.id ? snapshot.construction.player : null) : producer?.queue[0];
+      const ready = snapshot.pendingPlacement.player?.type === item.id || (item.kind === "special" && snapshot.superweapons.player.ready);
+      const progress = ready ? 1 : item.kind === "special" ? snapshot.superweapons.player.charge : job ? job.progress / job.duration : 0;
+      const button = container.querySelector(`[data-id="${item.id}"]`);
+      button.disabled = session.state !== STATES.PLAYING || (!check.available && !ready);
+      button.dataset.ready = String(ready);
+      button.dataset.progress = String(Math.round(progress * 100));
+      button.style.setProperty("--radar-progress", `${progress * 360}deg`);
+      button.classList.toggle("is-producing", Boolean(job) || (item.kind === "special" && progress > 0));
+      const status = ready ? "READY — select target" : job ? `${Math.floor(progress * 100)}%${producer?.productionPaused ? " · paused" : snapshot.power.player.low ? " · slowed" : ""}` : check.reason;
+      button.querySelector("em").textContent = ready && item.kind === "structure" ? "READY — place on battlefield" : status;
+      button.setAttribute("aria-label", `${item.name}. ${item.cost || 0} credits. ${button.querySelector("em").textContent}`);
+    });
+    const cancel = container.querySelector("[data-cancel]");
+    if (cancel) { cancel.hidden = !(snapshot.construction.player || snapshot.pendingPlacement.player); cancel.disabled = session.state !== STATES.PLAYING; }
+    refreshQueues(snapshot, tab);
+  }
+
+  function refreshQueues(snapshot, tab) {
+    const container = session.overlay.querySelector("[data-queues]");
+    const type = tab === "infantry" ? "barracks" : tab === "vehicles" ? "warFactory" : null;
+    const producers = snapshot.structures.filter(s => s.side === "player" && s.type === type);
+    for (const node of container.querySelectorAll("[data-queue-row]")) if (!producers.some(p => p.id === node.dataset.queueRow)) node.remove();
+    for (const producer of producers) {
+      let row = container.querySelector(`[data-queue-row="${producer.id}"]`);
+      if (!row) {
+        row = document.createElement("div"); row.dataset.queueRow = producer.id;
+        row.innerHTML = `<span></span><button data-producer="${producer.id}" data-queue-action="pause">Pause queue</button><button data-producer="${producer.id}" data-queue-action="cancel" title="Cancel current unit; 75% refund">Cancel unit</button>`;
+        container.append(row);
+      }
+      row.querySelector("span").textContent = producer.queue.length ? producer.queue.map(j => session.modules.UNITS[j.type].short).join(" → ") : `${session.modules.STRUCTURES[type].short} queue empty`;
+      row.querySelector('[data-queue-action="pause"]').textContent = producer.productionPaused ? "Resume queue" : "Pause queue";
+      row.querySelector('[data-queue-action="pause"]').setAttribute("aria-pressed", String(producer.productionPaused));
+      row.querySelectorAll("button").forEach(button => { button.disabled = !producer.queue.length || session.state !== STATES.PLAYING; });
+    }
+    container.hidden = producers.length === 0;
   }
 
   function build(kind, id) {
     let result;
+    if (session.engine.pendingPlacement.player?.type === id) { announce("Place the ready structure on the battlefield."); return; }
     if (kind === "structure") result = session.engine.startStructureBuild(id);
     else if (kind === "unit") result = session.engine.queueUnit(id);
     else {
@@ -516,6 +613,10 @@
   function handleAction(action) {
     if (action === "exit") exitGame();
     else if (action === "start") startGame();
+    else if (action === "sfx") {
+      session.muted = !session.muted; session.modules.saveSfxMuted(session.muted);
+      session.audio?.setMuted(session.muted); updateSfxButton();
+    }
     else if (action === "help") {
       const help = session.overlay.querySelector("[data-start-help]");
       help.hidden = !help.hidden;
@@ -542,16 +643,19 @@
   function pause() {
     if (session.state !== STATES.PLAYING) return;
     setState(STATES.PAUSED);
+    resetInput(); session.audio?.pause();
     announce("Mission paused.");
   }
   function resume() {
     if (session.state !== STATES.PAUSED) return;
     session.lastFrame = performance.now();
     setState(STATES.PLAYING);
+    session.audio?.start();
     announce("Mission resumed.");
   }
   function endMission(outcome) {
     setState(STATES.ENDED);
+    session.audio?.play(outcome);
     const panel = session.overlay.querySelector('[data-panel="outcome"]');
     panel.hidden = false;
     panel.querySelector("[data-outcome-title]").textContent = outcome === "victory" ? "VICTORY" : "DEFEAT";
@@ -561,8 +665,11 @@
   function restart() {
     if (!session.engine || [STATES.MENU, STATES.LOADING].includes(session.state)) return;
     session.engine.destroy();
-    session.engine = new session.modules.RadarRTSSimulation();
-    session.renderer.centerOn(430, 800);
+    session.engine = new session.modules.RadarRTSSimulation(session.matchOptions);
+    resetInput(); resetCamera();
+    session.audio?.destroy();
+    session.audio = new session.modules.RadarRTSAudio({ muted: session.muted });
+    session.audio.start(); session.audio.play("start"); session.lastLowPower = false;
     session.overlay.querySelector('[data-panel="outcome"]').hidden = true;
     session.targeting = false;
     session.lastEventId = null;
@@ -593,10 +700,10 @@
     session.raf = 0;
     session.listeners.splice(0).forEach(remove => remove());
     session.engine?.destroy();
+    session.audio?.destroy(); session.audio = null;
     session.engine = null;
     session.renderer = null;
-    session.pointers.clear();
-    session.pinch = null;
+    resetInput();
     document.body.classList.remove("radar-game-visible");
     await new Promise(resolve => setTimeout(resolve, reducedMotion.matches ? 0 : 180));
     session.overlay?.remove();
@@ -611,7 +718,7 @@
   }
 
   window.KRISPY_RADAR_GAME = {
-    version: "1.1.0",
+    version: "1.2.0",
     activate,
     start: startGame,
     exit: exitGame,
@@ -623,6 +730,7 @@
       lifecycle: session.state,
       profile: session.profile,
       animationActive: Boolean(session.raf),
+      audio: session.audio?.snapshot() || { muted: session.muted, contextState: "none", voices: 0 },
       camera: session.renderer ? { ...session.renderer.camera } : null,
       simulation: session.engine?.snapshot() || null
     }),

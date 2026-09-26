@@ -50,6 +50,8 @@ Automation must not claim to prove:
 - search ranking or social-crawler behavior not directly observed;
 - live Twitch, YouTube, Challonge or Formspree delivery.
 
+Radar 1.2 adds focused coverage in `tools/validate-radar-browser.mjs`: stable build-button identity and held-click charging at 1899/1900/1920/2560, pre-start map/difficulty selection, entry/reduced-motion behavior, radial progress, simultaneous infantry/vehicle HUD and queue pause/cancel, audio dormancy/mute persistence/storage denial/cleanup. The deterministic suite additionally tests player-order priority under fire, paid AI rebuilding, both maps and terrain routes, new unit roles, voice caps and six-minute bounded runs of every map/difficulty combination. Simulated audio-device checks and headless audio-context checks do not establish subjective sound quality on speakers or mobile devices.
+
 Mark these `MANUAL` or `UNKNOWN`. Shared shell/CSS/header/footer/navigation changes require a full six-page manual/visual inspection after automated acceptance. Page-only changes require targeted visual inspection of the affected page and shared surfaces actually touched. Data-only changes require config/static/browser smoke plus affected-content inspection where presentation can vary.
 
 ## Adding tests

@@ -3,6 +3,7 @@ import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { chromium } from "playwright-core";
+import { validateRadarRemediation } from "./validate-radar-browser.mjs";
 import {
   ALL_PAGES,
   PAGE_ROUTES,
@@ -331,7 +332,7 @@ async function runRadarTest(browser, baseUrl) {
     const menuSnapshot = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot());
     assert(menuSnapshot.simulation === null && menuSnapshot.animationActive === false, "Radar menu started simulation or a gameplay animation loop");
     assert(await page.locator('[data-action="start"]').isVisible(), "Radar start control missing");
-    assert((await page.locator("[data-panel='start']").textContent()).includes("1.1.0"), "Radar menu lost the 1.1.0 version");
+    assert((await page.locator("[data-panel='start']").textContent()).includes("1.2.0"), "Radar menu lost the 1.2.0 version");
     await page.locator('[data-action="help"]').click();
     assert(await page.locator("[data-start-help]").isVisible(), "Radar menu help did not open");
     await page.locator('[data-action="exit"]').first().click();
@@ -379,6 +380,8 @@ async function runRadarTest(browser, baseUrl) {
     assert(await page.locator(".radar-game-overlay").getAttribute("data-profile") === "mobile-portrait", "portrait profile was not applied");
     assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 250), "portrait Radar battlefield is too short");
     assert(await page.locator(".radar-rts-mobile-tools").isVisible(), "touch helpers are not visible in portrait");
+    await page.locator('[data-action="restart"]').first().click();
+    assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot().camera.zoom === .65), "portrait new match did not start zoomed out");
     const touchResult = await page.evaluate(() => {
       const canvas = document.querySelector(".radar-game-screen");
       const box = canvas.getBoundingClientRect();
@@ -440,6 +443,8 @@ async function runRadarTest(browser, baseUrl) {
     assert(await page.locator(".radar-game-overlay").getAttribute("data-profile") === "mobile-landscape", "landscape profile was not applied");
     assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 190), "landscape Radar battlefield collapsed after orientation resize");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), "Radar orientation transition caused document overflow");
+    await page.locator('[data-action="restart"]').first().click();
+    assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot().camera.zoom === .65), "landscape new match did not start zoomed out");
     await page.keyboard.press("Escape");
     await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
     await page.locator(".radar-game-trigger").click(); await page.waitForFunction(() => document.body.dataset.radarGameState === "menu");
@@ -488,6 +493,7 @@ export async function runBrowserValidation({ root = ROOT, profile = "standard", 
       if (functionalPages.includes("tournaments")) await functionalCase(result, "tournaments", () => runTournamentTest(browser, baseUrl));
       if (profile === "acceptance" || resolvedScope.files.some(file => /radar-game|site-ui|command-deck/.test(file))) {
         await functionalCase(result, "radar", () => runRadarTest(browser, baseUrl));
+        await functionalCase(result, "radar-remediation-2", () => validateRadarRemediation(browser, baseUrl));
       }
     }
   } catch (error) {

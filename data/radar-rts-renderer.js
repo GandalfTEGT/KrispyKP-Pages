@@ -3,7 +3,8 @@ import { STRUCTURES, UNITS, WORLD, SUPERWEAPON } from "./radar-rts-definitions.j
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 
 export class RadarRTSRenderer {
-  constructor(canvas, minimap) {
+  constructor(canvas, minimap, world = WORLD) {
+    this.world = world;
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d", { alpha: false });
     this.minimap = minimap;
@@ -33,8 +34,8 @@ export class RadarRTSRenderer {
 
   clampCamera() {
     const view = this.viewSize();
-    this.camera.x = clamp(this.camera.x, 0, Math.max(0, WORLD.width - view.width));
-    this.camera.y = clamp(this.camera.y, 0, Math.max(0, WORLD.height - view.height));
+    this.camera.x = clamp(this.camera.x, 0, Math.max(0, this.world.width - view.width));
+    this.camera.y = clamp(this.camera.y, 0, Math.max(0, this.world.height - view.height));
   }
 
   centerOn(x, y) {
@@ -147,11 +148,12 @@ export class RadarRTSRenderer {
     ctx.translate(entity.x, entity.y); ctx.rotate(entity.angle || 0);
     ctx.fillStyle = entity.side === "player" ? "#72e9ff" : "#ff667a";
     ctx.strokeStyle = "#071217"; ctx.lineWidth = 2;
-    if (entity.type === "tank" || entity.type === "harvester") {
+    if (["tank", "harvester", "bulwark"].includes(entity.type)) {
       ctx.fillRect(-entity.radius, -entity.radius * .65, entity.radius * 2, entity.radius * 1.3);
       ctx.strokeRect(-entity.radius, -entity.radius * .65, entity.radius * 2, entity.radius * 1.3);
       ctx.fillStyle = entity.side === "player" ? "#dffaff" : "#ffdbe1";
       ctx.fillRect(0, -3, entity.radius * 1.15, 6);
+      if (entity.type === "bulwark") { ctx.strokeRect(-20, -13, 40, 26); ctx.fillRect(0, 6, 28, 4); }
     } else if (entity.type === "scout") {
       ctx.beginPath();
       ctx.moveTo(entity.radius, 0); ctx.lineTo(entity.radius * .25, entity.radius * .7);
@@ -159,11 +161,12 @@ export class RadarRTSRenderer {
       ctx.lineTo(entity.radius * .25, -entity.radius * .7); ctx.closePath(); ctx.fill(); ctx.stroke();
       ctx.fillStyle = entity.side === "player" ? "#dffaff" : "#ffdbe1";
       ctx.fillRect(-entity.radius * .2, -2, entity.radius * 1.15, 4);
-    } else if (entity.type === "rocket") {
+    } else if (entity.type === "rocket" || entity.type === "marksman") {
       ctx.beginPath();
       ctx.moveTo(entity.radius, 0); ctx.lineTo(0, entity.radius); ctx.lineTo(-entity.radius, 0); ctx.lineTo(0, -entity.radius); ctx.closePath();
       ctx.fill(); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(entity.radius * 1.8, 0); ctx.stroke();
+      if (entity.type === "marksman") { ctx.strokeStyle = "#fff49a"; ctx.strokeRect(-6, -6, 12, 12); }
     } else {
       ctx.beginPath(); ctx.arc(0, 0, entity.radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(entity.radius * 1.5, 0); ctx.stroke();
@@ -191,17 +194,27 @@ export class RadarRTSRenderer {
     ctx.scale(this.camera.zoom, this.camera.zoom);
     ctx.translate(-this.camera.x, -this.camera.y);
     this.drawGrid(ctx);
+    snapshot.obstacles.forEach(obstacle => {
+      ctx.fillStyle = "#263239"; ctx.strokeStyle = "#627078"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(obstacle.x, obstacle.y, obstacle.radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.strokeStyle = "#3e5159"; ctx.beginPath(); ctx.moveTo(obstacle.x-obstacle.radius*.6,obstacle.y+obstacle.radius*.3); ctx.lineTo(obstacle.x,obstacle.y-obstacle.radius*.6); ctx.lineTo(obstacle.x+obstacle.radius*.6,obstacle.y+obstacle.radius*.4); ctx.stroke();
+    });
     snapshot.resources.forEach(node => this.drawResource(ctx, node));
     const selected = new Set(snapshot.selectedIds);
     snapshot.structures.forEach(entity => this.drawStructure(ctx, entity, selected.has(entity.id)));
     snapshot.units.forEach(entity => this.drawUnit(ctx, entity, selected.has(entity.id)));
+    if (!ui.reducedMotion) snapshot.units.filter(unit => ["harvesting", "unloading"].includes(unit.harvestState)).forEach(unit => {
+      ctx.strokeStyle = unit.harvestState === "harvesting" ? "#64f1de" : "#fff49a"; ctx.lineWidth = 2;
+      ctx.beginPath(); const start = snapshot.time * 3; ctx.arc(unit.x, unit.y, unit.radius + 8, start, start + 2); ctx.stroke();
+    });
     snapshot.projectiles.forEach(projectile => {
       ctx.fillStyle = projectile.side === "player" ? "#fff49a" : "#ff8494";
       ctx.beginPath(); ctx.arc(projectile.x, projectile.y, 4, 0, Math.PI * 2); ctx.fill();
     });
     snapshot.effects.forEach(effect => {
       ctx.strokeStyle = effect.type === "ion" ? "rgba(125,240,255,.8)" : "rgba(255,221,120,.62)";
-      ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(effect.x, effect.y, effect.radius * (1.2 - effect.life * .2), 0, Math.PI * 2); ctx.stroke();
+      ctx.globalAlpha = ui.reducedMotion ? .65 : Math.max(.15, effect.life / effect.maxLife);
+      ctx.lineWidth = effect.type === "fire" ? 3 : 4; ctx.beginPath(); ctx.arc(effect.x, effect.y, effect.radius * (ui.reducedMotion ? 1 : .55 + .65 * (1 - effect.life / effect.maxLife)), 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1;
     });
     if (ui.pointerWorld && snapshot.pendingPlacement.player) {
       const def = STRUCTURES[snapshot.pendingPlacement.player.type];
@@ -230,7 +243,8 @@ export class RadarRTSRenderer {
     const w = box.width, h = box.height;
     ctx.setTransform(this.size.dpr, 0, 0, this.size.dpr, 0, 0);
     ctx.fillStyle = "#031012"; ctx.fillRect(0, 0, w, h);
-    const sx = w / WORLD.width, sy = h / WORLD.height;
+    const sx = w / this.world.width, sy = h / this.world.height;
+    snapshot.obstacles.forEach(obstacle => { ctx.fillStyle = "#627078"; ctx.beginPath(); ctx.ellipse(obstacle.x*sx,obstacle.y*sy,obstacle.radius*sx,obstacle.radius*sy,0,0,Math.PI*2); ctx.fill(); });
     snapshot.resources.filter(node => node.amount > 0).forEach(node => {
       ctx.fillStyle = "rgba(88,238,240,.55)"; ctx.beginPath(); ctx.arc(node.x * sx, node.y * sy, 3, 0, Math.PI * 2); ctx.fill();
     });
@@ -246,6 +260,6 @@ export class RadarRTSRenderer {
 
   minimapToWorld(clientX, clientY) {
     const box = this.minimap.getBoundingClientRect();
-    return { x: clamp((clientX - box.left) / box.width, 0, 1) * WORLD.width, y: clamp((clientY - box.top) / box.height, 0, 1) * WORLD.height };
+    return { x: clamp((clientX - box.left) / box.width, 0, 1) * this.world.width, y: clamp((clientY - box.top) / box.height, 0, 1) * this.world.height };
   }
 }

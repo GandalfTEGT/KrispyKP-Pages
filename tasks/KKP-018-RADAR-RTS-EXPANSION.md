@@ -148,9 +148,66 @@
 - No external service is required or was exercised for Radar Command.
 - Status remains `READY FOR OWNER RETESTING`; no owner acceptance is recorded by this implementation pass.
 
+## Owner Remediation 2 — Radar Command 1.2.0
+
+### Authority and continuation
+
+- Owner brief: `91742d89-8db0-4a76-b37b-bd29912a2b7a/Pasted text.txt`, received 2026-09-26.
+- Continued the existing clean worktree and branch from local/remote `a727c7d9fba5c40f02b85c70cc13593367a8b652`. Fresh remote main verification: `92e591e6ce749732bbac1ece33e7979e9147f8ca`; this remains the required ancestor.
+- Existing modular engine/definitions/renderer/bootstrap architecture and website lifecycle retained. Scope is KKP-018 only; no KKP-019/020 work or unrelated site-system changes.
+- This section supersedes the version, controls, map dimensions and follow-up details of the historical 1.0/1.1 sections above. Owner acceptance remains pending.
+
+### Bugs fixed
+
+1. **Control lock while firing:** combat previously reacquired a nearby target before processing movement. Explicit movement now clears targeting/navigation and takes priority until arrival. Explicit attack changes replace the previous target. Regression checks exercise auto-engagement, retreat, a new attack and a second retreat with enemies still nearby.
+2. **Build-menu flicker and missed clicks:** reproduced on the original 1.1 implementation at 1899×1080, 1900×1080, 1920×1080 and 2560×1440. The hovered button was detached during a 180 ms held click at all four sizes; construction did not start. Geometry itself did not move. The progress-dependent whole-menu `innerHTML` replacement was responsible. Buttons now persist across HUD updates; only a deliberate category change rebuilds that category. Delegated clicks issue one command. After correction, all four sizes retain the same node and hitbox, start the intended build, and deduct exactly one cost.
+3. **Entry transition:** restored a 650 ms Radar uplink reveal with an initial style flush so cached imports also animate. Reduced motion disables it. It reveals the start menu while simulation, renderer, gameplay RAF and audio remain uncreated until Start Game. Existing focus/exit restoration remains intact.
+
+### RTS additions
+
+| Requirement | Delivered behavior |
+|---|---|
+| Difficulty | Easy / Normal / Hard on the start menu; data-driven initial enemy credits, decision/reassessment cadence, first wave, wave spacing/group size, construction/production speed and defence count. No health multiplier or free rebuilding. |
+| Independent queues | Existing per-building simulation queues retained and exposed independently as Infantry and Vehicles HUD cells. Each producer has its own queue list, pause/resume and current-unit cancellation with 75% refund. Both categories progress simultaneously; construction remains separate. |
+| Radar progress | Original SVG identity icon with a clockwise conic shadow clearing as progress advances, plus percentage/status text, accessible button names and labelled native progress elements. Construction, infantry, vehicles and Ion Storm share the mechanism. Ready structures retain an explicit placement state; production completion emits a battlefield ring and notification. Decorative pulsing is disabled under reduced motion. |
+| Mobile zoom | New matches and restarts begin at the supported minimum world zoom of 0.65 in portrait and landscape; HUD scale is independent. Pinch/wheel remain bounded to 0.65–1.65. Resize preserves camera centre and ongoing match state. |
+| AI base loop | AI prioritises missing power/refinery/barracks/factory, restores harvesting capability, reserves recovery funds, and adds limited defences (plus a second Hard barracks later). Uses normal cost, build-time, prerequisites, collision, resource-field and map-bound checks. Placement attempts are capped at 24 per two seconds. |
+| Larger / multiple maps | Crystal Reach: 3400×2200, open routes and scattered resources. Split Basin: 3000×2600, diagonal bases and central ridges. Start positions, dimensions, resources, terrain and camera defaults are data-driven. World/camera/minimap calculations use the selected map. Cached, bounded visibility routes skirt circular terrain; ground orders inside terrain resolve to clear perimeter ground. |
+| Unit roles | Kestrel Team: fragile long-range infantry support, weak against armour/structures. Bastion Crawler: expensive, slow siege armour with strong structure damage, vulnerable to Lancers. Existing Rangers, Lancers, Vanguard, Jackal and harvester remain. AI production and target suitability include the expanded roster. |
+| Icons / animations | Original code-drawn category and unit/structure symbols with accessible text. Bounded placement, firing, impact, destruction, harvesting/delivery, order acknowledgement and ready effects. Reduced motion removes decorative pulsing/harvesting orbit and expanding effect motion. |
+| SFX | New optional Web Audio module with original oscillator tones for start, selection/order, fire/impact/destruction, ready, low power, storm and outcomes. No downloaded/copyrighted game audio. User-controlled mute persists locally with a session fallback; six concurrent voices and per-category rate limits prevent combat sound floods. Pause suspends/clears voices; restart and exit close the old context. Menu entry creates no audio context and plays nothing. |
+
+### Difficulty tuning
+
+| Level | Enemy starting credits | First wave | Later wave interval | Max wave group | Production / construction |
+|---|---:|---:|---:|---:|---|
+| Easy | 3600 | 125 s | 65–72 s | 4 | 0.8× / 0.8× |
+| Normal | 5200 | 65 s | 40–47 s | 7 | 1× / 1× |
+| Hard | 6200 | 35 s | 26–33 s | 10 | 1.15× / 1.1× |
+
+All modes consume the same finite map resources and pay the same item costs. Travel distance adds to first-contact time. These are initial tested tuning values, not a claim of owner-approved balance.
+
+### Validation and visual evidence
+
+- `node tools/validate-radar-rts.mjs`: PASS — 127 deterministic checks, including command priority, simultaneous queues, isolated pause/cancel/refund, low-power slowdown, tactical roles, map bounds/starts/resources/terrain routes, paid rebuilding at each difficulty, insufficient-funds rejection, seeded replay, sound dormancy/mute/voice cap/cleanup, and six-minute bounded simulation of all six map/difficulty combinations.
+- `npm run validate`: PASS — 45 standard checks after the functional fixes.
+- `npm run validate:acceptance`: PASS — 63 checks; zero failures and zero warnings; all six pages at 320/390/768/1024/1440 with functional regression, first-party console/asset checks and no document overflow. Final status: `READY FOR OWNER RETESTING`.
+- Focused `validateRadarRemediation` browser case: PASS — all four wide-screen held-click checks, entry/reduced-motion behavior, map/difficulty/restart preservation, construction radial progress, a paid base/economy progression to simultaneous infantry/vehicle HUD and independent queue controls, audio/menu dormancy, local mute persistence, storage-denial fallback and exit cleanup. No first-party errors reported in this case.
+- Menu, construction and active queue views inspected at 2560×1440, 1920×1080, 1440×900, 1024×768, 390×844 and 844×390. Local ignored captures: `.validation/r2/menu-*.png`, `game-*.png`, `queues-*.png`. Bounded sidebar scrolling is deliberate where all items do not fit. All six capture sizes reported no document overflow.
+- Existing browser lifecycle coverage continues to check restart/exit/re-entry, pause/time freeze/resume, synthetic focus loss, resize preservation, touch pan/pinch isolation, mobile initial zoom and all-six-page entry availability.
+- JavaScript/configuration checks and `git diff --check` are part of the standard/acceptance harness.
+
+### Changed files and manual boundaries
+
+- Runtime: `data/radar-game.js`, `data/radar-rts-definitions.js`, `data/radar-rts-engine.js`, `data/radar-rts-renderer.js`, new `data/radar-rts-audio.js`, new `data/radar-rts-icons.js`, `styles/radar-game.css`.
+- Validation/records: `tools/validate-radar-rts.mjs`, `tools/validate-browser.mjs`, new `tools/validate-radar-browser.mjs`, `docs/VALIDATION.md`, this task record.
+- MANUAL/UNKNOWN: physical touch/pinch ergonomics, actual speaker/headphone sound quality and mix, gameplay feel/balance, screen-reader quality, true browser zoom, real hidden-tab behavior and Safari/Firefox behavior. Synthetic blur and headless Web Audio tests are not claims of those physical/browser checks.
+- Deferred: full graphical overhaul, extensive licensed/recorded sound library, sophisticated dynamic pathfinding/formations and extra RTS systems outside this brief. Original geometric art and small original symbols/effects remain the intended boundary.
+- No main merge, deployment, release/tag, reference-checkout edits, or owner acceptance is authorised by this pass.
+
 ## Follow-ups
 
-- Deferred deliberately: fog of war, repair/sell, advanced pathfinding/formations, control groups, campaign missions, audio and additional superweapons. These are extensions beyond the validated minimum loop.
+- Deferred deliberately: full visual-art overhaul, richer sound library, fog of war, repair/sell, advanced pathfinding/formations, control groups, campaign missions and additional superweapons. Owner Remediation 2 adds a small original synthesised SFX set and bounded static-terrain routing; those capabilities are no longer wholly deferred.
 
 ## Validation evidence
 
