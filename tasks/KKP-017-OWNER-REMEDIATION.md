@@ -2,7 +2,7 @@
 
 ## Status
 
-`READY FOR OWNER RETESTING`
+`OWNER ACCEPTED / MERGED`
 
 ## Starting state
 
@@ -136,8 +136,8 @@
 ## Owner acceptance
 
 - Owner retest instructions: Review the six-page responsive composition, toggle live spoilers and switch to a completed archive event, inspect the corrected Champions League stages, and exercise Radar on a physical phone in portrait and landscape.
-- Owner result/date: Pending.
-- Acceptance evidence: None yet.
+- Owner result/date: Accepted and merged before KKP-018 on 2026-09-26.
+- Acceptance evidence: `main` merge commit `92e591e6ce749732bbac1ece33e7979e9147f8ca`, whose second parent is accepted KKP-017 tip `4fe8e058f9fb6beabb975aefe6d574b4d2540b57`.
 - Merge/deploy authority granted separately: `NO`
 
 ## Follow-ups

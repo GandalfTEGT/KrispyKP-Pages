@@ -80,7 +80,7 @@ export function detectScope({ root = ROOT, base = null, files: providedFiles = n
   const extras = new Set();
   const add = (...names) => names.forEach(name => pages.add(name));
 
-  const shared = /^(?:styles\/(?:site|command-deck|radar-game)\.css|data\/(?:site-ui|radar-game|radar-effects)\.js)$/;
+  const shared = /^(?:styles\/(?:site|command-deck|radar-game)\.css|data\/(?:site-ui|radar-game|radar-effects|radar-rts-(?:definitions|engine|renderer))\.js)$/;
   for (const file of files) {
     if (shared.test(file)) {
       add(...ALL_PAGES);

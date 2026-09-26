@@ -2,7 +2,7 @@
 
 ## Status
 
-`READY FOR OWNER TESTING`
+`OWNER ACCEPTED / MERGED`
 
 ## Starting state
 
@@ -98,8 +98,8 @@
 ## Owner acceptance
 
 - Owner retest instructions: install dependencies, run `npm run status`, `npm run validate:acceptance`, then optionally `npm run validate:visual` and inspect `.validation/screenshots/`.
-- Owner result/date: pending.
-- Acceptance evidence: pending owner review.
+- Owner result/date: Accepted and merged before KKP-018.
+- Acceptance evidence: Validation tooling is present on verified `main` at `92e591e6ce749732bbac1ece33e7979e9147f8ca` and is the required harness for KKP-018.
 - Merge/deploy authority granted separately: `NO`
 
 ## Follow-ups

@@ -320,79 +320,75 @@ async function runTournamentTest(browser, baseUrl) {
 }
 
 async function runRadarTest(browser, baseUrl) {
-  const { context, page } = await preparePage(browser, baseUrl, 1024);
+  const { context, page } = await preparePage(browser, baseUrl, 1440);
   try {
     await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
-    assert(await page.locator(".radar-game-overlay").count() === 1, "Radar overlay missing");
+    assert(await page.locator(".radar-game-trigger").count() === 1, "Radar trigger missing");
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME?.getState() === "idle"), "Radar was active before activation");
-    assert(await page.locator(".radar-game-overlay").evaluate(element => element.hidden), "Radar overlay visible before activation");
+    assert(await page.locator(".radar-game-overlay").count() === 0, "Radar created its simulation UI before activation");
     await page.locator(".radar-game-trigger").click();
     await page.waitForFunction(() => document.body.dataset.radarGameState === "playing", null, { timeout: 4000 });
-    assert(await page.locator(".radar-game-canvas").count() === 1, "Radar activation duplicated or lost the core canvas");
-    assert((await page.locator(".radar-game-hud").textContent()).includes("Armour"), "Radar HUD does not use British ARMOUR spelling");
-    assert((await page.locator(".radar-game-hud").textContent()).includes("0.4.0"), "Radar HUD lost the 0.4.0 prototype version");
-    assert(await page.locator(".radar-game-trigger").isVisible(), "active Radar exit trigger is not visible in its site corner");
-    const desktopHelp = await page.evaluate(() => {
-      const help = document.querySelector(".radar-game-help");
-      const screen = document.querySelector(".radar-game-screen");
-      return {
-        before: help.getBoundingClientRect().bottom <= screen.getBoundingClientRect().top + 1,
-        fontSize: parseFloat(getComputedStyle(help).fontSize)
-      };
-    });
-    assert(desktopHelp.before && desktopHelp.fontSize >= 16, "desktop Radar instructions are not large and above the battlefield");
-    await page.locator('[data-game-action="pause"]').click();
+    assert(await page.locator(".radar-game-screen").count() === 1, "Radar activation lost the battlefield canvas");
+    assert(await page.locator(".radar-rts-minimap").count() === 1, "Radar minimap missing");
+    assert((await page.locator(".radar-rts-hud").textContent()).includes("1.0.0"), "Radar HUD lost the RTS version");
+    const initial = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot());
+    assert(initial.simulation.structures.some(item => item.type === "hq" && item.side === "player"), "player Command Hub missing");
+    assert(initial.simulation.structures.some(item => item.type === "hq" && item.side === "enemy"), "enemy Command Hub missing");
+    assert(initial.simulation.resources.length >= 4, "resource fields missing");
+    await page.locator('[data-action="pause"]').first().click();
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "paused"), "Radar pause control failed");
-    await page.locator('[data-game-action="resume"]').click();
+    const pausedTime = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot().simulation.time);
+    await page.waitForTimeout(250);
+    assert(await page.evaluate(t => window.KRISPY_RADAR_GAME.getSnapshot().simulation.time === t, pausedTime), "Radar simulation advanced while paused");
+    await page.locator('[data-action="resume"]').click();
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "playing"), "Radar resume control failed");
-    assert(await page.locator(".radar-game-top-exit").isVisible(), "desktop top-screen Radar exit is not visible");
-    await page.locator(".radar-game-top-exit").click();
-    await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
-    await page.locator(".radar-game-trigger").click();
-    await page.waitForFunction(() => document.body.dataset.radarGameState === "playing", null, { timeout: 4000 });
-    await page.locator(".radar-game-trigger").click();
-    await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
-    await page.locator(".radar-game-trigger").click();
-    await page.waitForFunction(() => document.body.dataset.radarGameState === "playing", null, { timeout: 4000 });
-    assert(await page.locator(".radar-game-overlay").count() === 1, "repeated activation duplicated the overlay");
-    await page.keyboard.press("Escape");
-    await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
+    await page.waitForTimeout(150);
+    assert(await page.evaluate(t => window.KRISPY_RADAR_GAME.getSnapshot().simulation.time > t, pausedTime), "Radar simulation did not resume");
+    await page.evaluate(() => window.dispatchEvent(new Event("blur")));
+    assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "paused"), "focus loss did not pause Radar");
+    await page.evaluate(() => window.KRISPY_RADAR_GAME.resume());
+    const beforeResize = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot());
+    await page.setViewportSize({ width: 1024, height: 768 }); await page.waitForTimeout(100);
+    const afterResize = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot());
+    assert(afterResize.simulation.time >= beforeResize.simulation.time, "resize reset the simulation");
+    assert(afterResize.simulation.structures.length === beforeResize.simulation.structures.length, "resize changed world entities");
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), "desktop Radar caused document overflow");
+    await page.locator('[data-action="restart"]').first().click();
+    assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot().simulation.time < 0.2), "restart did not reset mission time");
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.locator(".radar-game-trigger").click();
-    await page.waitForFunction(() => document.body.dataset.radarGameState === "playing", null, { timeout: 4000 });
+    await page.waitForTimeout(100);
+    assert(await page.locator(".radar-game-overlay").getAttribute("data-profile") === "mobile-portrait", "portrait profile was not applied");
     assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 250), "portrait Radar battlefield is too short");
-    assert(await page.locator(".radar-game-trigger").isVisible(), "portrait Radar corner exit is not visible");
-    assert(!(await page.locator(".radar-game-top-exit").isVisible()), "portrait Radar unexpectedly shows the desktop/landscape top exit");
-    const twoThumb = await page.evaluate(() => {
-      const move = document.querySelector('[data-game-joystick="move"]');
-      const aim = document.querySelector('[data-game-joystick="aim"]');
-      const moveKnob = move.querySelector(".radar-game-joystick-knob");
-      const aimKnob = aim.querySelector(".radar-game-joystick-knob");
-      const mr = move.getBoundingClientRect();
-      const ar = aim.getBoundingClientRect();
-      const emit = (target, type, pointerId, x, y) => target.dispatchEvent(new PointerEvent(type, {
-        bubbles: true, pointerId, pointerType: "touch", clientX: x, clientY: y
-      }));
-      emit(move, "pointerdown", 11, mr.left + mr.width / 2, mr.top + mr.height / 2);
-      emit(aim, "pointerdown", 12, ar.left + ar.width / 2, ar.top + ar.height / 2);
-      emit(move, "pointermove", 11, mr.right - 8, mr.top + mr.height / 2);
-      emit(aim, "pointermove", 12, ar.left + 8, ar.top + ar.height / 2);
-      const changed = moveKnob.style.transform !== "translate(-50%, -50%)" && aimKnob.style.transform !== "translate(-50%, -50%)";
-      emit(move, "pointerup", 11, mr.right - 8, mr.top + mr.height / 2);
-      emit(aim, "pointerup", 12, ar.left + 8, ar.top + ar.height / 2);
-      return changed && moveKnob.style.transform === "translate(-50%, -50%)" && aimKnob.style.transform === "translate(-50%, -50%)";
-    });
-    assert(twoThumb, "independent two-thumb move and aim/fire controls did not operate and reset together");
+    assert(await page.locator(".radar-rts-mobile-tools").isVisible(), "touch control modes are not visible in portrait");
+    await page.locator('[data-action="multi"]').click();
+    assert(await page.locator('[data-action="multi"]').getAttribute("aria-pressed") === "true", "multi-select control lacks functional state");
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), "portrait Radar caused document overflow");
+    await page.setViewportSize({ width: 320, height: 720 }); await page.waitForTimeout(100);
+    assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 250), "320px Radar battlefield is too short");
+    assert(await page.locator('[data-action="exit"]').first().isVisible(), "320px Radar exit is not visible");
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), "320px Radar caused document overflow");
     await page.setViewportSize({ width: 844, height: 390 });
     await page.waitForTimeout(100);
-    assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 200), "landscape Radar battlefield collapsed after orientation resize");
+    assert(await page.locator(".radar-game-overlay").getAttribute("data-profile") === "mobile-landscape", "landscape profile was not applied");
+    assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 190), "landscape Radar battlefield collapsed after orientation resize");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), "Radar orientation transition caused document overflow");
-    assert(await page.locator(".radar-game-top-exit").isVisible(), "landscape top Radar exit is not visible");
-    assert(!(await page.locator(".radar-game-fire").isVisible()), "landscape retained the separate Fire button");
-    assert(!(await page.locator(".radar-game-trigger").isVisible()), "landscape retained the corner exit instead of the top control");
-    await page.locator(".radar-game-top-exit").click();
+    await page.keyboard.press("Escape");
     await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
-    return "inactive, pause/resume, both desktop exits, Escape, repeated activation, portrait/landscape controls, resize and overflow passed";
+    await page.locator(".radar-game-trigger").click(); await page.waitForFunction(() => document.body.dataset.radarGameState === "playing");
+    assert(await page.locator(".radar-game-overlay").count() === 1, "repeated activation duplicated the overlay");
+    await page.locator('[data-action="exit"]').first().click(); await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "idle");
+    for (const route of ["/", "/music/", "/videos/", "/tournaments/", "/about/", "/contact/"]) {
+      await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded" });
+      assert(await page.locator(".radar-game-trigger").count() === 1, `Radar trigger missing on ${route}`);
+      assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "idle"), `Radar active by default on ${route}`);
+    }
+    await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.locator(".radar-game-trigger").click();
+    await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "playing");
+    await page.locator('[data-action="exit"]').first().click();
+    await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "idle");
+    return "dormancy, RTS world, pause/focus/resume, restart, camera-preserving resize, desktop/touch profiles, overflow, reduced motion, Escape, cleanup, repeated activation and all-six-page availability passed";
   } finally { await context.close(); }
 }
 

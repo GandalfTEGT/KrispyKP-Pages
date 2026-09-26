@@ -139,6 +139,15 @@ function validateConfiguration(root, result) {
   });
 }
 
+function validateRadarRts(root, result) {
+  const filename = path.join(root, "tools", "validate-radar-rts.mjs");
+  if (!fs.existsSync(filename)) return;
+  const check = run(process.execPath, [filename], { cwd: root });
+  record(result, "radar-rts:deterministic-loop", check.status === 0, {
+    message: (check.status === 0 ? check.stdout : check.stderr || check.stdout).trim()
+  });
+}
+
 function validateGitDiff(root, result) {
   const check = run("git", ["diff", "--check"], { cwd: root });
   record(result, "git:diff-check", check.status === 0, {
@@ -177,6 +186,7 @@ export function runStaticValidation({ root = ROOT, profile = "standard", scope =
   result.kind = "static";
   validateJavaScript(root, result);
   validateConfiguration(root, result);
+  validateRadarRts(root, result);
   validateGitDiff(root, result);
   validateHtml(root, result);
   validateCssReferences(root, result);

@@ -20,7 +20,7 @@ The browser harness uses the development-only `playwright-core` package with an 
 
 ## Profiles and change-aware scope
 
-- **SMOKE:** all JavaScript syntax, existing configuration validation, diff whitespace, HTML structure, IDs, local references, JSON-LD, sitemap/robots, then all six pages at 390px.
+- **SMOKE:** all JavaScript syntax, existing configuration validation, deterministic Radar RTS engine coverage, diff whitespace, HTML structure, IDs, local references, JSON-LD, sitemap/robots, then all six pages at 390px.
 - **STANDARD:** SMOKE plus affected pages at 1024px and stable functional checks for affected systems. Shared presentation/navigation/Radar changes expand the scope to all pages.
 - **ACCEPTANCE:** all six pages at 320, 390, 768, 1024 and 1440px, plus Home/navigation, Music, Videos, Tournaments and Radar functional checks.
 
@@ -38,7 +38,7 @@ Tournament schema, rules PDF or generator changes are flagged for tournament art
 
 ## Visual and owner boundary
 
-Automation can prove that pages load, first-party assets resolve, JavaScript does not throw, one H1 exists, document width does not overflow, stable deep links normalize safely, selections update, Music does not autoplay on deep link, and Radar completes a basic enter/exit lifecycle.
+Automation can prove that pages load, first-party assets resolve, JavaScript does not throw, one H1 exists, document width does not overflow, stable deep links normalize safely, selections update and Music does not autoplay on deep link. Radar coverage additionally exercises a deterministic build/economy/production/orders/combat/power/superweapon/outcome loop plus browser dormancy, pause, focus loss, restart, responsive profiles, resize preservation, reduced motion, repeated activation and cleanup.
 
 Automation must not claim to prove:
 
