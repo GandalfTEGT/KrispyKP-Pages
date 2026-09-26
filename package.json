@@ -1,0 +1,18 @@
+{
+  "name": "krispykp-validation-tooling",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "status": "node tools/project-status.mjs",
+    "status:json": "node tools/project-status.mjs --json",
+    "validate": "node tools/validate-project.mjs --profile standard",
+    "validate:smoke": "node tools/validate-project.mjs --profile smoke",
+    "validate:browser": "node tools/validate-project.mjs --profile standard --browser-only",
+    "validate:acceptance": "node tools/validate-project.mjs --profile acceptance",
+    "validate:visual": "node tools/validate-project.mjs --profile acceptance --screenshots",
+    "validate:self-test": "node tools/self-test-validator.mjs"
+  },
+  "devDependencies": {
+    "playwright-core": "1.63.0"
+  }
+}
