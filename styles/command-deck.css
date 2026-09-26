@@ -1176,16 +1176,8 @@ body {
 .page-music .track-item:hover,
 .page-music .track-item.active { border-left-color: rgb(var(--page-rgb)); background: rgba(var(--page-rgb), 0.08); }
 
-/* Videos: rail aligns with toolbar and the card grid uses available width. */
-.page-videos .videos-browser-section > .container {
-  grid-template-columns: minmax(230px, 270px) minmax(0, 1fr);
-  grid-template-areas: "filters toolbar" "filters library";
-  align-items: start;
-}
-.page-videos .videos-category-controls { top: 96px; }
+/* Videos: the selection rail and stable card tracks form one workspace. */
 .page-videos .videos-toolbar { align-self: start; }
-.page-videos .videos-library-grid { grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); }
-.page-videos .videos-mobile-category { display: none; }
 
 /* Tournament: banner is the hero environment and facts auto-balance. */
 .page-tournaments .tournament-hero-panel { min-height: clamp(440px, 54vw, 700px); }
@@ -1223,11 +1215,8 @@ details[data-disclosure-animating="true"] { contain: layout; }
   .page-music .player-panel { height: auto; }
   .page-music .music-tools { display: grid; }
   .page-music .lyrics-box { flex-basis: auto; max-height: 520px; min-height: 0; }
-  .page-videos .videos-browser-section > .container { display: block; }
   .page-videos .videos-mobile-category { display: grid; gap: 7px; margin-bottom: 12px; }
-  .page-videos .videos-tabs-shell,
-  .page-videos .videos-subtabs,
-  .page-videos .videos-browser-section > .container > .section-title { display: none; }
+  .page-videos .videos-tabs-shell { display: none; }
   .page-contact .contact-workspace { grid-template-columns: 1fr; }
   .page-tournaments .tournament-quick-info-list { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
 }
@@ -1238,7 +1227,7 @@ details[data-disclosure-animating="true"] { contain: layout; }
   .nav-links { flex: 1 0 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: 6px; padding: 4px 0 8px; }
   .nav-links[hidden] { display: none; }
   .nav-links a { display: flex; align-items: center; justify-content: center; min-height: 44px; }
-  .page-home .home-uplink-grid { grid-template-columns: 1fr; }
+  .page-home .home-uplink-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .page-music .playlist-toolbar { grid-template-columns: 1fr; }
   .page-music .playlist-toolbar .list-head { grid-template-columns: 1fr; gap: 7px; }
   .page-tournaments .tournament-hero-panel { min-height: 420px; }
@@ -1437,28 +1426,17 @@ details[data-disclosure-animating="true"] { contain: layout; }
     grid-area: note;
   }
 
-  .page-videos .videos-browser-section > .container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "filters"
-      "toolbar"
-      "library";
-    gap: 14px;
-  }
-
   .page-videos .videos-category-controls {
     position: static;
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
     margin-top: 0;
-    padding: 16px;
   }
 
   .page-videos .videos-tabs-shell {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: 1fr;
     align-items: start;
     gap: 10px;
     width: 100%;
@@ -1466,7 +1444,7 @@ details[data-disclosure-animating="true"] { contain: layout; }
 
   .page-videos .videos-tabs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+    grid-template-columns: 1fr;
     gap: 8px;
     width: 100%;
   }
@@ -1480,7 +1458,7 @@ details[data-disclosure-animating="true"] { contain: layout; }
 
   .page-videos .videos-subtabs {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+    grid-template-columns: 1fr;
     gap: 8px;
     width: 100%;
     margin-top: 0;
@@ -1498,12 +1476,35 @@ details[data-disclosure-animating="true"] { contain: layout; }
   }
 
   .page-videos .videos-library-grid {
-    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(210px, 260px));
   }
 }
 
-/* Contact stays in required source order and no longer inherits coupled rows. */
+/* Contact keeps informational context before a full-width form pair. */
+.page-videos .videos-browser-section > .container {
+  display: block;
+}
+
 .page-contact .contact-workspace {
-  grid-template-columns: minmax(0, 1fr);
-  width: min(1100px, 100%);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  align-items: start;
+}
+
+@media (max-width: 980px) {
+  .page-contact .contact-workspace { grid-template-columns: 1fr; }
+  .page-videos .videos-library-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 260px)); }
+}
+
+@media (max-width: 640px) {
+  .page-videos .videos-library-grid { grid-template-columns: 1fr; }
+}
+
+/* KKP-017 owner retest 2: the Home stream stands alone after Current Uplink moved below the hero. */
+@media (min-width: 1201px) {
+  .page-home .hero-grid { align-items: stretch; }
+}
+
+@media (max-width: 1200px) {
+  .page-home .hero-card { grid-template-columns: 1fr; }
 }

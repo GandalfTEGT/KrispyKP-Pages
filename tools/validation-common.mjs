@@ -72,9 +72,9 @@ function changedFilesForBase(root, base) {
   return [...files].sort();
 }
 
-export function detectScope({ root = ROOT, base = null } = {}) {
+export function detectScope({ root = ROOT, base = null, files: providedFiles = null } = {}) {
   const selectedBase = base || (gitText(["rev-parse", "--verify", "origin/main"], root) ? "origin/main" : "main");
-  const files = changedFilesForBase(root, selectedBase);
+  const files = providedFiles ? [...providedFiles].sort() : changedFilesForBase(root, selectedBase);
   const pages = new Set();
   const reasons = [];
   const extras = new Set();

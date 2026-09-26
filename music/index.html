@@ -84,18 +84,18 @@
 
       <div class="controls controls-main">
         <button type="button" aria-label="Previous track" onclick="prevTrack()">⏮</button>
-        <button type="button" id="playBtn" aria-label="Play or pause current track" onclick="togglePlay()">▶</button>
+        <button type="button" id="playBtn" aria-label="Play current track" aria-pressed="false" onclick="togglePlay()">▶</button>
         <button type="button" aria-label="Next track" onclick="nextTrack()">⏭</button>
       </div>
 
       <div class="controls controls-mode">
         <button type="button" id="shuffleBtn" aria-pressed="false" onclick="toggleShuffle()">Shuffle</button>
-        <button type="button" id="repeatBtn" onclick="toggleRepeat()">Repeat: Off</button>
+        <button type="button" id="repeatBtn" aria-pressed="false" data-repeat-mode="off" onclick="toggleRepeat()">Repeat: Off</button>
       </div>
 
       <div class="controls controls-secondary">
-        <button type="button" id="muteBtn" onclick="toggleMute()">Mute</button>
-        <button type="button" onclick="stopTrack()">Stop</button>
+        <button type="button" id="muteBtn" aria-pressed="false" onclick="toggleMute()">Mute</button>
+        <button type="button" id="stopBtn" aria-label="Stop playback" aria-pressed="false" onclick="stopTrack()">Stop</button>
       </div>
 
       <div class="player-meta">

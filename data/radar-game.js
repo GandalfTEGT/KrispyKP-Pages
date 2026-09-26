@@ -3,7 +3,7 @@
 
   if (window.KRISPY_RADAR_GAME) return;
 
-  const GAME_VERSION = "kkp-016-remediation-3";
+  const GAME_VERSION = "0.4.0";
   const STATES = Object.freeze({
     IDLE: "idle",
     TRANSITIONING_IN: "transitioning-in",
@@ -119,12 +119,12 @@
           </div>
           <div class="radar-game-actions">
             <button type="button" data-game-action="pause">Pause</button>
-            <button type="button" data-game-action="exit">Exit radar</button>
+            <button type="button" class="radar-game-top-exit" data-game-action="exit">Exit radar</button>
           </div>
         </header>
         <div class="radar-game-hud" aria-label="Game status">
           <span>Score <strong data-game-score>000000</strong></span>
-          <span>Armor <strong data-game-health>3</strong></span>
+          <span>Armour <strong data-game-health>3</strong></span>
           <span>Version <strong>${GAME_VERSION}</strong></span>
         </div>
         <div class="radar-game-screen">

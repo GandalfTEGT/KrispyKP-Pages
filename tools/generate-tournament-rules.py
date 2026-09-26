@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import html
 import io
 import json
 import shutil
@@ -274,7 +275,9 @@ def build_pdf(event: dict, output_override: Path | None = None) -> Path:
         if not name:
             continue
         details = [value for value in [str(player.get("inGameName", "")).strip(), str(player.get("flag", "")).strip()] if value and value.isascii()]
-        copy = f"<b>#{index} {name}</b>" + (f"<br/><font color='#93b2bc'>{' · '.join(details)}</font>" if details else "")
+        safe_name = html.escape(name)
+        safe_details = " · ".join(html.escape(value) for value in details)
+        copy = f"<b>#{index} {safe_name}</b>" + (f"<br/><font color='#93b2bc'>{safe_details}</font>" if safe_details else "")
         participant_cells.append(Paragraph(copy, styles["small"]))
         if len(participant_cells) == 2:
             participant_rows.append(participant_cells); participant_cells = []

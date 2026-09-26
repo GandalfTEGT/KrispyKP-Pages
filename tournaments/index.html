@@ -135,13 +135,6 @@
             </div>
           </section>
 
-          <section id="tournamentStageSection" class="section tournament-section-tight" hidden>
-            <div class="frame feature tournament-results-panel">
-              <h2 class="section-title">Stage Standings</h2>
-              <div id="tournamentStageSummaries" class="tournament-stage-summaries"></div>
-            </div>
-          </section>
-
           <section id="tournamentResultsSection" class="section tournament-section-tight tournament-results-section" hidden>
             <div class="frame feature tournament-results-panel">
               <h2 class="section-title">Results</h2>
@@ -197,6 +190,21 @@
                 <div id="tournamentManualBracketWrap" class="tournament-manual-bracket-wrap" hidden></div>
                 <div id="tournamentBracketFallback" class="notice" hidden></div>
               </div>
+              <div id="tournamentSpoilerNotice" class="notice tournament-spoiler-notice" hidden>
+                Results are hidden. Participant, schedule, rules and event information remain available.
+              </div>
+            </div>
+          </section>
+
+          <section id="tournamentStageSection" class="section tournament-section-tight" hidden>
+            <div class="frame feature tournament-results-panel">
+              <h2 class="section-title tournament-disclosure-desktop-title">Group Standings</h2>
+              <details class="tournament-section-disclosure tournament-standings-disclosure" data-mobile-default="closed" open>
+                <summary>Group Standings</summary>
+                <div class="tournament-section-disclosure-content">
+                  <div id="tournamentStageSummaries" class="tournament-stage-summaries"></div>
+                </div>
+              </details>
             </div>
           </section>
 

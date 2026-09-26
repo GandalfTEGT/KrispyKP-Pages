@@ -19,8 +19,32 @@
 
 .hero-card {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto;
   gap: 14px;
+  align-content: start;
+}
+
+@media (min-width: 1201px) {
+  .page-home .hero-grid {
+    align-items: stretch;
+  }
+
+  .page-home .hero-card {
+    height: 100%;
+    grid-template-rows: minmax(0, 1fr);
+  }
+
+  .page-home .hero-card > .frame,
+  .page-home .hero-card .embed-wrap,
+  .page-home .hero-card .embed-box {
+    min-height: 0;
+    height: 100%;
+  }
+
+  .page-home .hero-card > .frame {
+    display: grid;
+    grid-template-rows: auto minmax(400px, 1fr);
+  }
 }
 
 .home-feature-grid {
@@ -54,16 +78,24 @@
 ------------------------------ */
 .home-live-panel {
   position: relative;
+  background:
+    radial-gradient(circle at top right, rgba(79, 210, 255, 0.05), transparent 30%),
+    linear-gradient(180deg, rgba(79, 210, 255, 0.015), transparent 35%),
+    var(--p2-surface);
 }
 
 .home-live-panel::after {
   content: "";
   position: absolute;
-  inset: 0;
+  z-index: 2;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(var(--page-rgb));
+  box-shadow: 0 0 12px rgba(var(--page-rgb), 0.75);
   pointer-events: none;
-  background:
-    radial-gradient(circle at top right, rgba(79, 210, 255, 0.05), transparent 30%),
-    linear-gradient(180deg, rgba(79, 210, 255, 0.015), transparent 35%);
 }
 
 .home-live-pulse {
@@ -216,11 +248,15 @@
   padding-bottom: 18px;
 }
 
+.home-uplink-section {
+  padding-top: 18px;
+}
+
 .home-uplink-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  align-content: end;
+  align-content: start;
 }
 
 .home-uplink-grid .mini {
@@ -258,6 +294,7 @@
 
 .home-uplink-summary {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   padding: 12px 14px;
   border: 1px solid rgba(79, 210, 255, 0.12);
@@ -286,7 +323,27 @@
 }
 
 .home-uplink-grid {
-  align-content: end;
+  align-content: start;
+}
+
+@media (min-width: 701px) and (max-width: 1200px) {
+  .hero-card .home-uplink-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .home-uplink-summary,
+  .home-uplink-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .home-uplink-summary,
+  .home-uplink-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ------------------------------
@@ -538,7 +595,7 @@
 ------------------------------ */
 @media (max-width: 980px) {
   .hero-card {
-    grid-template-rows: auto auto;
+    grid-template-rows: auto;
   }
 
   .home-site-grid {

@@ -94,10 +94,8 @@
   }
 
   function setupResponsiveDefaults() {
-    const schedule = document.querySelectorAll(".home-schedule");
     const footers = document.querySelectorAll(".footer-nav-disclosure");
     function sync() {
-      schedule.forEach((details) => { details.open = !compactQuery.matches; });
       footers.forEach((details) => { details.open = !compactQuery.matches; });
     }
     onMedia(compactQuery, sync);
