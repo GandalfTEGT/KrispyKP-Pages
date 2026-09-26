@@ -94,7 +94,7 @@
 
 ## Commits
 
-- Pending final KKP-018 commit.
+- Implementation and validated handoff: `816ce999d77c26ee73bb42d7e3681fb20f3e2533` (`Implement Radar RTS expansion`).
 
 ## Remote verification
 
