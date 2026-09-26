@@ -104,6 +104,11 @@ function isVisiblePlaylistItem(item, detailsMap) {
   return true;
 }
 
+function normalisePublishedText(value) {
+  return String(value || "")
+    .replaceAll("https://www.twitch.tv/krispykp.com", "https://www.twitch.tv/krispykp");
+}
+
 async function build() {
   const categories = [];
 
@@ -123,8 +128,8 @@ async function build() {
           const details = detailsMap.get(item.videoId) || {};
           return {
             videoId: item.videoId,
-            title: item.title || "Untitled Video",
-            description: item.description || "",
+            title: normalisePublishedText(item.title) || "Untitled Video",
+            description: normalisePublishedText(item.description),
             playlistAddedAt: item.playlistAddedAt || "",
             videoPublishedAt: item.videoPublishedAt || "",
             publishedAt: item.playlistAddedAt || item.videoPublishedAt || "",

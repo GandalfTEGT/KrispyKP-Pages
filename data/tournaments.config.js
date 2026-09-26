@@ -38,9 +38,10 @@ id
 - Unique string. Required.
 
 status
-- Options: "live", "upcoming", "completed", "cancelled"
+- Options: "upcoming", "live", "awaiting-results", "completed", "cancelled"
 - Required.
 - Results only show when status is "completed". Completed and cancelled events appear in the archive.
+- Use "awaiting-results" after play has ended when authoritative results are not yet published.
 
 title
 - Main visible tournament title. Required.
@@ -65,6 +66,10 @@ startDate / endDate
 timezone
 - Example: "UTC+0"
 - Used in Event Details and can also be reused by schedule entries.
+
+lastUpdated
+- ISO date identifying the latest owner-confirmed lifecycle/content review.
+- Required for a current event in "live" or "awaiting-results" state.
 
 prizePool
 - Example: "£100" or "$250"
@@ -274,7 +279,7 @@ window.KRISPY_TOURNAMENTS = {
   "events": [
     {
       "id": "td-invasion-red-alert-2026",
-      "status": "live",
+      "status": "awaiting-results",
       "title": "TD Invasion Red Alert Tournament 2026",
       "subtitle": "The superstars of Tiberian Dawn invade Red Alert",
       "organizer": "JLGAZZA94",
@@ -284,6 +289,7 @@ window.KRISPY_TOURNAMENTS = {
       "startDate": "2026-09-14 12:00",
       "endDate": "",
       "timezone": "BST",
+      "lastUpdated": "2026-09-26",
       "prizePool": "",
       "bannerImage": "/assets/tbanners/td-invasion.webp",
       "description": "A special crossover tournament featuring Tiberian Dawn players competing in Red Alert. The event uses a winners and losers bracket, so players must lose twice to be eliminated, except in the Grand Final. The undefeated finalist enters the Grand Final with a 1-0 advantage.",
@@ -592,7 +598,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "0",
                   "winner": "",
-                  "note": "Bo7 Â· Winners-bracket finalist starts 1-0",
+                  "note": "Bo7 · Winners-bracket finalist starts 1-0",
                   "time": ""
                 }
               ]
@@ -614,7 +620,7 @@ window.KRISPY_TOURNAMENTS = {
           "seed": "2",
           "flag": "Scotland",
           "flagImage": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20480%22%20aria-label%3D%22Flag%20of%20Scotland%22%20role%3D%22img%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22800%22%20height%3D%22480%22%20fill%3D%22%23005eb8%22%20%2F%3E%3Cpath%20d%3D%22M0%200%20800%20480M800%200%200%20480%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2280%22%20%2F%3E%3C%2Fsvg%3E",
-          "inGameName": "Ó„Ê€É¨Ö†Ö„Ê\u008F",
+          "inGameName": "KRISPY",
           "note": ""
         },
         {
@@ -765,7 +771,7 @@ window.KRISPY_TOURNAMENTS = {
       "startDate": "2025-08-18 00:00",
       "endDate": "",
       "timezone": "BST",
-      "prizePool": "Ã‚Â£25 winner / Ã‚Â£10 runner-up",
+      "prizePool": "£25 winner / £10 runner-up",
       "bannerImage": "/assets/tbanners/td-invasion-red-alert-2025.webp",
       "description": "The original 2025 TD Invasion Red Alert tournament brought ten Tiberian Dawn community players into Red Alert. Two groups of five produced one finalist each for a best-of-seven Grand Final.",
       "registrationMode": "closed",
@@ -1238,7 +1244,7 @@ window.KRISPY_TOURNAMENTS = {
         {
           "place": "1st",
           "name": "WTF.RAG",
-          "note": "Champion, won Grand Final 4Ã¢â‚¬â€œ3"
+          "note": "Champion, won Grand Final 4–3"
         },
         {
           "place": "2nd",
@@ -1250,21 +1256,21 @@ window.KRISPY_TOURNAMENTS = {
         {
           "title": "Group A",
           "entries": [
-            "WTF.RAG Ã¢â‚¬â€\u009D 12 pts (4-0-0)",
-            "RA RUSTY Ã¢â‚¬â€\u009D 9 pts (3-1-0)",
-            "RAGAZZA94 Ã¢â‚¬â€\u009D 7 pts (2-2-0)",
-            "FULLY RED ALERT PLAYER Ã¢â‚¬â€\u009D 5 pts (1-3-0)",
-            "DR.MURKINSTEIN Ã¢â‚¬â€\u009D 1 pt (0-4-0)"
+            "WTF.RAG — 12 pts (4-0-0)",
+            "RA RUSTY — 9 pts (3-1-0)",
+            "RAGAZZA94 — 7 pts (2-2-0)",
+            "FULLY RED ALERT PLAYER — 5 pts (1-3-0)",
+            "DR.MURKINSTEIN — 1 pt (0-4-0)"
           ]
         },
         {
           "title": "Group B",
           "entries": [
-            "TRIORA Ã¢â‚¬â€\u009D 10 pts (3-1-0)",
-            "CRITICAL LIGHTS Ã¢â‚¬â€\u009D 9 pts (3-1-0)",
-            "JAMIERA Ã¢â‚¬â€\u009D 3 pts (1-2-1)",
-            "MYNAME = RAPLAYER Ã¢â‚¬â€\u009D 3 pts (1-3-0)",
-            "RARZA Ã¢â‚¬â€\u009D 3 pts (1-2-1)"
+            "TRIORA — 10 pts (3-1-0)",
+            "CRITICAL LIGHTS — 9 pts (3-1-0)",
+            "JAMIERA — 3 pts (1-2-1)",
+            "MYNAME = RAPLAYER — 3 pts (1-3-0)",
+            "RARZA — 3 pts (1-2-1)"
           ]
         }
       ]
@@ -1281,7 +1287,7 @@ window.KRISPY_TOURNAMENTS = {
       "startDate": "2024-05-13 00:00",
       "endDate": "",
       "timezone": "BST",
-      "prizePool": "Ã‚Â£100 winner / Ã‚Â£50 runner-up",
+      "prizePool": "£100 winner / £50 runner-up",
       "bannerImage": "/assets/tbanners/td-champions-league-2024.webp",
       "description": "A twenty-player Tiberian Dawn championship. Four groups of five sent their top two players to quarter-finals, semi-finals and a best-of-eleven Grand Final.",
       "registrationMode": "closed",
@@ -1311,7 +1317,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "RAMBO",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1324,7 +1330,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "WTF",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1342,7 +1348,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "1",
                   "winner": "RAMBO",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1355,7 +1361,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "1",
                   "winner": "FULLY",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1373,7 +1379,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "WTF",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1386,7 +1392,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "RAMBO",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1404,7 +1410,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "FULLY",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1417,7 +1423,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "WTF",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1435,7 +1441,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "AARON",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1448,7 +1454,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "RAMBO",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1472,7 +1478,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "2",
                   "winner": "FERRET",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1485,7 +1491,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "KEREKOBAR",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1503,7 +1509,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "GLORY PRUSSIA",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1516,7 +1522,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "3",
                   "winner": "FERRET",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1534,7 +1540,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "INCIA 3000",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1547,7 +1553,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "2",
                   "score2": "3",
                   "winner": "GLORY PRUSSIA",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1565,7 +1571,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "BROWN PUDDLE",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1578,7 +1584,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "1",
                   "winner": "FERRET",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1596,7 +1602,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "3",
                   "winner": "FERRET",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1609,7 +1615,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "GLORY PRUSSIA",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1633,7 +1639,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "SAI",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1646,7 +1652,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "JAMIETD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1664,7 +1670,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "SAI",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1677,7 +1683,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "1",
                   "winner": "AOD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1695,7 +1701,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "AOD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1708,7 +1714,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "3",
                   "winner": "SAI",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1726,7 +1732,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "2",
                   "score2": "3",
                   "winner": "JAMIETD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1739,7 +1745,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "BRUZER",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1757,7 +1763,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "2",
                   "winner": "JAMIETD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1770,7 +1776,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "3",
                   "winner": "AOD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1794,7 +1800,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "DANKU",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1807,7 +1813,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "TRIOTD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1825,7 +1831,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "TRIOTD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1838,7 +1844,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "2",
                   "score2": "3",
                   "winner": "DANKU",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1856,7 +1862,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "NOBLESUB",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1869,7 +1875,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "0",
                   "winner": "JLGAZZA94",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1887,7 +1893,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "JLGAZZA94",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1900,7 +1906,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "3",
                   "winner": "TRIOTD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1918,7 +1924,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "1",
                   "winner": "JLGAZZA94",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -1931,7 +1937,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "3",
                   "winner": "NOBLESUB",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -1955,7 +1961,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "2",
                   "score2": "1",
                   "winner": "FERRET",
-                  "note": "Bo3 Ã‚Â· FERRET replaced RAMBO after withdrawal Ã‚Â· owner-supplied historical recollection",
+                  "note": "Bo3 · FERRET replaced RAMBO after withdrawal · owner-supplied historical recollection",
                   "time": ""
                 }
               ]
@@ -2036,7 +2042,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "",
                   "score2": "",
                   "winner": "AOD",
-                  "note": "Bo9 Ã‚Â· AOD won; exact score unknown Ã‚Â· owner-supplied historical recollection",
+                  "note": "Bo9 · AOD won; exact score unknown · owner-supplied historical recollection",
                   "time": ""
                 },
                 {
@@ -2272,7 +2278,7 @@ window.KRISPY_TOURNAMENTS = {
         {
           "place": "1st",
           "name": "SAI",
-          "note": "Champion, won Grand Final 6Ã¢â‚¬â€œ1"
+          "note": "Champion, won Grand Final 6–1"
         },
         {
           "place": "2nd",
@@ -2294,41 +2300,41 @@ window.KRISPY_TOURNAMENTS = {
         {
           "title": "Group A",
           "entries": [
-            "RAMBO Ã¢â‚¬â€\u009D 12 pts",
-            "WTF Ã¢â‚¬â€\u009D 10 pts",
-            "FULLY Ã¢â‚¬â€\u009D 6 pts",
-            "AARON Ã¢â‚¬â€\u009D 4 pts",
-            "SHEPPARD Ã¢â‚¬â€\u009D 0 pts"
+            "RAMBO — 12 pts",
+            "WTF — 10 pts",
+            "FULLY — 6 pts",
+            "AARON — 4 pts",
+            "SHEPPARD — 0 pts"
           ]
         },
         {
           "title": "Group B",
           "entries": [
-            "FERRET Ã¢â‚¬â€\u009D 12 pts",
-            "GLORY PRUSSIA Ã¢â‚¬â€\u009D 11 pts",
-            "BROWN PUDDLE Ã¢â‚¬â€\u009D 6 pts",
-            "INCIA 3000 Ã¢â‚¬â€\u009D 4 pts",
-            "KEREKOBAR Ã¢â‚¬â€\u009D 4 pts"
+            "FERRET — 12 pts",
+            "GLORY PRUSSIA — 11 pts",
+            "BROWN PUDDLE — 6 pts",
+            "INCIA 3000 — 4 pts",
+            "KEREKOBAR — 4 pts"
           ]
         },
         {
           "title": "Group C",
           "entries": [
-            "AOD Ã¢â‚¬â€\u009D 11 pts",
-            "SAI Ã¢â‚¬â€\u009D 10 pts",
-            "JAMIETD Ã¢â‚¬â€\u009D 10 pts",
-            "BRUZER Ã¢â‚¬â€\u009D 6 pts",
-            "KRISPY Ã¢â‚¬â€\u009D 0 pts"
+            "AOD — 11 pts",
+            "SAI — 10 pts",
+            "JAMIETD — 10 pts",
+            "BRUZER — 6 pts",
+            "KRISPY — 0 pts"
           ]
         },
         {
           "title": "Group D",
           "entries": [
-            "TRIOTD Ã¢â‚¬â€\u009D 9 pts",
-            "JLGAZZA94 Ã¢â‚¬â€\u009D 9 pts",
-            "DANKU Ã¢â‚¬â€\u009D 8 pts",
-            "NOBLESUB Ã¢â‚¬â€\u009D 8 pts",
-            "FILLSKILL Ã¢â‚¬â€\u009D 0 pts"
+            "TRIOTD — 9 pts",
+            "JLGAZZA94 — 9 pts",
+            "DANKU — 8 pts",
+            "NOBLESUB — 8 pts",
+            "FILLSKILL — 0 pts"
           ]
         }
       ]
@@ -2375,7 +2381,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "2",
                   "score2": "4",
                   "winner": "RASHNAGAR",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2388,7 +2394,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "2",
                   "winner": "ADAM",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2406,7 +2412,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "0",
                   "winner": "RASHNAGAR",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2419,7 +2425,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "4",
                   "winner": "CRITICAL MEDS",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2437,7 +2443,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "4",
                   "winner": "AARON",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2450,7 +2456,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "2",
                   "score2": "4",
                   "winner": "RASHNAGAR",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2468,7 +2474,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "3",
                   "winner": "AARON",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2481,7 +2487,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "1",
                   "winner": "CRITICAL MEDS",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2499,7 +2505,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "4",
                   "winner": "CRITICAL MEDS",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2512,7 +2518,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "0",
                   "winner": "RASHNAGAR",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2536,7 +2542,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "1",
                   "winner": "AOD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2549,7 +2555,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "0",
                   "winner": "JAMIETD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2567,7 +2573,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "4",
                   "winner": "JAMIETD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2580,7 +2586,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "0",
                   "score2": "4",
                   "winner": "AOD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2598,7 +2604,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "3",
                   "winner": "JAMIETD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2611,7 +2617,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "2",
                   "score2": "4",
                   "winner": "BRUZER",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2629,7 +2635,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "4",
                   "score2": "1",
                   "winner": "BROTHERHOOD OF LAG",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2642,7 +2648,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "3",
                   "score2": "4",
                   "winner": "JAMIETD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2660,7 +2666,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "4",
                   "winner": "AOD",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 },
                 {
@@ -2673,7 +2679,7 @@ window.KRISPY_TOURNAMENTS = {
                   "score1": "1",
                   "score2": "4",
                   "winner": "BROTHERHOOD OF LAG",
-                  "note": "Group stage Ã‚Â· screenshot evidence supplied by owner",
+                  "note": "Group stage · screenshot evidence supplied by owner",
                   "time": ""
                 }
               ]
@@ -2854,7 +2860,7 @@ window.KRISPY_TOURNAMENTS = {
         {
           "place": "1st",
           "name": "AOD",
-          "note": "Champion, won Grand Final 6Ã¢â‚¬â€œ4"
+          "note": "Champion, won Grand Final 6–4"
         },
         {
           "place": "2nd",
@@ -2876,21 +2882,21 @@ window.KRISPY_TOURNAMENTS = {
         {
           "title": "Group A",
           "entries": [
-            "RASHNAGAR Ã¢â‚¬â€\u009D 16 pts",
-            "CRITICAL MEDS Ã¢â‚¬â€\u009D 14 pts",
-            "AARON Ã¢â‚¬â€\u009D 8 pts",
-            "DANKU Ã¢â‚¬â€\u009D 7 pts",
-            "ADAM Ã¢â‚¬â€\u009D 5 pts"
+            "RASHNAGAR — 16 pts",
+            "CRITICAL MEDS — 14 pts",
+            "AARON — 8 pts",
+            "DANKU — 7 pts",
+            "ADAM — 5 pts"
           ]
         },
         {
           "title": "Group B",
           "entries": [
-            "JAMIETD Ã¢â‚¬â€\u009D 16 pts",
-            "AOD Ã¢â‚¬â€\u009D 15 pts",
-            "BROTHERHOOD OF LAG Ã¢â‚¬â€\u009D 11 pts",
-            "BRUZER Ã¢â‚¬â€\u009D 7 pts",
-            "KHANOMANCER Ã¢â‚¬â€\u009D 4 pts"
+            "JAMIETD — 16 pts",
+            "AOD — 15 pts",
+            "BROTHERHOOD OF LAG — 11 pts",
+            "BRUZER — 7 pts",
+            "KHANOMANCER — 4 pts"
           ]
         }
       ]
@@ -3250,12 +3256,12 @@ window.KRISPY_TOURNAMENTS = {
         {
           "title": "Final round-robin table",
           "entries": [
-            "peasy Ã¢â‚¬â€\u009D 20 pts (5-0)",
-            "johnnyknows Ã¢â‚¬â€\u009D 16 pts (4-1)",
-            "noble sub Ã¢â‚¬â€\u009D 14 pts (3-2)",
-            "gazeelorps Ã¢â‚¬â€\u009D 12 pts (1-4)",
-            "brotherhood of lag Ã¢â‚¬â€\u009D 10 pts (2-3)",
-            "war machine Ã¢â‚¬â€\u009D 10 pts (0-5)"
+            "peasy — 20 pts (5-0)",
+            "johnnyknows — 16 pts (4-1)",
+            "noble sub — 14 pts (3-2)",
+            "gazeelorps — 12 pts (1-4)",
+            "brotherhood of lag — 10 pts (2-3)",
+            "war machine — 10 pts (0-5)"
           ]
         }
       ]

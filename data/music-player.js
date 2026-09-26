@@ -18,6 +18,7 @@ let muted = false;
 let repeatMode = "off"; // off | library | playlist | track
 let shufflePool = [];
 let playHistory = [];
+let artworkRequest = 0;
 
 const audio = document.getElementById("audio");
 const artEl = document.getElementById("playerArt");
@@ -340,7 +341,11 @@ function syncSeekDisplay() {
 }
 
 function clearPlayerDisplay() {
+  artworkRequest += 1;
   artEl.style.backgroundImage = "url('/assets/logo.png')";
+  artEl.dataset.artState = "ready";
+  artEl.dataset.artLabel = "KrispyKP artwork";
+  artEl.setAttribute("aria-label", "KrispyKP artwork");
   songEl.textContent = "Select a track";
   artistEl.textContent = "KrispyKP";
   clearProgress();
@@ -349,8 +354,36 @@ function clearPlayerDisplay() {
   updateLyrics(null);
 }
 
+function loadTrackArtwork(track) {
+  const source = track.art || "/assets/logo.png";
+  const label = `${track.name || "Current track"} artwork`;
+  const request = ++artworkRequest;
+  const image = new Image();
+  artEl.dataset.artState = "loading";
+  artEl.dataset.artLabel = "Loading artwork";
+  artEl.setAttribute("aria-label", `Loading ${label}`);
+
+  image.addEventListener("load", () => {
+    if (request !== artworkRequest) return;
+    artEl.style.backgroundImage = `url("${source}")`;
+    artEl.dataset.artState = "ready";
+    artEl.dataset.artLabel = label;
+    artEl.setAttribute("aria-label", label);
+  }, { once: true });
+
+  image.addEventListener("error", () => {
+    if (request !== artworkRequest) return;
+    artEl.style.backgroundImage = "url('/assets/logo.png')";
+    artEl.dataset.artState = "error";
+    artEl.dataset.artLabel = "Artwork unavailable";
+    artEl.setAttribute("aria-label", `${label} unavailable; showing the KrispyKP logo`);
+  }, { once: true });
+
+  image.src = source;
+}
+
 function updateTrackDisplay(track) {
-  artEl.style.backgroundImage = `url(${track.art || "/assets/logo.png"})`;
+  loadTrackArtwork(track);
   songEl.textContent = track.name || "Unknown track";
   artistEl.textContent = track.artist || "Unknown artist";
   updateLyrics(track);

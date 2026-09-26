@@ -424,6 +424,7 @@
 
     return (
       events.find((event) => event.status === "live") ||
+      events.find((event) => event.status === "awaiting-results") ||
       events.find((event) => event.status === "upcoming") ||
       events.find((event) => event.status === "completed") ||
       events.find((event) => event.status === "cancelled") ||
@@ -435,6 +436,8 @@
     switch (status) {
       case "live":
         return "Live Event";
+      case "awaiting-results":
+        return "Awaiting Results";
       case "completed":
         return "Completed Event";
       case "cancelled":
@@ -443,6 +446,22 @@
       default:
         return "Upcoming Event";
     }
+  }
+
+  function setupTwitchGate() {
+    const button = document.getElementById("loadTwitchPlayer");
+    const frame = document.getElementById("homeTwitchFrame");
+    const gate = document.getElementById("homeTwitchGate");
+    if (!button || !frame || !gate) return;
+
+    button.addEventListener("click", () => {
+      const source = frame.dataset.src;
+      if (!source) return;
+      frame.src = source;
+      frame.hidden = false;
+      gate.hidden = true;
+      frame.focus();
+    }, { once: true });
   }
 
   function createTournamentMetaTag(label) {
@@ -529,6 +548,7 @@
   }
 
   function init() {
+    setupTwitchGate();
     renderFeaturedVideo();
     renderFeaturedTracks();
     rotateLiveCards();

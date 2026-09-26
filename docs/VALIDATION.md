@@ -7,10 +7,10 @@ The harness turns repeated repository discovery and objective regression work in
 | Command | Purpose |
 |---|---|
 | `npm run status` | Cheap branch/HEAD/base/dirty/remote/task summary before work. Use `status:json` for machine-readable output. |
-| `npm run validate:smoke` | Fast source/config/diff checks plus one-width six-page load, H1, console, asset and overflow checks. |
+| `npm run validate:smoke` | Fast source/config/diff checks plus one-width public-route load, H1, console, asset and overflow checks. |
 | `npm run validate` | Standard change-aware validation: smoke coverage plus affected pages at desktop and their stable functional tests. |
 | `npm run validate:browser` | Standard browser portion only; useful after a static-only failure is understood. |
-| `npm run validate:acceptance` | Full six-page 320/390/768/1024/1440 matrix and all stable functional smoke tests. |
+| `npm run validate:acceptance` | Full public-route 320/390/768/1024/1440 matrix and all stable functional smoke tests. |
 | `npm run validate:visual` | Acceptance validation plus optional 390/1440 screenshots under `.validation/screenshots/`. |
 | `npm run validate:self-test` | Temporarily injects controlled faults, proves detection, restores every source byte, then checks restoration. |
 
@@ -20,13 +20,13 @@ The browser harness uses the development-only `playwright-core` package with an 
 
 ## Profiles and change-aware scope
 
-- **SMOKE:** all JavaScript syntax, existing configuration validation, diff whitespace, HTML structure, IDs, local references, JSON-LD, sitemap/robots, then all six pages at 390px.
+- **SMOKE:** all JavaScript syntax, existing configuration validation, diff whitespace, HTML structure, IDs, local references, JSON-LD, sitemap/robots, then all public routes at 390px.
 - **STANDARD:** SMOKE plus affected pages at 1024px and stable functional checks for affected systems. Shared presentation/navigation/Radar changes expand the scope to all pages.
-- **ACCEPTANCE:** all six pages at 320, 390, 768, 1024 and 1440px, plus Home/navigation, Music, Videos, Tournaments and Radar functional checks.
+- **ACCEPTANCE:** all public routes at 320, 390, 768, 1024 and 1440px, plus Home/navigation, Music, Videos, Tournaments and Radar functional checks.
 
 Scope is calculated from committed, staged, unstaged and untracked changes relative to the merge-base with `origin/main` (or a supplied `--base`). Important mappings include:
 
-- shared CSS, command-deck, site UI, navigation, header/footer or Radar → all six pages;
+- shared CSS, command-deck, site UI, navigation, header/footer or Radar → all public routes;
 - Home files → Home;
 - Music player/data/styles → Music, and shared track data also → Home;
 - Videos renderer/data/styles → Videos, and shared video data also → Home;
@@ -50,7 +50,7 @@ Automation must not claim to prove:
 - search ranking or social-crawler behavior not directly observed;
 - live Twitch, YouTube, Challonge or Formspree delivery.
 
-Mark these `MANUAL` or `UNKNOWN`. Shared shell/CSS/header/footer/navigation changes require a full six-page manual/visual inspection after automated acceptance. Page-only changes require targeted visual inspection of the affected page and shared surfaces actually touched. Data-only changes require config/static/browser smoke plus affected-content inspection where presentation can vary.
+Mark these `MANUAL` or `UNKNOWN`. Shared shell/CSS/header/footer/navigation changes require a full public-route manual/visual inspection after automated acceptance. Page-only changes require targeted visual inspection of the affected page and shared surfaces actually touched. Data-only changes require config/static/browser smoke plus affected-content inspection where presentation can vary.
 
 ## Adding tests
 

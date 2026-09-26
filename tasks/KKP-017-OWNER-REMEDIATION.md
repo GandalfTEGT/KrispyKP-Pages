@@ -2,7 +2,7 @@
 
 ## Status
 
-`READY FOR OWNER RETESTING`
+`OWNER ACCEPTED / MERGED`
 
 ## Starting state
 
@@ -191,3 +191,8 @@
 - Owner retest remains required for physical-device two-thumb ergonomics, subjective visual preference, real assistive technology, true browser zoom and non-Chromium behavior.
 - Private Tournament Builder round-trip and remaining historical-source corrections are intentionally deferred and were not performed in this remediation.
 - Final remediation commit and verified remote tip are reported in the delivery handoff; no merge, deployment, release, tag, repository-setting change or KKP-018 work was authorised or performed.
+
+## Administrative reconciliation — 2026-09-26
+
+- Owner acceptance and merge were verified in current Git history at merge commit `92e591e6ce749732bbac1ece33e7979e9147f8ca` (`Merge KKP-017 owner remediation`).
+- This note reconciles the previously stale status without rewriting the task's historical delivery and retest chronology.

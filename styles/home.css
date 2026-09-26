@@ -102,6 +102,54 @@
   animation: homePulse 4.8s ease-in-out infinite;
 }
 
+.home-twitch-gate {
+  display: grid;
+  place-items: center;
+  padding: clamp(20px, 4vw, 42px);
+  background:
+    radial-gradient(circle at top right, rgba(145, 70, 255, 0.14), transparent 42%),
+    linear-gradient(180deg, rgba(79, 210, 255, 0.05), rgba(0, 0, 0, 0.18)),
+    #080d11;
+}
+
+.third-party-gate {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  min-width: 0;
+  max-width: 560px;
+  text-align: left;
+}
+
+.third-party-gate h3,
+.third-party-gate p {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.third-party-gate .cta-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin-top: 8px;
+}
+
+.third-party-gate .cta-row > .btn {
+  width: 100%;
+  min-width: 0;
+}
+
+.third-party-privacy-link {
+  width: fit-content;
+  color: var(--cyan-soft);
+  font-size: 13px;
+}
+
+.home-twitch-gate iframe[hidden] {
+  display: none;
+}
+
 @keyframes homePulse {
   0%, 100% {
     box-shadow: 0 0 0 rgba(79, 210, 255, 0);

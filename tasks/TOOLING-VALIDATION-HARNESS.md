@@ -2,7 +2,7 @@
 
 ## Status
 
-`READY FOR OWNER TESTING`
+`OWNER ACCEPTED / MERGED`
 
 ## Starting state
 
@@ -105,3 +105,8 @@
 ## Follow-ups
 
 - If integrated after further website changes, rerun acceptance and update legitimate stale harness assumptions rather than altering production behavior to appease a test.
+
+## Administrative reconciliation — 2026-09-26
+
+- Owner acceptance and merge were verified in current Git history: validation tooling was merged to `main` by `8b05b2fb99346ad11f82e30fa93b0eea17718c7a`.
+- This note reconciles the previously stale status without changing the historical implementation chronology above.

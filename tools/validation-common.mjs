@@ -11,7 +11,8 @@ export const PAGE_ROUTES = {
   videos: "/videos/",
   tournaments: "/tournaments/",
   about: "/about/",
-  contact: "/contact/"
+  contact: "/contact/",
+  privacy: "/privacy/"
 };
 export const ALL_PAGES = Object.keys(PAGE_ROUTES);
 export const PROFILE_VIEWPORTS = {
@@ -109,6 +110,8 @@ export function detectScope({ root = ROOT, base = null, files: providedFiles = n
       add("about");
     } else if (file.startsWith("contact/") || /^(?:styles\/contact\.css|data\/contact\.js)$/.test(file)) {
       add("contact");
+    } else if (file.startsWith("privacy/")) {
+      add("privacy");
     } else if (file === "robots.txt" || file === "sitemap.xml" || file === "CNAME") {
       extras.add("seo");
     } else if (file.startsWith("assets/") && !/\.(?:md|txt)$/i.test(file)) {

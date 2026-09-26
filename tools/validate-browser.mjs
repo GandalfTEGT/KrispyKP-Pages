@@ -169,6 +169,12 @@ async function runHomeTest(browser, baseUrl) {
     await schedule.evaluate(element => { element.open = false; });
     await page.reload({ waitUntil: "domcontentloaded" });
     assert(!(await page.locator(".home-schedule").evaluate(element => element.open)), "desktop schedule should default closed");
+    const twitchFrame = page.locator("#homeTwitchFrame");
+    assert(!(await twitchFrame.getAttribute("src")), "Twitch loaded before visitor choice");
+    assert(await page.locator("#homeTwitchGate").isVisible(), "first-party Twitch gate is not visible");
+    await page.locator("#loadTwitchPlayer").click();
+    assert((await twitchFrame.getAttribute("src") || "").includes("player.twitch.tv"), "Twitch player did not load after visitor choice");
+    assert(!(await page.locator("#homeTwitchGate").isVisible()), "Twitch gate remained visible after activation");
     const uplinkBeforeFocus = await page.evaluate(() => {
       const uplink = document.querySelector(".home-uplink-section");
       const focus = document.querySelector(".home-focus-panel")?.closest(".section");
@@ -181,7 +187,7 @@ async function runHomeTest(browser, baseUrl) {
       return { left: left?.bottom || 0, live: live?.bottom || 0 };
     });
     assert(Math.abs(heroBottoms.left - heroBottoms.live) <= 2, "desktop Live Stream and Battlefield panels do not align at the bottom");
-    return "mobile menu, semantic schedule default/user state, Uplink order and desktop hero alignment passed";
+    return "mobile menu, semantic schedule state, click-to-load Twitch gate, Uplink order and desktop hero alignment passed";
   } finally { await context.close(); }
 }
 
@@ -194,6 +200,9 @@ async function runMusicTest(browser, baseUrl) {
     const target = rows.nth(1);
     const id = await target.getAttribute("data-track-id");
     await target.click();
+    await page.waitForFunction(() => document.querySelector("#playerArt")?.dataset.artState !== "loading");
+    assert(await page.locator("#playerArt").getAttribute("data-art-state") === "ready", "selected artwork did not reach its ready state");
+    assert(await page.locator("#importCustomBtn").getAttribute("aria-controls") === "importCustomInput", "Import JSON control is not associated with its file input");
     assert(new URL(page.url()).searchParams.get("track") === id, "track selection did not update URL state");
     assert(await target.getAttribute("class").then(value => value.includes("active")), "selected track did not become active");
     await page.goto(`${baseUrl}/music/?track=${encodeURIComponent(id)}`, { waitUntil: "domcontentloaded" });
@@ -215,7 +224,7 @@ async function runMusicTest(browser, baseUrl) {
     await page.goto(`${baseUrl}/music/?track=__invalid__`, { waitUntil: "domcontentloaded" });
     assert(new URL(page.url()).searchParams.get("track") !== "__invalid__", "invalid track state was not normalized");
     assert(await page.locator(".track-item.active").count() === 1, "invalid track state did not fall back safely");
-    return "selection, command states, valid/invalid deep links and no-autoplay passed";
+    return "selection, artwork state, import-control association, command states, valid/invalid deep links and no-autoplay passed";
   } finally { await context.close(); }
 }
 
@@ -273,24 +282,27 @@ async function runTournamentTest(browser, baseUrl) {
     const events = await page.evaluate(() => window.KRISPY_TOURNAMENTS?.events?.map(event => ({ id: event.id, title: event.title, status: event.status })) || []);
     assert(events.length >= 2, "current and historical tournaments are not both available");
     assert(new Set(events.map(event => event.id)).size === events.length, "tournament IDs are not distinct");
-    const live = events.find(event => event.status === "live");
+    const current = events.find(event => event.status === "live" || event.status === "awaiting-results");
     const historical = events.find(event => event.status === "completed");
-    assert(Boolean(live && historical), "live and completed tournament states are required");
-    await page.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(live.id)}`, { waitUntil: "domcontentloaded" });
-    const spoilerToggle = page.locator(".tournament-spoiler-toggle");
-    assert(await spoilerToggle.count() === 1, "live tournament spoiler control missing");
-    assert(await spoilerToggle.getAttribute("aria-pressed") === "false", "live tournament results were hidden by default");
-    await spoilerToggle.click();
-    assert(await spoilerToggle.getAttribute("aria-pressed") === "true", "spoiler control did not expose its hidden state");
-    assert(await page.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler presentation state was not applied");
-    assert(await page.locator("#tournamentBracketBody").evaluate(element => getComputedStyle(element).display === "none"), "spoiler mode left bracket progression visible");
-    assert(await page.locator("#tournamentPlayers .tournament-player-item").count() > 0, "spoiler mode hid participant information");
-    await page.reload({ waitUntil: "domcontentloaded" });
-    assert(await page.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler preference did not persist across reload");
-    await page.locator(".tournament-spoiler-toggle").click();
-    assert(await page.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "false", "disabling spoiler mode did not restore results");
-    assert(await page.locator("#tournamentBracketBody .tournament-manual-match").count() > 0, "restored live bracket has no matches");
-    await page.locator(".tournament-spoiler-toggle").click();
+    assert(Boolean(current && historical), "current lifecycle and completed tournament states are required");
+    await page.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(current.id)}`, { waitUntil: "domcontentloaded" });
+    if (current.status === "live") {
+      const spoilerToggle = page.locator(".tournament-spoiler-toggle");
+      assert(await spoilerToggle.count() === 1, "live tournament spoiler control missing");
+      assert(await spoilerToggle.getAttribute("aria-pressed") === "false", "live tournament results were hidden by default");
+      await spoilerToggle.click();
+      assert(await spoilerToggle.getAttribute("aria-pressed") === "true", "spoiler control did not expose its hidden state");
+      assert(await page.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler presentation state was not applied");
+      assert(await page.locator("#tournamentBracketBody").evaluate(element => getComputedStyle(element).display === "none"), "spoiler mode left bracket progression visible");
+      await page.reload({ waitUntil: "domcontentloaded" });
+      await page.locator(".tournament-spoiler-toggle").click();
+    } else {
+      assert((await page.locator("#tournamentHeroMeta").textContent()).includes("Awaiting Results"), "awaiting-results state is not explicit");
+      assert(await page.locator(".tournament-spoiler-toggle").count() === 0, "awaiting-results event exposed a live-only spoiler control");
+      assert(await page.locator("#tournamentResultsSection").evaluate(element => element.hidden), "awaiting-results event published incomplete results");
+    }
+    assert(await page.locator("#tournamentPlayers .tournament-player-item").count() > 0, "current participant information is missing");
+    assert(await page.locator("#tournamentBracketBody .tournament-manual-match").count() > 0, "current bracket has no matches");
     await page.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(historical.id)}`, { waitUntil: "domcontentloaded" });
     const renderedTitle = (await page.locator("#tournamentTitle").textContent()).trim();
     assert(renderedTitle === historical.title, `event deep link selected '${renderedTitle}' instead of '${historical.title}'`);
@@ -298,24 +310,26 @@ async function runTournamentTest(browser, baseUrl) {
     assert(await page.locator(".tournament-spoiler-toggle").count() === 0, "historical event exposed a live-only spoiler control");
     assert(await page.locator("#tournamentBracketBody .tournament-manual-match").count() > 0, "historical results were not rendered");
     await page.goBack({ waitUntil: "domcontentloaded" });
-    assert(new URL(page.url()).searchParams.get("event") === live.id, "browser Back did not restore the live event deep link");
+    assert(new URL(page.url()).searchParams.get("event") === current.id, "browser Back did not restore the current event deep link");
     await page.goForward({ waitUntil: "domcontentloaded" });
     assert(new URL(page.url()).searchParams.get("event") === historical.id, "browser Forward did not restore the historical event deep link");
-    const fallbackPage = await context.newPage();
-    await fallbackPage.addInitScript(() => {
-      Storage.prototype.getItem = () => { throw new Error("storage unavailable"); };
-      Storage.prototype.setItem = () => { throw new Error("storage unavailable"); };
-    });
-    await fallbackPage.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(live.id)}`, { waitUntil: "domcontentloaded" });
-    const fallbackToggle = fallbackPage.locator(".tournament-spoiler-toggle");
-    await fallbackToggle.click();
-    assert(await fallbackPage.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler control failed when storage was unavailable");
-    await fallbackPage.close();
+    if (current.status === "live") {
+      const fallbackPage = await context.newPage();
+      await fallbackPage.addInitScript(() => {
+        Storage.prototype.getItem = () => { throw new Error("storage unavailable"); };
+        Storage.prototype.setItem = () => { throw new Error("storage unavailable"); };
+      });
+      await fallbackPage.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(current.id)}`, { waitUntil: "domcontentloaded" });
+      const fallbackToggle = fallbackPage.locator(".tournament-spoiler-toggle");
+      await fallbackToggle.click();
+      assert(await fallbackPage.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler control failed when storage was unavailable");
+      await fallbackPage.close();
+    }
     await page.goto(`${baseUrl}/tournaments/?event=__invalid__`, { waitUntil: "domcontentloaded" });
     assert(new URL(page.url()).searchParams.get("event") !== "__invalid__", "invalid event state was not normalized");
     const banner = page.locator("#tournamentHeroBackdrop");
     assert(await banner.count() === 1, "tournament banner surface missing");
-    return `${events.length} events, live spoiler persistence/isolation, storage fallback, Back/Forward, deep-link fallback and banner surface passed`;
+    return `${events.length} events, current lifecycle, results isolation, Back/Forward, deep-link fallback and banner surface passed`;
   } finally { await context.close(); }
 }
 

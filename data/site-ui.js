@@ -87,10 +87,23 @@
   }
 
   function setupSectionSignals() {
-    document.querySelectorAll("main > .hero, main > .page-hero, main > .section").forEach((section, index) => {
-      section.style.setProperty("--section-index", `"${String(index + 1).padStart(2, "0")}"`);
-      section.classList.add("command-section");
-    });
+    const sections = [...document.querySelectorAll("main > .hero, main > .page-hero, main > .section")];
+    function sync() {
+      let visibleIndex = 0;
+      sections.forEach((section) => {
+        const visible = !section.hidden;
+        section.classList.toggle("command-section", visible);
+        if (!visible) {
+          section.style.removeProperty("--section-index");
+          return;
+        }
+        visibleIndex += 1;
+        section.style.setProperty("--section-index", `"${String(visibleIndex).padStart(2, "0")}"`);
+      });
+    }
+    const observer = new MutationObserver(sync);
+    sections.forEach((section) => observer.observe(section, { attributes: true, attributeFilter: ["hidden"] }));
+    sync();
   }
 
   function setupResponsiveDefaults() {

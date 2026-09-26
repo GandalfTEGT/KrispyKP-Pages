@@ -86,6 +86,54 @@ function validateLocalAsset(route, location, { required = false } = {}) {
   }
 }
 
+function validatePublishedText(value, location) {
+  if (typeof value === "string") {
+    if (/[\u00c3\u00c2\uFFFD]|\u00e2[\u20ac\u201a]/u.test(value)) {
+      fail(location, "contains a suspicious mojibake marker");
+    }
+    if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F-\u009F]/u.test(value)) {
+      fail(location, "contains an unexpected control character");
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((entry, index) => validatePublishedText(entry, `${location}[${index}]`));
+    return;
+  }
+  if (value && typeof value === "object") {
+    Object.entries(value).forEach(([key, entry]) => validatePublishedText(entry, `${location}.${key}`));
+  }
+}
+
+function parsePublishedDate(value, location) {
+  if (typeof value !== "string" || !value.trim()) return null;
+  const normalised = value.trim().replace(" ", "T");
+  const timestamp = Date.parse(/(?:Z|[+-]\d\d:?\d\d)$/i.test(normalised) ? normalised : `${normalised}${normalised.length === 10 ? "T00:00:00" : ":00"}Z`);
+  if (!Number.isFinite(timestamp)) fail(location, `is not a valid publishing date: '${value}'`);
+  return Number.isFinite(timestamp) ? timestamp : null;
+}
+
+function validateKnownPlatformUrl(value, location) {
+  if (typeof value !== "string" || !value.trim() || !/^https?:/i.test(value)) return;
+  let url;
+  try { url = new URL(value); }
+  catch (_error) {
+    fail(location, `is not a valid URL: '${value}'`);
+    return;
+  }
+  const host = url.hostname.toLowerCase().replace(/^www\./, "");
+  const parts = url.pathname.split("/").filter(Boolean);
+  if (host === "twitch.tv") {
+    if (!/^[a-z0-9_]{1,25}$/i.test(parts[0] || "") || (parts.length > 1 && !(parts.length === 2 && parts[1] === "follow"))) {
+      fail(location, `is not a recognised Twitch channel URL: '${value}'`);
+    }
+  } else if (host === "challonge.com") {
+    if (!/^[a-z0-9_-]+$/i.test(parts[0] || "") || (parts.length > 1 && !(parts.length === 2 && parts[1] === "module"))) {
+      fail(location, `is not a recognised Challonge event URL: '${value}'`);
+    }
+  }
+}
+
 function validateRules(rules, location) {
   if (Array.isArray(rules)) {
     rules.forEach((rule, index) => requiredString(rule, `${location}[${index}]`));
@@ -129,13 +177,14 @@ function validateTournaments() {
     }
   }
 
-  const statuses = new Set(["live", "upcoming", "completed", "cancelled"]);
+  const statuses = new Set(["live", "upcoming", "awaiting-results", "completed", "cancelled"]);
   const registrationModes = new Set(["none", "closed", "external", "challonge"]);
   const bracketModes = new Set(["manual", "embed", "link", "none"]);
   let matchCount = 0;
 
   data.events.forEach((event, eventIndex) => {
     const eventPath = `events[${eventIndex}]`;
+    validatePublishedText(event, eventPath);
     requiredString(event?.title, `${eventPath}.title`);
     if (!statuses.has(event?.status)) fail(`${eventPath}.status`, `must be one of ${[...statuses].join(", ")}`);
     if (event?.registrationMode !== undefined && !registrationModes.has(event.registrationMode)) {
@@ -150,6 +199,37 @@ function validateTournaments() {
     if (event?.bracketMode === "embed") requiredString(event.bracketEmbedUrl, `${eventPath}.bracketEmbedUrl`);
     if (event?.bracketMode === "link") requiredString(event.bracketUrl, `${eventPath}.bracketUrl`);
 
+    for (const field of ["registrationUrl", "streamUrl", "bracketUrl", "bracketEmbedUrl"]) {
+      validateKnownPlatformUrl(event?.[field], `${eventPath}.${field}`);
+    }
+
+    const startAt = parsePublishedDate(event?.startDate, `${eventPath}.startDate`);
+    const endAt = parsePublishedDate(event?.endDate, `${eventPath}.endDate`);
+    const overrideExpiresAt = parsePublishedDate(event?.statusOverrideExpires, `${eventPath}.statusOverrideExpires`);
+    const now = Date.now();
+    if (startAt && endAt && endAt < startAt) fail(`${eventPath}.endDate`, "must not be earlier than startDate");
+    if (event?.status === "live") {
+      if (!startAt) fail(`${eventPath}.startDate`, "is required while status is 'live'");
+      requiredString(event?.lastUpdated, `${eventPath}.lastUpdated`);
+      if (startAt && startAt > now + 15 * 60 * 1000) fail(`${eventPath}.status`, "cannot be 'live' before startDate");
+      const liveExpiry = endAt || overrideExpiresAt;
+      if (liveExpiry && liveExpiry < now) fail(`${eventPath}.status`, "is stale because the live window/override has expired");
+      if (!liveExpiry && startAt && now - startAt > 48 * 60 * 60 * 1000) {
+        fail(`${eventPath}.status`, "has remained 'live' for more than 48 hours without endDate or statusOverrideExpires");
+      }
+    }
+    if (event?.status === "upcoming" && startAt && startAt < now - 6 * 60 * 60 * 1000) {
+      fail(`${eventPath}.status`, "is 'upcoming' after its startDate");
+    }
+    if (event?.status === "awaiting-results") {
+      if (!startAt) fail(`${eventPath}.startDate`, "is required while status is 'awaiting-results'");
+      if (startAt && startAt > now) fail(`${eventPath}.status`, "cannot await results before startDate");
+      requiredString(event?.lastUpdated, `${eventPath}.lastUpdated`);
+      if (!["closed", "none"].includes(event?.registrationMode)) {
+        fail(`${eventPath}.registrationMode`, "must be closed or none while awaiting results");
+      }
+    }
+
     validateLocalAsset(event?.bannerImage, `${eventPath}.bannerImage`);
     validateLocalAsset(event?.rulesUrl, `${eventPath}.rulesUrl`);
 
@@ -160,6 +240,11 @@ function validateTournaments() {
 
     if (!Array.isArray(event?.schedule)) fail(`${eventPath}.schedule`, "must be an array");
     if (!Array.isArray(event?.results)) fail(`${eventPath}.results`, "must be an array");
+    const results = Array.isArray(event?.results) ? event.results : [];
+    if (event?.status === "completed" && !results.length) fail(`${eventPath}.results`, "must contain published placements when status is 'completed'");
+    if (!["completed", "awaiting-results"].includes(event?.status) && results.length) {
+      fail(`${eventPath}.results`, `must be empty while status is '${event?.status}'`);
+    }
     validateRules(event?.rules, `${eventPath}.rules`);
 
     const groups = Array.isArray(event?.manualBracketGroups) ? event.manualBracketGroups : [];

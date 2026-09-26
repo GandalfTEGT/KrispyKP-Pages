@@ -836,13 +836,41 @@ textarea {
   margin-bottom: 14px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.06);
-  background: #0b1014 center / cover no-repeat;
+  background: #0b1014 url('/assets/logo.png') center / cover no-repeat;
+}
+
+.player-art::before {
+  content: attr(data-art-label);
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(6, 9, 11, 0.96), rgba(13, 28, 36, 0.9));
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-align: center;
+  text-transform: uppercase;
+  transition: opacity var(--transition);
+}
+
+.player-art[data-art-state="ready"]::before {
+  opacity: 0;
+}
+
+.player-art[data-art-state="error"]::before {
+  background: rgba(6, 9, 11, 0.82);
+  color: #ffcf9a;
 }
 
 .player-art::after {
   content: "";
   position: absolute;
   inset: auto 0 0 0;
+  z-index: 2;
   height: 32%;
   background: linear-gradient(180deg, transparent, rgba(0, 0, 0, 0.55));
 }

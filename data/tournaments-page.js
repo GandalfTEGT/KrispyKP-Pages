@@ -130,6 +130,8 @@
     switch (status) {
       case "live":
         return "Live";
+      case "awaiting-results":
+        return "Awaiting Results";
       case "completed":
         return "Completed";
       case "cancelled":
@@ -149,6 +151,7 @@
 
     return (
       events.find((event) => event.status === "live") ||
+      events.find((event) => event.status === "awaiting-results") ||
       events.find((event) => event.status === "upcoming") ||
       events.find((event) => event.status === "completed") ||
       events.find((event) => event.status === "cancelled") ||
@@ -159,7 +162,7 @@
   function getOtherActiveEvents(featuredEvent) {
     return getEvents().filter((event) => (
       event.id !== featuredEvent?.id &&
-      (event.status === "live" || event.status === "upcoming")
+      (event.status === "live" || event.status === "awaiting-results" || event.status === "upcoming")
     ));
   }
 
@@ -958,6 +961,7 @@
       ["Dates", [event.startDate, event.endDate].filter(Boolean).join(" to ") || "TBA"],
       ["Timezone", text(event.timezone, "TBA")]
     ];
+    if (event.lastUpdated) quickInfo.push(["Last Updated", text(event.lastUpdated)]);
 
     renderList(
       els.quickInfo,
@@ -1084,7 +1088,7 @@
 
       otherActive.forEach((event) => {
         els.switcherGrid.appendChild(
-          renderSwitcherCard(event, event.status === "live" ? "Live Event" : "Upcoming Event", "active")
+          renderSwitcherCard(event, event.status === "live" ? "Live Event" : (event.status === "awaiting-results" ? "Awaiting Results" : "Upcoming Event"), "active")
         );
       });
     }

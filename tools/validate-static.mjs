@@ -18,7 +18,8 @@ const PAGE_FILES = {
   videos: "videos/index.html",
   tournaments: "tournaments/index.html",
   about: "about/index.html",
-  contact: "contact/index.html"
+  contact: "contact/index.html",
+  privacy: "privacy/index.html"
 };
 
 function walk(root, filter, directory = root, output = []) {
@@ -80,6 +81,26 @@ function validateHtml(root, result) {
       message: duplicates.length ? `duplicate IDs: ${duplicates.join(", ")}` : `${ids.length} unique IDs`
     });
 
+    const imageTags = [...source.matchAll(/<img\b[^>]*>/gi)].map(match => match[0]);
+    const imagesWithoutDimensions = imageTags.filter(tag => !/\bwidth\s*=\s*["']\d+["']/i.test(tag) || !/\bheight\s*=\s*["']\d+["']/i.test(tag));
+    record(result, `html:${page}:image-dimensions`, imagesWithoutDimensions.length === 0, {
+      file: relative,
+      message: imagesWithoutDimensions.length ? `${imagesWithoutDimensions.length} image(s) missing intrinsic width/height` : `${imageTags.length} image(s) include intrinsic dimensions`
+    });
+
+    const requiredMetadata = [
+      ["title", /<title>[^<]+<\/title>/i],
+      ["description", /<meta\s+name=["']description["']\s+content=["'][^"']+["']/i],
+      ["canonical", /<link\s+rel=["']canonical["']\s+href=["']https:\/\/krispykp\.com\//i],
+      ["Open Graph title", /<meta\s+property=["']og:title["']\s+content=["'][^"']+["']/i],
+      ["Twitter title", /<meta\s+name=["']twitter:title["']\s+content=["'][^"']+["']/i]
+    ];
+    const missingMetadata = requiredMetadata.filter(([, pattern]) => !pattern.test(source)).map(([label]) => label);
+    record(result, `html:${page}:metadata`, missingMetadata.length === 0, {
+      file: relative,
+      message: missingMetadata.length ? `missing ${missingMetadata.join(", ")}` : "core SEO/social metadata present"
+    });
+
     const badReferences = [];
     for (const reference of htmlReferences(source)) {
       const resolved = resolveReference(root, filename, reference);
@@ -101,6 +122,79 @@ function validateHtml(root, result) {
       }
     }
   }
+}
+
+function validatePublishingControls(root, result) {
+  const contentFiles = [
+    ...walk(path.join(root, "data"), filename => /\.(?:js|mjs|json)$/i.test(filename)),
+    ...Object.values(PAGE_FILES).map(relative => path.join(root, relative))
+  ].filter(filename => fs.existsSync(filename));
+  const mojibake = [];
+  const malformedUrls = [];
+  const urlPattern = /https?:\/\/[^\s"'<>\\)]+/gi;
+
+  for (const filename of contentFiles) {
+    const source = fs.readFileSync(filename, "utf8");
+    if (/[\u00c3\u00c2\uFFFD]|\u00e2[\u20ac\u201a]|\\u00(?:0[0-8BCEF]|1[0-9A-Fa-f])/u.test(source)) {
+      mojibake.push(path.relative(root, filename).replaceAll("\\", "/"));
+    }
+    for (const match of source.matchAll(urlPattern)) {
+      const raw = match[0].replace(/[.,;:!?]+$/, "");
+      let url;
+      try { url = new URL(raw); }
+      catch (_error) { continue; }
+      const host = url.hostname.toLowerCase().replace(/^www\./, "");
+      const parts = url.pathname.split("/").filter(Boolean);
+      if (host === "twitch.tv" && (!/^[a-z0-9_]{1,25}$/i.test(parts[0] || "") || (parts.length > 1 && !(parts.length === 2 && parts[1] === "follow")))) {
+        malformedUrls.push(`${path.relative(root, filename)} -> ${raw}`);
+      }
+      if (host === "challonge.com" && (!/^[a-z0-9_-]+$/i.test(parts[0] || "") || (parts.length > 1 && !(parts.length === 2 && parts[1] === "module")))) {
+        malformedUrls.push(`${path.relative(root, filename)} -> ${raw}`);
+      }
+    }
+  }
+  record(result, "publishing:text-integrity", mojibake.length === 0, {
+    message: mojibake.length ? `suspicious encoding markers: ${mojibake.join(", ")}` : `${contentFiles.length} published content files checked for mojibake/control escapes`
+  });
+  record(result, "publishing:known-platform-urls", malformedUrls.length === 0, {
+    message: malformedUrls.length ? malformedUrls.join("; ") : "known Twitch and Challonge URL shapes checked"
+  });
+
+  const securityFile = path.join(root, ".well-known", "security.txt");
+  const security = fs.existsSync(securityFile) ? fs.readFileSync(securityFile, "utf8") : "";
+  const contact = security.match(/^Contact:\s*(\S+)/mi)?.[1] || "";
+  const expires = security.match(/^Expires:\s*(\S+)/mi)?.[1] || "";
+  const expiresAt = Date.parse(expires);
+  record(result, "publishing:security-txt", Boolean(contact) && Number.isFinite(expiresAt) && expiresAt > Date.now(), {
+    file: ".well-known/security.txt",
+    message: !security ? "security.txt missing" : `Contact ${contact || "missing"}; Expires ${expires || "missing/invalid"}`
+  });
+
+  const manifestFile = path.join(root, "site.webmanifest");
+  let manifest = null;
+  try { manifest = JSON.parse(fs.readFileSync(manifestFile, "utf8")); } catch (_error) { /* covered by JSON syntax */ }
+  const icons = Array.isArray(manifest?.icons) ? manifest.icons : [];
+  const manifestIconsValid = icons.length > 0 && icons.every(icon => {
+    const resolved = resolveReference(root, manifestFile, icon?.src || "");
+    return Boolean(icon?.sizes && icon?.type && resolved && fs.existsSync(resolved));
+  });
+  const manifestValid = Boolean(manifest?.name?.trim() && manifest?.short_name?.trim() && manifest?.theme_color && manifest?.background_color && manifestIconsValid);
+  record(result, "publishing:web-manifest", manifestValid, {
+    file: "site.webmanifest",
+    message: manifestValid ? `${icons.length} manifest icons and required identity fields checked` : "manifest identity, colours or icons are incomplete"
+  });
+
+  const contactFile = path.join(root, "contact", "index.html");
+  const contactSource = fs.readFileSync(contactFile, "utf8");
+  const forms = [...contactSource.matchAll(/<form\b[\s\S]*?<\/form>/gi)].map(match => match[0]).filter(form => /formspree\.io/i.test(form));
+  const disclosed = forms.length === 2 && forms.every(form => /Formspree/i.test(form) && /href=["']\/privacy\/["']/i.test(form));
+  const primaryPagesLinkPrivacy = Object.entries(PAGE_FILES)
+    .filter(([page]) => page !== "privacy")
+    .every(([, relative]) => /href=["']\/privacy\/["']/i.test(fs.readFileSync(path.join(root, relative), "utf8")));
+  record(result, "publishing:privacy-disclosure", disclosed && primaryPagesLinkPrivacy, {
+    file: "contact/index.html",
+    message: disclosed && primaryPagesLinkPrivacy ? "both Formspree forms disclose processing and every primary page links privacy information" : "missing adjacent Formspree disclosure or global privacy link"
+  });
 }
 
 function validateCssReferences(root, result) {
@@ -179,6 +273,7 @@ export function runStaticValidation({ root = ROOT, profile = "standard", scope =
   validateConfiguration(root, result);
   validateGitDiff(root, result);
   validateHtml(root, result);
+  validatePublishingControls(root, result);
   validateCssReferences(root, result);
   validateJson(root, result);
   validateSeo(root, result);

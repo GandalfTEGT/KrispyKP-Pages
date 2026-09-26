@@ -38,9 +38,10 @@ id
 - Unique string. Required.
 
 status
-- Options: "live", "upcoming", "completed"
+- Options: "upcoming", "live", "awaiting-results", "completed", "cancelled"
 - Required.
 - Results only show when status is "completed".
+- Use "awaiting-results" after play has ended when authoritative results are not yet published.
 
 title
 - Main visible tournament title. Required.

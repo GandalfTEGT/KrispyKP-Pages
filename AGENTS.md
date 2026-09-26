@@ -22,7 +22,7 @@ These are the stable rules for repository work. Start with `npm run status`, the
 ## Validation and reporting
 
 - Run `npm run status` before implementation and `npm run validate` after it. Use the profiles and impact rules in `docs/VALIDATION.md`.
-- Full automated regression is cheap and should normally precede delivery. Shared shell/CSS/navigation/header/footer changes also require full six-page visual inspection. Page-specific changes require targeted visual inspection of the affected page and any shared surfaces actually changed.
+- Full automated regression is cheap and should normally precede delivery. Shared shell/CSS/navigation/header/footer changes also require full public-route visual inspection. Page-specific changes require targeted visual inspection of the affected page and any shared surfaces actually changed.
 - Keep subjective and unavailable checks as `MANUAL` or `UNKNOWN`: visual quality, gameplay feel, physical touch ergonomics, real assistive-technology quality, true zoom, non-Chromium behavior, real hidden-tab behavior, search ranking and unobserved social crawlers.
 - Update the durable task record with requirements, evidence, changed files, commits, remote verification and owner-acceptance state. Use `tasks/TASK_TEMPLATE.md` for new work; do not leave requirements only in conversation history.
 - Finish with a clean worktree containing only intended changes. Report exact commands and results, remaining manual boundaries, commit SHA, remote state, and confirmation that protected branches/checkouts were not modified.

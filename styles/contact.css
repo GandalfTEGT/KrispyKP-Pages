@@ -143,6 +143,17 @@
   min-width: 220px;
 }
 
+.form-privacy-note {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.form-privacy-note a {
+  color: var(--cyan-soft);
+}
+
 .honeypot-field {
   position: absolute;
   left: -9999px;

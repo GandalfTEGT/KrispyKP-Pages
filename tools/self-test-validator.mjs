@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import { ROOT, detectScope, writeJson } from "./validation-common.mjs";
+import { ALL_PAGES, ROOT, detectScope, writeJson } from "./validation-common.mjs";
 import { runStaticValidation } from "./validate-static.mjs";
 import { runBrowserValidation } from "./validate-browser.mjs";
 
@@ -59,6 +59,26 @@ try {
   } finally { restore(targets.config); }
 
   try {
+    const source = originals.get(targets.config).toString("utf8");
+    const mutated = source.replace('"status": "awaiting-results"', '"status": "live"');
+    if (mutated === source) throw new Error("Could not locate stale-live fixture point");
+    fs.writeFileSync(targets.config, mutated, "utf8");
+    expectFailure("Stale live tournament", runStaticValidation({ root: ROOT, profile: "smoke", scope }), "configuration:site");
+  } finally { restore(targets.config); }
+
+  try {
+    const source = originals.get(targets.html).toString("utf8").replace("</main>", '<p>Broken encoding: Ã¢â‚¬â€œ</p>\n</main>');
+    fs.writeFileSync(targets.html, source, "utf8");
+    expectFailure("Suspicious mojibake", runStaticValidation({ root: ROOT, profile: "smoke", scope }), "publishing:text-integrity");
+  } finally { restore(targets.html); }
+
+  try {
+    const source = originals.get(targets.html).toString("utf8").replace("</main>", '<a href="https://www.twitch.tv/krispykp.com">Malformed Twitch fixture</a>\n</main>');
+    fs.writeFileSync(targets.html, source, "utf8");
+    expectFailure("Malformed known-platform URL", runStaticValidation({ root: ROOT, profile: "smoke", scope }), "publishing:known-platform-urls");
+  } finally { restore(targets.html); }
+
+  try {
     const source = originals.get(targets.html).toString("utf8").replace("</body>", '<div id="validator-self-test-overflow" style="width:200vw;height:1px"></div>\n</body>');
     fs.writeFileSync(targets.html, source, "utf8");
     const result = await runBrowserValidation({ root: ROOT, profile: "standard", scope, pages: ["about"] });
@@ -72,7 +92,7 @@ try {
 
   try {
     fs.appendFileSync(targets.sharedCss, "\n/* validator scope probe */\n", "utf8");
-    expectScope("Shared command-deck scope", detectScope({ root: ROOT, files: ["styles/command-deck.css"] }), ["home", "music", "videos", "tournaments", "about", "contact"]);
+    expectScope("Shared command-deck scope", detectScope({ root: ROOT, files: ["styles/command-deck.css"] }), ALL_PAGES);
   } finally { restore(targets.sharedCss); }
 
   try {
