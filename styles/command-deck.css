@@ -1499,3 +1499,12 @@ details[data-disclosure-animating="true"] { contain: layout; }
 @media (max-width: 640px) {
   .page-videos .videos-library-grid { grid-template-columns: 1fr; }
 }
+
+/* KKP-017 owner retest 2: the Home stream stands alone after Current Uplink moved below the hero. */
+@media (min-width: 1201px) {
+  .page-home .hero-grid { align-items: stretch; }
+}
+
+@media (max-width: 1200px) {
+  .page-home .hero-card { grid-template-columns: 1fr; }
+}

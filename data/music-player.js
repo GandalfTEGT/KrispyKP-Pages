@@ -30,6 +30,8 @@ const playBtn = document.getElementById("playBtn");
 const shuffleBtn = document.getElementById("shuffleBtn");
 const repeatBtn = document.getElementById("repeatBtn");
 const muteBtn = document.getElementById("muteBtn");
+const stopBtn = document.getElementById("stopBtn");
+const playerPanel = document.querySelector(".player-panel");
 const volumeEl = document.getElementById("playerVolume");
 const seekEl = document.getElementById("playerSeek");
 const tracksEl = document.getElementById("tracks");
@@ -184,6 +186,17 @@ function updateRepeatButton() {
 
   repeatBtn.textContent = labels[repeatMode] || "Repeat: Off";
   repeatBtn.classList.toggle("active", repeatMode !== "off");
+  repeatBtn.setAttribute("aria-pressed", String(repeatMode !== "off"));
+  repeatBtn.dataset.repeatMode = repeatMode;
+}
+
+function setPlaybackState(nextState) {
+  if (playerPanel) playerPanel.dataset.playbackState = nextState;
+  const playing = nextState === "playing";
+  const stopped = nextState === "stopped";
+  playBtn.setAttribute("aria-pressed", String(playing));
+  playBtn.setAttribute("aria-label", playing ? "Pause current track" : "Play current track");
+  if (stopBtn) stopBtn.setAttribute("aria-pressed", String(stopped));
 }
 
 function updateLyrics(track) {
@@ -332,6 +345,7 @@ function clearPlayerDisplay() {
   artistEl.textContent = "KrispyKP";
   clearProgress();
   playBtn.textContent = "▶";
+  setPlaybackState("idle");
   updateLyrics(null);
 }
 
@@ -495,6 +509,7 @@ function loadTrackByIndex(index, autoplay = false, pushHistory = true, urlMode =
   audio.src = track.file || "";
   audio.currentTime = 0;
   clearProgress();
+  setPlaybackState("ready");
 
   if (shuffle) {
     shufflePool = shufflePool.filter(trackId => trackId !== currentTrackId);
@@ -703,6 +718,7 @@ function stopTrack() {
   audio.pause();
   audio.currentTime = 0;
   playBtn.textContent = "▶";
+  setPlaybackState("stopped");
   setStatus("Stopped");
 }
 
@@ -735,6 +751,7 @@ function toggleMute() {
   muted = !muted;
   audio.muted = muted;
   muteBtn.classList.toggle("active", muted);
+  muteBtn.setAttribute("aria-pressed", String(muted));
   muteBtn.textContent = muted ? "Unmute" : "Mute";
 }
 
@@ -881,17 +898,22 @@ audio.ondurationchange = syncSeekDisplay;
 
 audio.onplay = () => {
   playBtn.textContent = "⏸";
+  setPlaybackState("playing");
   setStatus("Playing");
 };
 
 audio.onpause = () => {
   playBtn.textContent = "▶";
+  if (playerPanel?.dataset.playbackState !== "stopped") setPlaybackState("paused");
   if (audio.currentTime > 0 && audio.currentTime < (audio.duration || Infinity)) {
     setStatus("Paused");
   }
 };
 
-audio.onended = () => nextTrack();
+audio.onended = () => {
+  setPlaybackState("ended");
+  nextTrack();
+};
 
 volumeEl.oninput = () => {
   audio.volume = Number(volumeEl.value);

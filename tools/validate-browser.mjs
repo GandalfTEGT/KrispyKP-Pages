@@ -162,7 +162,26 @@ async function runHomeTest(browser, baseUrl) {
     assert(await menu.getAttribute("aria-expanded") === "false", "Escape did not close mobile menu");
     const schedule = page.locator(".home-schedule");
     if (await schedule.count()) assert(!(await schedule.evaluate(element => element.open)), "mobile schedule should default closed");
-    return "mobile menu and responsive schedule state passed";
+    await schedule.locator("summary").click();
+    assert(await schedule.evaluate(element => element.open), "schedule disclosure did not open");
+    await page.setViewportSize({ width: 1440, height: 900 });
+    assert(await schedule.evaluate(element => element.open), "desktop breakpoint overrode the user-opened schedule");
+    await schedule.evaluate(element => { element.open = false; });
+    await page.reload({ waitUntil: "domcontentloaded" });
+    assert(!(await page.locator(".home-schedule").evaluate(element => element.open)), "desktop schedule should default closed");
+    const uplinkBeforeFocus = await page.evaluate(() => {
+      const uplink = document.querySelector(".home-uplink-section");
+      const focus = document.querySelector(".home-focus-panel")?.closest(".section");
+      return Boolean(uplink && focus && (uplink.compareDocumentPosition(focus) & Node.DOCUMENT_POSITION_FOLLOWING));
+    });
+    assert(uplinkBeforeFocus, "Current Uplink is not before Current Focus and Command Feed");
+    const heroBottoms = await page.evaluate(() => {
+      const left = document.querySelector(".hero-grid > .frame")?.getBoundingClientRect();
+      const live = document.querySelector(".hero-card > .frame")?.getBoundingClientRect();
+      return { left: left?.bottom || 0, live: live?.bottom || 0 };
+    });
+    assert(Math.abs(heroBottoms.left - heroBottoms.live) <= 2, "desktop Live Stream and Battlefield panels do not align at the bottom");
+    return "mobile menu, semantic schedule default/user state, Uplink order and desktop hero alignment passed";
   } finally { await context.close(); }
 }
 
@@ -181,10 +200,22 @@ async function runMusicTest(browser, baseUrl) {
     const deep = page.locator(`.track-item[data-track-id="${id}"]`);
     assert((await deep.getAttribute("class")).includes("active"), "deep-linked track was not selected");
     assert(await page.locator("#audio").evaluate(audio => audio.paused), "deep-linked track autoplayed");
+    const shuffle = page.locator("#shuffleBtn");
+    await shuffle.click();
+    assert(await shuffle.getAttribute("aria-pressed") === "true", "shuffle active state is not exposed");
+    const repeat = page.locator("#repeatBtn");
+    await repeat.click();
+    assert(await repeat.getAttribute("aria-pressed") === "true", "repeat active state is not exposed");
+    assert(await repeat.getAttribute("data-repeat-mode") === "library", "repeat mode did not advance");
+    const mute = page.locator("#muteBtn");
+    await mute.click();
+    assert(await mute.getAttribute("aria-pressed") === "true", "mute active state is not exposed");
+    await page.locator("#stopBtn").click();
+    assert(await page.locator("#stopBtn").getAttribute("aria-pressed") === "true", "stopped playback state is not exposed");
     await page.goto(`${baseUrl}/music/?track=__invalid__`, { waitUntil: "domcontentloaded" });
     assert(new URL(page.url()).searchParams.get("track") !== "__invalid__", "invalid track state was not normalized");
     assert(await page.locator(".track-item.active").count() === 1, "invalid track state did not fall back safely");
-    return "selection, valid/invalid deep links and no-autoplay passed";
+    return "selection, command states, valid/invalid deep links and no-autoplay passed";
   } finally { await context.close(); }
 }
 
@@ -299,11 +330,26 @@ async function runRadarTest(browser, baseUrl) {
     await page.waitForFunction(() => document.body.dataset.radarGameState === "playing", null, { timeout: 4000 });
     assert(await page.locator(".radar-game-canvas").count() === 1, "Radar activation duplicated or lost the core canvas");
     assert((await page.locator(".radar-game-hud").textContent()).includes("Armour"), "Radar HUD does not use British ARMOUR spelling");
+    assert((await page.locator(".radar-game-hud").textContent()).includes("0.4.0"), "Radar HUD lost the 0.4.0 prototype version");
     assert(await page.locator(".radar-game-trigger").isVisible(), "active Radar exit trigger is not visible in its site corner");
+    const desktopHelp = await page.evaluate(() => {
+      const help = document.querySelector(".radar-game-help");
+      const screen = document.querySelector(".radar-game-screen");
+      return {
+        before: help.getBoundingClientRect().bottom <= screen.getBoundingClientRect().top + 1,
+        fontSize: parseFloat(getComputedStyle(help).fontSize)
+      };
+    });
+    assert(desktopHelp.before && desktopHelp.fontSize >= 16, "desktop Radar instructions are not large and above the battlefield");
     await page.locator('[data-game-action="pause"]').click();
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "paused"), "Radar pause control failed");
     await page.locator('[data-game-action="resume"]').click();
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "playing"), "Radar resume control failed");
+    assert(await page.locator(".radar-game-top-exit").isVisible(), "desktop top-screen Radar exit is not visible");
+    await page.locator(".radar-game-top-exit").click();
+    await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
+    await page.locator(".radar-game-trigger").click();
+    await page.waitForFunction(() => document.body.dataset.radarGameState === "playing", null, { timeout: 4000 });
     await page.locator(".radar-game-trigger").click();
     await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
     await page.locator(".radar-game-trigger").click();
@@ -315,13 +361,38 @@ async function runRadarTest(browser, baseUrl) {
     await page.locator(".radar-game-trigger").click();
     await page.waitForFunction(() => document.body.dataset.radarGameState === "playing", null, { timeout: 4000 });
     assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 250), "portrait Radar battlefield is too short");
+    assert(await page.locator(".radar-game-trigger").isVisible(), "portrait Radar corner exit is not visible");
+    assert(!(await page.locator(".radar-game-top-exit").isVisible()), "portrait Radar unexpectedly shows the desktop/landscape top exit");
+    const twoThumb = await page.evaluate(() => {
+      const move = document.querySelector('[data-game-joystick="move"]');
+      const aim = document.querySelector('[data-game-joystick="aim"]');
+      const moveKnob = move.querySelector(".radar-game-joystick-knob");
+      const aimKnob = aim.querySelector(".radar-game-joystick-knob");
+      const mr = move.getBoundingClientRect();
+      const ar = aim.getBoundingClientRect();
+      const emit = (target, type, pointerId, x, y) => target.dispatchEvent(new PointerEvent(type, {
+        bubbles: true, pointerId, pointerType: "touch", clientX: x, clientY: y
+      }));
+      emit(move, "pointerdown", 11, mr.left + mr.width / 2, mr.top + mr.height / 2);
+      emit(aim, "pointerdown", 12, ar.left + ar.width / 2, ar.top + ar.height / 2);
+      emit(move, "pointermove", 11, mr.right - 8, mr.top + mr.height / 2);
+      emit(aim, "pointermove", 12, ar.left + 8, ar.top + ar.height / 2);
+      const changed = moveKnob.style.transform !== "translate(-50%, -50%)" && aimKnob.style.transform !== "translate(-50%, -50%)";
+      emit(move, "pointerup", 11, mr.right - 8, mr.top + mr.height / 2);
+      emit(aim, "pointerup", 12, ar.left + 8, ar.top + ar.height / 2);
+      return changed && moveKnob.style.transform === "translate(-50%, -50%)" && aimKnob.style.transform === "translate(-50%, -50%)";
+    });
+    assert(twoThumb, "independent two-thumb move and aim/fire controls did not operate and reset together");
     await page.setViewportSize({ width: 844, height: 390 });
     await page.waitForTimeout(100);
     assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 200), "landscape Radar battlefield collapsed after orientation resize");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), "Radar orientation transition caused document overflow");
-    await page.locator(".radar-game-trigger").click();
+    assert(await page.locator(".radar-game-top-exit").isVisible(), "landscape top Radar exit is not visible");
+    assert(!(await page.locator(".radar-game-fire").isVisible()), "landscape retained the separate Fire button");
+    assert(!(await page.locator(".radar-game-trigger").isVisible()), "landscape retained the corner exit instead of the top control");
+    await page.locator(".radar-game-top-exit").click();
     await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
-    return "inactive, pause/resume, corner exit, Escape, repeated activation, portrait/landscape resize and overflow passed";
+    return "inactive, pause/resume, both desktop exits, Escape, repeated activation, portrait/landscape controls, resize and overflow passed";
   } finally { await context.close(); }
 }
 

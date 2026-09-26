@@ -143,3 +143,51 @@
 ## Follow-ups
 
 - Record only genuinely deferred or ambiguous historical-source items after source review.
+
+## Owner retest remediation 2 — 2026-09-26
+
+### Continuation state and owner-authored content
+
+- Continued from the existing KKP-017 branch tip `74ebcacbe89be46f6c1b84fbb65320d85451f943`; the authorised base remained `origin/main` at `8b05b2fb99346ad11f82e30fa93b0eea17718c7a`.
+- Discovered and preserved the owner's uncommitted edits to `data/tournaments.config.js`, `data/flags.js`, `data/tracks.js`, two tournament rules PDFs, 49 replacement/updated artwork files, three deliberate artwork deletions, and 14 newly added artwork files.
+- A pre-edit SHA-256 manifest was compared after implementation and validation. Every owner-authored file, deletion and addition remained byte-for-byte unchanged.
+- The owner's updated catalogue passed configuration validation with 60 distinct tracks, four music playlists and 130 resolving local asset references. No owner artwork or catalogue content was reverted to an earlier fixture.
+
+### Home retest corrections
+
+- Stream Schedule now defaults closed in markup. The shared breakpoint script no longer forces its state, so native user open/close interaction remains authoritative across resize.
+- Current Uplink was moved out of the Live Stream column and now appears before Current Focus and Command Feed while retaining its two-item update summary and four route cards.
+- At large desktop widths the Battlefield and Live Stream panels use their shared grid row to align their lower edges. Smaller widths retain content-driven stacking.
+
+### Music retest corrections
+
+- Shuffle, Repeat, Mute, Play and Stop/applicable playback state now expose their actual state through `aria-pressed`; Repeat also exposes the active repeat mode.
+- Active commands use a persistent illuminated command-deck treatment that remains distinct from hover and keyboard focus. Existing playback, disabled and keyboard behavior remains intact.
+
+### Tournament and Contact retest corrections
+
+- The manual bracket maximum width increased from 1800px to 2200px on large desktops, remains centred, and retains its existing contained/mobile behavior. Ordinary tournament panels were not widened.
+- Contact Routes, Before You Send, Contact Form and Tournament Signup are capped to a centred 1180px workspace. Their required source order remains unchanged; the forms are intrinsic-height desktop peers and stack on mobile.
+- Further historical reconstruction and private Tournament Builder changes remain deferred to the later dedicated task requested by the owner.
+
+### Radar retest corrections
+
+- Radar remains version `0.4.0`.
+- Desktop now provides both exit routes: the persistent site-corner control and a top Exit Radar button beside Pause. Both use the same exit lifecycle; Escape remains supported.
+- Desktop instructions moved above the battlefield and use a substantially larger horizontal presentation.
+- Portrait retains the corner exit and two-thumb MOVE plus AIM/FIRE deck. Short mobile landscape removes the redundant Fire button and corner exit, exposes Pause plus Exit in the compact top controls, and retains AIM/FIRE firing.
+- Automated interaction covered both desktop exits, Escape, pause/resume, repeated activation, portrait-to-landscape live resize, simultaneous independent joystick pointer IDs and control reset.
+
+### Remediation 2 validation
+
+- `npm run validate` — `STANDARD PASS`, 43 checks.
+- `npm run validate:visual` — `ACCEPTANCE PASS`, 61 checks with six-page captures at 390px and 1440px.
+- `npm run validate:acceptance` — final pre-delivery `ACCEPTANCE PASS`, 61 checks across all six pages at 320/390/768/1024/1440 widths.
+- Additional rendered inspection completed at 2560×1440 for Home, the expanded Tournament bracket and the normal-width Contact workspace, plus targeted Music active-state and Radar desktop/390×844/844×390 captures.
+- JavaScript syntax, configuration, local references, duplicate identifiers, first-party browser errors, page/document overflow and `git diff --check` passed within the acceptance run.
+
+### Remediation 2 manual boundary
+
+- Owner retest remains required for physical-device two-thumb ergonomics, subjective visual preference, real assistive technology, true browser zoom and non-Chromium behavior.
+- Private Tournament Builder round-trip and remaining historical-source corrections are intentionally deferred and were not performed in this remediation.
+- Final remediation commit and verified remote tip are reported in the delivery handoff; no merge, deployment, release, tag, repository-setting change or KKP-018 work was authorised or performed.

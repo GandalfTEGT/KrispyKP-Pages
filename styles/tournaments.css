@@ -462,7 +462,7 @@
 
 @media (min-width: 1200px) {
   .tournament-bracket-card {
-    width: min(1800px, calc(100vw - 40px));
+    width: min(2200px, calc(100vw - 24px));
     max-width: none;
     margin-left: 50%;
     transform: translateX(-50%);

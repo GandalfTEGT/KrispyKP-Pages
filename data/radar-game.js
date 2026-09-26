@@ -119,6 +119,7 @@
           </div>
           <div class="radar-game-actions">
             <button type="button" data-game-action="pause">Pause</button>
+            <button type="button" class="radar-game-top-exit" data-game-action="exit">Exit radar</button>
           </div>
         </header>
         <div class="radar-game-hud" aria-label="Game status">
