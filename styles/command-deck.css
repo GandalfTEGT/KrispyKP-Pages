@@ -1310,7 +1310,10 @@ details[data-disclosure-animating="true"] { contain: layout; }
   }
 
   .page-home .hero-card .embed-box {
-    aspect-ratio: 16 / 10;
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    aspect-ratio: auto;
   }
 }
 

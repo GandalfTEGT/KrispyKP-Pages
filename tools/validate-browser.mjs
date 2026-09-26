@@ -191,6 +191,80 @@ async function runHomeTest(browser, baseUrl) {
   } finally { await context.close(); }
 }
 
+async function runHomeLayoutTest(browser, baseUrl, root, screenshots) {
+  const viewports = [
+    { width: 320, height: 844 },
+    { width: 390, height: 844 },
+    { width: 768, height: 900 },
+    { width: 1024, height: 900 },
+    { width: 1440, height: 900 },
+    { width: 1920, height: 1080 },
+    { width: 2560, height: 1440 }
+  ];
+  const violations = [];
+  const within = (inner, outer, tolerance = 1) => inner.left >= outer.left - tolerance &&
+    inner.top >= outer.top - tolerance && inner.right <= outer.right + tolerance && inner.bottom <= outer.bottom + tolerance;
+
+  for (const viewport of viewports) {
+    const { context, page } = await preparePage(browser, baseUrl, viewport.width);
+    try {
+      await page.setViewportSize(viewport);
+      await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
+      await page.waitForTimeout(120);
+      const before = await page.evaluate(() => {
+        const rect = selector => document.querySelector(selector)?.getBoundingClientRect().toJSON();
+        const logo = document.querySelector(".hero-logo");
+        return {
+          heroPanel: rect(".hero-grid > .frame"),
+          panel: rect(".hero-card > .frame"),
+          embed: rect(".home-twitch-gate"),
+          gate: rect("#homeTwitchGate"),
+          logo: rect(".hero-logo"),
+          logoNatural: { width: logo?.naturalWidth || 0, height: logo?.naturalHeight || 0 },
+          documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+        };
+      });
+      const renderedRatio = before.logo.width / before.logo.height;
+      const naturalRatio = before.logoNatural.width / before.logoNatural.height;
+      if (!Number.isFinite(naturalRatio) || Math.abs(renderedRatio - naturalRatio) > naturalRatio * 0.02) {
+        violations.push(`${viewport.width}x${viewport.height}: hero logo ratio ${renderedRatio.toFixed(3)} does not match intrinsic ${naturalRatio.toFixed(3)}`);
+      }
+      if (!within(before.logo, before.heroPanel)) {
+        violations.push(`${viewport.width}x${viewport.height}: hero logo is not contained by its panel`);
+      }
+      if (!within(before.gate, before.embed) || !within(before.embed, before.panel) || before.documentOverflow > 1) {
+        violations.push(`${viewport.width}x${viewport.height}: Twitch gate is not contained (${JSON.stringify({ panel: before.panel, embed: before.embed, gate: before.gate })})`);
+      }
+      if (screenshots) {
+        const directory = path.join(root, ".validation", "screenshots");
+        fs.mkdirSync(directory, { recursive: true });
+        await page.screenshot({ path: path.join(directory, `home-retest-${viewport.width}x${viewport.height}-gate.png`), fullPage: true });
+      }
+      await page.locator("#loadTwitchPlayer").click();
+      const after = await page.evaluate(() => {
+        const rect = selector => document.querySelector(selector)?.getBoundingClientRect().toJSON();
+        return {
+          panel: rect(".hero-card > .frame"),
+          embed: rect(".home-twitch-gate"),
+          frame: rect("#homeTwitchFrame"),
+          documentOverflow: document.documentElement.scrollWidth - document.documentElement.clientWidth
+        };
+      });
+      if (!within(after.frame, after.embed) || !within(after.embed, after.panel) || after.documentOverflow > 1) {
+        violations.push(`${viewport.width}x${viewport.height}: loaded Twitch frame is not contained (${JSON.stringify({ panel: after.panel, embed: after.embed, frame: after.frame })})`);
+      }
+      if (screenshots) {
+        const directory = path.join(root, ".validation", "screenshots");
+        await page.screenshot({ path: path.join(directory, `home-retest-${viewport.width}x${viewport.height}-loaded.png`), fullPage: true });
+      }
+    } finally {
+      await context.close();
+    }
+  }
+  assert(violations.length === 0, violations.join("; "));
+  return "hero logo aspect ratio and Twitch gate/player containment passed at seven owner-retest viewports";
+}
+
 async function runMusicTest(browser, baseUrl) {
   const { context, page } = await preparePage(browser, baseUrl, 1024);
   try {
@@ -432,7 +506,10 @@ export async function runBrowserValidation({ root = ROOT, profile = "standard", 
 
     const functionalPages = profile === "acceptance" ? ALL_PAGES : (pages || resolvedScope.pages);
     if (profile !== "smoke") {
-      if (functionalPages.includes("home")) await functionalCase(result, "home", () => runHomeTest(browser, baseUrl));
+      if (functionalPages.includes("home")) {
+        await functionalCase(result, "home", () => runHomeTest(browser, baseUrl));
+        await functionalCase(result, "home-layout", () => runHomeLayoutTest(browser, baseUrl, root, screenshots));
+      }
       if (functionalPages.includes("music")) await functionalCase(result, "music", () => runMusicTest(browser, baseUrl));
       if (functionalPages.includes("videos")) await functionalCase(result, "videos", () => runVideosTest(browser, baseUrl));
       if (functionalPages.includes("tournaments")) await functionalCase(result, "tournaments", () => runTournamentTest(browser, baseUrl));

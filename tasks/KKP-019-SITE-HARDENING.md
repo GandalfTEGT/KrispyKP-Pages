@@ -94,13 +94,22 @@
 ## Validation checklist
 
 - [x] Baseline `npm run status`
-- [x] `npm run validate` — STANDARD PASS, 67 checks
-- [x] `npm run validate:acceptance` — ACCEPTANCE PASS, 88 checks across seven routes and five widths
+- [x] `npm run validate` — STANDARD PASS, 68 checks after owner-retest remediation
+- [x] `npm run validate:acceptance` — ACCEPTANCE PASS, 89 checks; seven-route matrix plus Home owner-retest geometry at seven exact viewports
 - [x] `npm run validate:self-test` — 10 probes passed; every source byte restored
 - [x] `npm run validate:visual` — ACCEPTANCE PASS, 88 checks; 390px/1440px screenshots inspected for all routes
 - [x] Focused JavaScript/configuration/static/diff checks
 - [x] Temporary fixtures removed and source bytes restored
 - [x] Browser/service/device boundaries recorded accurately
+
+## Owner-retest remediation — 26 September 2026
+
+- **Accepted areas preserved:** Twitch click-to-load behaviour, mobile Twitch presentation and the Privacy page were not redesigned.
+- **Battlefield logo diagnosis:** the intrinsic `width` and `height` attributes added by KKP-019 were correct, but `.hero-logo` overrode only the width. The browser therefore rendered a 140×300 or 120×300 image. The owning rule now keeps the designed responsive width and explicitly derives height from the image's intrinsic aspect ratio.
+- **Twitch diagnosis:** at widths above 1200px, `command-deck.css` applied `aspect-ratio: 16 / 10` while the Home layout made the embed fill the available panel height. The height-driven aspect ratio produced an 872–884px embed inside a 614–641px panel. The owning desktop rule now follows the panel width, removes that conflicting ratio and retains the full available height.
+- **Regression coverage:** browser geometry assertions compare rendered and intrinsic logo ratios, confirm logo/panel containment, and verify both the gate and activated iframe against their embed and panel boundaries. Coverage uses 320×844, 390×844, 768×900, 1024×900, 1440×900, 1920×1080 and 2560×1440; both Twitch states are checked at every size.
+- **Visual evidence:** targeted gate/loaded captures were reviewed at mobile, transition, desktop, Full HD and 1440p widths. External Twitch was intentionally blocked by the local harness; containment, not third-party delivery, was assessed.
+- **Retest result:** `npm run validate` passed 68 checks and `npm run validate:acceptance` passed 89 checks.
 
 ## Manual / unknown
 
@@ -122,6 +131,7 @@
 
 - `3fda9961229e5a82b3d460fe51a095854ca6da66` — Complete KKP-019 site hardening.
 - Delivery-record update: this records-only follow-up commit; use the final branch tip reported in the owner handoff.
+- Owner-retest layout remediation: this commit; use the final branch tip reported in the owner handoff.
 
 ## Remote verification
 
