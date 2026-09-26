@@ -98,11 +98,11 @@
 
 ## Remote verification
 
-- Remote/branch: pending `origin/kkp/018-radar-rts-expansion`
-- Verified remote tip: pending
-- Main unchanged: pending final verification
+- Remote/branch: pushed only to `origin/kkp/018-radar-rts-expansion`
+- Verified remote tip after the implementation/record push: `a99d7b10ca95c19843a7840d6612d815296f82fe`; the final metadata-only tip is reported in the owner handoff.
+- Main unchanged: verified remote `main` remains `92e591e6ce749732bbac1ece33e7979e9147f8ca`
 - Protected checkouts unchanged: yes at task start
-- Push/merge/deploy state: no push, merge, deploy, release or tag at task start
+- Push/merge/deploy state: KKP-018 branch pushed; no merge, deploy, release or tag
 
 ## Owner acceptance
 
