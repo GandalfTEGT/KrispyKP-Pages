@@ -96,11 +96,13 @@
 
 - Implementation and validated handoff: `816ce999d77c26ee73bb42d7e3681fb20f3e2533` (`Implement Radar RTS expansion`).
 - Owner Remediation 1 implementation and validation: `8edcd018ea5786a6d998a6f7bf2be5fac204fad2` (`Refine Radar RTS controls and feedback`).
+- Owner Remediation 2 implementation and validation: `24028b085aebf33fdf9955e1f51492eb56947c4e` (`Expand Radar Command 1.2 controls and RTS systems`).
 
 ## Remote verification
 
 - Remote/branch: pushed only to `origin/kkp/018-radar-rts-expansion`
-- Verified remote tip after the implementation/record push: `a99d7b10ca95c19843a7840d6612d815296f82fe`; the final metadata-only tip is reported in the owner handoff.
+- Original implementation/record remote tip: `a99d7b10ca95c19843a7840d6612d815296f82fe` (historical).
+- Owner Remediation 2 implementation push verified at `24028b085aebf33fdf9955e1f51492eb56947c4e` on 2026-09-26. The subsequent metadata-only commit and exact final remote tip are reported in the owner handoff.
 - Main unchanged: verified remote `main` remains `92e591e6ce749732bbac1ece33e7979e9147f8ca`
 - Protected checkouts unchanged: yes at task start
 - Push/merge/deploy state: KKP-018 branch pushed; no merge, deploy, release or tag
@@ -204,6 +206,13 @@ All modes consume the same finite map resources and pay the same item costs. Tra
 - MANUAL/UNKNOWN: physical touch/pinch ergonomics, actual speaker/headphone sound quality and mix, gameplay feel/balance, screen-reader quality, true browser zoom, real hidden-tab behavior and Safari/Firefox behavior. Synthetic blur and headless Web Audio tests are not claims of those physical/browser checks.
 - Deferred: full graphical overhaul, extensive licensed/recorded sound library, sophisticated dynamic pathfinding/formations and extra RTS systems outside this brief. Original geometric art and small original symbols/effects remain the intended boundary.
 - No main merge, deployment, release/tag, reference-checkout edits, or owner acceptance is authorised by this pass.
+
+### Delivery verification
+
+- Implementation commit: `24028b085aebf33fdf9955e1f51492eb56947c4e`; pushed with an explicit refspec to only `refs/heads/kkp/018-radar-rts-expansion`.
+- Fresh remote read after that push matched the implementation commit and confirmed `main` still at `92e591e6ce749732bbac1ece33e7979e9147f8ca`.
+- Required base remains an ancestor. Implementation worktree was clean after the push. This follow-up edits only commit/remote metadata; final metadata tip and clean-state verification are provided in the handoff.
+- Delivery status: `READY FOR OWNER RETESTING`; owner acceptance remains pending.
 
 ## Follow-ups
 
