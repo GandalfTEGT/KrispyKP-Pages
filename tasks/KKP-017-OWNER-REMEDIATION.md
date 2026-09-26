@@ -122,19 +122,20 @@
 
 ## Commits
 
-- Pending final remediation commit.
+- `1a20be42de5317f9cb375e2bbb2cb6589d00f72c` — Complete KKP-017 owner remediation.
+- Delivery-record update: this records-only commit; exact final branch tip is verified and reported in the owner handoff.
 
 ## Remote verification
 
 - Remote/branch: `origin/kkp/017-owner-remediation`
-- Verified remote tip: Pending.
-- Main unchanged: Pending final verification.
-- Protected checkouts unchanged: Pending final verification.
-- Push/merge/deploy state: Task branch push authorised; merge/deploy/release/tag prohibited.
+- Verified implementation remote tip before this record update: `1a20be42de5317f9cb375e2bbb2cb6589d00f72c`.
+- Main unchanged: remote `main` remains `8b05b2fb99346ad11f82e30fa93b0eea17718c7a`.
+- Protected checkouts unchanged: confirmed; the trusted reference checkout remains at its pre-existing `318cf656...` state and the prior KKP-016 worktree remains at `009308f3...`.
+- Push/merge/deploy state: only the authorised task branch was pushed; no merge, deploy, release or tag occurred.
 
 ## Owner acceptance
 
-- Owner retest instructions: Pending final handoff.
+- Owner retest instructions: Review the six-page responsive composition, toggle live spoilers and switch to a completed archive event, inspect the corrected Champions League stages, and exercise Radar on a physical phone in portrait and landscape.
 - Owner result/date: Pending.
 - Acceptance evidence: None yet.
 - Merge/deploy authority granted separately: `NO`
