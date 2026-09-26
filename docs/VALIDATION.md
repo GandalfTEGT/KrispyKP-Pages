@@ -38,7 +38,7 @@ Tournament schema, rules PDF or generator changes are flagged for tournament art
 
 ## Visual and owner boundary
 
-Automation can prove that pages load, first-party assets resolve, JavaScript does not throw, one H1 exists, document width does not overflow, stable deep links normalize safely, selections update and Music does not autoplay on deep link. Radar coverage additionally exercises a deterministic build/economy/production/orders/combat/power/superweapon/outcome loop plus browser dormancy, pause, focus loss, restart, responsive profiles, resize preservation, reduced motion, repeated activation and cleanup.
+Automation can prove that pages load, first-party assets resolve, JavaScript does not throw, one H1 exists, document width does not overflow, stable deep links normalize safely, selections update and Music does not autoplay on deep link. Radar coverage additionally exercises pre-start simulation dormancy, a deterministic build/economy/production/orders/combat/power/superweapon/outcome loop, tactical AI retargeting, touch selection/pan/pinch separation, pause, focus loss, restart, responsive profiles, resize preservation, reduced motion, repeated activation and cleanup.
 
 Automation must not claim to prove:
 

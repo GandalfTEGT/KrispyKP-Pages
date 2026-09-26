@@ -53,6 +53,7 @@ export class RadarRTSSimulation {
       enemy: { charge: 0, ready: false, launches: 0 }
     };
     this.ai = { decisionClock: 4, attackClock: 12, wave: 0 };
+    this.metrics = { targetEvaluations: 0 };
     this.events = [];
     this.initializeScenario();
   }
@@ -115,6 +116,7 @@ export class RadarRTSSimulation {
       health: definition.health, maxHealth: definition.health, radius: definition.radius,
       angle: side === SIDES.PLAYER ? 0 : Math.PI,
       order: null, targetId: null, cooldown: 0, dead: false,
+      retargetClock: this.random() * 0.6,
       cargo: 0, harvestState: type === "harvester" ? "seeking" : null,
       resourceId: null, refineryId: null
     };
@@ -331,10 +333,11 @@ export class RadarRTSSimulation {
   fire(attacker, target, weapon) {
     if (this.projectiles.length >= WORLD.maxProjectiles) return;
     const angle = Math.atan2(target.y - attacker.y, target.x - attacker.x);
+    const multiplier = weapon.multipliers?.[target.type] ?? weapon.multipliers?.[target.kind] ?? 1;
     this.projectiles.push({
       id: this.id("projectile"), side: attacker.side, sourceId: attacker.id, targetId: target.id,
       x: attacker.x, y: attacker.y, vx: Math.cos(angle) * weapon.projectileSpeed,
-      vy: Math.sin(angle) * weapon.projectileSpeed, damage: weapon.damage,
+      vy: Math.sin(angle) * weapon.projectileSpeed, damage: weapon.damage * multiplier,
       life: Math.max(0.4, weapon.range / weapon.projectileSpeed + 0.5)
     });
     attacker.cooldown = weapon.cooldown;
@@ -458,23 +461,53 @@ export class RadarRTSSimulation {
     }
   }
 
-  acquireTarget(unit) {
+  targetPriority(unit, target) {
+    const d = distance(unit, target);
+    if (target.kind === "unit") {
+      const threatening = target.targetId === unit.id || target.order?.targetId === unit.id;
+      const armed = Boolean(UNITS[target.type]?.weapon);
+      return 720 + (threatening ? 520 : 0) + (armed ? 180 : 0) - d;
+    }
+    const structurePriority = {
+      turret: 620,
+      uplink: 500,
+      warFactory: 460,
+      barracks: 430,
+      refinery: 400,
+      powerPlant: 360,
+      hq: 260
+    };
+    return (structurePriority[target.type] || 300) - d;
+  }
+
+  acquireTarget(unit, awareness = null) {
     const weapon = UNITS[unit.type].weapon;
     if (!weapon) return null;
+    this.metrics.targetEvaluations += 1;
+    const radius = awareness ?? weapon.range + (unit.side === SIDES.ENEMY ? 260 : 90);
     const enemies = [...this.aliveUnits(opposing(unit.side)), ...this.aliveStructures(opposing(unit.side))];
-    return enemies.filter(item => distance(unit, item) <= weapon.range + 90)
-      .sort((a, b) => sqDistance(unit, a) - sqDistance(unit, b))[0] || null;
+    return enemies.filter(item => distance(unit, item) <= radius)
+      .sort((a, b) => this.targetPriority(unit, b) - this.targetPriority(unit, a))[0] || null;
   }
 
   updateCombatUnit(unit, dt) {
     const definition = UNITS[unit.type];
     const weapon = definition.weapon;
     if (!weapon) return;
+    unit.retargetClock = Math.max(0, (unit.retargetClock || 0) - dt);
     let target = unit.targetId ? this.getEntity(unit.targetId) : null;
-    if (!target || target.side === unit.side) {
-      target = this.acquireTarget(unit);
+    const strategicTarget = unit.order?.type === "attack" ? this.getEntity(unit.order.targetId) : null;
+    if (unit.side === SIDES.ENEMY && unit.retargetClock <= 0) {
+      unit.retargetClock = 0.7 + this.random() * 0.45;
+      const tactical = this.acquireTarget(unit);
+      if (tactical) target = tactical;
+      else if (!target || (strategicTarget && target.id !== strategicTarget.id && distance(unit, target) > weapon.range + 350)) target = strategicTarget;
       unit.targetId = target?.id || null;
-      if (unit.order?.type === "attack" && !target) unit.order = null;
+    }
+    if (!target || target.side === unit.side) {
+      target = strategicTarget || this.acquireTarget(unit);
+      unit.targetId = target?.id || null;
+      if (unit.order?.type === "attack" && !strategicTarget && !target) unit.order = null;
     }
     if (target) {
       const range = weapon.range + target.radius;
@@ -611,7 +644,11 @@ export class RadarRTSSimulation {
       if (enemyPower.low && this.availability("structure", "powerPlant", SIDES.ENEMY).available) {
         this.startStructureBuild("powerPlant", SIDES.ENEMY);
       }
-      const choices = this.aliveStructures(SIDES.ENEMY, "warFactory").length ? ["tank", "rifle", "rifle"] : ["rifle"];
+      const hasFactory = this.aliveStructures(SIDES.ENEMY, "warFactory").length;
+      const hasRefinery = this.aliveStructures(SIDES.ENEMY, "refinery").length;
+      const choices = hasFactory
+        ? ["tank", "scout", "rifle", "rifle", ...(hasRefinery ? ["rocket"] : [])]
+        : ["rifle", ...(hasRefinery ? ["rocket"] : [])];
       const type = choices[Math.floor(this.random() * choices.length)];
       this.queueUnit(type, SIDES.ENEMY);
     }
@@ -690,6 +727,7 @@ export class RadarRTSSimulation {
       resources: this.resources.map(item => ({ ...item })),
       projectiles: this.projectiles.map(item => ({ ...item })),
       effects: this.effects.map(item => ({ ...item })),
+      metrics: { ...this.metrics },
       events: this.events.slice(-8).map(item => ({ ...item }))
     };
   }

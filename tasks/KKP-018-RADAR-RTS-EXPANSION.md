@@ -111,6 +111,42 @@
 - Acceptance evidence: none yet.
 - Merge/deploy authority granted separately: `NO`
 
+## Owner Remediation 1
+
+### Continuation state
+
+- Continued from the clean, already-pushed KKP-018 tip `ae690b41ca53391f2612ebfe340448e83b1c4961` on `kkp/018-radar-rts-expansion`.
+- Verified the required base/main commit remains `92e591e6ce749732bbac1ece33e7979e9147f8ca`.
+- Preserved the accepted KKP-018 simulation foundation and confined this pass to the owner-requested control, feedback, legibility, startup and tactical-AI refinements.
+
+### Remediation delivered
+
+- Replaced touch camera/multi-select modes with direct gestures: one-finger drag pans, taps select or issue orders, successive friendly taps build/toggle a selection, and two-finger pinch zooms around the gesture centroid while panning with it.
+- Added focal-point-preserving renderer zoom with bounded camera coordinates. Touch gestures suppress browser/page interaction and do not leak into unit selection.
+- Reworked the HUD hierarchy around prominent Credits and Power, with readable construction, production and Ion Storm progress, remaining time/queue context and a striped, outlined `LOW POWER — systems slowed` state that does not depend on colour alone.
+- Increased command-sidebar type, spacing and control sizing, including a dedicated large-desktop profile, while retaining deliberate tablet, portrait and compact-landscape layouts.
+- Added an explicit Radar Command 1.1.0 start menu. Activation loads the UI only; no simulation, renderer or gameplay animation frame is created until `START GAME` is chosen. Controls help and safe exit are available from the menu.
+- Improved production feedback through active-unit name, percentage, queued count and slowed-state text; construction similarly reports item, progress, time remaining and ready-for-placement state.
+- Made hostile combat units periodically reassess nearby threats and valuable targets, invalidate destroyed targets, and resume the strategic Command Hub order when no tactical target remains. Target searches are throttled rather than repeated every frame.
+- Added the Lancer Team anti-armour infantry and Jackal Scout anti-infantry vehicle with distinct costs, timings, health, speed, range, damage, weapon multipliers and original geometric rendering. AI production now uses the wider roster.
+- Kept the larger graphics overhaul deferred as directed; this pass improves clarity and unit distinction without expanding into a new art pipeline or full RTS.
+
+### Remediation validation
+
+- `node tools/validate-radar-rts.mjs`: PASS — 63 deterministic checks, including the two new units, production/cost behavior, distinct tactical suitability, bounded AI search, nearby-threat engagement, dead-target invalidation and return to the strategic target.
+- `npm run validate`: PASS — 44 standard checks across the change-aware six-page scope.
+- `npm run validate:acceptance`: PASS — 62 checks, zero reported failures, all six pages at 320/390/768/1024/1440, stable functional coverage, first-party console monitoring and no document overflow.
+- `npm run validate:self-test`: PASS — 7 detection/scope probes; all injected bytes restored.
+- Focused Chromium Radar coverage confirms pre-start simulation/RAF dormancy, explicit start, construction progress feedback, one-finger touch pan, two-finger focal pinch, multi-unit touch selection, touch movement order, desktop controls, pause/focus/visibility lifecycle, live resize preservation, reduced motion, safe exit, cleanup and repeated activation.
+- Final start-menu and active-game frames were visually inspected at 2560×1440, 1920×1080, 390×844 and 844×390. The menu fully covers the site after its intentional entry transition; HUD, battlefield, sidebar, minimap and controls remain legible without clipping or document overflow.
+- Final JavaScript syntax, configuration validation and `git diff --check`: PASS.
+
+### Remediation manual / unknown
+
+- Owner/manual: final gameplay feel and balance, physical touch ergonomics and pinch behavior on real iOS/Android hardware, real assistive-technology use, true browser zoom and non-Chromium browsers.
+- No external service is required or was exercised for Radar Command.
+- Status remains `READY FOR OWNER RETESTING`; no owner acceptance is recorded by this implementation pass.
+
 ## Follow-ups
 
 - Deferred deliberately: fog of war, repair/sell, advanced pathfinding/formations, control groups, campaign missions, audio and additional superweapons. These are extensions beyond the validated minimum loop.

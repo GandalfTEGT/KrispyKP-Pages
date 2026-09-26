@@ -1,4 +1,4 @@
-export const RADAR_RTS_VERSION = "1.0.0";
+export const RADAR_RTS_VERSION = "1.1.0";
 
 export const WORLD = Object.freeze({
   width: 2400,
@@ -56,11 +56,29 @@ export const UNITS = Object.freeze({
     producer: "barracks", prerequisites: ["barracks"], role: "Anti-infantry",
     weapon: Object.freeze({ range: 150, damage: 15, cooldown: 0.62, projectileSpeed: 560 })
   }),
+  rocket: Object.freeze({
+    id: "rocket", name: "Lancer Team", short: "Lancer", cost: 360, buildTime: 5,
+    health: 145, radius: 14, speed: 70, turnSpeed: 4.2,
+    producer: "barracks", prerequisites: ["barracks", "refinery"], role: "Long-range anti-armour infantry",
+    weapon: Object.freeze({
+      range: 225, damage: 48, cooldown: 1.35, projectileSpeed: 390,
+      multipliers: Object.freeze({ tank: 1.5, scout: 1.2, harvester: 1.15, structure: 1.1, rifle: 0.65, rocket: 0.7 })
+    })
+  }),
   tank: Object.freeze({
     id: "tank", name: "Vanguard Tank", short: "Tank", cost: 900, buildTime: 8,
     health: 520, radius: 24, speed: 58, turnSpeed: 2.8,
     producer: "warFactory", prerequisites: ["warFactory"], role: "Armoured assault",
     weapon: Object.freeze({ range: 210, damage: 72, cooldown: 1.55, projectileSpeed: 430 })
+  }),
+  scout: Object.freeze({
+    id: "scout", name: "Jackal Scout", short: "Jackal", cost: 480, buildTime: 5.5,
+    health: 260, radius: 19, speed: 108, turnSpeed: 4.8,
+    producer: "warFactory", prerequisites: ["warFactory"], role: "Fast anti-infantry raider",
+    weapon: Object.freeze({
+      range: 155, damage: 12, cooldown: 0.3, projectileSpeed: 650,
+      multipliers: Object.freeze({ rifle: 1.45, rocket: 1.4, tank: 0.42, harvester: 0.7, structure: 0.55 })
+    })
   }),
   harvester: Object.freeze({
     id: "harvester", name: "Crystal Harvester", short: "Harvester", cost: 1200, buildTime: 9,

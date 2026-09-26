@@ -50,6 +50,15 @@ export class RadarRTSRenderer {
     this.clampCamera();
   }
 
+  setZoomAt(zoom, screenX = this.size.width / 2, screenY = this.size.height / 2) {
+    const focalWorld = this.screenToWorld(screenX, screenY);
+    this.camera.zoom = clamp(zoom, 0.65, 1.65);
+    this.camera.x = focalWorld.x - screenX / this.camera.zoom;
+    this.camera.y = focalWorld.y - screenY / this.camera.zoom;
+    this.clampCamera();
+    return this.camera.zoom;
+  }
+
   screenToWorld(x, y) {
     return { x: this.camera.x + x / this.camera.zoom, y: this.camera.y + y / this.camera.zoom };
   }
@@ -143,6 +152,18 @@ export class RadarRTSRenderer {
       ctx.strokeRect(-entity.radius, -entity.radius * .65, entity.radius * 2, entity.radius * 1.3);
       ctx.fillStyle = entity.side === "player" ? "#dffaff" : "#ffdbe1";
       ctx.fillRect(0, -3, entity.radius * 1.15, 6);
+    } else if (entity.type === "scout") {
+      ctx.beginPath();
+      ctx.moveTo(entity.radius, 0); ctx.lineTo(entity.radius * .25, entity.radius * .7);
+      ctx.lineTo(-entity.radius, entity.radius * .52); ctx.lineTo(-entity.radius, -entity.radius * .52);
+      ctx.lineTo(entity.radius * .25, -entity.radius * .7); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = entity.side === "player" ? "#dffaff" : "#ffdbe1";
+      ctx.fillRect(-entity.radius * .2, -2, entity.radius * 1.15, 4);
+    } else if (entity.type === "rocket") {
+      ctx.beginPath();
+      ctx.moveTo(entity.radius, 0); ctx.lineTo(0, entity.radius); ctx.lineTo(-entity.radius, 0); ctx.lineTo(0, -entity.radius); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(entity.radius * 1.8, 0); ctx.stroke();
     } else {
       ctx.beginPath(); ctx.arc(0, 0, entity.radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
       ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(entity.radius * 1.5, 0); ctx.stroke();

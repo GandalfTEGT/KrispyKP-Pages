@@ -327,14 +327,33 @@ async function runRadarTest(browser, baseUrl) {
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME?.getState() === "idle"), "Radar was active before activation");
     assert(await page.locator(".radar-game-overlay").count() === 0, "Radar created its simulation UI before activation");
     await page.locator(".radar-game-trigger").click();
+    await page.waitForFunction(() => document.body.dataset.radarGameState === "menu", null, { timeout: 4000 });
+    const menuSnapshot = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot());
+    assert(menuSnapshot.simulation === null && menuSnapshot.animationActive === false, "Radar menu started simulation or a gameplay animation loop");
+    assert(await page.locator('[data-action="start"]').isVisible(), "Radar start control missing");
+    assert((await page.locator("[data-panel='start']").textContent()).includes("1.1.0"), "Radar menu lost the 1.1.0 version");
+    await page.locator('[data-action="help"]').click();
+    assert(await page.locator("[data-start-help]").isVisible(), "Radar menu help did not open");
+    await page.locator('[data-action="exit"]').first().click();
+    await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "idle");
+    await page.locator(".radar-game-trigger").click();
+    await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "menu");
+    await page.locator('[data-action="start"]').click();
     await page.waitForFunction(() => document.body.dataset.radarGameState === "playing", null, { timeout: 4000 });
     assert(await page.locator(".radar-game-screen").count() === 1, "Radar activation lost the battlefield canvas");
     assert(await page.locator(".radar-rts-minimap").count() === 1, "Radar minimap missing");
-    assert((await page.locator(".radar-rts-hud").textContent()).includes("1.0.0"), "Radar HUD lost the RTS version");
+    assert((await page.locator(".radar-rts-hud").textContent()).includes("Credits"), "strategic HUD lost credits");
+    assert((await page.locator(".radar-rts-hud").textContent()).includes("Power"), "strategic HUD lost power");
     const initial = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot());
     assert(initial.simulation.structures.some(item => item.type === "hq" && item.side === "player"), "player Command Hub missing");
     assert(initial.simulation.structures.some(item => item.type === "hq" && item.side === "enemy"), "enemy Command Hub missing");
     assert(initial.simulation.resources.length >= 4, "resource fields missing");
+    const buildStarted = await page.evaluate(() => window.KRISPY_RADAR_GAME.command.startStructure("powerPlant"));
+    assert(buildStarted.available, "browser construction command did not start");
+    await page.waitForTimeout(200);
+    assert((await page.locator('[data-hud="construction"]').textContent()).includes("Pulse Reactor"), "HUD does not identify current construction");
+    assert(Number(await page.locator('[data-progress="construction"]').getAttribute("value")) > 0, "construction progress did not become visible");
+    await page.locator('[data-action="restart"]').first().click();
     await page.locator('[data-action="pause"]').first().click();
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "paused"), "Radar pause control failed");
     const pausedTime = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot().simulation.time);
@@ -359,9 +378,58 @@ async function runRadarTest(browser, baseUrl) {
     await page.waitForTimeout(100);
     assert(await page.locator(".radar-game-overlay").getAttribute("data-profile") === "mobile-portrait", "portrait profile was not applied");
     assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 250), "portrait Radar battlefield is too short");
-    assert(await page.locator(".radar-rts-mobile-tools").isVisible(), "touch control modes are not visible in portrait");
-    await page.locator('[data-action="multi"]').click();
-    assert(await page.locator('[data-action="multi"]').getAttribute("aria-pressed") === "true", "multi-select control lacks functional state");
+    assert(await page.locator(".radar-rts-mobile-tools").isVisible(), "touch helpers are not visible in portrait");
+    const touchResult = await page.evaluate(() => {
+      const canvas = document.querySelector(".radar-game-screen");
+      const box = canvas.getBoundingClientRect();
+      const emit = (type, id, x, y) => canvas.dispatchEvent(new PointerEvent(type, {
+        bubbles: true, cancelable: true, pointerId: id, pointerType: "touch",
+        clientX: box.left + x, clientY: box.top + y, isPrimary: id === 11
+      }));
+      const before = window.KRISPY_RADAR_GAME.getSnapshot();
+      emit("pointerdown", 11, box.width * .55, box.height * .55);
+      emit("pointermove", 11, box.width * .35, box.height * .45);
+      emit("pointerup", 11, box.width * .35, box.height * .45);
+      const afterPan = window.KRISPY_RADAR_GAME.getSnapshot();
+      emit("pointerdown", 21, box.width * .35, box.height * .45);
+      emit("pointerdown", 22, box.width * .65, box.height * .55);
+      emit("pointermove", 21, box.width * .25, box.height * .4);
+      emit("pointermove", 22, box.width * .75, box.height * .6);
+      emit("pointerup", 21, box.width * .25, box.height * .4);
+      emit("pointerup", 22, box.width * .75, box.height * .6);
+      const afterPinch = window.KRISPY_RADAR_GAME.getSnapshot();
+      return {
+        panned: afterPan.camera.x !== before.camera.x || afterPan.camera.y !== before.camera.y,
+        zoomed: afterPinch.camera.zoom !== afterPan.camera.zoom,
+        selected: afterPinch.simulation.selectedIds.length
+      };
+    });
+    assert(touchResult.panned, "single-finger touch pan did not move the camera");
+    assert(touchResult.zoomed, "two-finger pinch did not change world zoom");
+    assert(touchResult.selected === 0, "pan or pinch accidentally selected a unit");
+    await page.locator(".radar-game-screen").dispatchEvent("wheel", { deltaY: 900, clientX: 195, clientY: 220 });
+    await page.locator('[data-action="center-base"]').click();
+    const touchOrders = await page.evaluate(() => {
+      const canvas = document.querySelector(".radar-game-screen");
+      const box = canvas.getBoundingClientRect();
+      const tap = (id, x, y) => {
+        const options = { bubbles: true, cancelable: true, pointerId: id, pointerType: "touch", clientX: box.left + x, clientY: box.top + y, isPrimary: true };
+        canvas.dispatchEvent(new PointerEvent("pointerdown", options));
+        canvas.dispatchEvent(new PointerEvent("pointerup", options));
+      };
+      const snapshot = window.KRISPY_RADAR_GAME.getSnapshot();
+      const units = snapshot.simulation.units.filter(item => item.side === "player" && item.type === "rifle").slice(0, 2);
+      units.forEach((unit, index) => tap(40 + index, (unit.x - snapshot.camera.x) * snapshot.camera.zoom, (unit.y - snapshot.camera.y) * snapshot.camera.zoom));
+      const selected = window.KRISPY_RADAR_GAME.getSnapshot();
+      tap(49, box.width * .72, box.height * .5);
+      const ordered = window.KRISPY_RADAR_GAME.getSnapshot();
+      return {
+        selected: selected.simulation.selectedIds.length,
+        moved: ordered.simulation.units.filter(item => selected.simulation.selectedIds.includes(item.id)).every(item => item.order?.type === "move")
+      };
+    });
+    assert(touchOrders.selected === 2, "touch taps did not build a multi-unit selection");
+    assert(touchOrders.moved, "touch terrain tap did not issue movement orders");
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), "portrait Radar caused document overflow");
     await page.setViewportSize({ width: 320, height: 720 }); await page.waitForTimeout(100);
     assert(await page.locator(".radar-game-screen").evaluate(el => el.getBoundingClientRect().height >= 250), "320px Radar battlefield is too short");
@@ -374,7 +442,7 @@ async function runRadarTest(browser, baseUrl) {
     assert(await page.evaluate(() => document.documentElement.scrollWidth <= document.documentElement.clientWidth), "Radar orientation transition caused document overflow");
     await page.keyboard.press("Escape");
     await page.waitForFunction(() => document.body.dataset.radarGameState === "idle", null, { timeout: 4000 });
-    await page.locator(".radar-game-trigger").click(); await page.waitForFunction(() => document.body.dataset.radarGameState === "playing");
+    await page.locator(".radar-game-trigger").click(); await page.waitForFunction(() => document.body.dataset.radarGameState === "menu");
     assert(await page.locator(".radar-game-overlay").count() === 1, "repeated activation duplicated the overlay");
     await page.locator('[data-action="exit"]').first().click(); await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "idle");
     for (const route of ["/", "/music/", "/videos/", "/tournaments/", "/about/", "/contact/"]) {
@@ -385,10 +453,10 @@ async function runRadarTest(browser, baseUrl) {
     await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.locator(".radar-game-trigger").click();
-    await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "playing");
+    await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "menu");
     await page.locator('[data-action="exit"]').first().click();
     await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "idle");
-    return "dormancy, RTS world, pause/focus/resume, restart, camera-preserving resize, desktop/touch profiles, overflow, reduced motion, Escape, cleanup, repeated activation and all-six-page availability passed";
+    return "dormancy/start menu, RTS world, strategic build HUD, pause/focus/resume, restart, touch pan/pinch isolation, camera-preserving resize, responsive profiles, overflow, reduced motion, Escape, cleanup, repeated activation and all-six-page availability passed";
   } finally { await context.close(); }
 }
 

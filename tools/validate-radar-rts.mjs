@@ -52,6 +52,17 @@ check("production:progress-exposed", sim.aliveStructures("player").some(item => 
 sim.advance(Math.max(UNITS.rifle.buildTime, UNITS.tank.buildTime));
 check("production:rifle-completed", sim.aliveUnits("player", "rifle").length > rifleCount);
 check("production:tank-completed", sim.aliveUnits("player", "tank").length > tankCount);
+const rocketCount = sim.aliveUnits("player", "rocket").length;
+const scoutCount = sim.aliveUnits("player", "scout").length;
+const creditsBeforeVariety = sim.credits.player;
+check("variety:rocket-queued", sim.queueUnit("rocket").available);
+check("variety:scout-queued", sim.queueUnit("scout").available);
+check("variety:costs-enforced", sim.credits.player === creditsBeforeVariety - UNITS.rocket.cost - UNITS.scout.cost);
+sim.advance(Math.max(UNITS.rocket.buildTime, UNITS.scout.buildTime) + 0.5);
+check("variety:rocket-completed", sim.aliveUnits("player", "rocket").length > rocketCount);
+check("variety:scout-completed", sim.aliveUnits("player", "scout").length > scoutCount);
+check("variety:tactical-stats-differ", UNITS.rocket.weapon.range > UNITS.rifle.weapon.range && UNITS.scout.speed > UNITS.tank.speed && UNITS.scout.weapon.cooldown < UNITS.tank.weapon.cooldown);
+check("variety:target-suitability-differs", UNITS.rocket.weapon.multipliers.tank > 1 && UNITS.scout.weapon.multipliers.tank < 1 && UNITS.scout.weapon.multipliers.rifle > 1);
 
 const selectable = sim.aliveUnits("player").filter(item => item.type !== "harvester").slice(0, 3);
 sim.selectBox(0, 0, 1000, 1200);
@@ -105,6 +116,24 @@ ai.advance(10);
 check("ai:uses-production-system", ai.aliveUnits("enemy").length > enemyBefore || ai.aliveStructures("enemy").some(item => item.queue.length));
 ai.advance(10);
 check("ai:launches-bounded-attack", ai.ai.wave > 0 && ai.aliveUnits("enemy").length <= WORLD.maxUnitsPerSide);
+check("ai:target-search-bounded", ai.metrics.targetEvaluations < 5000, String(ai.metrics.targetEvaluations));
 ai.destroy();
+
+const targeting = new RadarRTSSimulation({ scenario: "validation", seed: 9 });
+targeting.aliveUnits("player").forEach(unit => { unit.x = 80; unit.y = 80; });
+const attacker = targeting.addUnit("tank", "enemy", 1100, 800);
+const threat = targeting.addUnit("rocket", "player", 1040, 800);
+const strategicHq = targeting.aliveStructures("player", "hq")[0];
+attacker.order = { type: "attack", targetId: strategicHq.id };
+attacker.targetId = strategicHq.id;
+attacker.retargetClock = 0;
+targeting.updateCombatUnit(attacker, 0.1);
+check("ai:engages-nearby-player-unit", attacker.targetId === threat.id);
+targeting.applyDamage(threat, threat.health + 1, "enemy");
+attacker.retargetClock = 0;
+targeting.updateCombatUnit(attacker, 0.1);
+check("ai:dead-target-invalidated", attacker.targetId !== threat.id);
+check("ai:resumes-strategic-structure-target", attacker.targetId === strategicHq.id);
+targeting.destroy();
 
 console.log(`RADAR RTS PASS — ${checks.length} deterministic checks`);
