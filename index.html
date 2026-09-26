@@ -6,15 +6,29 @@
 <meta name="theme-color" content="#06090b">
 <meta name="theme-color" media="(prefers-color-scheme: light)" content="#06090b">
 <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06090b">
-<title>KrispyKP // Home</title>
+<meta name="description" content="KrispyKP is a Scotland-based hub for Command & Conquer streams, original music, videos and community tournaments.">
+<title>KrispyKP | Command & Conquer Streams, Music, Videos & Tournaments</title>
+<link rel="canonical" href="https://krispykp.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KrispyKP">
+<meta property="og:title" content="KrispyKP | Command & Conquer Streams, Music, Videos & Tournaments">
+<meta property="og:description" content="KrispyKP is a Scotland-based hub for Command & Conquer streams, original music, videos and community tournaments.">
+<meta property="og:url" content="https://krispykp.com/">
+<meta property="og:image" content="https://krispykp.com/assets/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KrispyKP | Command & Conquer Streams, Music, Videos & Tournaments">
+<meta name="twitter:description" content="KrispyKP is a Scotland-based hub for Command & Conquer streams, original music, videos and community tournaments.">
+<meta name="twitter:image" content="https://krispykp.com/assets/logo.png">
 <link rel="stylesheet" href="/styles/site.css">
+  <link rel="stylesheet" href="/styles/radar-game.css">
 <link rel="stylesheet" href="/styles/home.css">
+<link rel="stylesheet" href="/styles/command-deck.css">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
 <link rel="manifest" href="/site.webmanifest">
 </head>
-<body>
+<body class="page-home">
 <div class="radar-grid" aria-hidden="true"></div>
 <div class="radar-blips" aria-hidden="true"></div>
 <div class="radar-vignette" aria-hidden="true"></div>
@@ -70,23 +84,24 @@
           <a class="btn" href="/music/">Play Music</a>
         </div>
 
-        <div class="notice" style="margin-top:24px;">
-          <strong>Stream schedule</strong><br>
-          <ul>
-            <li>Monday 20:00 - 22:00: Command &amp; Conquer Tiberian Dawn</li>
-            <li>Tuesday 18:00 - 22:00: StarCraft II</li>
-            <li>Wednesday 19:00 - 22:00: Command &amp; Conquer Tiberian Dawn</li>
-            <li>Thursday 19:00 - 23:00: Variety Command &amp; Conquer (Currently Renegade)</li>
-            <li>Friday 19:00 - 22:00: Command &amp; Conquer Tiberian Dawn</li>
-            <li>Saturday 19:00 - 22:00: Variety Content (Currently Combined Arms)</li>
-            <li>Sunday 19:00 - 22:00: Variety Content (Currently Combined Arms)</li>
-          </ul>
-          <p>
-            Please note that as this schedule is 7 days a week, streams may come and go as life events catch up with me ♡♡
-            <br><br>
-            (All times are UTC+1 at present)
-          </p>
-        </div>
+        <details class="home-schedule" open>
+          <summary>
+            <span>Stream schedule</span>
+            <span class="home-schedule-status">7-day rotation <span aria-hidden="true">+</span></span>
+          </summary>
+          <div class="home-schedule-body">
+            <ol class="home-schedule-grid">
+              <li><span class="home-schedule-day">Mon</span><time>20:00–22:00</time><span>Command &amp; Conquer: Tiberian Dawn</span></li>
+              <li><span class="home-schedule-day">Tue</span><time>18:00–22:00</time><span>StarCraft II</span></li>
+              <li><span class="home-schedule-day">Wed</span><time>19:00–22:00</time><span>Command &amp; Conquer: Tiberian Dawn</span></li>
+              <li><span class="home-schedule-day">Thu</span><time>19:00–23:00</time><span>Variety C&amp;C — currently Renegade</span></li>
+              <li><span class="home-schedule-day">Fri</span><time>19:00–22:00</time><span>Command &amp; Conquer: Tiberian Dawn</span></li>
+              <li><span class="home-schedule-day">Sat</span><time>19:00–22:00</time><span>Variety — currently Combined Arms</span></li>
+              <li><span class="home-schedule-day">Sun</span><time>19:00–22:00</time><span>Variety — currently Combined Arms</span></li>
+            </ol>
+            <p class="home-schedule-note">Streams may move when life intervenes. All times are currently UTC+1.</p>
+          </div>
+        </details>
       </div>
 
       <aside class="hero-card">
@@ -103,6 +118,12 @@
           </div>
         </div>
 
+      </aside>
+    </div>
+  </section>
+
+  <section class="section home-uplink-section">
+    <div class="container">
         <div class="frame panel home-uplink-panel home-live-panel">
           <h2 class="section-title">Current Uplink</h2>
 
@@ -139,7 +160,7 @@
             </div>
           </div>
         </div>
-      </aside>
+
     </div>
   </section>
 
@@ -193,7 +214,7 @@
             </div>
 
             <div class="cta-row home-featured-track-actions">
-              <button class="btn primary" type="button" disabled>Play Preview</button>
+              <button class="btn primary" type="button" disabled>Play Track</button>
             </div>
           </article>
 
@@ -208,7 +229,7 @@
             </div>
 
             <div class="cta-row home-featured-track-actions">
-              <button class="btn primary" type="button" disabled>Play Preview</button>
+              <button class="btn primary" type="button" disabled>Play Track</button>
             </div>
           </article>
 
@@ -223,7 +244,7 @@
             </div>
 
             <div class="cta-row home-featured-track-actions">
-              <button class="btn primary" type="button" disabled>Play Preview</button>
+              <button class="btn primary" type="button" disabled>Play Track</button>
             </div>
           </article>
         </div>
@@ -403,6 +424,7 @@
 <script src="/data/tournaments.config.js"></script>
 <script src="/data/home-page.js"></script>
 <script src="/data/radar-effects.js"></script>
+<script src="/data/radar-game.js"></script>
 <script src="/data/site-ui.js"></script>
 
 </body>

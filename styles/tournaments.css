@@ -1430,3 +1430,127 @@
     font-size: 12px;
   }
 }
+
+/* KKP-016: responsive native disclosures */
+.tournament-section-disclosure,
+.tournament-manual-group {
+  min-width: 0;
+}
+
+.tournament-section-disclosure > summary,
+.tournament-manual-group-summary {
+  display: none;
+}
+
+.tournament-section-disclosure-content {
+  margin-top: 14px;
+}
+
+.tournament-manual-group-content {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.tournament-section-disclosure > summary:focus-visible,
+.tournament-manual-group-summary:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+.tournament-disclosure-marker {
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  transition: transform var(--transition);
+}
+
+.tournament-manual-group[open] .tournament-disclosure-marker,
+.tournament-section-disclosure[open] .tournament-disclosure-marker {
+  transform: rotate(225deg) translate(-2px, -2px);
+}
+
+@media (max-width: 980px) {
+  .tournament-manual-group-summary {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 44px;
+    padding: 8px 4px;
+    color: var(--cyan-soft);
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    list-style: none;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .tournament-manual-group-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .tournament-manual-group-content {
+    gap: 12px;
+  }
+
+  .tournament-manual-group[open] .tournament-manual-group-content {
+    padding-top: 4px;
+  }
+}
+
+@media (max-width: 700px) {
+  .tournament-disclosure-desktop-title {
+    display: none;
+  }
+
+  .tournament-section-disclosure > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    min-height: 44px;
+    color: var(--cyan-soft);
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    list-style: none;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .tournament-section-disclosure > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .tournament-section-disclosure > summary::after {
+    content: "+";
+    flex: 0 0 auto;
+    color: var(--cyan);
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  .tournament-section-disclosure[open] > summary::after {
+    content: "−";
+  }
+
+  .tournament-section-disclosure-content {
+    margin-top: 12px;
+  }
+}
+
+
+/* KKP-016 historical archive resilience */
+.tournament-stage-summaries{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px}
+.tournament-stage-summary{padding:16px;border:1px solid rgba(79,210,255,.17);background:rgba(6,13,17,.72)}
+.tournament-stage-summary h3{margin:0 0 10px;color:var(--cyan-soft);font-size:16px;text-transform:uppercase}
+.tournament-stage-summary ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.65}
+.tournament-hero-backdrop{background-position:center;background-size:cover;background-repeat:no-repeat}
+.tournament-archive-banner,.tournament-switch-thumb{background-position:center;background-size:contain;background-repeat:no-repeat;background-color:#05090c}
+@media(max-width:700px){.tournament-hero-backdrop{background-position:center top}.tournament-player-meta{justify-content:flex-end}.tournament-player-item{grid-template-columns:minmax(0,1fr) auto}}

@@ -182,3 +182,11 @@
     min-width: 0;
   }
 }
+
+.contact-workspace{
+  display:grid;
+  grid-template-columns:minmax(0,1fr);
+  gap:18px;
+  align-items:start;
+  width:min(1100px,100%);
+}

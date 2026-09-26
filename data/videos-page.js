@@ -13,11 +13,13 @@
   const featureTitle = document.getElementById("videosFeatureTitle");
   const featureMeta = document.getElementById("videosFeatureMeta");
   const featureNote = document.getElementById("videosFeatureNote");
+  const featureDirect = document.getElementById("videosFeatureDirect");
 
   const playerFrame = document.getElementById("videosPlayerFrame");
   const playerTitle = document.getElementById("videosPlayerTitle");
   const playerMeta = document.getElementById("videosPlayerMeta");
   const playerNote = document.getElementById("videosPlayerNote");
+  const playerDirect = document.getElementById("videosPlayerDirect");
 
   const categoryTabs = document.getElementById("videoCategoryTabs");
   const categorySelect = document.getElementById("videoCategorySelect");
@@ -38,6 +40,7 @@
   let sortMode = "playlist";
 
   const desktopVisibleTabCount = 6;
+  const requestedVideoId = new URLSearchParams(window.location.search).get("video");
 
   function getCategoryById(id) {
     return (data.categories || []).find(category => category.id === id) || null;
@@ -149,12 +152,19 @@
     featureMeta.textContent = metaLabel || "Featured";
     featureNote.textContent = video.note || "";
     featureNote.hidden = !video.note;
+    if (featureDirect) featureDirect.href = video.url || `https://www.youtube.com/watch?v=${video.videoId}`;
     featureState.hidden = false;
     selectedState.hidden = true;
     if (topGrid) topGrid.classList.remove("is-selected");
   }
 
-  function showSelected(video, metaLabel, shouldScroll = true) {
+  function syncVideoUrl(videoId, mode = "push") {
+    const url = new URL(window.location.href);
+    url.searchParams.set("video", videoId);
+    window.history[mode === "replace" ? "replaceState" : "pushState"]({ videoId }, "", url);
+  }
+
+  function showSelected(video, metaLabel, shouldScroll = true, urlMode = "push") {
     if (!playerFrame || !featureState || !selectedState || !video) return;
     stopIframe(featureFrame);
     if (!currentVideo || currentVideo.videoId !== video.videoId) {
@@ -164,15 +174,30 @@
     playerMeta.textContent = metaLabel || "Playlist Video";
     playerNote.textContent = video.note || "";
     playerNote.hidden = !video.note;
+    if (playerDirect) playerDirect.href = video.url || `https://www.youtube.com/watch?v=${video.videoId}`;
     featureState.hidden = true;
     selectedState.hidden = false;
     currentVideo = { ...video, metaLabel: metaLabel || "Playlist Video" };
+    if (urlMode) syncVideoUrl(video.videoId, urlMode);
 
     if (shouldScroll) {
       const reduceMotion = window.matchMedia &&
         window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" });
     }
+  }
+
+  function findVideoContext(videoId) {
+    for (const category of (data.categories || [])) {
+      for (const tab of (category.subTabs || [])) {
+        const item = (tab.items || []).find(video => video.videoId === videoId);
+        if (item) return { category, tab, video: normaliseVideo(item, tab.title || category.title) };
+      }
+      const latest = (category.latest || []).find(video => video.videoId === videoId);
+      if (latest) return { category, tab: null, video: normaliseVideo(latest, category.title) };
+    }
+    if (data.featured?.videoId === videoId) return { category: null, tab: null, video: normaliseVideo(data.featured, "Featured") };
+    return null;
   }
 
   function setDefaultTopArea() {
@@ -643,6 +668,26 @@
 
   sortMode = getDefaultSortForCategory(getActiveCategory());
 
-  setDefaultTopArea();
-  renderAll();
+  const initialVideo = requestedVideoId ? findVideoContext(requestedVideoId) : null;
+  if (initialVideo) {
+    if (initialVideo.category) activeCategoryId = initialVideo.category.id;
+    if (initialVideo.tab) activeSubTabId = initialVideo.tab.id;
+    sortMode = getDefaultSortForCategory(getActiveCategory());
+    renderAll();
+    showSelected(initialVideo.video, initialVideo.tab?.title || initialVideo.category?.title || "Featured", false, "replace");
+  } else {
+    setDefaultTopArea();
+    renderAll();
+    if (requestedVideoId && data.featured?.videoId) syncVideoUrl(data.featured.videoId, "replace");
+  }
+
+  window.addEventListener("popstate", () => {
+    const id = new URLSearchParams(window.location.search).get("video");
+    const context = id ? findVideoContext(id) : null;
+    if (!context) { setDefaultTopArea(); renderAll(); return; }
+    if (context.category) activeCategoryId = context.category.id;
+    activeSubTabId = context.tab?.id || "";
+    renderAll();
+    showSelected(context.video, context.tab?.title || context.category?.title || "Featured", false, null);
+  });
 })();

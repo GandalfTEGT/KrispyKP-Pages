@@ -196,6 +196,12 @@
     font-size: 12px;
   }
 
+  .custom-actions button:last-of-type:nth-of-type(odd) {
+    grid-column: 1 / -1;
+    width: calc(50% - 4px);
+    justify-self: center;
+  }
+
   .tracks {
     min-height: 0;
     max-height: 420px;

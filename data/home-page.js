@@ -301,7 +301,7 @@
     const playButton = document.createElement("button");
     playButton.className = "btn primary";
     playButton.type = "button";
-    playButton.textContent = "Play Preview";
+    playButton.textContent = "Play Track";
 
     playButton.addEventListener("click", async () => {
       if (!audio || !track.file) {
@@ -322,7 +322,7 @@
       try {
         await audio.play();
       } catch (error) {
-        console.error("Unable to play preview:", error);
+        console.error("Unable to play track:", error);
       }
 
       syncTrackButtons();
@@ -350,7 +350,7 @@
         !audio.paused &&
         audio.dataset.trackId === card.dataset.trackId;
 
-      button.textContent = isActive ? "Pause Preview" : "Play Preview";
+      button.textContent = isActive ? "Pause Track" : "Play Track";
     });
   }
 

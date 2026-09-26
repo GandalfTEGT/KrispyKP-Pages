@@ -6,15 +6,29 @@
   <meta name="theme-color" content="#06090b">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#06090b">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#06090b">
-  <title>KrispyKP // Tournaments</title>
+  <meta name="description" content="Explore current and historical KrispyKP Command & Conquer tournaments, including Tiberian Dawn and Red Alert players, brackets, rules and results.">
+<title>Command & Conquer Tournament Archive | KrispyKP</title>
+<link rel="canonical" href="https://krispykp.com/tournaments/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="KrispyKP">
+<meta property="og:title" content="Command & Conquer Tournament Archive | KrispyKP">
+<meta property="og:description" content="Explore current and historical KrispyKP Command & Conquer tournaments, including Tiberian Dawn and Red Alert players, brackets, rules and results.">
+<meta property="og:url" content="https://krispykp.com/tournaments/">
+<meta property="og:image" content="https://krispykp.com/assets/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Command & Conquer Tournament Archive | KrispyKP">
+<meta name="twitter:description" content="Explore current and historical KrispyKP Command & Conquer tournaments, including Tiberian Dawn and Red Alert players, brackets, rules and results.">
+<meta name="twitter:image" content="https://krispykp.com/assets/logo.png">
   <link rel="stylesheet" href="/styles/site.css">
+  <link rel="stylesheet" href="/styles/radar-game.css">
   <link rel="stylesheet" href="/styles/tournaments.css">
+<link rel="stylesheet" href="/styles/command-deck.css">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
 </head>
-<body>
+<body class="page-tournaments">
   <div class="radar-grid" aria-hidden="true"></div>
   <div class="radar-sweep" aria-hidden="true"></div>
   <div class="radar-blips" aria-hidden="true"></div>
@@ -121,6 +135,13 @@
             </div>
           </section>
 
+          <section id="tournamentStageSection" class="section tournament-section-tight" hidden>
+            <div class="frame feature tournament-results-panel">
+              <h2 class="section-title">Stage Standings</h2>
+              <div id="tournamentStageSummaries" class="tournament-stage-summaries"></div>
+            </div>
+          </section>
+
           <section id="tournamentResultsSection" class="section tournament-section-tight tournament-results-section" hidden>
             <div class="frame feature tournament-results-panel">
               <h2 class="section-title">Results</h2>
@@ -130,8 +151,13 @@
 
           <section class="section tournament-section-tight">
             <div id="tournamentPlayersCard" class="frame feature tournament-info-panel" hidden>
-              <h2 class="section-title">Players</h2>
-              <ul id="tournamentPlayers" class="list tournament-players-list"></ul>
+              <h2 class="section-title tournament-disclosure-desktop-title">Players</h2>
+              <details class="tournament-section-disclosure" data-mobile-default="open" open>
+                <summary>Players</summary>
+                <div class="tournament-section-disclosure-content">
+                  <ul id="tournamentPlayers" class="list tournament-players-list"></ul>
+                </div>
+              </details>
             </div>
           </section>
 
@@ -176,15 +202,25 @@
 
           <section class="section tournament-section-tight">
             <div id="tournamentRulesCard" class="frame feature tournament-info-panel" hidden>
-              <h2 class="section-title">Rules</h2>
-              <ul id="tournamentRules" class="list"></ul>
+              <h2 class="section-title tournament-disclosure-desktop-title">Rules</h2>
+              <details class="tournament-section-disclosure" data-mobile-default="closed" open>
+                <summary>Rules</summary>
+                <div class="tournament-section-disclosure-content">
+                  <ul id="tournamentRules" class="list"></ul>
+                </div>
+              </details>
             </div>
           </section>
 
           <section id="tournamentScheduleSection" class="section tournament-section-tight" hidden>
             <div id="tournamentScheduleCard" class="frame feature tournament-info-panel tournament-schedule-panel" hidden>
-              <h2 class="section-title">Schedule</h2>
-              <ul id="tournamentSchedule" class="list tournament-schedule-list"></ul>
+              <h2 class="section-title tournament-disclosure-desktop-title">Schedule</h2>
+              <details class="tournament-section-disclosure" data-mobile-default="open" open>
+                <summary>Schedule</summary>
+                <div class="tournament-section-disclosure-content">
+                  <ul id="tournamentSchedule" class="list tournament-schedule-list"></ul>
+                </div>
+              </details>
             </div>
           </section>
 
@@ -290,6 +326,7 @@
   </div>
 
   <script src="/data/radar-effects.js"></script>
+<script src="/data/radar-game.js"></script>
 <script src="/data/site-ui.js"></script>
   <script src="/data/flags.js"></script>
   <script src="/data/tournaments.config.js"></script>

@@ -751,6 +751,1197 @@ window.KRISPY_TOURNAMENTS = {
         "closing": "GOOD LUCK, COMRADES."
       },
       "results": []
+    },
+    {
+      "status": "completed",
+      "organizer": "JLGAZZA94",
+      "endDate": "",
+      "timezone": "BST",
+      "registrationMode": "closed",
+      "registrationUrl": "",
+      "participantSource": "manual",
+      "streamUrl": "",
+      "rulesUrl": "",
+      "bracketMode": "manual",
+      "bracketTitle": "Final bracket",
+      "bracketEmbedUrl": "",
+      "schedule": [],
+      "id": "td-invasion-red-alert-2025",
+      "title": "TD Invasion Red Alert Tournament 2025",
+      "subtitle": "Tiberian Dawn players crossed into Command & Conquer: Red Alert",
+      "game": "Command & Conquer: Red Alert",
+      "format": "Group Stage and Grand Final",
+      "competitorStructure": "1v1",
+      "startDate": "2025-08-18 00:00",
+      "prizePool": "£25 winner / £10 runner-up",
+      "bannerImage": "/assets/tbanners/td-invasion-red-alert-2025.webp",
+      "description": "The original 2025 TD Invasion Red Alert tournament brought ten Tiberian Dawn community players into Red Alert. Two groups of five produced one finalist each for a best-of-seven Grand Final.",
+      "bracketUrl": "https://challonge.com/READYCOMRADE",
+      "players": [
+        {
+          "name": "WTF.RAG",
+          "seed": "1",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "WTF.RAG",
+          "note": ""
+        },
+        {
+          "name": "RA RUSTY",
+          "seed": "2",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "RA RUSTY",
+          "note": ""
+        },
+        {
+          "name": "RAGAZZA94",
+          "seed": "3",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "RAGAZZA94",
+          "note": ""
+        },
+        {
+          "name": "FULLY RED ALERT PLAYER",
+          "seed": "4",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "FULLY RED ALERT PLAYER",
+          "note": ""
+        },
+        {
+          "name": "DR.MURKINSTEIN APC ENGIED ME ON STREAM AND LIED ABOUT IT </3",
+          "seed": "5",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "DR.MURKINSTEIN APC ENGIED ME ON STREAM AND LIED ABOUT IT </3",
+          "note": ""
+        },
+        {
+          "name": "TRIORA",
+          "seed": "6",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "TRIORA",
+          "note": ""
+        },
+        {
+          "name": "CRITICAL LIGHTS",
+          "seed": "7",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "CRITICAL LIGHTS",
+          "note": ""
+        },
+        {
+          "name": "JAMIERA",
+          "seed": "8",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "JAMIERA",
+          "note": ""
+        },
+        {
+          "name": "MYNAME = RAPLAYER",
+          "seed": "9",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "MYNAME = RAPLAYER",
+          "note": ""
+        },
+        {
+          "name": "RARZA",
+          "seed": "10",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "RARZA",
+          "note": ""
+        }
+      ],
+      "rules": {
+        "sections": [
+          {
+            "title": "Tournament format",
+            "paragraphs": [
+              "Two groups of five played best-of-five matches. Group winners advanced to a best-of-seven Grand Final. Game wins determined group points, with head-to-head used as the tie-break."
+            ],
+            "bullets": []
+          }
+        ],
+        "mapPool": [
+          "Canyon",
+          "(WHT) Elevation",
+          "Keep Off The Grass",
+          "Tournament Arena",
+          "Pico V3 (1v1)",
+          "RAP - Lake Mizu",
+          "RAP - Hospital Hill"
+        ],
+        "questions": "Historical record sourced from the public Challonge event pages. Contact the organiser for any correction.",
+        "closing": "ARCHIVE RECORD"
+      },
+      "results": [
+        {
+          "place": "1st",
+          "name": "WTF.RAG",
+          "note": "Champion, won Grand Final 4–3"
+        },
+        {
+          "place": "2nd",
+          "name": "TRIORA",
+          "note": "Runner-up"
+        }
+      ],
+      "manualBracketGroups": [
+        {
+          "key": "grand-final",
+          "title": "Grand Final",
+          "rounds": [
+            {
+              "title": "Grand Final",
+              "matches": [
+                {
+                  "id": "final",
+                  "title": "FINAL",
+                  "player1": "WTF.RAG",
+                  "player2": "TRIORA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "3",
+                  "winner": "WTF.RAG",
+                  "note": "Bo7",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "stageSummaries": [
+        {
+          "title": "Group A",
+          "entries": [
+            "WTF.RAG — 12 pts (4-0-0)",
+            "RA RUSTY — 9 pts (3-1-0)",
+            "RAGAZZA94 — 7 pts (2-2-0)",
+            "FULLY RED ALERT PLAYER — 5 pts (1-3-0)",
+            "DR.MURKINSTEIN — 1 pt (0-4-0)"
+          ]
+        },
+        {
+          "title": "Group B",
+          "entries": [
+            "TRIORA — 10 pts (3-1-0)",
+            "CRITICAL LIGHTS — 9 pts (3-1-0)",
+            "JAMIERA — 3 pts (1-2-1)",
+            "MYNAME = RAPLAYER — 3 pts (1-3-0)",
+            "RARZA — 3 pts (1-2-1)"
+          ]
+        }
+      ]
+    },
+    {
+      "status": "completed",
+      "organizer": "JLGAZZA94",
+      "endDate": "",
+      "timezone": "BST",
+      "registrationMode": "closed",
+      "registrationUrl": "",
+      "participantSource": "manual",
+      "streamUrl": "",
+      "rulesUrl": "",
+      "bracketMode": "manual",
+      "bracketTitle": "Final bracket",
+      "bracketEmbedUrl": "",
+      "schedule": [],
+      "id": "td-champions-league-2024",
+      "title": "TD Champions League 2024",
+      "subtitle": "Twenty Command & Conquer: Tiberian Dawn players contested four groups and a knockout stage",
+      "game": "Command & Conquer: Tiberian Dawn",
+      "format": "Group Stage and Single Elimination",
+      "competitorStructure": "1v1",
+      "startDate": "2024-05-13 00:00",
+      "prizePool": "£100 winner / £50 runner-up",
+      "bannerImage": "/assets/tbanners/td-champions-league-2024.webp",
+      "description": "A twenty-player Tiberian Dawn championship. Four groups of five sent their top two players to quarter-finals, semi-finals and a best-of-eleven Grand Final.",
+      "bracketUrl": "https://challonge.com/AODISTOXICKEKW",
+      "players": [
+        {
+          "name": "RAMBO",
+          "seed": "1",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "RAMBO",
+          "note": ""
+        },
+        {
+          "name": "WTF CCC",
+          "seed": "2",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "WTF CCC",
+          "note": ""
+        },
+        {
+          "name": "FULLY CCC",
+          "seed": "3",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "FULLY CCC",
+          "note": ""
+        },
+        {
+          "name": "AARON",
+          "seed": "4",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "AARON",
+          "note": ""
+        },
+        {
+          "name": "SHEPPARD",
+          "seed": "5",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "SHEPPARD",
+          "note": ""
+        },
+        {
+          "name": "FERRET",
+          "seed": "6",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "FERRET",
+          "note": ""
+        },
+        {
+          "name": "GLORY PRUSSIA",
+          "seed": "7",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "GLORY PRUSSIA",
+          "note": ""
+        },
+        {
+          "name": "BROWN PUDDLE",
+          "seed": "8",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "BROWN PUDDLE",
+          "note": ""
+        },
+        {
+          "name": "INCIA 3000",
+          "seed": "9",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "INCIA 3000",
+          "note": ""
+        },
+        {
+          "name": "KEREKOBAR",
+          "seed": "10",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "KEREKOBAR",
+          "note": ""
+        },
+        {
+          "name": "AOD",
+          "seed": "11",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "AOD",
+          "note": ""
+        },
+        {
+          "name": "SAI",
+          "seed": "12",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "SAI",
+          "note": ""
+        },
+        {
+          "name": "JAMIE",
+          "seed": "13",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "JAMIE",
+          "note": ""
+        },
+        {
+          "name": "BRUZER",
+          "seed": "14",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "BRUZER",
+          "note": ""
+        },
+        {
+          "name": "KRISPY",
+          "seed": "15",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "KRISPY",
+          "note": ""
+        },
+        {
+          "name": "TRIO",
+          "seed": "16",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "TRIO",
+          "note": ""
+        },
+        {
+          "name": "JLGAZZA94",
+          "seed": "17",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "JLGAZZA94",
+          "note": ""
+        },
+        {
+          "name": "DANKU",
+          "seed": "18",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "DANKU",
+          "note": ""
+        },
+        {
+          "name": "NOBLESUB",
+          "seed": "19",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "NOBLESUB",
+          "note": ""
+        },
+        {
+          "name": "FILLSKILL",
+          "seed": "20",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "FILLSKILL",
+          "note": ""
+        }
+      ],
+      "rules": {
+        "sections": [
+          {
+            "title": "Tournament format",
+            "paragraphs": [
+              "Four groups of five played best-of-five matches; the top two in each group advanced. Quarter-finals were best-of-seven, semi-finals best-of-nine and the Grand Final best-of-eleven."
+            ],
+            "bullets": []
+          }
+        ],
+        "mapPool": [
+          "Elevation",
+          "Green Acres",
+          "Tiberium Garden Redux",
+          "Monkey in the Middle",
+          "One Pass Fits All",
+          "Winter Wonderland",
+          "Quarry",
+          "Canyon Pursuit",
+          "Field of Greens",
+          "Nowhere to Hide",
+          "Terrace",
+          "Eye of the Storm",
+          "Uphill Struggle",
+          "The River Raid",
+          "Tournament Desert"
+        ],
+        "questions": "Historical record sourced from the public Challonge event pages. Contact the organiser for any correction.",
+        "closing": "ARCHIVE RECORD"
+      },
+      "results": [
+        {
+          "place": "1st",
+          "name": "SAI",
+          "note": "Champion, won Grand Final 6–1"
+        },
+        {
+          "place": "2nd",
+          "name": "AOD",
+          "note": "Runner-up"
+        },
+        {
+          "place": "3rd",
+          "name": "RAMBO",
+          "note": "Semi-finalist"
+        },
+        {
+          "place": "3rd",
+          "name": "WTF CCC",
+          "note": "Semi-finalist"
+        }
+      ],
+      "manualBracketGroups": [
+        {
+          "key": "main",
+          "title": "Knockout Stage",
+          "rounds": [
+            {
+              "title": "Quarter-finals",
+              "matches": [
+                {
+                  "id": "qf1",
+                  "title": "QF1",
+                  "player1": "RAMBO",
+                  "player2": "JLGAZZA94",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "0",
+                  "winner": "RAMBO",
+                  "note": "Bo7",
+                  "time": ""
+                },
+                {
+                  "id": "qf2",
+                  "title": "QF2",
+                  "player1": "AOD",
+                  "player2": "GLORY PRUSSIA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "0",
+                  "winner": "AOD",
+                  "note": "Bo7",
+                  "time": ""
+                },
+                {
+                  "id": "qf3",
+                  "title": "QF3",
+                  "player1": "FERRET",
+                  "player2": "SAI",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "4",
+                  "winner": "SAI",
+                  "note": "Bo7",
+                  "time": ""
+                },
+                {
+                  "id": "qf4",
+                  "title": "QF4",
+                  "player1": "TRIO",
+                  "player2": "WTF CCC",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "4",
+                  "winner": "WTF CCC",
+                  "note": "Bo7",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Semi-finals",
+              "matches": [
+                {
+                  "id": "sf1",
+                  "title": "SF1",
+                  "player1": "RAMBO",
+                  "player2": "AOD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "4",
+                  "winner": "AOD",
+                  "note": "Bo9",
+                  "time": ""
+                },
+                {
+                  "id": "sf2",
+                  "title": "SF2",
+                  "player1": "WTF CCC",
+                  "player2": "SAI",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "5",
+                  "winner": "SAI",
+                  "note": "Bo9",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Grand Final",
+              "matches": [
+                {
+                  "id": "final",
+                  "title": "FINAL",
+                  "player1": "AOD",
+                  "player2": "SAI",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "6",
+                  "winner": "SAI",
+                  "note": "Bo11",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "stageSummaries": [
+        {
+          "title": "Group A",
+          "entries": [
+            "RAMBO — 12 pts",
+            "WTF CCC — 10 pts",
+            "FULLY CCC — 6 pts",
+            "AARON — 4 pts",
+            "SHEPPARD — 0 pts"
+          ]
+        },
+        {
+          "title": "Group B",
+          "entries": [
+            "FERRET — 12 pts",
+            "GLORY PRUSSIA — 11 pts",
+            "BROWN PUDDLE — 6 pts",
+            "INCIA 3000 — 4 pts",
+            "KEREKOBAR — 4 pts"
+          ]
+        },
+        {
+          "title": "Group C",
+          "entries": [
+            "AOD — 11 pts",
+            "SAI — 10 pts",
+            "JAMIE — 10 pts",
+            "BRUZER — 6 pts",
+            "KRISPY — 0 pts"
+          ]
+        },
+        {
+          "title": "Group D",
+          "entries": [
+            "TRIO — 9 pts",
+            "JLGAZZA94 — 9 pts",
+            "DANKU — 8 pts",
+            "NOBLESUB — 8 pts",
+            "FILLSKILL — 0 pts"
+          ]
+        }
+      ]
+    },
+    {
+      "status": "completed",
+      "organizer": "JLGAZZA94",
+      "endDate": "",
+      "timezone": "BST",
+      "registrationMode": "closed",
+      "registrationUrl": "",
+      "participantSource": "manual",
+      "streamUrl": "",
+      "rulesUrl": "",
+      "bracketMode": "manual",
+      "bracketTitle": "Final bracket",
+      "bracketEmbedUrl": "",
+      "schedule": [],
+      "id": "td-home-nations-championship-2023",
+      "title": "TD Home Nations Championship 2023",
+      "subtitle": "Ten Tiberian Dawn players represented the UK and Ireland in two groups",
+      "game": "Command & Conquer: Tiberian Dawn",
+      "format": "Group Stage and Single Elimination",
+      "competitorStructure": "1v1",
+      "startDate": "2023-09-11 19:10",
+      "prizePool": "",
+      "bannerImage": "/assets/tbanners/td-home-nations-2023.webp",
+      "description": "Ten Tiberian Dawn players entered two groups of five. The top two from each group advanced to best-of-nine semi-finals and a best-of-eleven Grand Final.",
+      "bracketUrl": "https://challonge.com/4fjkeheh",
+      "players": [
+        {
+          "name": "RASHNAGAR",
+          "seed": "1",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "RASHNAGAR",
+          "note": ""
+        },
+        {
+          "name": "CRITICAL MEDS",
+          "seed": "2",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "CRITICAL MEDS",
+          "note": ""
+        },
+        {
+          "name": "AARON",
+          "seed": "3",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "AARON",
+          "note": ""
+        },
+        {
+          "name": "DANKU",
+          "seed": "4",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "DANKU",
+          "note": ""
+        },
+        {
+          "name": "ADAM",
+          "seed": "5",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "ADAM",
+          "note": ""
+        },
+        {
+          "name": "JAMIE TD",
+          "seed": "6",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "JAMIE TD",
+          "note": ""
+        },
+        {
+          "name": "AOD",
+          "seed": "7",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "AOD",
+          "note": ""
+        },
+        {
+          "name": "BROTHERHOOD OF LAG",
+          "seed": "8",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "BROTHERHOOD OF LAG",
+          "note": ""
+        },
+        {
+          "name": "BRUZER",
+          "seed": "9",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "BRUZER",
+          "note": ""
+        },
+        {
+          "name": "KHANOMANCER",
+          "seed": "10",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "KHANOMANCER",
+          "note": ""
+        }
+      ],
+      "rules": {
+        "sections": [
+          {
+            "title": "Tournament format",
+            "paragraphs": [
+              "Two groups of five determined four semi-finalists. Semi-finals were best-of-nine and the Grand Final was best-of-eleven."
+            ],
+            "bullets": []
+          }
+        ],
+        "mapPool": [
+          "Canyon",
+          "Elevation",
+          "Green Acres",
+          "Tiberium Garden",
+          "Monkey in the Middle",
+          "One Pass Fits All",
+          "Winter Wonderland",
+          "Quarry",
+          "Field of Greens",
+          "Nowhere to Hide",
+          "Terrace",
+          "Eye of the Storm",
+          "Uphill Struggle",
+          "The River Raid",
+          "Tournament Desert",
+          "Desert Heat"
+        ],
+        "questions": "Historical record sourced from the public Challonge event pages. Contact the organiser for any correction.",
+        "closing": "ARCHIVE RECORD"
+      },
+      "results": [
+        {
+          "place": "1st",
+          "name": "AOD",
+          "note": "Champion, won Grand Final 6–4"
+        },
+        {
+          "place": "2nd",
+          "name": "CRITICAL MEDS",
+          "note": "Runner-up"
+        },
+        {
+          "place": "3rd",
+          "name": "JAMIE TD",
+          "note": "Semi-finalist"
+        },
+        {
+          "place": "3rd",
+          "name": "RASHNAGAR",
+          "note": "Semi-finalist"
+        }
+      ],
+      "manualBracketGroups": [
+        {
+          "key": "main",
+          "title": "Knockout Stage",
+          "rounds": [
+            {
+              "title": "Semi-finals",
+              "matches": [
+                {
+                  "id": "sf1",
+                  "title": "SF1",
+                  "player1": "RASHNAGAR",
+                  "player2": "AOD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "5",
+                  "winner": "AOD",
+                  "note": "Bo9",
+                  "time": ""
+                },
+                {
+                  "id": "sf2",
+                  "title": "SF2",
+                  "player1": "JAMIE TD",
+                  "player2": "CRITICAL MEDS",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "5",
+                  "winner": "CRITICAL MEDS",
+                  "note": "Bo9",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Grand Final",
+              "matches": [
+                {
+                  "id": "final",
+                  "title": "FINAL",
+                  "player1": "AOD",
+                  "player2": "CRITICAL MEDS",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "6",
+                  "score2": "4",
+                  "winner": "AOD",
+                  "note": "Bo11",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "stageSummaries": [
+        {
+          "title": "Group A",
+          "entries": [
+            "RASHNAGAR — 16 pts",
+            "CRITICAL MEDS — 14 pts",
+            "AARON — 8 pts",
+            "DANKU — 7 pts",
+            "ADAM — 5 pts"
+          ]
+        },
+        {
+          "title": "Group B",
+          "entries": [
+            "JAMIE TD — 16 pts",
+            "AOD — 15 pts",
+            "BROTHERHOOD OF LAG — 11 pts",
+            "BRUZER — 7 pts",
+            "KHANOMANCER — 4 pts"
+          ]
+        }
+      ]
+    },
+    {
+      "status": "completed",
+      "organizer": "JLGAZZA94",
+      "endDate": "",
+      "timezone": "BST",
+      "registrationMode": "closed",
+      "registrationUrl": "",
+      "participantSource": "manual",
+      "streamUrl": "",
+      "rulesUrl": "",
+      "bracketMode": "manual",
+      "bracketTitle": "Round Robin Results",
+      "bracketEmbedUrl": "",
+      "schedule": [],
+      "id": "td-oceania-championship-2023",
+      "title": "TD Oceania Championship 2023",
+      "subtitle": "Six Tiberian Dawn players contested an Oceania round robin",
+      "game": "Command & Conquer: Tiberian Dawn",
+      "format": "Round Robin",
+      "competitorStructure": "1v1",
+      "startDate": "2023-08-21 19:07",
+      "prizePool": "",
+      "bannerImage": "/assets/tbanners/td-oceania-2023.webp",
+      "description": "A six-player Tiberian Dawn round robin in which every player faced all five opponents. The archived table records the completed event standings.",
+      "bracketUrl": "https://challonge.com/vaxcgqjl",
+      "players": [
+        {
+          "name": "peasy",
+          "seed": "1",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "peasy",
+          "note": ""
+        },
+        {
+          "name": "johnnyknows",
+          "seed": "2",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "johnnyknows",
+          "note": ""
+        },
+        {
+          "name": "noble sub",
+          "seed": "3",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "noble sub",
+          "note": ""
+        },
+        {
+          "name": "gazeelorps",
+          "seed": "4",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "gazeelorps",
+          "note": ""
+        },
+        {
+          "name": "brotherhood of lag",
+          "seed": "5",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "brotherhood of lag",
+          "note": ""
+        },
+        {
+          "name": "war machine",
+          "seed": "6",
+          "flag": "",
+          "flagImage": "",
+          "inGameName": "war machine",
+          "note": ""
+        }
+      ],
+      "rules": {
+        "sections": [
+          {
+            "title": "Tournament format",
+            "paragraphs": [
+              "Six players met in a best-of-seven round robin. The event archive records the final table from the public bracket."
+            ],
+            "bullets": []
+          }
+        ],
+        "mapPool": [
+          "Tournament maps were selected by the organiser."
+        ],
+        "questions": "Historical record sourced from the public Challonge event pages. Contact the organiser for any correction.",
+        "closing": "ARCHIVE RECORD"
+      },
+      "results": [
+        {
+          "place": "1st",
+          "name": "peasy",
+          "note": "20 pts, 5-0"
+        },
+        {
+          "place": "2nd",
+          "name": "johnnyknows",
+          "note": "16 pts, 4-1"
+        },
+        {
+          "place": "3rd",
+          "name": "noble sub",
+          "note": "14 pts, 3-2"
+        },
+        {
+          "place": "4th",
+          "name": "gazeelorps",
+          "note": "12 pts, 1-4"
+        },
+        {
+          "place": "5th",
+          "name": "brotherhood of lag",
+          "note": "10 pts, 2-3"
+        },
+        {
+          "place": "6th",
+          "name": "war machine",
+          "note": "10 pts, 0-5"
+        }
+      ],
+      "manualBracketGroups": [
+  {
+    "key": "main",
+    "title": "Round Robin",
+    "rounds": [
+      {
+        "title": "Round 1",
+        "matches": [
+          {
+            "id": "rr1",
+            "title": "Match 1",
+            "player1": "NOBLESUB",
+            "player2": "peasy",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "0",
+            "score2": "4",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr2",
+            "title": "Match 2",
+            "player1": "war machine",
+            "player2": "gazeelorps",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "gazeelorps",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr3",
+            "title": "Match 3",
+            "player1": "johnnyknows",
+            "player2": "BROTHERHOOD OF LAG",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "0",
+            "winner": "johnnyknows",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      },
+      {
+        "title": "Round 2",
+        "matches": [
+          {
+            "id": "rr4",
+            "title": "Match 4",
+            "player1": "gazeelorps",
+            "player2": "johnnyknows",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "johnnyknows",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr5",
+            "title": "Match 5",
+            "player1": "BROTHERHOOD OF LAG",
+            "player2": "NOBLESUB",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "NOBLESUB",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr6",
+            "title": "Match 6",
+            "player1": "peasy",
+            "player2": "war machine",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "2",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      },
+      {
+        "title": "Round 3",
+        "matches": [
+          {
+            "id": "rr7",
+            "title": "Match 7",
+            "player1": "BROTHERHOOD OF LAG",
+            "player2": "gazeelorps",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "3",
+            "winner": "BROTHERHOOD OF LAG",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr8",
+            "title": "Match 8",
+            "player1": "johnnyknows",
+            "player2": "peasy",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "0",
+            "score2": "4",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr9",
+            "title": "Match 9",
+            "player1": "NOBLESUB",
+            "player2": "war machine",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "2",
+            "winner": "NOBLESUB",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      },
+      {
+        "title": "Round 4",
+        "matches": [
+          {
+            "id": "rr10",
+            "title": "Match 10",
+            "player1": "war machine",
+            "player2": "johnnyknows",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "johnnyknows",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr11",
+            "title": "Match 11",
+            "player1": "peasy",
+            "player2": "BROTHERHOOD OF LAG",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "0",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr12",
+            "title": "Match 12",
+            "player1": "gazeelorps",
+            "player2": "NOBLESUB",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "3",
+            "score2": "4",
+            "winner": "NOBLESUB",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      },
+      {
+        "title": "Round 5",
+        "matches": [
+          {
+            "id": "rr13",
+            "title": "Match 13",
+            "player1": "BROTHERHOOD OF LAG",
+            "player2": "war machine",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "4",
+            "score2": "2",
+            "winner": "BROTHERHOOD OF LAG",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr14",
+            "title": "Match 14",
+            "player1": "NOBLESUB",
+            "player2": "johnnyknows",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "2",
+            "score2": "4",
+            "winner": "johnnyknows",
+            "note": "Bo7",
+            "time": ""
+          },
+          {
+            "id": "rr15",
+            "title": "Match 15",
+            "player1": "gazeelorps",
+            "player2": "peasy",
+            "slot1From": "",
+            "slot2From": "",
+            "score1": "0",
+            "score2": "4",
+            "winner": "peasy",
+            "note": "Bo7",
+            "time": ""
+          }
+        ]
+      }
+    ]
+  }
+],
+      "stageSummaries": [
+        {
+          "title": "Final round-robin table",
+          "entries": [
+            "peasy — 20 pts (5-0)",
+            "johnnyknows — 16 pts (4-1)",
+            "noble sub — 14 pts (3-2)",
+            "gazeelorps — 12 pts (1-4)",
+            "brotherhood of lag — 10 pts (2-3)",
+            "war machine — 10 pts (0-5)"
+          ]
+        }
+      ]
     }
   ]
 };

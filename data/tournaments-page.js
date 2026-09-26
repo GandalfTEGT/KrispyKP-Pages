@@ -43,6 +43,8 @@
 
     resultsSection: document.getElementById("tournamentResultsSection"),
     results: document.getElementById("tournamentResults"),
+    stageSection: document.getElementById("tournamentStageSection"),
+    stageSummaries: document.getElementById("tournamentStageSummaries"),
 
     archiveCardsSection: document.getElementById("tournamentArchiveCardsSection"),
     archiveCardsGrid: document.getElementById("tournamentArchiveCardsGrid"),
@@ -54,9 +56,12 @@
     archiveEmpty: document.getElementById("tournamentArchiveEmpty")
   };
 
-  let currentEventId = data.currentEventId || null;
+  const eventParam = new URLSearchParams(window.location.search).get("event");
+  let currentEventId = getEvents().some((event) => event.id === eventParam) ? eventParam : (data.currentEventId || null);
   let bracketResizeRaf = 0;
   let isMobileBracketOpen = false;
+  let wasMobileSectionLayout = null;
+  let wasCompactBracketLayout = null;
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -177,6 +182,15 @@
 
     const hasBracket = !!els.bracketSection && !els.bracketSection.hidden;
     const useMobileToggle = hasBracket && isCompactBracketLayout();
+    const hasManualBracket = !!els.manualBracketWrap && !els.manualBracketWrap.hidden;
+
+    if (useMobileToggle && hasManualBracket) {
+      isMobileBracketOpen = true;
+      els.bracketToggle.hidden = true;
+      els.bracketBody.hidden = false;
+      els.bracketToggle.setAttribute("aria-expanded", "true");
+      return;
+    }
 
     if (!useMobileToggle) {
       isMobileBracketOpen = true;
@@ -197,8 +211,16 @@
     els.bracketToggle.setAttribute("aria-expanded", String(isMobileBracketOpen));
   }
 
-  function selectEvent(eventId) {
+  function syncEventUrl(eventId, mode = "push") {
+    const url = new URL(window.location.href);
+    url.searchParams.set("event", eventId);
+    window.history[mode === "replace" ? "replaceState" : "pushState"]({ eventId }, "", url);
+  }
+
+  function selectEvent(eventId, historyMode = "push") {
+    if (!getEventById(eventId)) return;
     currentEventId = eventId;
+    syncEventUrl(eventId, historyMode);
     jumpToTop();
 
     requestAnimationFrame(() => {
@@ -269,8 +291,8 @@
     if (event?.bannerImage) {
       els.heroBackdrop.hidden = false;
       els.heroBackdrop.style.backgroundImage = `
-        linear-gradient(180deg, rgba(5, 9, 12, 0.28), rgba(5, 9, 12, 0.80)),
-        linear-gradient(90deg, rgba(6, 9, 11, 0.92), rgba(6, 9, 11, 0.58)),
+        linear-gradient(180deg, rgba(5, 9, 12, 0.08), rgba(5, 9, 12, 0.52)),
+        linear-gradient(90deg, rgba(6, 9, 11, 0.92) 0%, rgba(6, 9, 11, 0.48) 46%, rgba(6, 9, 11, 0.10) 78%),
         url("${event.bannerImage}")
       `;
     } else {
@@ -315,12 +337,14 @@
     if (els.players) els.players.innerHTML = "";
     if (els.rules) els.rules.innerHTML = "";
     if (els.results) els.results.innerHTML = "";
+    if (els.stageSummaries) els.stageSummaries.innerHTML = "";
 
     if (els.scheduleSection) els.scheduleSection.hidden = true;
     if (els.scheduleCard) els.scheduleCard.hidden = true;
     if (els.playersCard) els.playersCard.hidden = true;
     if (els.rulesCard) els.rulesCard.hidden = true;
     if (els.resultsSection) els.resultsSection.hidden = true;
+    if (els.stageSection) els.stageSection.hidden = true;
   }
 
   function resetSwitchers() {
@@ -515,11 +539,21 @@
   }
 
   function createManualBracketGroup(group) {
-    const groupEl = document.createElement("section");
+    const groupEl = document.createElement("details");
     const groupKeyClass = sanitizeGroupKey(group.key);
     groupEl.className = `tournament-manual-group is-${group.kind} group-key-${groupKeyClass}`;
     groupEl.dataset.groupKind = group.kind;
     groupEl.dataset.groupKey = group.key;
+    groupEl.dataset.mobileDefault = "closed";
+    groupEl.open = true;
+
+    const groupSummary = document.createElement("summary");
+    groupSummary.className = "tournament-manual-group-summary";
+    groupSummary.innerHTML = `<span>${escapeHtml(text(group.title, "Bracket"))}</span><span aria-hidden="true" class="tournament-disclosure-marker"></span>`;
+    groupSummary.addEventListener("click", () => requestAnimationFrame(scheduleConnectorDraw));
+
+    const groupContent = document.createElement("div");
+    groupContent.className = "tournament-manual-group-content";
 
     const groupHead = document.createElement("div");
     groupHead.className = "tournament-manual-group-head";
@@ -597,7 +631,8 @@
     });
 
     bracketSurface.append(connectorSvg, bracketEl);
-    groupEl.append(groupHead, bracketSurface);
+    groupContent.append(groupHead, bracketSurface);
+    groupEl.append(groupSummary, groupContent);
     return groupEl;
   }
 
@@ -1072,6 +1107,18 @@
       );
     }
 
+    const stages = isArray(event.stageSummaries);
+    if (els.stageSection) els.stageSection.hidden = !stages.length;
+    if (els.stageSummaries && stages.length) {
+      stages.forEach((stage) => {
+        const article = document.createElement("article");
+        article.className = "tournament-stage-summary";
+        article.innerHTML = `<h3>${escapeHtml(text(stage.title, "Stage"))}</h3><ul>${isArray(stage.entries).map((entry) => `<li>${escapeHtml(text(entry))}</li>`).join("")}</ul>`;
+        els.stageSummaries.appendChild(article);
+      });
+    }
+
+    updateEventStructuredData(event);
     renderBracket(event);
 
     const players = isArray(event.players);
@@ -1158,6 +1205,18 @@
     renderSwitchers(event);
   }
 
+  function updateEventStructuredData(event) {
+    let node = document.getElementById("tournamentStructuredData");
+    if (!node) { node = document.createElement("script"); node.id = "tournamentStructuredData"; node.type = "application/ld+json"; document.head.appendChild(node); }
+    const url = `https://krispykp.com/tournaments/?event=${encodeURIComponent(event.id)}`;
+    node.textContent = JSON.stringify({"@context":"https://schema.org","@type":"SportsEvent",name:event.title,description:event.description,startDate:event.startDate ? event.startDate.replace(" ", "T") : undefined,endDate:event.endDate ? event.endDate.replace(" ", "T") : undefined,eventStatus:event.status === "completed" ? "https://schema.org/EventCompleted" : "https://schema.org/EventScheduled",url,image:event.bannerImage ? `https://krispykp.com${event.bannerImage}` : undefined,organizer:{"@type":"Person",name:event.organizer || "JLGAZZA94"},sport:event.game});
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.href = url;
+    const social = { "og:title": event.title, "og:description": event.description, "og:url": url, "og:image": event.bannerImage ? `https://krispykp.com${event.bannerImage}` : "https://krispykp.com/assets/logo.png" };
+    Object.entries(social).forEach(([property, content]) => { const meta = document.querySelector(`meta[property="${property}"]`); if (meta && content) meta.content = content; });
+    document.title = `${event.title} | KrispyKP`;
+  }
+
   function renderEmptyState() {
     resetDataAreas();
     resetBracketArea();
@@ -1203,7 +1262,32 @@
 
   function handleResponsiveTournamentResize() {
     updateBracketVisibility(false);
+    syncTournamentDisclosures(false);
     scheduleConnectorDraw();
+  }
+
+  function syncTournamentDisclosures(forceDefaults = false) {
+    const mobileSections = window.matchMedia("(max-width: 700px)").matches;
+    const compactBracket = isCompactBracketLayout();
+
+    document.querySelectorAll(".tournament-section-disclosure").forEach((details) => {
+      if (!mobileSections) {
+        details.open = true;
+      } else if (forceDefaults || wasMobileSectionLayout !== true) {
+        details.open = details.dataset.mobileDefault !== "closed";
+      }
+    });
+
+    document.querySelectorAll(".tournament-manual-group").forEach((details) => {
+      if (!compactBracket) {
+        details.open = true;
+      } else if (forceDefaults || wasCompactBracketLayout !== true) {
+        details.open = details.dataset.mobileDefault !== "closed";
+      }
+    });
+
+    wasMobileSectionLayout = mobileSections;
+    wasCompactBracketLayout = compactBracket;
   }
 
   function renderPage() {
@@ -1215,11 +1299,21 @@
     }
 
     renderEvent(featured);
+    syncTournamentDisclosures(true);
   }
 
   window.addEventListener("resize", handleResponsiveTournamentResize);
+  window.addEventListener("popstate", () => {
+    const requested = new URLSearchParams(window.location.search).get("event");
+    currentEventId = getEventById(requested)?.id || data.currentEventId || null;
+    renderPage();
+    jumpToTop();
+  });
   [els.archiveSearch, els.archiveGame, els.archiveYear].filter(Boolean).forEach((control) => {
     control.addEventListener(control === els.archiveSearch ? "input" : "change", () => renderPage());
   });
   renderPage();
+  if (eventParam && !getEventById(eventParam) && currentEventId) syncEventUrl(currentEventId, "replace");
 })();
+
+/* deep-link state is intentionally limited to the selected event */

@@ -4,6 +4,7 @@ const lyricsLibrary = window.KRISPY_LYRICS || {};
 
 const CUSTOM_SELECTION_KEY = "krispykp_custom_track_ids_v1";
 const CUSTOM_PLAYLIST_NAME_KEY = "krispykp_custom_playlist_name_v1";
+const requestedTrackId = new URLSearchParams(window.location.search).get("track");
 
 let memoryCustomTrackIds = [];
 let memoryCustomPlaylistName = "My Selection";
@@ -465,13 +466,19 @@ function renderList() {
   });
 }
 
-function loadTrackById(trackId, autoplay = false, pushHistory = true) {
-  const nextIndex = activeTracks.findIndex(track => track.id === trackId);
-  if (nextIndex === -1) return;
-  loadTrackByIndex(nextIndex, autoplay, pushHistory);
+function syncTrackUrl(trackId, mode = "push") {
+  const url = new URL(window.location.href);
+  url.searchParams.set("track", trackId);
+  window.history[mode === "replace" ? "replaceState" : "pushState"]({ trackId }, "", url);
 }
 
-function loadTrackByIndex(index, autoplay = false, pushHistory = true) {
+function loadTrackById(trackId, autoplay = false, pushHistory = true, urlMode = "push") {
+  const nextIndex = activeTracks.findIndex(track => track.id === trackId);
+  if (nextIndex === -1) return;
+  loadTrackByIndex(nextIndex, autoplay, pushHistory, urlMode);
+}
+
+function loadTrackByIndex(index, autoplay = false, pushHistory = true, urlMode = "push") {
   if (index < 0 || index >= activeTracks.length) return;
 
   const track = activeTracks[index];
@@ -482,6 +489,7 @@ function loadTrackByIndex(index, autoplay = false, pushHistory = true) {
 
   currentTrackId = track.id;
   updateTrackDisplay(track);
+  if (urlMode) syncTrackUrl(track.id, urlMode);
 
   audio.pause();
   audio.src = track.file || "";
@@ -974,9 +982,21 @@ updateRepeatButton();
 renderList();
 syncLyricsPanelForViewport();
 
-const firstPlayable = getPlayableTracks(activeTracks)[0];
+const requestedTrack = allTracks.find(track => track.id === requestedTrackId && track.available && track.file);
+const firstPlayable = requestedTrack || getPlayableTracks(activeTracks)[0];
 if (firstPlayable) {
-  loadTrackById(firstPlayable.id, false, false);
+  loadTrackById(firstPlayable.id, false, false, requestedTrackId ? "replace" : null);
 } else {
   clearPlayerDisplay();
 }
+
+window.addEventListener("popstate", () => {
+  const id = new URLSearchParams(window.location.search).get("track");
+  const target = allTracks.find(track => track.id === id && track.available && track.file);
+  if (target) {
+    activePlaylistId = "all-tracks";
+    playlistSelectEl.value = activePlaylistId;
+    refreshActiveTracks();
+    loadTrackById(target.id, false, false, null);
+  }
+});

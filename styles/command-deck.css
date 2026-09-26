@@ -1,0 +1,1509 @@
+/* =========================================================
+   KKP OFFICIAL — SHARED TACTICAL COMMAND DECK
+   Reusable site identity and responsive component layer. Loaded after page styles.
+========================================================= */
+
+:root {
+  --site-max-width: 1460px;
+  --p2-cyan: #61dcff;
+  --p2-green: #52e6c2;
+  --p2-ink: #050a0d;
+  --p2-surface: rgba(7, 15, 19, 0.9);
+  --p2-surface-raised: rgba(11, 23, 28, 0.94);
+  --p2-line: rgba(97, 220, 255, 0.22);
+  --p2-grid: rgba(97, 220, 255, 0.035);
+  --p2-cut: 14px;
+  --p2-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.page-home { --channel-label: "COMMAND CHANNEL // HOME"; --page-rgb: 97, 220, 255; }
+.page-music { --channel-label: "AUDIO CHANNEL // MUSIC"; --page-rgb: 82, 230, 194; }
+.page-videos { --channel-label: "VISUAL ARCHIVE // VIDEOS"; --page-rgb: 92, 157, 255; }
+.page-tournaments { --channel-label: "OPERATIONS CHANNEL // EVENTS"; --page-rgb: 143, 125, 255; }
+.page-about { --channel-label: "IDENTITY FILE // ABOUT"; --page-rgb: 84, 188, 224; }
+.page-contact { --channel-label: "COMMS CHANNEL // CONTACT"; --page-rgb: 203, 137, 255; }
+
+body {
+  background:
+    linear-gradient(90deg, transparent 0 49.96%, rgba(var(--page-rgb), 0.045) 50%, transparent 50.04%),
+    linear-gradient(0deg, transparent 0 49.96%, rgba(var(--page-rgb), 0.03) 50%, transparent 50.04%),
+    radial-gradient(circle at 50% 12%, rgba(var(--page-rgb), 0.12), transparent 34%),
+    linear-gradient(135deg, #03080b, #0a151a 52%, #050b0e);
+  background-size: 112px 112px, 112px 112px, auto, auto;
+}
+
+.shell {
+  overflow: clip;
+}
+
+.shell::after {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  inset: 86px 18px 18px;
+  pointer-events: none;
+  border: 1px solid rgba(var(--page-rgb), 0.055);
+  clip-path: polygon(0 0, calc(100% - 24px) 0, 100% 24px, 100% 100%, 24px 100%, 0 calc(100% - 24px));
+}
+
+/* Header becomes a compact command rail. */
+.topbar {
+  background: rgba(3, 9, 12, 0.9);
+  border-bottom: 1px solid rgba(var(--page-rgb), 0.2);
+  box-shadow: 0 12px 34px rgba(0, 0, 0, 0.32);
+}
+
+.topbar::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  width: 34%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(var(--page-rgb), 0.9));
+  box-shadow: 0 0 16px rgba(var(--page-rgb), 0.5);
+}
+
+.nav {
+  min-height: 76px;
+  gap: 32px;
+}
+
+.brand-logo {
+  width: 54px;
+  height: 54px;
+}
+
+.brand-mark {
+  font-size: 25px;
+  letter-spacing: 0.09em;
+}
+
+.brand-sub {
+  font-size: 9px;
+  letter-spacing: 0.28em;
+}
+
+.nav-links {
+  gap: 2px;
+  border: 1px solid rgba(var(--page-rgb), 0.09);
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.nav-links a {
+  position: relative;
+  min-height: 42px;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px;
+  border: 0;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 5px;
+  height: 1px;
+  background: rgb(var(--page-rgb));
+  transform: scaleX(0);
+  transition: transform 0.28s var(--p2-ease);
+}
+
+.nav-links a:hover::after,
+.nav-links a.active::after {
+  transform: scaleX(1);
+}
+
+.nav-links a.active {
+  background: rgba(var(--page-rgb), 0.095);
+  color: #fff;
+}
+
+/* Shared surfaces: fewer nested boxes, stronger hierarchy. */
+.frame {
+  border: 1px solid rgba(var(--page-rgb), 0.19);
+  background:
+    linear-gradient(115deg, rgba(var(--page-rgb), 0.035), transparent 34%),
+    var(--p2-surface);
+  box-shadow:
+    0 24px 70px rgba(0, 0, 0, 0.25),
+    inset 0 1px rgba(255, 255, 255, 0.035);
+  clip-path: polygon(0 0, calc(100% - var(--p2-cut)) 0, 100% var(--p2-cut), 100% 100%, var(--p2-cut) 100%, 0 calc(100% - var(--p2-cut)));
+}
+
+.frame::before {
+  inset: 0;
+  border: 0;
+  border-top: 2px solid rgba(var(--page-rgb), 0.44);
+  background: linear-gradient(90deg, rgba(var(--page-rgb), 0.55), transparent 22%);
+  height: 2px;
+}
+
+.frame::after {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(var(--page-rgb));
+  box-shadow: 0 0 12px rgba(var(--page-rgb), 0.75);
+  pointer-events: none;
+}
+
+.panel,
+.feature,
+.player-panel,
+.playlist-panel,
+.contact-option,
+.link-card,
+.card,
+.media-item,
+.track-card,
+.footer-box {
+  padding: clamp(22px, 2.25vw, 36px);
+}
+
+.section-title,
+.kicker {
+  color: rgb(var(--page-rgb));
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.26em;
+}
+
+.section-title::before,
+.kicker::before {
+  content: "// ";
+  opacity: 0.55;
+}
+
+.h1 {
+  max-width: 18ch;
+  font-family: "Arial Narrow", "Segoe UI", sans-serif;
+  font-size: clamp(42px, 5.5vw, 82px);
+  letter-spacing: 0.025em;
+  line-height: 0.88;
+  text-wrap: balance;
+}
+
+.section-big,
+.videos-block-title,
+.player-track,
+.tournament-empty-title {
+  font-family: "Arial Narrow", "Segoe UI", sans-serif;
+  text-wrap: balance;
+}
+
+.sub {
+  max-width: 68ch;
+  color: #b8e9f7;
+  font-size: clamp(17px, 1.45vw, 21px);
+  line-height: 1.55;
+}
+
+.btn {
+  position: relative;
+  min-height: 46px;
+  border-color: rgba(var(--page-rgb), 0.24);
+  background: rgba(var(--page-rgb), 0.04);
+  clip-path: polygon(0 0, calc(100% - 9px) 0, 100% 9px, 100% 100%, 9px 100%, 0 calc(100% - 9px));
+  transition: transform 0.2s var(--p2-ease), background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(var(--page-rgb), 0.7);
+  background: rgba(var(--page-rgb), 0.1);
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, rgb(var(--page-rgb)), #b8f3ff);
+  box-shadow: 0 0 24px rgba(var(--page-rgb), 0.16);
+}
+
+.status-pill {
+  min-height: 38px;
+  padding: 8px 12px;
+  border-color: rgba(var(--page-rgb), 0.18);
+  background: rgba(var(--page-rgb), 0.035);
+  font-size: 11px;
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+}
+
+/* Every page receives a compact channel identifier and indexed sections. */
+.page-hero,
+.page-home .hero {
+  position: relative;
+  padding-top: 58px;
+}
+
+.page-hero::before,
+.page-home .hero::before {
+  content: var(--channel-label);
+  position: absolute;
+  top: 26px;
+  left: max(20px, calc((100% - var(--site-max-width)) / 2));
+  z-index: 2;
+  color: rgba(var(--page-rgb), 0.75);
+  font: 800 10px/1 "Segoe UI", sans-serif;
+  letter-spacing: 0.28em;
+}
+
+.command-section > .container {
+  position: relative;
+}
+
+.command-section > .container::after {
+  content: var(--section-index);
+  position: absolute;
+  top: -11px;
+  right: 10px;
+  z-index: 3;
+  color: rgba(var(--page-rgb), 0.36);
+  font: 800 10px/1 Consolas, monospace;
+  letter-spacing: 0.18em;
+  pointer-events: none;
+}
+
+.page-hero .panel {
+  position: relative;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(34px, 4vw, 62px);
+  background:
+    radial-gradient(circle at 84% 50%, rgba(var(--page-rgb), 0.13), transparent 19%),
+    linear-gradient(105deg, rgba(var(--page-rgb), 0.08), transparent 45%),
+    rgba(5, 12, 16, 0.92);
+}
+
+.page-hero .panel::after {
+  width: min(28vw, 350px);
+  height: min(28vw, 350px);
+  top: 50%;
+  right: 6%;
+  border: 1px solid rgba(var(--page-rgb), 0.12);
+  border-radius: 50%;
+  background:
+    linear-gradient(rgba(var(--page-rgb), 0.13), rgba(var(--page-rgb), 0.13)) center / 1px 100% no-repeat,
+    linear-gradient(90deg, rgba(var(--page-rgb), 0.13), rgba(var(--page-rgb), 0.13)) center / 100% 1px no-repeat,
+    radial-gradient(circle, transparent 0 31%, rgba(var(--page-rgb), 0.1) 31.5% 32%, transparent 32.5% 63%, rgba(var(--page-rgb), 0.08) 63.5% 64%, transparent 64.5%);
+  box-shadow: none;
+  transform: translateY(-50%);
+  opacity: 0.72;
+}
+
+.page-hero .panel > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* Home: an actual command deck with a scan-friendly schedule. */
+.page-home .hero {
+  padding-bottom: 12px;
+}
+
+.page-home .hero-grid {
+  grid-template-columns: minmax(0, 1.28fr) minmax(390px, 0.72fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.page-home .hero-grid > .frame {
+  background:
+    radial-gradient(circle at 12% 22%, rgba(97, 220, 255, 0.11), transparent 24%),
+    linear-gradient(135deg, rgba(97, 220, 255, 0.06), transparent 46%),
+    rgba(5, 12, 16, 0.94);
+}
+
+.page-home .hero-brand {
+  grid-template-columns: 150px 1fr;
+  gap: 28px;
+  margin: 10px 0 4px;
+}
+
+.page-home .hero-logo {
+  width: 150px;
+  filter: drop-shadow(0 0 34px rgba(97, 220, 255, 0.3));
+}
+
+.page-home .h1 {
+  font-size: clamp(58px, 6vw, 94px);
+}
+
+.page-home .sub {
+  margin-bottom: 0;
+  max-width: 56ch;
+}
+
+.home-schedule {
+  margin-top: 24px;
+  border: 1px solid rgba(var(--page-rgb), 0.2);
+  background: rgba(var(--page-rgb), 0.025);
+}
+
+.home-schedule summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  min-height: 50px;
+  padding: 12px 16px;
+  color: #f4ddb0;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+}
+
+.home-schedule summary::-webkit-details-marker { display: none; }
+
+.home-schedule-status {
+  color: var(--muted);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+.home-schedule[open] .home-schedule-status span {
+  display: inline-block;
+  transform: rotate(45deg);
+}
+
+.home-schedule-body {
+  padding: 0 14px 14px;
+}
+
+.home-schedule-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.home-schedule-grid li {
+  display: grid;
+  grid-template-columns: 38px 82px minmax(0, 1fr);
+  gap: 8px;
+  align-items: start;
+  padding: 9px 10px;
+  border-left: 2px solid rgba(var(--page-rgb), 0.3);
+  background: rgba(0, 0, 0, 0.18);
+  color: #dcecf1;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.home-schedule-day,
+.home-schedule-grid time {
+  color: rgb(var(--page-rgb));
+  font: 800 10px/1.4 Consolas, monospace;
+  text-transform: uppercase;
+}
+
+.home-schedule-note {
+  margin: 10px 2px 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.page-home .hero-card {
+  gap: 18px;
+}
+
+.page-home .hero-card > .frame:first-child {
+  padding: 20px;
+}
+
+.page-home .embed-box {
+  background:
+    radial-gradient(circle, rgba(97, 220, 255, 0.045), transparent 48%),
+    #030709;
+}
+
+.page-home .home-uplink-summary {
+  border: 0;
+  border-left: 2px solid rgba(97, 220, 255, 0.42);
+  background: rgba(97, 220, 255, 0.035);
+}
+
+.page-home .home-uplink-grid .mini {
+  border: 0;
+  border-top: 1px solid rgba(97, 220, 255, 0.16);
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.home-feature-grid {
+  grid-template-columns: minmax(0, 1.18fr) minmax(360px, 0.82fr);
+}
+
+.home-featured-track-card {
+  border-left: 2px solid rgba(var(--page-rgb), 0.3);
+  background: rgba(var(--page-rgb), 0.025);
+}
+
+.home-tournament-card {
+  border-color: rgba(var(--page-rgb), 0.22);
+}
+
+/* Music: a focused listening console, not a generic utility. */
+.page-music .page-hero .panel {
+  min-height: 210px;
+}
+
+.page-music .player-layout {
+  grid-template-columns: minmax(320px, 0.72fr) minmax(0, 1.28fr);
+  align-items: start;
+  gap: 20px;
+}
+
+.page-music .player-panel {
+  position: sticky;
+  top: 96px;
+  background:
+    radial-gradient(circle at 50% 24%, rgba(var(--page-rgb), 0.11), transparent 38%),
+    rgba(5, 13, 15, 0.96);
+}
+
+.page-music .player-art {
+  aspect-ratio: 1;
+  height: auto;
+  border: 0;
+  box-shadow: 0 28px 55px rgba(0, 0, 0, 0.42), 0 0 0 1px rgba(var(--page-rgb), 0.16);
+}
+
+.page-music .player-track {
+  margin-top: 20px;
+  font-size: clamp(25px, 2.6vw, 38px);
+  line-height: 1;
+}
+
+.page-music .bar {
+  height: 10px;
+  border-color: rgba(var(--page-rgb), 0.18);
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.page-music .progress {
+  background: linear-gradient(90deg, #4fd2ff, rgb(var(--page-rgb)));
+  box-shadow: 0 0 16px rgba(var(--page-rgb), 0.42);
+}
+
+.page-music .controls button {
+  min-height: 50px;
+  border-color: rgba(var(--page-rgb), 0.17);
+  background: rgba(var(--page-rgb), 0.035);
+}
+
+.page-music .playlist-panel,
+.page-music .custom-builder {
+  background: rgba(6, 15, 18, 0.91);
+}
+
+.page-music .playlist-toolbar {
+  grid-template-columns: minmax(180px, 0.55fr) minmax(240px, 1fr);
+  align-items: end;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(var(--page-rgb), 0.13);
+}
+
+.page-music .tracks {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-height: 720px;
+  min-height: 520px;
+  gap: 6px;
+  padding-top: 12px;
+}
+
+.page-music .track-item {
+  grid-template-columns: 52px minmax(0, 1fr);
+  min-height: 72px;
+  border: 0;
+  border-left: 2px solid rgba(var(--page-rgb), 0.12);
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.page-music .track-item .t-tag {
+  grid-column: 1 / -1;
+  display: none;
+}
+
+.page-music .track-item:hover,
+.page-music .track-item.active {
+  border-left-color: rgb(var(--page-rgb));
+  background: rgba(var(--page-rgb), 0.075);
+}
+
+.page-music .lyrics-box {
+  border: 0;
+  border-left: 2px solid rgba(var(--page-rgb), 0.24);
+  max-height: 520px;
+  overflow: auto;
+  scrollbar-color: rgba(var(--page-rgb), 0.46) rgba(255, 255, 255, 0.035);
+}
+
+/* Videos: cinematic player with a tighter browsing deck. */
+.page-videos .page-hero .panel {
+  min-height: 160px;
+  padding-block: clamp(28px, 3vw, 42px);
+}
+
+.page-videos .page-hero .h1 {
+  font-size: clamp(42px, 4.6vw, 68px);
+}
+
+.page-videos .videos-top-section {
+  padding-top: 8px;
+}
+
+.page-videos .videos-feature-shell {
+  width: 100%;
+  max-width: 1080px;
+  margin-inline: auto;
+  padding: clamp(20px, 2.5vw, 34px);
+  background:
+    radial-gradient(circle at 50% 30%, rgba(97, 220, 255, 0.07), transparent 38%),
+    rgba(4, 10, 14, 0.96);
+}
+
+.page-videos .videos-feature-player-wrap,
+.page-videos .videos-main-player-wrap {
+  border: 0;
+  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.48), 0 0 0 1px rgba(97, 220, 255, 0.18);
+}
+
+.page-videos .videos-browser-section > .container {
+  display: grid;
+  grid-template-columns: minmax(250px, 0.28fr) minmax(0, 0.72fr);
+  grid-template-areas:
+    "filters toolbar"
+    "filters library";
+  gap: 16px 20px;
+  align-items: start;
+}
+
+.page-videos .videos-category-controls {
+  grid-area: filters;
+  position: sticky;
+  top: 96px;
+  padding: 20px;
+  border: 1px solid rgba(97, 220, 255, 0.16);
+  background: rgba(5, 13, 17, 0.94);
+}
+
+.page-videos .videos-tabs-shell,
+.page-videos .videos-tabs,
+.page-videos .videos-subtabs {
+  display: grid;
+  grid-template-columns: 1fr;
+  width: 100%;
+}
+
+.page-videos .videos-tabs button,
+.page-videos .videos-subtabs button,
+.page-videos .videos-more-toggle {
+  width: 100%;
+  justify-content: flex-start;
+  min-height: 42px;
+  text-align: left;
+}
+
+.page-videos .videos-browser-section > .container > .section-title {
+  display: none;
+}
+
+.page-videos .videos-toolbar {
+  grid-area: toolbar;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  padding: 12px;
+  clip-path: none;
+}
+
+.page-videos .videos-library-shell {
+  grid-area: library;
+}
+
+.page-videos .videos-library-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.page-videos .videos-library-card {
+  border: 0;
+  border-top: 1px solid rgba(97, 220, 255, 0.18);
+  background: rgba(255, 255, 255, 0.018);
+  transition: transform 0.25s var(--p2-ease), background 0.2s ease;
+}
+
+.page-videos .videos-library-card:hover {
+  transform: translateY(-4px);
+  background: rgba(97, 220, 255, 0.055);
+}
+
+/* Tournaments: event operations board. */
+.page-tournaments .tournament-hero-panel {
+  min-height: 430px;
+  padding: 0;
+  border-color: rgba(var(--page-rgb), 0.32);
+}
+
+.page-tournaments .tournament-hero-inner {
+  padding: clamp(28px, 4vw, 54px);
+  justify-content: flex-end;
+  background: linear-gradient(90deg, rgba(2, 6, 8, 0.94) 0%, rgba(2, 6, 8, 0.64) 54%, rgba(2, 6, 8, 0.16) 100%);
+}
+
+.page-tournaments #tournamentTitle {
+  max-width: 14ch;
+  font-size: clamp(48px, 6vw, 86px);
+}
+
+.page-tournaments .tournament-hero-meta {
+  max-width: 900px;
+}
+
+.page-tournaments .tournament-hero-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.page-tournaments .tournament-details-card {
+  padding: clamp(24px, 3vw, 42px);
+}
+
+.page-tournaments .tournament-quick-info-list {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.page-tournaments .tournament-quick-info-list li,
+.page-tournaments .tournament-info-panel .list li {
+  border: 0;
+  border-left: 2px solid rgba(var(--page-rgb), 0.25);
+  background: rgba(var(--page-rgb), 0.025);
+}
+
+.page-tournaments .tournament-bracket-card {
+  background: linear-gradient(135deg, rgba(var(--page-rgb), 0.045), transparent 35%), rgba(5, 11, 14, 0.94);
+}
+
+.page-tournaments #tournamentRules .muted {
+  flex: none;
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+/* About: editorial identity rather than a stack of feature boxes. */
+.page-about .about-hero-panel {
+  min-height: 360px;
+}
+
+.page-about .about-layout {
+  grid-template-columns: minmax(0, 1.45fr) minmax(320px, 0.55fr);
+  gap: 20px;
+}
+
+.page-about .about-intro-card {
+  padding: clamp(32px, 4vw, 58px);
+}
+
+.page-about .about-bio {
+  max-width: 32ch;
+  font-size: clamp(24px, 2.4vw, 38px);
+  font-weight: 750;
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.page-about .about-copy {
+  max-width: 66ch;
+}
+
+.page-about .about-highlight-card {
+  background: linear-gradient(160deg, rgba(var(--page-rgb), 0.08), transparent 48%), rgba(5, 13, 15, 0.94);
+}
+
+.page-about .about-highlight-item {
+  border: 0;
+  border-bottom: 1px solid rgba(var(--page-rgb), 0.13);
+  background: transparent;
+}
+
+.page-about .about-feature-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.page-about .about-mini {
+  min-height: 190px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 0;
+  border-top: 2px solid rgba(var(--page-rgb), 0.28);
+  background: linear-gradient(180deg, transparent, rgba(var(--page-rgb), 0.045));
+}
+
+.page-about .about-mini .value {
+  font-size: 32px;
+}
+
+.page-about .about-grid {
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  align-items: start;
+}
+
+.page-about .about-quote-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: rgba(var(--page-rgb), 0.05);
+}
+
+.page-about .about-quote {
+  font-size: clamp(28px, 3vw, 46px);
+}
+
+.page-about .about-section-visible {
+  animation-duration: 0.28s;
+}
+
+/* Contact: a communications console with clearer form separation. */
+.page-contact .contact-highlight-card {
+  background: linear-gradient(140deg, rgba(var(--page-rgb), 0.075), transparent 48%), rgba(6, 13, 16, 0.94);
+}
+
+.page-contact .contact-email-link {
+  color: #ffe0a0;
+  font-size: clamp(19px, 2vw, 27px);
+}
+
+.page-contact .contact-forms-layout {
+  grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+  align-items: start;
+}
+
+.page-contact .form-shell {
+  padding: clamp(26px, 3vw, 42px);
+}
+
+.page-contact .form-shell:first-child {
+  position: sticky;
+  top: 96px;
+}
+
+.page-contact .field input,
+.page-contact .field textarea,
+.page-contact .field select {
+  border: 0;
+  border-bottom: 1px solid rgba(var(--page-rgb), 0.26);
+  background: rgba(0, 0, 0, 0.22);
+  box-shadow: none;
+}
+
+.page-contact .field input:focus,
+.page-contact .field textarea:focus,
+.page-contact .field select:focus {
+  border-bottom-color: rgb(var(--page-rgb));
+  box-shadow: 0 10px 22px rgba(var(--page-rgb), 0.045);
+}
+
+.page-contact .contact-bottom-grid .frame {
+  border-top-width: 2px;
+}
+
+/* Footer is a low-profile system readout. */
+.site-footer {
+  margin-top: 34px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(var(--page-rgb), 0.13);
+}
+
+.footer-shell {
+  background: rgba(3, 9, 12, 0.82);
+}
+
+/* ---------------------------------------------------------
+   Responsive composition
+--------------------------------------------------------- */
+@media (max-width: 1200px) {
+  .page-home .hero-grid,
+  .home-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .page-home .hero-card {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-home .hero-card > * {
+    min-width: 0;
+  }
+
+  .page-music .tracks {
+    grid-template-columns: 1fr;
+  }
+
+  .page-videos .videos-library-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-about .about-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .page-home .hero-card,
+  .page-music .player-layout,
+  .page-about .about-layout,
+  .page-about .about-grid,
+  .page-contact .contact-forms-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .page-music .player-panel,
+  .page-videos .videos-category-controls,
+  .page-contact .form-shell:first-child {
+    position: static;
+  }
+
+  .page-videos .videos-browser-section > .container {
+    display: block;
+  }
+
+  .page-videos .videos-category-controls {
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+
+  .page-videos .videos-tabs-shell,
+  .page-videos .videos-tabs,
+  .page-videos .videos-subtabs {
+    display: flex;
+    width: auto;
+  }
+
+  .page-videos .videos-tabs button,
+  .page-videos .videos-subtabs button,
+  .page-videos .videos-more-toggle {
+    width: auto;
+  }
+
+  .page-videos .videos-toolbar {
+    margin-bottom: 16px;
+  }
+
+  .page-tournaments .tournament-quick-info-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .shell::after { display: none; }
+
+  .nav {
+    min-height: 64px;
+  }
+
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+  }
+
+  .page-hero,
+  .page-home .hero {
+    padding-top: 48px;
+  }
+
+  .page-hero::before,
+  .page-home .hero::before {
+    top: 22px;
+    left: 12px;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+  }
+
+  .page-hero .panel {
+    min-height: 0;
+    padding: 26px 20px;
+  }
+
+  .page-hero .panel::after {
+    width: 190px;
+    height: 190px;
+    right: -60px;
+    opacity: 0.36;
+  }
+
+  .h1 {
+    font-size: clamp(38px, 13vw, 58px);
+    line-height: 0.94;
+  }
+
+  .page-home .hero-brand {
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+
+  .page-home .hero-logo {
+    width: 88px;
+  }
+
+  .page-home .h1 {
+    font-size: clamp(42px, 13vw, 62px);
+  }
+
+  .page-home .hero-grid > .frame {
+    padding: 22px 18px;
+  }
+
+  .home-schedule-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-schedule-body {
+    padding: 0 10px 10px;
+  }
+
+  .page-music .playlist-toolbar,
+  .page-videos .videos-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .page-videos .videos-library-grid,
+  .page-about .about-feature-grid,
+  .page-tournaments .tournament-quick-info-list,
+  .page-tournaments .tournament-hero-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .page-tournaments .tournament-hero-panel {
+    min-height: 390px;
+  }
+
+  .page-tournaments .tournament-hero-inner {
+    min-width: 0;
+    padding: 24px 18px;
+  }
+
+  .page-tournaments #tournamentTitle {
+    min-width: 0;
+    font-size: clamp(28px, 8vw, 36px);
+    letter-spacing: 0.06em;
+    overflow-wrap: normal;
+  }
+
+  .page-tournaments .tournament-hero-actions {
+    min-width: 0;
+  }
+
+  .page-about .about-bio {
+    font-size: clamp(22px, 7vw, 30px);
+  }
+
+  .command-section > .container::after {
+    right: 4px;
+  }
+}
+
+@media (max-width: 420px) {
+  .panel,
+  .feature,
+  .player-panel,
+  .playlist-panel,
+  .contact-option,
+  .link-card,
+  .card,
+  .media-item,
+  .track-card,
+  .footer-box {
+    padding: 18px;
+  }
+
+  .page-home .hero-brand {
+    grid-template-columns: 1fr;
+  }
+
+  .page-home .hero-logo {
+    width: 104px;
+  }
+
+  .home-schedule summary {
+    align-items: flex-start;
+  }
+
+  .home-schedule-grid li {
+    grid-template-columns: 34px 76px minmax(0, 1fr);
+    padding: 8px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover,
+  .videos-library-card:hover {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   KKP-016 owner-remediation refinements
+========================================================= */
+html,
+body {
+  min-height: 100%;
+  background-color: #03080b;
+}
+
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid rgb(var(--page-rgb, 97, 220, 255));
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: fixed;
+  z-index: 1200;
+  top: 10px;
+  left: 10px;
+  padding: 12px 16px;
+  border: 1px solid rgb(var(--page-rgb, 97, 220, 255));
+  background: #071014;
+  color: var(--text);
+  font-weight: 800;
+  transform: translateY(-160%);
+  transition: transform var(--transition);
+}
+.skip-link:focus { transform: translateY(0); }
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid rgba(var(--page-rgb), 0.35);
+  background: rgba(var(--page-rgb), 0.07);
+  color: var(--text);
+  font: 800 12px/1 "Segoe UI", sans-serif;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.nav-toggle-icon,
+.nav-toggle-icon::before,
+.nav-toggle-icon::after {
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  transition: transform var(--transition), opacity var(--transition);
+}
+.nav-toggle-icon { position: relative; }
+.nav-toggle-icon::before,
+.nav-toggle-icon::after { content: ""; position: absolute; left: 0; }
+.nav-toggle-icon::before { top: -6px; }
+.nav-toggle-icon::after { top: 6px; }
+.nav-toggle.is-open .nav-toggle-icon { background: transparent; }
+.nav-toggle.is-open .nav-toggle-icon::before { top: 0; transform: rotate(45deg); }
+.nav-toggle.is-open .nav-toggle-icon::after { top: 0; transform: rotate(-45deg); }
+
+.back-to-top {
+  position: fixed;
+  z-index: 35;
+  right: max(14px, env(safe-area-inset-right));
+  bottom: max(14px, env(safe-area-inset-bottom));
+  width: 46px;
+  height: 46px;
+  border: 1px solid rgba(var(--page-rgb), 0.5);
+  background: rgba(7, 16, 20, 0.96);
+  color: rgb(var(--page-rgb));
+  box-shadow: var(--shadow);
+  font-size: 24px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity var(--transition), visibility var(--transition), transform var(--transition);
+}
+.back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+
+/* The crosshair is always a right-side page-header instrument. */
+.page-hero .panel::after {
+  left: auto !important;
+  right: clamp(18px, 6%, 86px) !important;
+}
+
+/* Page accents remain one cool KrispyKP family. */
+.section-title,
+.kicker,
+.command-section > .container::after { color: rgb(var(--page-rgb)); }
+.btn.primary { background: linear-gradient(135deg, rgb(var(--page-rgb)), #c8f5ff); }
+
+/* Home: independent surfaces and a later, full-width Current Uplink. */
+.page-home .hero-grid { align-items: start; }
+.page-home .hero-card { align-self: start; }
+.page-home .home-uplink-panel { padding: clamp(24px, 3vw, 42px); }
+.page-home .home-uplink-summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 10px; }
+.page-home .home-uplink-grid { grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); }
+.page-home .home-featured-tracks-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
+
+/* Music: labels align as one toolbar; left side stretches with changing right-side content. */
+.page-music .player-layout { align-items: stretch; }
+.page-music .player-panel { position: static; display: flex; flex-direction: column; height: 100%; }
+.page-music .music-tools { display: grid; grid-template-rows: auto auto; gap: 20px; min-width: 0; }
+.page-music .lyrics-shell { display: flex; flex: 1 1 auto; flex-direction: column; min-height: 0; }
+.page-music .lyrics-box { flex: 1 1 320px; max-height: none; min-height: 320px; }
+.page-music .playlist-toolbar { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: end; }
+.page-music .playlist-toolbar .list-head { display: grid; grid-template-columns: minmax(max-content, auto) minmax(0, 1fr); align-items: center; gap: 12px; }
+.page-music .volume-wrap > .section-title::before { content: none; }
+.page-music .volume-wrap > .section-title { display: inline-grid; place-items: center; min-width: 24px; line-height: 1; }
+.page-music .progress { background: linear-gradient(90deg, #61dcff, #52e6c2); }
+.page-music .track-item:hover,
+.page-music .track-item.active { border-left-color: rgb(var(--page-rgb)); background: rgba(var(--page-rgb), 0.08); }
+
+/* Videos: rail aligns with toolbar and the card grid uses available width. */
+.page-videos .videos-browser-section > .container {
+  grid-template-columns: minmax(230px, 270px) minmax(0, 1fr);
+  grid-template-areas: "filters toolbar" "filters library";
+  align-items: start;
+}
+.page-videos .videos-category-controls { top: 96px; }
+.page-videos .videos-toolbar { align-self: start; }
+.page-videos .videos-library-grid { grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr)); }
+.page-videos .videos-mobile-category { display: none; }
+
+/* Tournament: banner is the hero environment and facts auto-balance. */
+.page-tournaments .tournament-hero-panel { min-height: clamp(440px, 54vw, 700px); }
+.page-tournaments .tournament-hero-backdrop { background-position: center; filter: saturate(1.08) contrast(1.04); }
+.page-tournaments .tournament-hero-inner {
+  background: linear-gradient(90deg, rgba(2, 6, 10, 0.96) 0%, rgba(2, 6, 10, 0.72) 46%, rgba(2, 6, 10, 0.18) 100%);
+}
+.page-tournaments #tournamentTitle { max-width: 16ch; text-shadow: 0 4px 24px rgba(0,0,0,.75); }
+.page-tournaments .tournament-quick-info-list { grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr)); }
+.page-tournaments .tournament-quick-info-list li,
+.page-tournaments .tournament-info-panel .list li { border-left-color: rgba(var(--page-rgb), .34); background: rgba(var(--page-rgb), .035); }
+
+/* About: content map and manifesto each receive their natural width and height. */
+.page-about .about-grid { grid-template-columns: 1fr; align-items: start; }
+.page-about .about-feature-grid { grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); }
+.page-about .about-quote-card { min-height: 0; }
+.page-about .about-quote { max-width: 24ch; }
+
+/* Contact: independent content columns; field counts may change without matched heights. */
+.page-contact .contact-workspace { display: grid; grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr); gap: 20px; align-items: start; }
+.page-contact .contact-workspace-column { display: grid; gap: 20px; min-width: 0; align-content: start; }
+.page-contact .contact-workspace .form-shell:first-child { position: static; }
+.page-contact .field input,
+.page-contact .field textarea,
+.page-contact .field select { border-bottom-color: rgba(var(--page-rgb), .32); }
+.page-contact .field input:focus,
+.page-contact .field textarea:focus,
+.page-contact .field select:focus { border-bottom-color: rgb(var(--page-rgb)); box-shadow: 0 10px 22px rgba(var(--page-rgb), .07); }
+.page-contact .contact-email-link { color: #e6bdff; }
+
+/* Native disclosure animation gets temporary intrinsic height only while moving. */
+details[data-disclosure-animating="true"] { contain: layout; }
+
+@media (max-width: 980px) {
+  .page-music .player-panel { height: auto; }
+  .page-music .music-tools { display: grid; }
+  .page-music .lyrics-box { flex-basis: auto; max-height: 520px; min-height: 0; }
+  .page-videos .videos-browser-section > .container { display: block; }
+  .page-videos .videos-mobile-category { display: grid; gap: 7px; margin-bottom: 12px; }
+  .page-videos .videos-tabs-shell,
+  .page-videos .videos-subtabs,
+  .page-videos .videos-browser-section > .container > .section-title { display: none; }
+  .page-contact .contact-workspace { grid-template-columns: 1fr; }
+  .page-tournaments .tournament-quick-info-list { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .nav { min-height: 64px; flex-flow: row wrap; justify-content: space-between; gap: 8px 12px; }
+  .nav-toggle { display: inline-flex; }
+  .nav-links { flex: 1 0 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 100%; gap: 6px; padding: 4px 0 8px; }
+  .nav-links[hidden] { display: none; }
+  .nav-links a { display: flex; align-items: center; justify-content: center; min-height: 44px; }
+  .page-home .home-uplink-grid { grid-template-columns: 1fr; }
+  .page-music .playlist-toolbar { grid-template-columns: 1fr; }
+  .page-music .playlist-toolbar .list-head { grid-template-columns: 1fr; gap: 7px; }
+  .page-tournaments .tournament-hero-panel { min-height: 420px; }
+  .page-tournaments .tournament-hero-inner { background: linear-gradient(180deg, rgba(2,6,10,.42), rgba(2,6,10,.94) 72%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back-to-top,
+  details { scroll-behavior: auto; }
+}
+.page-tournaments .tournament-hero-actions { grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr)); }
+
+/* Render-review corrections: align Videos controls and expose the configured event artwork. */
+@media (min-width: 981px) {
+  .page-videos .videos-category-controls { margin-top: 12px; }
+}
+.page-tournaments .tournament-hero-panel { min-height: clamp(440px, 46vw, 620px); }
+.page-tournaments .tournament-hero-inner {
+  background: linear-gradient(90deg, rgba(2,6,10,.94) 0%, rgba(2,6,10,.64) 42%, rgba(2,6,10,.08) 72%);
+}
+.page-tournaments .tournament-quick-info-list { grid-template-columns: repeat(auto-fit, minmax(min(360px, 100%), 1fr)); }
+@media (max-width: 700px) {
+  .page-tournaments .tournament-hero-inner {
+    background: linear-gradient(180deg, rgba(2,6,10,.52) 0%, rgba(2,6,10,.70) 42%, rgba(2,6,10,.96) 82%);
+  }
+  .page-tournaments .tournament-quick-info-list { grid-template-columns: 1fr; }
+}
+
+/* The generic page-hero child rule must not collapse the configured banner layer. */
+.page-tournaments .tournament-hero-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.page-tournaments .tournament-hero-inner { position: relative; z-index: 1; }
+
+/* =========================================================
+   KKP-016 second-owner-retest completion
+   Shared resilience and composition corrections.
+========================================================= */
+
+/* Music established the preferred compact heading scale. */
+:where(.page-music, .page-videos, .page-about, .page-contact) .page-hero .panel {
+  min-height: 210px;
+  padding-block: clamp(28px, 3vw, 42px);
+}
+
+:where(.page-music, .page-videos, .page-about, .page-contact) .page-hero .h1 {
+  font-size: clamp(42px, 4.6vw, 68px);
+}
+
+/* Wrapped actions remain centred and readable as labels change. */
+.btn,
+.nav-toggle,
+.videos-tab,
+.videos-subtab,
+.videos-more-toggle,
+.videos-more-item {
+  text-align: center;
+  line-height: 1.25;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+/* Footer platforms use the available brand-column width. */
+.footer-platforms {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+}
+
+.footer-platforms .btn {
+  width: 100%;
+}
+
+/* Give the live player more presence without tying it to hero-copy height. */
+@media (min-width: 1201px) {
+  .page-home .hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(460px, 0.8fr);
+  }
+
+  .page-home .hero-card .embed-box {
+    aspect-ratio: 16 / 10;
+  }
+}
+
+/* Event artwork stays visible while foreground copy receives a stable scrim. */
+.page-tournaments .tournament-hero-inner {
+  background: linear-gradient(90deg, rgba(2, 6, 10, 0.97) 0%, rgba(2, 6, 10, 0.78) 44%, rgba(2, 6, 10, 0.18) 76%, rgba(2, 6, 10, 0.08) 100%);
+}
+
+.page-tournaments .tournament-hero-inner :where(h1, p, .section-title, .status-pill, .btn) {
+  text-shadow: 0 3px 18px rgba(0, 0, 0, 0.92);
+}
+
+@media (max-width: 700px) {
+  /* The compact identity keeps the logo and Menu control on the same row. */
+  .brand-sub {
+    display: none;
+  }
+
+  .nav {
+    align-items: center;
+  }
+
+  .brand {
+    flex: 0 1 auto;
+  }
+
+  .nav-toggle {
+    flex: 0 0 auto;
+  }
+
+  /* The four hero route tags form a predictable 2 × 2 control grid. */
+  .page-home .hero .meta-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .page-home .hero .status-pill {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .page-tournaments .tournament-hero-inner {
+    background: linear-gradient(180deg, rgba(2, 6, 10, 0.72) 0%, rgba(2, 6, 10, 0.78) 42%, rgba(2, 6, 10, 0.97) 82%);
+  }
+}
+
+@media (max-width: 360px) {
+  .nav {
+    gap: 8px;
+  }
+
+  .brand {
+    gap: 8px;
+  }
+
+  .brand-logo {
+    width: 38px;
+    height: 38px;
+  }
+
+  .brand-mark {
+    font-size: clamp(18px, 6.4vw, 22px);
+    letter-spacing: 0.04em;
+  }
+
+  .nav-toggle {
+    gap: 8px;
+    padding-inline: 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 300px) {
+  .footer-platforms {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Videos: replace the inherited experiment-like side rail with one archive deck. */
+@media (min-width: 901px) {
+  .page-videos .videos-feature-shell {
+    width: 100%;
+    max-width: none;
+  }
+
+  .page-videos .videos-feature-state:not([hidden]) {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.34fr) minmax(0, 1fr);
+    grid-template-areas:
+      "heading player"
+      "direct player"
+      "note player";
+    column-gap: clamp(20px, 3vw, 42px);
+    align-items: start;
+  }
+
+  .page-videos .videos-feature-state .videos-block-head {
+    grid-area: heading;
+    margin-bottom: 0;
+  }
+
+  .page-videos .videos-feature-state :is(.videos-feature-player-wrap, .videos-main-player-wrap) {
+    grid-area: player;
+  }
+
+  .page-videos .videos-feature-state .videos-direct-link {
+    grid-area: direct;
+    align-self: end;
+  }
+
+  .page-videos .videos-feature-state .videos-block-note {
+    grid-area: note;
+  }
+
+  .page-videos .videos-browser-section > .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "filters"
+      "toolbar"
+      "library";
+    gap: 14px;
+  }
+
+  .page-videos .videos-category-controls {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-top: 0;
+    padding: 16px;
+  }
+
+  .page-videos .videos-tabs-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .page-videos .videos-tabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+
+  .page-videos .videos-tabs button,
+  .page-videos .videos-more-toggle {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .page-videos .videos-subtabs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(170px, 100%), 1fr));
+    gap: 8px;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .page-videos .videos-subtabs button {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .page-videos .videos-toolbar,
+  .page-videos .videos-library-shell {
+    margin-top: 0;
+  }
+
+  .page-videos .videos-library-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  }
+}
+
+/* Contact stays in required source order and no longer inherits coupled rows. */
+.page-contact .contact-workspace {
+  grid-template-columns: minmax(0, 1fr);
+  width: min(1100px, 100%);
+}
