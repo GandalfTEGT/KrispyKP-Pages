@@ -120,14 +120,15 @@
 
 ## Commits
 
-- Final commit to be recorded after validation.
+- `3fda9961229e5a82b3d460fe51a095854ca6da66` — Complete KKP-019 site hardening.
+- Delivery-record update: this records-only follow-up commit; use the final branch tip reported in the owner handoff.
 
 ## Remote verification
 
 - Remote/branch: `origin/kkp/019-site-hardening`
-- Verified remote tip: pending
-- Main unchanged: pending final verification
-- Protected checkouts unchanged: pending final verification
+- Verified implementation tip after first push: `3fda9961229e5a82b3d460fe51a095854ca6da66`
+- Main unchanged: `origin/main` remained `92e591e6ce749732bbac1ece33e7979e9147f8ca`
+- Protected checkouts: the reference checkout remained at `318cf656b34910b866fbfba5cfa1bd9e266e1c13` with its six pre-existing untracked audit artifacts; KKP-018 was not written by this task and was observed progressing independently at `a727c7d9fba5c40f02b85c70cc13593367a8b652` with its own uncommitted `data/radar-rts-definitions.js` edit
 - Push/merge/deploy state: no merge, deploy, release or tag authorised
 
 ## Owner acceptance
