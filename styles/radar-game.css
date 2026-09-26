@@ -505,3 +505,15 @@ body.radar-game-active .radar-game-trigger-dot {
 @media (prefers-reduced-motion: reduce) {
   .radar-game-overlay::before { animation: none; transform: rotate(24deg); }
 }
+
+
+/* KKP-016 two-thumb tactical controls */
+.radar-game-touch{grid-template-columns:auto 1fr auto;justify-content:space-between;gap:clamp(16px,8vw,88px)}
+.radar-game-aim-cluster{display:flex;align-items:center;justify-self:end;gap:12px}
+.radar-game-aim-stick{border-color:rgba(255,105,139,.58);background:radial-gradient(circle,rgba(255,70,115,.11),rgba(2,9,12,.8) 70%)}
+.radar-game-aim-stick .radar-game-joystick-knob{border-color:#ff7898;box-shadow:0 0 18px rgba(255,70,115,.34)}
+@media(max-width:640px){.radar-game-touch{grid-template-columns:auto auto;gap:12px}.radar-game-aim-cluster{gap:6px}.radar-game-touch .radar-game-fire{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%)}.radar-game-joystick{width:108px;height:108px}}
+@media(max-width:360px){.radar-game-joystick{width:92px;height:92px}.radar-game-joystick-knob{width:40px;height:40px}}
+
+/* Keep the site trigger clear of the two-thumb control deck while Radar is active. */
+body.radar-game-visible .radar-game-trigger{opacity:0;pointer-events:none;visibility:hidden}

@@ -267,11 +267,26 @@ def build_pdf(event: dict, output_override: Path | None = None) -> Path:
     ]))
     story.append(KeepTogether([Paragraph(f"{next_number:02d} // MAP POOL", styles["heading"]), map_table]))
 
-    participants = [str(player.get("name", "")).strip() for player in event.get("players", []) if str(player.get("name", "")).strip()]
-    story.append(KeepTogether([
-        Paragraph(f"{next_number + 1:02d} // PARTICIPANTS", styles["heading"]),
-        Paragraph(", ".join(participants) + ".", styles["body"]),
+    participant_rows = []
+    participant_cells = []
+    for index, player in enumerate(event.get("players", []), 1):
+        name = str(player.get("name", "")).strip()
+        if not name:
+            continue
+        details = [value for value in [str(player.get("inGameName", "")).strip(), str(player.get("flag", "")).strip()] if value and value.isascii()]
+        copy = f"<b>#{index} {name}</b>" + (f"<br/><font color='#93b2bc'>{' · '.join(details)}</font>" if details else "")
+        participant_cells.append(Paragraph(copy, styles["small"]))
+        if len(participant_cells) == 2:
+            participant_rows.append(participant_cells); participant_cells = []
+    if participant_cells:
+        participant_cells.append(""); participant_rows.append(participant_cells)
+    participant_table = Table(participant_rows or [[Paragraph("Participants to be confirmed.", styles["small"]), ""]], colWidths=[89 * mm, 89 * mm])
+    participant_table.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), PANEL), ("GRID", (0, 0), (-1, -1), 0.35, LINE),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"), ("TOPPADDING", (0, 0), (-1, -1), 2.2 * mm),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 2.2 * mm), ("LEFTPADDING", (0, 0), (-1, -1), 2.5 * mm),
     ]))
+    story.extend([Paragraph(f"{next_number + 1:02d} // PARTICIPANTS", styles["heading"]), participant_table])
     story.append(KeepTogether([
         Paragraph(f"{next_number + 2:02d} // QUESTIONS AND RULINGS", styles["heading"]),
         Paragraph(rules["questions"], styles["body"]),

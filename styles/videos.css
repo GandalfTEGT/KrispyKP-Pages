@@ -529,3 +529,6 @@
     padding: 18px;
   }
 }
+
+.videos-direct-link{display:inline-flex;margin-top:10px;color:var(--cyan-soft);font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.videos-direct-link:hover,.videos-direct-link:focus-visible{text-decoration:underline}

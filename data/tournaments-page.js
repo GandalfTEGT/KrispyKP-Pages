@@ -43,6 +43,8 @@
 
     resultsSection: document.getElementById("tournamentResultsSection"),
     results: document.getElementById("tournamentResults"),
+    stageSection: document.getElementById("tournamentStageSection"),
+    stageSummaries: document.getElementById("tournamentStageSummaries"),
 
     archiveCardsSection: document.getElementById("tournamentArchiveCardsSection"),
     archiveCardsGrid: document.getElementById("tournamentArchiveCardsGrid"),
@@ -54,7 +56,8 @@
     archiveEmpty: document.getElementById("tournamentArchiveEmpty")
   };
 
-  let currentEventId = data.currentEventId || null;
+  const eventParam = new URLSearchParams(window.location.search).get("event");
+  let currentEventId = getEvents().some((event) => event.id === eventParam) ? eventParam : (data.currentEventId || null);
   let bracketResizeRaf = 0;
   let isMobileBracketOpen = false;
   let wasMobileSectionLayout = null;
@@ -208,8 +211,16 @@
     els.bracketToggle.setAttribute("aria-expanded", String(isMobileBracketOpen));
   }
 
-  function selectEvent(eventId) {
+  function syncEventUrl(eventId, mode = "push") {
+    const url = new URL(window.location.href);
+    url.searchParams.set("event", eventId);
+    window.history[mode === "replace" ? "replaceState" : "pushState"]({ eventId }, "", url);
+  }
+
+  function selectEvent(eventId, historyMode = "push") {
+    if (!getEventById(eventId)) return;
     currentEventId = eventId;
+    syncEventUrl(eventId, historyMode);
     jumpToTop();
 
     requestAnimationFrame(() => {
@@ -326,12 +337,14 @@
     if (els.players) els.players.innerHTML = "";
     if (els.rules) els.rules.innerHTML = "";
     if (els.results) els.results.innerHTML = "";
+    if (els.stageSummaries) els.stageSummaries.innerHTML = "";
 
     if (els.scheduleSection) els.scheduleSection.hidden = true;
     if (els.scheduleCard) els.scheduleCard.hidden = true;
     if (els.playersCard) els.playersCard.hidden = true;
     if (els.rulesCard) els.rulesCard.hidden = true;
     if (els.resultsSection) els.resultsSection.hidden = true;
+    if (els.stageSection) els.stageSection.hidden = true;
   }
 
   function resetSwitchers() {
@@ -1094,6 +1107,18 @@
       );
     }
 
+    const stages = isArray(event.stageSummaries);
+    if (els.stageSection) els.stageSection.hidden = !stages.length;
+    if (els.stageSummaries && stages.length) {
+      stages.forEach((stage) => {
+        const article = document.createElement("article");
+        article.className = "tournament-stage-summary";
+        article.innerHTML = `<h3>${escapeHtml(text(stage.title, "Stage"))}</h3><ul>${isArray(stage.entries).map((entry) => `<li>${escapeHtml(text(entry))}</li>`).join("")}</ul>`;
+        els.stageSummaries.appendChild(article);
+      });
+    }
+
+    updateEventStructuredData(event);
     renderBracket(event);
 
     const players = isArray(event.players);
@@ -1178,6 +1203,18 @@
     }
 
     renderSwitchers(event);
+  }
+
+  function updateEventStructuredData(event) {
+    let node = document.getElementById("tournamentStructuredData");
+    if (!node) { node = document.createElement("script"); node.id = "tournamentStructuredData"; node.type = "application/ld+json"; document.head.appendChild(node); }
+    const url = `https://krispykp.com/tournaments/?event=${encodeURIComponent(event.id)}`;
+    node.textContent = JSON.stringify({"@context":"https://schema.org","@type":"SportsEvent",name:event.title,description:event.description,startDate:event.startDate ? event.startDate.replace(" ", "T") : undefined,endDate:event.endDate ? event.endDate.replace(" ", "T") : undefined,eventStatus:event.status === "completed" ? "https://schema.org/EventCompleted" : "https://schema.org/EventScheduled",url,image:event.bannerImage ? `https://krispykp.com${event.bannerImage}` : undefined,organizer:{"@type":"Person",name:event.organizer || "JLGAZZA94"},sport:event.game});
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.href = url;
+    const social = { "og:title": event.title, "og:description": event.description, "og:url": url, "og:image": event.bannerImage ? `https://krispykp.com${event.bannerImage}` : "https://krispykp.com/assets/logo.png" };
+    Object.entries(social).forEach(([property, content]) => { const meta = document.querySelector(`meta[property="${property}"]`); if (meta && content) meta.content = content; });
+    document.title = `${event.title} | KrispyKP`;
   }
 
   function renderEmptyState() {
@@ -1266,8 +1303,17 @@
   }
 
   window.addEventListener("resize", handleResponsiveTournamentResize);
+  window.addEventListener("popstate", () => {
+    const requested = new URLSearchParams(window.location.search).get("event");
+    currentEventId = getEventById(requested)?.id || data.currentEventId || null;
+    renderPage();
+    jumpToTop();
+  });
   [els.archiveSearch, els.archiveGame, els.archiveYear].filter(Boolean).forEach((control) => {
     control.addEventListener(control === els.archiveSearch ? "input" : "change", () => renderPage());
   });
   renderPage();
+  if (eventParam && !getEventById(eventParam) && currentEventId) syncEventUrl(currentEventId, "replace");
 })();
+
+/* deep-link state is intentionally limited to the selected event */

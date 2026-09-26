@@ -1544,3 +1544,13 @@
     margin-top: 12px;
   }
 }
+
+
+/* KKP-016 historical archive resilience */
+.tournament-stage-summaries{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:14px}
+.tournament-stage-summary{padding:16px;border:1px solid rgba(79,210,255,.17);background:rgba(6,13,17,.72)}
+.tournament-stage-summary h3{margin:0 0 10px;color:var(--cyan-soft);font-size:16px;text-transform:uppercase}
+.tournament-stage-summary ul{margin:0;padding-left:18px;color:var(--muted);line-height:1.65}
+.tournament-hero-backdrop{background-position:center;background-size:cover;background-repeat:no-repeat}
+.tournament-archive-banner,.tournament-switch-thumb{background-position:center;background-size:contain;background-repeat:no-repeat;background-color:#05090c}
+@media(max-width:700px){.tournament-hero-backdrop{background-position:center top}.tournament-player-meta{justify-content:flex-end}.tournament-player-item{grid-template-columns:minmax(0,1fr) auto}}

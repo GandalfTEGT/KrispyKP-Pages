@@ -3,7 +3,7 @@
 
   if (window.KRISPY_RADAR_GAME) return;
 
-  const GAME_VERSION = "kkp-016-remediation-2";
+  const GAME_VERSION = "kkp-016-remediation-3";
   const STATES = Object.freeze({
     IDLE: "idle",
     TRANSITIONING_IN: "transitioning-in",
@@ -40,7 +40,9 @@
   let pointerFiring = false;
   let mobileFiring = false;
   let joystickPointerId = null;
+  let aimJoystickPointerId = null;
   const joystickInput = { x: 0, y: 0 };
+  const aimJoystickInput = { x: 0, y: 0 };
   let nextEnemyId = 1;
   let rngState = 0x4b4b5001;
   const keys = new Set();
@@ -148,12 +150,19 @@
           <span><b>Exit</b> Escape</span>
         </div>
         <div class="radar-game-touch" aria-label="Touch game controls">
-          <div class="radar-game-joystick" data-game-joystick role="application" aria-label="Movement joystick. Touch, hold and drag to move.">
+          <div class="radar-game-joystick" data-game-joystick="move" role="application" aria-label="Movement joystick. Touch, hold and drag to move.">
             <span class="radar-game-joystick-ring" aria-hidden="true"></span>
             <span class="radar-game-joystick-knob" aria-hidden="true"></span>
             <span class="radar-game-joystick-label" aria-hidden="true">MOVE</span>
           </div>
-          <button type="button" class="radar-game-fire" data-game-fire>Fire</button>
+          <div class="radar-game-aim-cluster">
+            <div class="radar-game-joystick radar-game-aim-stick" data-game-joystick="aim" role="application" aria-label="Aim and fire joystick. Touch, hold and drag to aim and fire.">
+              <span class="radar-game-joystick-ring" aria-hidden="true"></span>
+              <span class="radar-game-joystick-knob" aria-hidden="true"></span>
+              <span class="radar-game-joystick-label" aria-hidden="true">AIM / FIRE</span>
+            </div>
+            <button type="button" class="radar-game-fire" data-game-fire>Fire</button>
+          </div>
         </div>
       </div>
       <div class="sr-only" aria-live="polite" data-game-live></div>
@@ -176,43 +185,48 @@
     canvas.addEventListener("pointerup", stopPointerFire);
     canvas.addEventListener("pointercancel", stopPointerFire);
     canvas.addEventListener("lostpointercapture", stopPointerFire);
-    setupJoystick(overlay.querySelector("[data-game-joystick]"));
+    setupJoystick(overlay.querySelector('[data-game-joystick="move"]'), "move");
+    setupJoystick(overlay.querySelector('[data-game-joystick="aim"]'), "aim");
     setupFireControl(overlay.querySelector("[data-game-fire]"));
     document.body.append(trigger, overlay);
   }
 
-  function setupJoystick(control) {
+  function setupJoystick(control, mode) {
     if (!control) return;
     const knob = control.querySelector(".radar-game-joystick-knob");
+    const isAim = mode === "aim";
     const reset = (event) => {
-      if (event && joystickPointerId !== null && event.pointerId !== joystickPointerId) return;
-      joystickPointerId = null;
-      joystickInput.x = 0;
-      joystickInput.y = 0;
+      const activeId = isAim ? aimJoystickPointerId : joystickPointerId;
+      if (event && activeId !== null && event.pointerId !== activeId) return;
+      if (isAim) { aimJoystickPointerId = null; aimJoystickInput.x = 0; aimJoystickInput.y = 0; mobileFiring = false; }
+      else { joystickPointerId = null; joystickInput.x = 0; joystickInput.y = 0; }
       knob.style.transform = "translate(-50%, -50%)";
     };
     const update = (event) => {
-      if (event.pointerId !== joystickPointerId) return;
+      const activeId = isAim ? aimJoystickPointerId : joystickPointerId;
+      if (event.pointerId !== activeId) return;
       event.preventDefault();
       const rect = control.getBoundingClientRect();
       const radius = Math.max(1, Math.min(rect.width, rect.height) * 0.32);
       let x = event.clientX - (rect.left + rect.width / 2);
       let y = event.clientY - (rect.top + rect.height / 2);
       const length = Math.hypot(x, y);
-      if (length > radius) {
-        x = (x / length) * radius;
-        y = (y / length) * radius;
+      if (length > radius) { x = (x / length) * radius; y = (y / length) * radius; }
+      const target = isAim ? aimJoystickInput : joystickInput;
+      target.x = x / radius; target.y = y / radius;
+      if (isAim && length > radius * 0.18) {
+        player.angle = Math.atan2(target.y, target.x);
+        pointerTarget = { x: player.x + Math.cos(player.angle) * 180, y: player.y + Math.sin(player.angle) * 180 };
+        mobileFiring = true;
+        fireBullet();
       }
-      joystickInput.x = x / radius;
-      joystickInput.y = y / radius;
       knob.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
     };
     control.addEventListener("pointerdown", (event) => {
       event.preventDefault();
       if (state !== STATES.PLAYING) return;
-      joystickPointerId = event.pointerId;
-      control.setPointerCapture?.(event.pointerId);
-      update(event);
+      if (isAim) aimJoystickPointerId = event.pointerId; else joystickPointerId = event.pointerId;
+      control.setPointerCapture?.(event.pointerId); update(event);
     });
     control.addEventListener("pointermove", update);
     control.addEventListener("pointerup", reset);
@@ -307,8 +321,11 @@
     pointerFiring = false;
     mobileFiring = false;
     joystickPointerId = null;
+    aimJoystickPointerId = null;
     joystickInput.x = 0;
     joystickInput.y = 0;
+    aimJoystickInput.x = 0;
+    aimJoystickInput.y = 0;
     setState(STATES.TRANSITIONING_OUT);
     prepareWebsiteRestore();
     requestAnimationFrame(() => document.body.classList.remove("radar-game-visible"));
@@ -338,6 +355,9 @@
     mobileFiring = false;
     joystickInput.x = 0;
     joystickInput.y = 0;
+    aimJoystickInput.x = 0;
+    aimJoystickInput.y = 0;
+    aimJoystickPointerId = null;
     rngState = 0x4b4b5001;
     updateHud();
   }
@@ -362,6 +382,9 @@
     keys.clear();
     joystickInput.x = 0;
     joystickInput.y = 0;
+    aimJoystickInput.x = 0;
+    aimJoystickInput.y = 0;
+    aimJoystickPointerId = null;
     pointerFiring = false;
     mobileFiring = false;
     setState(STATES.PAUSED);
