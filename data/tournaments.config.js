@@ -761,7 +761,7 @@ window.KRISPY_TOURNAMENTS = {
       "registrationUrl": "",
       "participantSource": "manual",
       "streamUrl": "",
-      "rulesUrl": "",
+      "rulesUrl": "/assets/trules/td-invasion-red-alert-2025-rules.pdf",
       "bracketMode": "manual",
       "bracketTitle": "Final bracket",
       "bracketEmbedUrl": "",
@@ -895,6 +895,328 @@ window.KRISPY_TOURNAMENTS = {
       ],
       "manualBracketGroups": [
         {
+          "key": "group-a",
+          "title": "Group A",
+          "rounds": [
+            {
+              "title": "Round 1",
+              "matches": [
+                {
+                  "id": "2025a-r1m1",
+                  "title": "2025A-R1M1",
+                  "player1": "FULLY RED ALERT PLAYER",
+                  "player2": "WTF.RAG",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "WTF.RAG",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025a-r1m2",
+                  "title": "2025A-R1M2",
+                  "player1": "DR.MURKINSTEIN APC ENGIED ME ON STREAM AND LIED ABOUT IT </3",
+                  "player2": "RA RUSTY",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "RA RUSTY",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 2",
+              "matches": [
+                {
+                  "id": "2025a-r2m1",
+                  "title": "2025A-R2M1",
+                  "player1": "WTF.RAG",
+                  "player2": "DR.MURKINSTEIN APC ENGIED ME ON STREAM AND LIED ABOUT IT </3",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "WTF.RAG",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025a-r2m2",
+                  "title": "2025A-R2M2",
+                  "player1": "RAGAZZA94",
+                  "player2": "FULLY RED ALERT PLAYER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "2",
+                  "winner": "RAGAZZA94",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 3",
+              "matches": [
+                {
+                  "id": "2025a-r3m1",
+                  "title": "2025A-R3M1",
+                  "player1": "DR.MURKINSTEIN APC ENGIED ME ON STREAM AND LIED ABOUT IT </3",
+                  "player2": "RAGAZZA94",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "3",
+                  "winner": "RAGAZZA94",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025a-r3m2",
+                  "title": "2025A-R3M2",
+                  "player1": "RA RUSTY",
+                  "player2": "WTF.RAG",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "WTF.RAG",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 4",
+              "matches": [
+                {
+                  "id": "2025a-r4m1",
+                  "title": "2025A-R4M1",
+                  "player1": "RAGAZZA94",
+                  "player2": "RA RUSTY",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "3",
+                  "winner": "RA RUSTY",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025a-r4m2",
+                  "title": "2025A-R4M2",
+                  "player1": "FULLY RED ALERT PLAYER",
+                  "player2": "DR.MURKINSTEIN APC ENGIED ME ON STREAM AND LIED ABOUT IT </3",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "FULLY RED ALERT PLAYER",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 5",
+              "matches": [
+                {
+                  "id": "2025a-r5m1",
+                  "title": "2025A-R5M1",
+                  "player1": "RA RUSTY",
+                  "player2": "FULLY RED ALERT PLAYER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "RA RUSTY",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025a-r5m2",
+                  "title": "2025A-R5M2",
+                  "player1": "WTF.RAG",
+                  "player2": "RAGAZZA94",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "WTF.RAG",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "group-b",
+          "title": "Group B",
+          "rounds": [
+            {
+              "title": "Round 1",
+              "matches": [
+                {
+                  "id": "2025b-r1m1",
+                  "title": "2025B-R1M1",
+                  "player1": "TRIORA",
+                  "player2": "JAMIERA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "TRIORA",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025b-r1m2",
+                  "title": "2025B-R1M2",
+                  "player1": "MYNAME = RAPLAYER",
+                  "player2": "CRITICAL LIGHTS",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "CRITICAL LIGHTS",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 2",
+              "matches": [
+                {
+                  "id": "2025b-r2m1",
+                  "title": "2025B-R2M1",
+                  "player1": "JAMIERA",
+                  "player2": "MYNAME = RAPLAYER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "JAMIERA",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025b-r2m2",
+                  "title": "2025B-R2M2",
+                  "player1": "RARZA",
+                  "player2": "TRIORA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "TRIORA",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 3",
+              "matches": [
+                {
+                  "id": "2025b-r3m1",
+                  "title": "2025B-R3M1",
+                  "player1": "MYNAME = RAPLAYER",
+                  "player2": "RARZA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "MYNAME = RAPLAYER",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025b-r3m2",
+                  "title": "2025B-R3M2",
+                  "player1": "CRITICAL LIGHTS",
+                  "player2": "JAMIERA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "CRITICAL LIGHTS",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 4",
+              "matches": [
+                {
+                  "id": "2025b-r4m1",
+                  "title": "2025B-R4M1",
+                  "player1": "RARZA",
+                  "player2": "CRITICAL LIGHTS",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "RARZA",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025b-r4m2",
+                  "title": "2025B-R4M2",
+                  "player1": "TRIORA",
+                  "player2": "MYNAME = RAPLAYER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "TRIORA",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 5",
+              "matches": [
+                {
+                  "id": "2025b-r5m1",
+                  "title": "2025B-R5M1",
+                  "player1": "CRITICAL LIGHTS",
+                  "player2": "TRIORA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "1",
+                  "winner": "CRITICAL LIGHTS",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2025b-r5m2",
+                  "title": "2025B-R5M2",
+                  "player1": "JAMIERA",
+                  "player2": "RARZA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "0",
+                  "winner": "",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
           "key": "grand-final",
           "title": "Grand Final",
           "rounds": [
@@ -951,7 +1273,7 @@ window.KRISPY_TOURNAMENTS = {
       "registrationUrl": "",
       "participantSource": "manual",
       "streamUrl": "",
-      "rulesUrl": "",
+      "rulesUrl": "/assets/trules/td-champions-league-2024-rules.pdf",
       "bracketMode": "manual",
       "bracketTitle": "Final bracket",
       "bracketEmbedUrl": "",
@@ -977,20 +1299,20 @@ window.KRISPY_TOURNAMENTS = {
           "note": ""
         },
         {
-          "name": "WTF CCC",
+          "name": "WTF",
           "seed": "2",
           "flag": "",
           "flagImage": "",
           "inGameName": "WTF CCC",
-          "note": ""
+          "note": "Historical alias: WTF CCC"
         },
         {
-          "name": "FULLY CCC",
+          "name": "FULLY",
           "seed": "3",
           "flag": "",
           "flagImage": "",
           "inGameName": "FULLY CCC",
-          "note": ""
+          "note": "Historical alias: FULLY CCC"
         },
         {
           "name": "AARON",
@@ -1065,12 +1387,12 @@ window.KRISPY_TOURNAMENTS = {
           "note": ""
         },
         {
-          "name": "JAMIE",
+          "name": "JAMIETD",
           "seed": "13",
           "flag": "",
           "flagImage": "",
           "inGameName": "JAMIE",
-          "note": ""
+          "note": "Historical alias: JAMIE"
         },
         {
           "name": "BRUZER",
@@ -1089,12 +1411,12 @@ window.KRISPY_TOURNAMENTS = {
           "note": ""
         },
         {
-          "name": "TRIO",
+          "name": "TRIOTD",
           "seed": "16",
           "flag": "",
           "flagImage": "",
           "inGameName": "TRIO",
-          "note": ""
+          "note": "Historical alias: TRIO"
         },
         {
           "name": "JLGAZZA94",
@@ -1172,16 +1494,684 @@ window.KRISPY_TOURNAMENTS = {
         },
         {
           "place": "3rd",
-          "name": "RAMBO",
-          "note": "Semi-finalist"
+          "name": "FERRET",
+          "note": "Semi-finalist after replacing withdrawn RAMBO"
         },
         {
           "place": "3rd",
-          "name": "WTF CCC",
+          "name": "WTF",
           "note": "Semi-finalist"
         }
       ],
       "manualBracketGroups": [
+        {
+          "key": "group-a",
+          "title": "Group A",
+          "rounds": [
+            {
+              "title": "Round 1",
+              "matches": [
+                {
+                  "id": "2024a-r1m1",
+                  "title": "2024A-R1M1",
+                  "player1": "AARON",
+                  "player2": "RAMBO",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "RAMBO",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024a-r1m2",
+                  "title": "2024A-R1M2",
+                  "player1": "WTF",
+                  "player2": "SHEPPARD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "WTF",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 2",
+              "matches": [
+                {
+                  "id": "2024a-r2m1",
+                  "title": "2024A-R2M1",
+                  "player1": "RAMBO",
+                  "player2": "WTF",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "1",
+                  "winner": "RAMBO",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024a-r2m2",
+                  "title": "2024A-R2M2",
+                  "player1": "FULLY",
+                  "player2": "AARON",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "1",
+                  "winner": "FULLY",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 3",
+              "matches": [
+                {
+                  "id": "2024a-r3m1",
+                  "title": "2024A-R3M1",
+                  "player1": "WTF",
+                  "player2": "FULLY",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "WTF",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024a-r3m2",
+                  "title": "2024A-R3M2",
+                  "player1": "SHEPPARD",
+                  "player2": "RAMBO",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "RAMBO",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 4",
+              "matches": [
+                {
+                  "id": "2024a-r4m1",
+                  "title": "2024A-R4M1",
+                  "player1": "FULLY",
+                  "player2": "SHEPPARD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "FULLY",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024a-r4m2",
+                  "title": "2024A-R4M2",
+                  "player1": "AARON",
+                  "player2": "WTF",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "WTF",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 5",
+              "matches": [
+                {
+                  "id": "2024a-r5m1",
+                  "title": "2024A-R5M1",
+                  "player1": "SHEPPARD",
+                  "player2": "AARON",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "AARON",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024a-r5m2",
+                  "title": "2024A-R5M2",
+                  "player1": "RAMBO",
+                  "player2": "FULLY",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "RAMBO",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "group-b",
+          "title": "Group B",
+          "rounds": [
+            {
+              "title": "Round 1",
+              "matches": [
+                {
+                  "id": "2024b-r1m1",
+                  "title": "2024B-R1M1",
+                  "player1": "FERRET",
+                  "player2": "GLORY PRUSSIA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "2",
+                  "winner": "FERRET",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024b-r1m2",
+                  "title": "2024B-R1M2",
+                  "player1": "KEREKOBAR",
+                  "player2": "BROWN PUDDLE",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "KEREKOBAR",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 2",
+              "matches": [
+                {
+                  "id": "2024b-r2m1",
+                  "title": "2024B-R2M1",
+                  "player1": "GLORY PRUSSIA",
+                  "player2": "KEREKOBAR",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "GLORY PRUSSIA",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024b-r2m2",
+                  "title": "2024B-R2M2",
+                  "player1": "INCIA 3000",
+                  "player2": "FERRET",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "3",
+                  "winner": "FERRET",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 3",
+              "matches": [
+                {
+                  "id": "2024b-r3m1",
+                  "title": "2024B-R3M1",
+                  "player1": "KEREKOBAR",
+                  "player2": "INCIA 3000",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "INCIA 3000",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024b-r3m2",
+                  "title": "2024B-R3M2",
+                  "player1": "BROWN PUDDLE",
+                  "player2": "GLORY PRUSSIA",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "2",
+                  "score2": "3",
+                  "winner": "GLORY PRUSSIA",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 4",
+              "matches": [
+                {
+                  "id": "2024b-r4m1",
+                  "title": "2024B-R4M1",
+                  "player1": "INCIA 3000",
+                  "player2": "BROWN PUDDLE",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "BROWN PUDDLE",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024b-r4m2",
+                  "title": "2024B-R4M2",
+                  "player1": "FERRET",
+                  "player2": "KEREKOBAR",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "1",
+                  "winner": "FERRET",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 5",
+              "matches": [
+                {
+                  "id": "2024b-r5m1",
+                  "title": "2024B-R5M1",
+                  "player1": "BROWN PUDDLE",
+                  "player2": "FERRET",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "3",
+                  "winner": "FERRET",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024b-r5m2",
+                  "title": "2024B-R5M2",
+                  "player1": "GLORY PRUSSIA",
+                  "player2": "INCIA 3000",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "GLORY PRUSSIA",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "group-c",
+          "title": "Group C",
+          "rounds": [
+            {
+              "title": "Round 1",
+              "matches": [
+                {
+                  "id": "2024c-r1m1",
+                  "title": "2024C-R1M1",
+                  "player1": "BRUZER",
+                  "player2": "SAI",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "SAI",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024c-r1m2",
+                  "title": "2024C-R1M2",
+                  "player1": "KRISPY",
+                  "player2": "JAMIETD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "JAMIETD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 2",
+              "matches": [
+                {
+                  "id": "2024c-r2m1",
+                  "title": "2024C-R2M1",
+                  "player1": "SAI",
+                  "player2": "KRISPY",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "SAI",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024c-r2m2",
+                  "title": "2024C-R2M2",
+                  "player1": "AOD",
+                  "player2": "BRUZER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "1",
+                  "winner": "AOD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 3",
+              "matches": [
+                {
+                  "id": "2024c-r3m1",
+                  "title": "2024C-R3M1",
+                  "player1": "KRISPY",
+                  "player2": "AOD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "AOD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024c-r3m2",
+                  "title": "2024C-R3M2",
+                  "player1": "JAMIETD",
+                  "player2": "SAI",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "3",
+                  "winner": "SAI",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 4",
+              "matches": [
+                {
+                  "id": "2024c-r4m1",
+                  "title": "2024C-R4M1",
+                  "player1": "AOD",
+                  "player2": "JAMIETD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "2",
+                  "score2": "3",
+                  "winner": "JAMIETD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024c-r4m2",
+                  "title": "2024C-R4M2",
+                  "player1": "BRUZER",
+                  "player2": "KRISPY",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "BRUZER",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 5",
+              "matches": [
+                {
+                  "id": "2024c-r5m1",
+                  "title": "2024C-R5M1",
+                  "player1": "JAMIETD",
+                  "player2": "BRUZER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "2",
+                  "winner": "JAMIETD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024c-r5m2",
+                  "title": "2024C-R5M2",
+                  "player1": "SAI",
+                  "player2": "AOD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "3",
+                  "winner": "AOD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "group-d",
+          "title": "Group D",
+          "rounds": [
+            {
+              "title": "Round 1",
+              "matches": [
+                {
+                  "id": "2024d-r1m1",
+                  "title": "2024D-R1M1",
+                  "player1": "DANKU",
+                  "player2": "FILLSKILL",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "DANKU",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024d-r1m2",
+                  "title": "2024D-R1M2",
+                  "player1": "TRIOTD",
+                  "player2": "JLGAZZA94",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "TRIOTD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 2",
+              "matches": [
+                {
+                  "id": "2024d-r2m1",
+                  "title": "2024D-R2M1",
+                  "player1": "FILLSKILL",
+                  "player2": "TRIOTD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "TRIOTD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024d-r2m2",
+                  "title": "2024D-R2M2",
+                  "player1": "NOBLESUB",
+                  "player2": "DANKU",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "2",
+                  "score2": "3",
+                  "winner": "DANKU",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 3",
+              "matches": [
+                {
+                  "id": "2024d-r3m1",
+                  "title": "2024D-R3M1",
+                  "player1": "TRIOTD",
+                  "player2": "NOBLESUB",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "NOBLESUB",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024d-r3m2",
+                  "title": "2024D-R3M2",
+                  "player1": "JLGAZZA94",
+                  "player2": "FILLSKILL",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "0",
+                  "winner": "JLGAZZA94",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 4",
+              "matches": [
+                {
+                  "id": "2024d-r4m1",
+                  "title": "2024D-R4M1",
+                  "player1": "NOBLESUB",
+                  "player2": "JLGAZZA94",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "JLGAZZA94",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024d-r4m2",
+                  "title": "2024D-R4M2",
+                  "player1": "DANKU",
+                  "player2": "TRIOTD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "3",
+                  "winner": "TRIOTD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 5",
+              "matches": [
+                {
+                  "id": "2024d-r5m1",
+                  "title": "2024D-R5M1",
+                  "player1": "JLGAZZA94",
+                  "player2": "DANKU",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "1",
+                  "winner": "JLGAZZA94",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2024d-r5m2",
+                  "title": "2024D-R5M2",
+                  "player1": "FILLSKILL",
+                  "player2": "NOBLESUB",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "NOBLESUB",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "replacement-playoff",
+          "title": "Replacement Playoff",
+          "rounds": [
+            {
+              "title": "Replacement Playoff",
+              "matches": [
+                {
+                  "id": "replacement-playoff",
+                  "title": "Replacement Playoff",
+                  "player1": "FERRET",
+                  "player2": "KRISPY",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "2",
+                  "score2": "1",
+                  "winner": "FERRET",
+                  "note": "Bo3 · FERRET replaced RAMBO after withdrawal · owner-supplied historical recollection",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
         {
           "key": "main",
           "title": "Knockout Stage",
@@ -1231,13 +2221,13 @@ window.KRISPY_TOURNAMENTS = {
                 {
                   "id": "qf4",
                   "title": "QF4",
-                  "player1": "TRIO",
-                  "player2": "WTF CCC",
+                  "player1": "TRIOTD",
+                  "player2": "WTF",
                   "slot1From": "",
                   "slot2From": "",
                   "score1": "0",
                   "score2": "4",
-                  "winner": "WTF CCC",
+                  "winner": "WTF",
                   "note": "Bo7",
                   "time": ""
                 }
@@ -1249,20 +2239,20 @@ window.KRISPY_TOURNAMENTS = {
                 {
                   "id": "sf1",
                   "title": "SF1",
-                  "player1": "RAMBO",
+                  "player1": "FERRET",
                   "player2": "AOD",
                   "slot1From": "",
                   "slot2From": "",
-                  "score1": "1",
-                  "score2": "4",
+                  "score1": "",
+                  "score2": "",
                   "winner": "AOD",
-                  "note": "Bo9",
+                  "note": "Bo9 · AOD won; exact score unknown · owner-supplied historical recollection",
                   "time": ""
                 },
                 {
                   "id": "sf2",
                   "title": "SF2",
-                  "player1": "WTF CCC",
+                  "player1": "WTF",
                   "player2": "SAI",
                   "slot1From": "",
                   "slot2From": "",
@@ -1300,8 +2290,8 @@ window.KRISPY_TOURNAMENTS = {
           "title": "Group A",
           "entries": [
             "RAMBO — 12 pts",
-            "WTF CCC — 10 pts",
-            "FULLY CCC — 6 pts",
+            "WTF — 10 pts",
+            "FULLY — 6 pts",
             "AARON — 4 pts",
             "SHEPPARD — 0 pts"
           ]
@@ -1321,7 +2311,7 @@ window.KRISPY_TOURNAMENTS = {
           "entries": [
             "AOD — 11 pts",
             "SAI — 10 pts",
-            "JAMIE — 10 pts",
+            "JAMIETD — 10 pts",
             "BRUZER — 6 pts",
             "KRISPY — 0 pts"
           ]
@@ -1329,7 +2319,7 @@ window.KRISPY_TOURNAMENTS = {
         {
           "title": "Group D",
           "entries": [
-            "TRIO — 9 pts",
+            "TRIOTD — 9 pts",
             "JLGAZZA94 — 9 pts",
             "DANKU — 8 pts",
             "NOBLESUB — 8 pts",
@@ -1347,7 +2337,7 @@ window.KRISPY_TOURNAMENTS = {
       "registrationUrl": "",
       "participantSource": "manual",
       "streamUrl": "",
-      "rulesUrl": "",
+      "rulesUrl": "/assets/trules/td-home-nations-2023-rules.pdf",
       "bracketMode": "manual",
       "bracketTitle": "Final bracket",
       "bracketEmbedUrl": "",
@@ -1405,12 +2395,12 @@ window.KRISPY_TOURNAMENTS = {
           "note": ""
         },
         {
-          "name": "JAMIE TD",
+          "name": "JAMIETD",
           "seed": "6",
           "flag": "",
           "flagImage": "",
           "inGameName": "JAMIE TD",
-          "note": ""
+          "note": "Historical alias: JAMIE TD"
         },
         {
           "name": "AOD",
@@ -1489,7 +2479,7 @@ window.KRISPY_TOURNAMENTS = {
         },
         {
           "place": "3rd",
-          "name": "JAMIE TD",
+          "name": "JAMIETD",
           "note": "Semi-finalist"
         },
         {
@@ -1499,6 +2489,328 @@ window.KRISPY_TOURNAMENTS = {
         }
       ],
       "manualBracketGroups": [
+        {
+          "key": "group-a",
+          "title": "Group A",
+          "rounds": [
+            {
+              "title": "Round 1",
+              "matches": [
+                {
+                  "id": "2023ha-r1m1",
+                  "title": "2023HA-R1M1",
+                  "player1": "CRITICAL MEDS",
+                  "player2": "RASHNAGAR",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "2",
+                  "score2": "4",
+                  "winner": "RASHNAGAR",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023ha-r1m2",
+                  "title": "2023HA-R1M2",
+                  "player1": "ADAM",
+                  "player2": "DANKU",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "2",
+                  "winner": "ADAM",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 2",
+              "matches": [
+                {
+                  "id": "2023ha-r2m1",
+                  "title": "2023HA-R2M1",
+                  "player1": "RASHNAGAR",
+                  "player2": "ADAM",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "0",
+                  "winner": "RASHNAGAR",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023ha-r2m2",
+                  "title": "2023HA-R2M2",
+                  "player1": "AARON",
+                  "player2": "CRITICAL MEDS",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "4",
+                  "winner": "CRITICAL MEDS",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 3",
+              "matches": [
+                {
+                  "id": "2023ha-r3m1",
+                  "title": "2023HA-R3M1",
+                  "player1": "ADAM",
+                  "player2": "AARON",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "4",
+                  "winner": "AARON",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023ha-r3m2",
+                  "title": "2023HA-R3M2",
+                  "player1": "DANKU",
+                  "player2": "RASHNAGAR",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "2",
+                  "score2": "4",
+                  "winner": "RASHNAGAR",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 4",
+              "matches": [
+                {
+                  "id": "2023ha-r4m1",
+                  "title": "2023HA-R4M1",
+                  "player1": "AARON",
+                  "player2": "DANKU",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "3",
+                  "winner": "AARON",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023ha-r4m2",
+                  "title": "2023HA-R4M2",
+                  "player1": "CRITICAL MEDS",
+                  "player2": "ADAM",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "1",
+                  "winner": "CRITICAL MEDS",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 5",
+              "matches": [
+                {
+                  "id": "2023ha-r5m1",
+                  "title": "2023HA-R5M1",
+                  "player1": "DANKU",
+                  "player2": "CRITICAL MEDS",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "4",
+                  "winner": "CRITICAL MEDS",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023ha-r5m2",
+                  "title": "2023HA-R5M2",
+                  "player1": "RASHNAGAR",
+                  "player2": "AARON",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "0",
+                  "winner": "RASHNAGAR",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "key": "group-b",
+          "title": "Group B",
+          "rounds": [
+            {
+              "title": "Round 1",
+              "matches": [
+                {
+                  "id": "2023hb-r1m1",
+                  "title": "2023HB-R1M1",
+                  "player1": "AOD",
+                  "player2": "BRUZER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "1",
+                  "winner": "AOD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023hb-r1m2",
+                  "title": "2023HB-R1M2",
+                  "player1": "JAMIETD",
+                  "player2": "KHANOMANCER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "0",
+                  "winner": "JAMIETD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 2",
+              "matches": [
+                {
+                  "id": "2023hb-r2m1",
+                  "title": "2023HB-R2M1",
+                  "player1": "BRUZER",
+                  "player2": "JAMIETD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "4",
+                  "winner": "JAMIETD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023hb-r2m2",
+                  "title": "2023HB-R2M2",
+                  "player1": "BROTHERHOOD OF LAG",
+                  "player2": "AOD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "0",
+                  "score2": "4",
+                  "winner": "AOD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 3",
+              "matches": [
+                {
+                  "id": "2023hb-r3m1",
+                  "title": "2023HB-R3M1",
+                  "player1": "JAMIETD",
+                  "player2": "BROTHERHOOD OF LAG",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "3",
+                  "winner": "JAMIETD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023hb-r3m2",
+                  "title": "2023HB-R3M2",
+                  "player1": "KHANOMANCER",
+                  "player2": "BRUZER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "2",
+                  "score2": "4",
+                  "winner": "BRUZER",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 4",
+              "matches": [
+                {
+                  "id": "2023hb-r4m1",
+                  "title": "2023HB-R4M1",
+                  "player1": "BROTHERHOOD OF LAG",
+                  "player2": "KHANOMANCER",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "4",
+                  "score2": "1",
+                  "winner": "BROTHERHOOD OF LAG",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023hb-r4m2",
+                  "title": "2023HB-R4M2",
+                  "player1": "AOD",
+                  "player2": "JAMIETD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "3",
+                  "score2": "4",
+                  "winner": "JAMIETD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            },
+            {
+              "title": "Round 5",
+              "matches": [
+                {
+                  "id": "2023hb-r5m1",
+                  "title": "2023HB-R5M1",
+                  "player1": "KHANOMANCER",
+                  "player2": "AOD",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "4",
+                  "winner": "AOD",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                },
+                {
+                  "id": "2023hb-r5m2",
+                  "title": "2023HB-R5M2",
+                  "player1": "BRUZER",
+                  "player2": "BROTHERHOOD OF LAG",
+                  "slot1From": "",
+                  "slot2From": "",
+                  "score1": "1",
+                  "score2": "4",
+                  "winner": "BROTHERHOOD OF LAG",
+                  "note": "Group stage · screenshot evidence supplied by owner",
+                  "time": ""
+                }
+              ]
+            }
+          ]
+        },
         {
           "key": "main",
           "title": "Knockout Stage",
@@ -1522,7 +2834,7 @@ window.KRISPY_TOURNAMENTS = {
                 {
                   "id": "sf2",
                   "title": "SF2",
-                  "player1": "JAMIE TD",
+                  "player1": "JAMIETD",
                   "player2": "CRITICAL MEDS",
                   "slot1From": "",
                   "slot2From": "",
@@ -1569,7 +2881,7 @@ window.KRISPY_TOURNAMENTS = {
         {
           "title": "Group B",
           "entries": [
-            "JAMIE TD — 16 pts",
+            "JAMIETD — 16 pts",
             "AOD — 15 pts",
             "BROTHERHOOD OF LAG — 11 pts",
             "BRUZER — 7 pts",
@@ -1587,7 +2899,7 @@ window.KRISPY_TOURNAMENTS = {
       "registrationUrl": "",
       "participantSource": "manual",
       "streamUrl": "",
-      "rulesUrl": "",
+      "rulesUrl": "/assets/trules/td-oceania-2023-rules.pdf",
       "bracketMode": "manual",
       "bracketTitle": "Round Robin Results",
       "bracketEmbedUrl": "",

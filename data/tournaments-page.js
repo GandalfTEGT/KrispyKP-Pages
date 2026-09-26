@@ -26,6 +26,7 @@
     bracketFallback: document.getElementById("tournamentBracketFallback"),
     bracketBody: document.getElementById("tournamentBracketBody"),
     bracketToggle: document.getElementById("tournamentBracketToggle"),
+    spoilerNotice: document.getElementById("tournamentSpoilerNotice"),
 
     switcherSection: document.getElementById("tournamentSwitcherSection"),
     switcherTitle: document.getElementById("tournamentSwitcherTitle"),
@@ -62,6 +63,43 @@
   let isMobileBracketOpen = false;
   let wasMobileSectionLayout = null;
   let wasCompactBracketLayout = null;
+  const SPOILER_PREFERENCE_KEY = "krispykp:tournaments:hide-live-results";
+  let sessionSpoilersHidden = false;
+  let spoilerPreferenceAvailable = true;
+
+  function readSpoilerPreference() {
+    try {
+      return window.localStorage.getItem(SPOILER_PREFERENCE_KEY) === "true";
+    } catch (_error) {
+      spoilerPreferenceAvailable = false;
+      return sessionSpoilersHidden;
+    }
+  }
+
+  function writeSpoilerPreference(hidden) {
+    sessionSpoilersHidden = hidden;
+    try {
+      window.localStorage.setItem(SPOILER_PREFERENCE_KEY, String(hidden));
+      spoilerPreferenceAvailable = true;
+    } catch (_error) {
+      spoilerPreferenceAvailable = false;
+    }
+  }
+
+  function isSpoilerModeApplicable(event) {
+    return event?.status === "live";
+  }
+
+  function applySpoilerPresentation(event) {
+    const applicable = isSpoilerModeApplicable(event);
+    const hidden = applicable && readSpoilerPreference();
+    if (els.content) {
+      els.content.dataset.spoilersApplicable = String(applicable);
+      els.content.dataset.spoilersHidden = String(hidden);
+    }
+    if (els.spoilerNotice) els.spoilerNotice.hidden = !hidden;
+    return hidden;
+  }
 
   function escapeHtml(value) {
     return String(value ?? "")
@@ -950,6 +988,18 @@
 
     actions.filter(Boolean).forEach((link) => els.heroActions.appendChild(link));
 
+    if (isSpoilerModeApplicable(event)) {
+      const spoilerToggle = createLocalActionButton("Hide Results", () => {
+        const hidden = !(els.content?.dataset.spoilersHidden === "true");
+        writeSpoilerPreference(hidden);
+        applySpoilerPresentation(event);
+        updateSpoilerToggle(spoilerToggle, hidden);
+      });
+      spoilerToggle.classList.add("tournament-spoiler-toggle");
+      updateSpoilerToggle(spoilerToggle, readSpoilerPreference());
+      els.heroActions.appendChild(spoilerToggle);
+    }
+
     if (event.registrationMode === "closed") {
       els.heroNote.hidden = false;
       els.heroNote.textContent = "Registrations are currently closed.";
@@ -960,6 +1010,16 @@
       els.heroNote.hidden = true;
       els.heroNote.textContent = "";
     }
+  }
+
+  function updateSpoilerToggle(button, hidden) {
+    if (!button) return;
+    button.textContent = hidden ? "Show Results" : "Hide Results";
+    button.setAttribute("aria-pressed", String(hidden));
+    button.setAttribute("aria-label", hidden ? "Show tournament results and spoilers" : "Hide tournament results and spoilers");
+    button.title = spoilerPreferenceAvailable
+      ? "This preference is saved on this device."
+      : "This preference will last for the current page session.";
   }
 
   function renderSwitcherCard(event, label, sectionKind) {
@@ -1203,6 +1263,7 @@
     }
 
     renderSwitchers(event);
+    applySpoilerPresentation(event);
   }
 
   function updateEventStructuredData(event) {

@@ -67,19 +67,19 @@ try {
 
   try {
     fs.appendFileSync(targets.musicCss, "\n/* validator scope probe */\n", "utf8");
-    expectScope("Music-only change scope", detectScope({ root: ROOT }), ["music"]);
+    expectScope("Music-only change scope", detectScope({ root: ROOT, files: ["styles/music.css"] }), ["music"]);
   } finally { restore(targets.musicCss); }
 
   try {
     fs.appendFileSync(targets.sharedCss, "\n/* validator scope probe */\n", "utf8");
-    expectScope("Shared command-deck scope", detectScope({ root: ROOT }), ["home", "music", "videos", "tournaments", "about", "contact"]);
+    expectScope("Shared command-deck scope", detectScope({ root: ROOT, files: ["styles/command-deck.css"] }), ["home", "music", "videos", "tournaments", "about", "contact"]);
   } finally { restore(targets.sharedCss); }
 
   try {
     fs.appendFileSync(targets.config, "\n// validator scope probe\n", "utf8");
     expectScope(
       "Tournament schema scope",
-      detectScope({ root: ROOT }),
+      detectScope({ root: ROOT, files: ["data/tournaments.config.js"] }),
       ["home", "tournaments", "contact"],
       ["tournament-artifacts", "builder-compatibility"]
     );

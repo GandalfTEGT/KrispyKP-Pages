@@ -119,48 +119,58 @@
 
 <section class="section videos-browser-section">
   <div class="container">
-    <div class="videos-category-controls">
-      <label class="videos-mobile-category" for="videoCategorySelect">
-        <span class="videos-mobile-category-label">Choose Game / Section</span>
-        <select id="videoCategorySelect" class="videos-category-select" aria-label="Choose video category"></select>
-      </label>
+    <div class="videos-browser-workspace">
+      <aside class="frame videos-selection-panel" aria-label="Playlist selection">
+        <h2 class="section-title">Primary Selection</h2>
+        <div class="videos-category-controls">
+          <label class="videos-mobile-category" for="videoCategorySelect">
+            <span class="videos-mobile-category-label">Choose Game / Section</span>
+            <select id="videoCategorySelect" class="videos-category-select" aria-label="Choose video category"></select>
+          </label>
 
-      <div class="videos-tabs-shell">
-        <div id="videoCategoryTabs" class="videos-tabs" aria-label="Video categories"></div>
-        <div id="videoCategoryMore" class="videos-more" hidden></div>
-      </div>
-    </div>
-    <h2 class="section-title">Playlists</h2>
-    <div id="videoSubTabs" class="videos-subtabs" aria-label="Video sub categories"></div>
-
-    <h2 class="section-title" style="margin-top:12px;">Browse Library</h2>
-    <div class="videos-toolbar frame">
-      <input
-        id="videoSearchInput"
-        class="videos-search-input"
-        type="search"
-        placeholder="Search videos..."
-        aria-label="Search videos">
-      <select id="videoSortSelect" class="videos-sort-select" aria-label="Sort videos">
-        <option value="playlist">Playlist order</option>
-        <option value="newest">Newest first</option>
-        <option value="oldest">Oldest first</option>
-        <option value="title">Title A-Z</option>
-      </select>
-    </div>
-
-    <section class="frame videos-library-shell">
-      <div class="videos-library-head">
-        <div>
-          <div class="section-title">Playlist Videos</div>
-          <h2 id="videosLibraryTitle" class="section-big videos-library-title">Choose a Video</h2>
+          <div class="videos-tabs-shell">
+            <div id="videoCategoryTabs" class="videos-tabs" aria-label="Video categories"></div>
+            <div id="videoCategoryMore" class="videos-more" hidden></div>
+          </div>
         </div>
-      </div>
 
-      <div id="videoEmptyState"></div>
-      <div id="videoLibraryGrid" class="videos-library-grid"></div>
-      <div id="videoLibraryPager" class="videos-pager"></div>
-    </section>
+        <div class="videos-secondary-selection">
+          <h3 class="section-title">Secondary Selection</h3>
+          <div id="videoSubTabs" class="videos-subtabs" aria-label="Video sub categories"></div>
+        </div>
+      </aside>
+
+      <div class="videos-results-area">
+        <h2 class="section-title">Browse Library</h2>
+        <div class="videos-toolbar frame">
+          <input
+            id="videoSearchInput"
+            class="videos-search-input"
+            type="search"
+            placeholder="Search videos..."
+            aria-label="Search videos">
+          <select id="videoSortSelect" class="videos-sort-select" aria-label="Sort videos">
+            <option value="playlist">Playlist order</option>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="title">Title A-Z</option>
+          </select>
+        </div>
+
+        <section class="frame videos-library-shell">
+          <div class="videos-library-head">
+            <div>
+              <div class="section-title">Playlist Videos</div>
+              <h2 id="videosLibraryTitle" class="section-big videos-library-title">Choose a Video</h2>
+            </div>
+          </div>
+
+          <div id="videoEmptyState"></div>
+          <div id="videoLibraryGrid" class="videos-library-grid"></div>
+          <div id="videoLibraryPager" class="videos-pager"></div>
+        </section>
+      </div>
+    </div>
   </div>
 </section>
 

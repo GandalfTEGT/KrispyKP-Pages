@@ -19,8 +19,9 @@
 
 .hero-card {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto;
   gap: 14px;
+  align-content: start;
 }
 
 .home-feature-grid {
@@ -54,16 +55,24 @@
 ------------------------------ */
 .home-live-panel {
   position: relative;
+  background:
+    radial-gradient(circle at top right, rgba(79, 210, 255, 0.05), transparent 30%),
+    linear-gradient(180deg, rgba(79, 210, 255, 0.015), transparent 35%),
+    var(--p2-surface);
 }
 
 .home-live-panel::after {
   content: "";
   position: absolute;
-  inset: 0;
+  z-index: 2;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(var(--page-rgb));
+  box-shadow: 0 0 12px rgba(var(--page-rgb), 0.75);
   pointer-events: none;
-  background:
-    radial-gradient(circle at top right, rgba(79, 210, 255, 0.05), transparent 30%),
-    linear-gradient(180deg, rgba(79, 210, 255, 0.015), transparent 35%);
 }
 
 .home-live-pulse {
@@ -220,7 +229,7 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  align-content: end;
+  align-content: start;
 }
 
 .home-uplink-grid .mini {
@@ -258,6 +267,7 @@
 
 .home-uplink-summary {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
   padding: 12px 14px;
   border: 1px solid rgba(79, 210, 255, 0.12);
@@ -286,7 +296,27 @@
 }
 
 .home-uplink-grid {
-  align-content: end;
+  align-content: start;
+}
+
+@media (min-width: 701px) and (max-width: 1200px) {
+  .hero-card .home-uplink-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .home-uplink-summary,
+  .home-uplink-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 430px) {
+  .home-uplink-summary,
+  .home-uplink-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ------------------------------

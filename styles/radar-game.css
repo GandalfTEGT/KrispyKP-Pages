@@ -405,7 +405,7 @@ body.radar-game-active .radar-game-trigger-dot {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto minmax(0, 1fr) auto auto;
   width: 100%;
   height: 100dvh;
   border: 0;
@@ -423,7 +423,12 @@ body.radar-game-active .radar-game-trigger-dot {
 }
 .radar-game-header { border-bottom-color: rgba(97, 220, 255, .28); }
 .radar-game-kicker::before { content: "● "; color: #52e6c2; }
-.radar-game-hud { border-bottom-color: rgba(97, 220, 255, .2); }
+.radar-game-hud {
+  border-bottom-color: rgba(97, 220, 255, .2);
+  font-size: clamp(13px, 1.3vw, 16px);
+  font-weight: 700;
+}
+.radar-game-hud strong { font-size: 1.05em; }
 .radar-game-screen {
   min-height: 0;
   aspect-ratio: auto;
@@ -438,7 +443,10 @@ body.radar-game-active .radar-game-trigger-dot {
     linear-gradient(transparent calc(50% - .5px), rgba(97,220,255,.22) 50%, transparent calc(50% + .5px)),
     radial-gradient(circle at center, transparent 0 22%, rgba(97,220,255,.11) 22.2% 22.5%, transparent 22.7% 44%, rgba(97,220,255,.08) 44.2% 44.5%, transparent 44.7%);
 }
-.radar-game-help { border-top: 1px solid rgba(97,220,255,.15); }
+.radar-game-help {
+  border-top: 1px solid rgba(97,220,255,.15);
+  font-size: clamp(13px, 1.2vw, 15px);
+}
 
 .radar-game-touch {
   grid-template-columns: minmax(120px, 1fr) minmax(88px, .55fr);
@@ -516,4 +524,52 @@ body.radar-game-active .radar-game-trigger-dot {
 @media(max-width:360px){.radar-game-joystick{width:92px;height:92px}.radar-game-joystick-knob{width:40px;height:40px}}
 
 /* Keep the site trigger clear of the two-thumb control deck while Radar is active. */
-body.radar-game-visible .radar-game-trigger{opacity:0;pointer-events:none;visibility:hidden}
+body.radar-game-visible .radar-game-trigger {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+@media (min-width: 641px) and (min-height: 521px) {
+  body.radar-game-visible .radar-game-help { padding-left: 170px; }
+}
+
+/* Portrait: reserve a tall battlefield and keep the normal corner exit above movement. */
+@media (max-width: 640px) and (orientation: portrait) {
+  .radar-game-chassis { grid-template-rows: auto auto minmax(250px, 1fr) auto; }
+  .radar-game-header { align-items: center; }
+  .radar-game-header h2 { max-width: 9ch; line-height: 1.05; }
+  .radar-game-hud { gap: 8px; font-size: 11px; }
+  .radar-game-help { display: none; }
+  .radar-game-touch { min-height: 132px; }
+  body.radar-game-visible .radar-game-trigger {
+    bottom: calc(136px + env(safe-area-inset-bottom));
+  }
+}
+
+/* Short landscape: controls overlay the field so the battlefield keeps the available height. */
+@media (max-height: 520px) and (orientation: landscape) {
+  .radar-game-chassis { grid-template-rows: auto auto minmax(0, 1fr); }
+  .radar-game-header { padding: 8px 12px; }
+  .radar-game-kicker { margin: 0; font-size: 8px; }
+  .radar-game-header h2 { font-size: 21px; }
+  .radar-game-hud { padding: 6px 12px; font-size: 11px; }
+  .radar-game-help { display: none; }
+  .radar-game-touch {
+    position: absolute;
+    inset: auto 0 0;
+    display: grid;
+    padding: 8px 12px max(8px, env(safe-area-inset-bottom));
+    border: 0;
+    background: linear-gradient(0deg, rgba(2, 9, 12, .86), transparent);
+    backdrop-filter: none;
+    pointer-events: none;
+  }
+  .radar-game-touch > * { pointer-events: auto; }
+  .radar-game-joystick { width: 92px; height: 92px; }
+  .radar-game-joystick-knob { width: 38px; height: 38px; }
+  body.radar-game-visible .radar-game-trigger {
+    left: 118px;
+    bottom: max(8px, env(safe-area-inset-bottom));
+  }
+}
