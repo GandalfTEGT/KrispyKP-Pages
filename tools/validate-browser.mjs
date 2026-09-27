@@ -356,28 +356,41 @@ async function runTournamentTest(browser, baseUrl) {
   const { context, page } = await preparePage(browser, baseUrl, 1024);
   try {
     await page.goto(`${baseUrl}/tournaments/`, { waitUntil: "domcontentloaded" });
-    const events = await page.evaluate(() => window.KRISPY_TOURNAMENTS?.events?.map(event => ({ id: event.id, title: event.title, status: event.status })) || []);
+    const events = await page.evaluate(() => window.KRISPY_TOURNAMENTS?.events?.map(event => ({
+      id: event.id,
+      title: event.title,
+      status: event.status,
+      lastUpdated: event.lastUpdated,
+      aliasedPlayer: event.players?.find(player => player.inGameName && player.inGameName !== player.name)
+    })) || []);
     assert(events.length >= 2, "current and historical tournaments are not both available");
     assert(new Set(events.map(event => event.id)).size === events.length, "tournament IDs are not distinct");
     const current = events.find(event => event.status === "live" || event.status === "awaiting-results");
     const historical = events.find(event => event.status === "completed");
     assert(Boolean(current && historical), "current lifecycle and completed tournament states are required");
     await page.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(current.id)}`, { waitUntil: "domcontentloaded" });
-    if (current.status === "live") {
-      const spoilerToggle = page.locator(".tournament-spoiler-toggle");
-      assert(await spoilerToggle.count() === 1, "live tournament spoiler control missing");
-      assert(await spoilerToggle.getAttribute("aria-pressed") === "false", "live tournament results were hidden by default");
-      await spoilerToggle.click();
-      assert(await spoilerToggle.getAttribute("aria-pressed") === "true", "spoiler control did not expose its hidden state");
-      assert(await page.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler presentation state was not applied");
-      assert(await page.locator("#tournamentBracketBody").evaluate(element => getComputedStyle(element).display === "none"), "spoiler mode left bracket progression visible");
-      await page.reload({ waitUntil: "domcontentloaded" });
-      await page.locator(".tournament-spoiler-toggle").click();
-    } else {
+    await page.evaluate(() => localStorage.removeItem("krispykp:tournaments:hide-live-results"));
+    await page.reload({ waitUntil: "domcontentloaded" });
+    const spoilerToggle = page.locator(".tournament-spoiler-toggle");
+    assert(await spoilerToggle.count() === 1, "active incomplete tournament spoiler control missing");
+    assert(await spoilerToggle.getAttribute("aria-pressed") === "false", "active incomplete tournament results were hidden by default");
+    assert(await page.locator("#tournamentPlayers .tournament-player-item").count() > 0, "non-spoiler participant information is missing");
+    await spoilerToggle.focus();
+    await page.keyboard.press("Enter");
+    assert(await spoilerToggle.getAttribute("aria-pressed") === "true", "keyboard spoiler control did not expose its hidden state");
+    assert(await page.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler presentation state was not applied");
+    assert(await page.locator("#tournamentBracketBody").evaluate(element => getComputedStyle(element).display === "none" && element.inert && element.getAttribute("aria-hidden") === "true"), "spoiler mode left bracket progression exposed");
+    await page.reload({ waitUntil: "domcontentloaded" });
+    assert(await page.locator(".tournament-spoiler-toggle").getAttribute("aria-pressed") === "true", "spoiler preference did not persist after refresh");
+    await page.locator(".tournament-spoiler-toggle").click();
+    assert(await page.locator("#tournamentBracketBody").evaluate(element => !element.inert && !element.hasAttribute("aria-hidden")), "show results did not restore bracket accessibility");
+    if (current.status === "awaiting-results") {
       assert((await page.locator("#tournamentHeroMeta").textContent()).includes("Awaiting Results"), "awaiting-results state is not explicit");
-      assert(await page.locator(".tournament-spoiler-toggle").count() === 0, "awaiting-results event exposed a live-only spoiler control");
-      assert(await page.locator("#tournamentResultsSection").evaluate(element => element.hidden), "awaiting-results event published incomplete results");
     }
+    assert(await page.locator("#tournamentQuickInfo > li").count() === 6, "Last Updated was left as a seventh detail-grid cell");
+    if (current.lastUpdated) assert(await page.locator("#tournamentLastUpdated time").count() === 1, "Last Updated metadata is missing");
+    const heroActions = page.locator("#tournamentHeroActions");
+    assert(await heroActions.evaluate(element => parseFloat(getComputedStyle(element).backgroundColor.slice(5)) !== 0 || getComputedStyle(element).backgroundImage !== "none"), "hero actions lack an opaque action surface");
     assert(await page.locator("#tournamentPlayers .tournament-player-item").count() > 0, "current participant information is missing");
     assert(await page.locator("#tournamentBracketBody .tournament-manual-match").count() > 0, "current bracket has no matches");
     await page.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(historical.id)}`, { waitUntil: "domcontentloaded" });
@@ -386,27 +399,32 @@ async function runTournamentTest(browser, baseUrl) {
     assert(await page.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "false", "historical event inherited live spoiler hiding");
     assert(await page.locator(".tournament-spoiler-toggle").count() === 0, "historical event exposed a live-only spoiler control");
     assert(await page.locator("#tournamentBracketBody .tournament-manual-match").count() > 0, "historical results were not rendered");
+    if (historical.aliasedPlayer) {
+      const playerText = await page.locator("#tournamentPlayers").textContent();
+      assert(playerText.includes(historical.aliasedPlayer.inGameName), "historical alias is not the archived participant's primary identity");
+      assert(playerText.includes(`Canonical identity: ${historical.aliasedPlayer.name}`), "historical canonical identity is not preserved as secondary context");
+      const outcomeText = `${await page.locator("#tournamentBracketBody").textContent()} ${await page.locator("#tournamentResultsSection").textContent()} ${await page.locator("#tournamentStageSection").textContent()}`;
+      assert(outcomeText.includes(historical.aliasedPlayer.inGameName), "historical aliases were not applied consistently to outcome presentation");
+    }
     await page.goBack({ waitUntil: "domcontentloaded" });
     assert(new URL(page.url()).searchParams.get("event") === current.id, "browser Back did not restore the current event deep link");
     await page.goForward({ waitUntil: "domcontentloaded" });
     assert(new URL(page.url()).searchParams.get("event") === historical.id, "browser Forward did not restore the historical event deep link");
-    if (current.status === "live") {
-      const fallbackPage = await context.newPage();
-      await fallbackPage.addInitScript(() => {
-        Storage.prototype.getItem = () => { throw new Error("storage unavailable"); };
-        Storage.prototype.setItem = () => { throw new Error("storage unavailable"); };
-      });
-      await fallbackPage.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(current.id)}`, { waitUntil: "domcontentloaded" });
-      const fallbackToggle = fallbackPage.locator(".tournament-spoiler-toggle");
-      await fallbackToggle.click();
-      assert(await fallbackPage.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler control failed when storage was unavailable");
-      await fallbackPage.close();
-    }
+    const fallbackPage = await context.newPage();
+    await fallbackPage.addInitScript(() => {
+      Storage.prototype.getItem = () => { throw new Error("storage unavailable"); };
+      Storage.prototype.setItem = () => { throw new Error("storage unavailable"); };
+    });
+    await fallbackPage.goto(`${baseUrl}/tournaments/?event=${encodeURIComponent(current.id)}`, { waitUntil: "domcontentloaded" });
+    const fallbackToggle = fallbackPage.locator(".tournament-spoiler-toggle");
+    await fallbackToggle.click();
+    assert(await fallbackPage.locator("#tournamentContent").getAttribute("data-spoilers-hidden") === "true", "spoiler control failed when storage was unavailable");
+    await fallbackPage.close();
     await page.goto(`${baseUrl}/tournaments/?event=__invalid__`, { waitUntil: "domcontentloaded" });
     assert(new URL(page.url()).searchParams.get("event") !== "__invalid__", "invalid event state was not normalized");
     const banner = page.locator("#tournamentHeroBackdrop");
     assert(await banner.count() === 1, "tournament banner surface missing");
-    return `${events.length} events, current lifecycle, results isolation, Back/Forward, deep-link fallback and banner surface passed`;
+    return `${events.length} events, active spoiler control/persistence/fallback, historical identity, metadata, Back/Forward, deep-link fallback and banner surface passed`;
   } finally { await context.close(); }
 }
 
