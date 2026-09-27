@@ -1,0 +1,309 @@
+import { entityVisual, STRUCTURES, UNITS, WORLD, SUPERWEAPON, TERRAIN_TYPES } from "./radar-rts-definitions.js";
+
+const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
+
+export class RadarRTSRenderer {
+  constructor(canvas, minimap, world = WORLD) {
+    this.world = world;
+    this.canvas = canvas;
+    this.ctx = canvas.getContext("2d", { alpha: false });
+    this.minimap = minimap;
+    this.mapCtx = minimap.getContext("2d");
+    this.camera = { x: 0, y: 0, zoom: 1 };
+    this.size = { width: 1, height: 1, dpr: 1 };
+    this.resize();
+  }
+
+  resize() {
+    const box = this.canvas.getBoundingClientRect();
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    this.size = { width: Math.max(1, box.width), height: Math.max(1, box.height), dpr };
+    this.canvas.width = Math.round(this.size.width * dpr);
+    this.canvas.height = Math.round(this.size.height * dpr);
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const mapBox = this.minimap.getBoundingClientRect();
+    this.minimap.width = Math.max(1, Math.round(mapBox.width * dpr));
+    this.minimap.height = Math.max(1, Math.round(mapBox.height * dpr));
+    this.mapCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.clampCamera();
+  }
+
+  viewSize() {
+    return { width: this.size.width / this.camera.zoom, height: this.size.height / this.camera.zoom };
+  }
+
+  clampCamera() {
+    const view = this.viewSize();
+    this.camera.x = clamp(this.camera.x, 0, Math.max(0, this.world.width - view.width));
+    this.camera.y = clamp(this.camera.y, 0, Math.max(0, this.world.height - view.height));
+  }
+
+  centerOn(x, y) {
+    const view = this.viewSize();
+    this.camera.x = x - view.width / 2;
+    this.camera.y = y - view.height / 2;
+    this.clampCamera();
+  }
+
+  pan(dx, dy) {
+    this.camera.x += dx / this.camera.zoom;
+    this.camera.y += dy / this.camera.zoom;
+    this.clampCamera();
+  }
+
+  setZoomAt(zoom, screenX = this.size.width / 2, screenY = this.size.height / 2) {
+    const focalWorld = this.screenToWorld(screenX, screenY);
+    this.camera.zoom = clamp(zoom, 0.65, 1.65);
+    this.camera.x = focalWorld.x - screenX / this.camera.zoom;
+    this.camera.y = focalWorld.y - screenY / this.camera.zoom;
+    this.clampCamera();
+    return this.camera.zoom;
+  }
+
+  screenToWorld(x, y) {
+    return { x: this.camera.x + x / this.camera.zoom, y: this.camera.y + y / this.camera.zoom };
+  }
+
+  worldToScreen(x, y) {
+    return { x: (x - this.camera.x) * this.camera.zoom, y: (y - this.camera.y) * this.camera.zoom };
+  }
+
+  entityAtScreen(snapshot, x, y) {
+    const point = this.screenToWorld(x, y);
+    return [...snapshot.units, ...snapshot.structures]
+      .filter(entity => Math.hypot(entity.x - point.x, entity.y - point.y) <= entity.radius + 9)
+      .sort((a, b) => Math.hypot(a.x - point.x, a.y - point.y) - Math.hypot(b.x - point.x, b.y - point.y))[0] || null;
+  }
+
+  drawGrid(ctx) {
+    const view = this.viewSize();
+    const startX = Math.floor(this.camera.x / WORLD.grid) * WORLD.grid;
+    const startY = Math.floor(this.camera.y / WORLD.grid) * WORLD.grid;
+    ctx.strokeStyle = "rgba(84, 210, 225, .055)";
+    ctx.lineWidth = 1 / this.camera.zoom;
+    ctx.beginPath();
+    for (let x = startX; x <= this.camera.x + view.width; x += WORLD.grid) {
+      ctx.moveTo(x, this.camera.y); ctx.lineTo(x, this.camera.y + view.height);
+    }
+    for (let y = startY; y <= this.camera.y + view.height; y += WORLD.grid) {
+      ctx.moveTo(this.camera.x, y); ctx.lineTo(this.camera.x + view.width, y);
+    }
+    ctx.stroke();
+  }
+
+  drawResource(ctx, node) {
+    if (node.amount <= 0) return;
+    const strength = .25 + .75 * (node.amount / node.initialAmount);
+    ctx.save();
+    ctx.globalAlpha = strength;
+    ctx.fillStyle = "#58eef0";
+    for (let i = 0; i < 13; i += 1) {
+      const angle = i * 2.4;
+      const radius = (i % 4) * node.radius * .19;
+      const x = node.x + Math.cos(angle) * radius;
+      const y = node.y + Math.sin(angle) * radius;
+      ctx.beginPath();
+      ctx.moveTo(x, y - 11); ctx.lineTo(x + 7, y + 8); ctx.lineTo(x - 7, y + 8); ctx.closePath(); ctx.fill();
+    }
+    ctx.strokeStyle = "rgba(88,238,240,.45)";
+    ctx.beginPath(); ctx.arc(node.x, node.y, node.radius * .72, 0, Math.PI * 2); ctx.stroke();
+    ctx.restore();
+  }
+
+  drawTerrain(ctx, tile) {
+    const definition = TERRAIN_TYPES[tile.type];
+    if (!definition) return;
+    ctx.save(); ctx.translate(tile.x, tile.y);
+    ctx.fillStyle = definition.color; ctx.strokeStyle = tile.passable ? "#52626a44" : "#6f7b85"; ctx.lineWidth = tile.passable ? 1 : 3;
+    ctx.beginPath();
+    for (let i = 0; i < 8; i++) { const angle = i * Math.PI / 4, radius = tile.radius * (i % 2 ? .92 : 1); const x = Math.cos(angle) * radius, y = Math.sin(angle) * radius; if (i) ctx.lineTo(x, y); else ctx.moveTo(x, y); }
+    ctx.closePath(); ctx.fill(); ctx.stroke();
+    if (tile.type === "rock") {
+      ctx.strokeStyle = "#72818c"; ctx.beginPath();ctx.moveTo(-tile.radius*.65,tile.radius*.35);ctx.lineTo(0,-tile.radius*.65);ctx.lineTo(tile.radius*.65,tile.radius*.35);ctx.stroke();
+    }
+    ctx.strokeStyle = "#8096a333"; ctx.lineWidth = 2;
+    for (let i = 0; i < 7; i++) { const x = Math.sin(i * 2.4 + tile.variant) * tile.radius * .6, y = Math.cos(i * 3.1) * tile.radius * .6; ctx.beginPath(); ctx.moveTo(x - 12, y); ctx.lineTo(x + 12, y + (tile.type === "concrete" ? 0 : 10)); ctx.stroke(); }
+    ctx.restore();
+  }
+
+  drawBuildSite(ctx, job, side) {
+    if (!job?.site) return;
+    const { x, y } = job.site, radius = STRUCTURES[job.type].radius;
+    const progress = Math.min(1, job.progress / job.duration);
+    ctx.save(); ctx.strokeStyle = side === "enemy" ? "#ffb786" : "#8ef4df"; ctx.fillStyle = "#78513a44"; ctx.lineWidth = 3;
+    ctx.setLineDash([8, 6]); ctx.strokeRect(x-radius, y-radius, radius*2, radius*2); ctx.setLineDash([]);
+    ctx.fillRect(x-radius, y+radius-radius*2*progress, radius*2, radius*2*progress);
+    ctx.font = "bold 13px system-ui"; ctx.textAlign = "center"; ctx.fillStyle = "#fff1d6";
+    ctx.fillText(`${STRUCTURES[job.type].short} ${Math.floor(progress*100)}%`, x, y-radius-12);
+    ctx.restore();
+  }
+
+  drawHealth(ctx, entity) {
+    if (entity.health >= entity.maxHealth) return;
+    const width = Math.max(28, entity.radius * 1.7);
+    const x = entity.x - width / 2;
+    const y = entity.y - entity.radius - 13;
+    ctx.fillStyle = "rgba(0,0,0,.75)"; ctx.fillRect(x, y, width, 5);
+    ctx.fillStyle = entity.health / entity.maxHealth > .35 ? "#7dff88" : "#ff667a";
+    ctx.fillRect(x, y, width * Math.max(0, entity.health / entity.maxHealth), 5);
+  }
+
+  drawStructure(ctx, entity, selected) {
+    const def = STRUCTURES[entity.type];
+    ctx.save();
+    ctx.translate(entity.x, entity.y);
+    ctx.fillStyle = entity.side === "player" ? "#153d47" : "#491c29";
+    ctx.strokeStyle = entity.side === "player" ? entityVisual(entity.kind,entity.type,entity.factionId).world.accent : "#ff6075";
+    ctx.lineWidth = selected ? 4 : 2;
+    ctx.beginPath();
+    ctx.rect(-entity.radius * .84, -entity.radius * .72, entity.radius * 1.68, entity.radius * 1.44);
+    ctx.fill(); ctx.stroke();
+    ctx.strokeStyle = "rgba(230,250,255,.42)";
+    ctx.beginPath(); ctx.moveTo(-entity.radius * .55, 0); ctx.lineTo(entity.radius * .55, 0); ctx.stroke();
+    ctx.fillStyle = "#dff8ff"; ctx.font = `700 ${Math.max(10, entity.radius * .22)}px system-ui`;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(def.short, 0, 0);
+    ctx.restore();
+    if (selected) {
+      ctx.strokeStyle = "#fff49a"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(entity.x, entity.y, entity.radius + 9, 0, Math.PI * 2); ctx.stroke();
+    }
+    this.drawHealth(ctx, entity);
+    if (entity.repairing) { ctx.fillStyle = "#9fffba"; ctx.font = "bold 22px system-ui"; ctx.fillText("+", entity.x, entity.y - entity.radius - 22); }
+  }
+
+  drawUnit(ctx, entity, selected) {
+    const def = UNITS[entity.type];
+    ctx.save();
+    ctx.translate(entity.x, entity.y); ctx.rotate(entity.angle || 0);
+    ctx.fillStyle = entity.side === "player" ? entityVisual(entity.kind,entity.type,entity.factionId).world.accent : "#ff667a";
+    ctx.strokeStyle = "#071217"; ctx.lineWidth = 2;
+    if (["tank", "harvester", "bulwark"].includes(entity.type)) {
+      ctx.fillRect(-entity.radius, -entity.radius * .65, entity.radius * 2, entity.radius * 1.3);
+      ctx.strokeRect(-entity.radius, -entity.radius * .65, entity.radius * 2, entity.radius * 1.3);
+      ctx.fillStyle = entity.side === "player" ? "#dffaff" : "#ffdbe1";
+      ctx.fillRect(0, -3, entity.radius * 1.15, 6);
+      if (entity.type === "bulwark") { ctx.strokeRect(-20, -13, 40, 26); ctx.fillRect(0, 6, 28, 4); }
+    } else if (entity.type === "scout") {
+      ctx.beginPath();
+      ctx.moveTo(entity.radius, 0); ctx.lineTo(entity.radius * .25, entity.radius * .7);
+      ctx.lineTo(-entity.radius, entity.radius * .52); ctx.lineTo(-entity.radius, -entity.radius * .52);
+      ctx.lineTo(entity.radius * .25, -entity.radius * .7); ctx.closePath(); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = entity.side === "player" ? "#dffaff" : "#ffdbe1";
+      ctx.fillRect(-entity.radius * .2, -2, entity.radius * 1.15, 4);
+    } else if (entity.type === "rocket" || entity.type === "marksman") {
+      ctx.beginPath();
+      ctx.moveTo(entity.radius, 0); ctx.lineTo(0, entity.radius); ctx.lineTo(-entity.radius, 0); ctx.lineTo(0, -entity.radius); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(entity.radius * 1.8, 0); ctx.stroke();
+      if (entity.type === "marksman") { ctx.strokeStyle = "#fff49a"; ctx.strokeRect(-6, -6, 12, 12); }
+    } else {
+      ctx.beginPath(); ctx.arc(0, 0, entity.radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(entity.radius * 1.5, 0); ctx.stroke();
+    }
+    ctx.restore();
+    if (entity.type === "harvester" && entity.cargo > 0) {
+      ctx.strokeStyle = "#fff071"; ctx.lineWidth = 3; ctx.beginPath();
+      ctx.arc(entity.x, entity.y, entity.radius + 4, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (entity.cargo / def.cargoCapacity)); ctx.stroke();
+    }
+    if (selected) {
+      ctx.strokeStyle = "#fff49a"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(entity.x, entity.y, entity.radius + 7, 0, Math.PI * 2); ctx.stroke();
+    }
+    this.drawHealth(ctx, entity);
+  }
+
+  render(snapshot, ui = {}) {
+    const ctx = this.ctx;
+    const { width, height } = this.size;
+    ctx.setTransform(this.size.dpr, 0, 0, this.size.dpr, 0, 0);
+    const gradient = ctx.createLinearGradient(0, 0, width, height);
+    gradient.addColorStop(0, TERRAIN_TYPES[snapshot.groundTerrain]?.color || "#06171a"); gradient.addColorStop(1, "#10141b");
+    ctx.fillStyle = gradient; ctx.fillRect(0, 0, width, height);
+    ctx.save();
+    ctx.scale(this.camera.zoom, this.camera.zoom);
+    ctx.translate(-this.camera.x, -this.camera.y);
+    this.drawGrid(ctx);
+    snapshot.terrain.forEach(tile => this.drawTerrain(ctx, tile));
+    for (const side of ["player", "enemy"]) this.drawBuildSite(ctx, snapshot.construction[side] || snapshot.pendingPlacement[side], side);
+    snapshot.resources.forEach(node => this.drawResource(ctx, node));
+    const selected = new Set(snapshot.selectedIds);
+    snapshot.structures.forEach(entity => this.drawStructure(ctx, entity, selected.has(entity.id)));
+    snapshot.units.forEach(entity => this.drawUnit(ctx, entity, selected.has(entity.id)));
+    if (!ui.reducedMotion) snapshot.units.filter(unit => ["harvesting", "unloading"].includes(unit.harvestState)).forEach(unit => {
+      ctx.strokeStyle = unit.harvestState === "harvesting" ? "#64f1de" : "#fff49a"; ctx.lineWidth = 2;
+      ctx.beginPath(); const start = snapshot.time * 3; ctx.arc(unit.x, unit.y, unit.radius + 8, start, start + 2); ctx.stroke();
+    });
+    snapshot.projectiles.forEach(projectile => {
+      ctx.fillStyle = projectile.side === "player" ? "#fff49a" : "#ff8494";
+      ctx.beginPath(); ctx.arc(projectile.x, projectile.y, 4, 0, Math.PI * 2); ctx.fill();
+    });
+    snapshot.effects.forEach(effect => {
+      ctx.strokeStyle = effect.type === "ion" ? "rgba(125,240,255,.8)" : "rgba(255,221,120,.62)";
+      ctx.globalAlpha = ui.reducedMotion ? .65 : Math.max(.15, effect.life / effect.maxLife);
+      ctx.lineWidth = effect.type === "fire" ? 3 : 4; ctx.beginPath(); ctx.arc(effect.x, effect.y, effect.radius * (ui.reducedMotion ? 1 : .55 + .65 * (1 - effect.life / effect.maxLife)), 0, Math.PI * 2); ctx.stroke(); ctx.globalAlpha = 1;
+    });
+    if (ui.pointerWorld && snapshot.pendingPlacement.player && !ui.placementCancelled) {
+      const def = STRUCTURES[snapshot.pendingPlacement.player.type];
+      const valid = ui.placement?.valid;
+      ctx.fillStyle = valid ? "rgba(125,255,136,.2)" : "rgba(255,88,110,.2)";
+      ctx.strokeStyle = valid ? "#7dff88" : "#ff586e";
+      ctx.beginPath(); ctx.arc(ui.pointerWorld.x, ui.pointerWorld.y, def.radius, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+    }
+    if (ui.superTarget) {
+      ctx.strokeStyle = "#fff171"; ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.arc(ui.superTarget.x, ui.superTarget.y, SUPERWEAPON.radius, 0, Math.PI * 2); ctx.stroke();
+    }
+    if (["guard", "attack-move", "force-fire"].includes(ui.tool) && ui.pointerWorld) {
+      ctx.strokeStyle = "#b6eaff"; ctx.fillStyle = "#b6eaff"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(ui.pointerWorld.x,ui.pointerWorld.y,20,0,Math.PI*2); ctx.stroke();
+      ctx.font = "bold 13px system-ui"; ctx.textAlign = "center";
+      ctx.fillText(ui.tool.toUpperCase(),ui.pointerWorld.x,ui.pointerWorld.y+38);
+    }
+    if (["repair", "sell"].includes(ui.tool) && ui.pointerWorld) {
+      const entity = snapshot.structures.find(item => item.side === "player" && Math.hypot(item.x-ui.pointerWorld.x,item.y-ui.pointerWorld.y) < item.radius+10);
+      if (entity) {
+        const valid = ui.tool === "repair" ? entity.health < entity.maxHealth : entity.type !== "hq";
+        ctx.strokeStyle = !valid ? "#ff7d8d" : ui.tool === "repair" ? "#8affb4" : "#ffbc7c";
+        ctx.lineWidth = 4; ctx.beginPath(); ctx.arc(entity.x,entity.y,entity.radius+10,0,Math.PI*2); ctx.stroke();
+        ctx.fillStyle = ctx.strokeStyle; ctx.font = "bold 13px system-ui"; ctx.textAlign = "center";
+        ctx.fillText(valid ? ui.tool === "repair" ? entity.repairing ? "CANCEL REPAIR" : "REPAIR · 10 CR/s" : "SELL · 50% REFUND" : ui.tool === "repair" ? "FULL HEALTH" : "COMMAND HUB PROTECTED",entity.x,entity.y+entity.radius+25);
+      }
+    }
+    ctx.restore();
+    if (ui.dragBox) {
+      ctx.fillStyle = "rgba(103,232,255,.12)"; ctx.strokeStyle = "#67e8ff"; ctx.lineWidth = 1;
+      const x = Math.min(ui.dragBox.x1, ui.dragBox.x2), y = Math.min(ui.dragBox.y1, ui.dragBox.y2);
+      ctx.fillRect(x, y, Math.abs(ui.dragBox.x2 - ui.dragBox.x1), Math.abs(ui.dragBox.y2 - ui.dragBox.y1));
+      ctx.strokeRect(x, y, Math.abs(ui.dragBox.x2 - ui.dragBox.x1), Math.abs(ui.dragBox.y2 - ui.dragBox.y1));
+    }
+    this.renderMinimap(snapshot);
+  }
+
+  renderMinimap(snapshot) {
+    const ctx = this.mapCtx;
+    const box = this.minimap.getBoundingClientRect();
+    const w = box.width, h = box.height;
+    ctx.setTransform(this.size.dpr, 0, 0, this.size.dpr, 0, 0);
+    ctx.fillStyle = "#031012"; ctx.fillRect(0, 0, w, h);
+    const sx = w / this.world.width, sy = h / this.world.height;
+    snapshot.obstacles.forEach(obstacle => { ctx.fillStyle = "#627078"; ctx.beginPath(); ctx.ellipse(obstacle.x*sx,obstacle.y*sy,obstacle.radius*sx,obstacle.radius*sy,0,0,Math.PI*2); ctx.fill(); });
+    snapshot.resources.filter(node => node.amount > 0).forEach(node => {
+      ctx.fillStyle = "rgba(88,238,240,.55)"; ctx.beginPath(); ctx.arc(node.x * sx, node.y * sy, 3, 0, Math.PI * 2); ctx.fill();
+    });
+    const job = snapshot.construction.enemy || snapshot.pendingPlacement.enemy;
+    if (job?.site) { ctx.strokeStyle = "#ffd9a2"; ctx.strokeRect(job.site.x*sx-4,job.site.y*sy-4,8,8); }
+    [...snapshot.structures, ...snapshot.units].forEach(entity => {
+      ctx.fillStyle = entity.side === "player" ? entityVisual(entity.kind,entity.type,entity.factionId).world.accent : "#ff6075";
+      const size = entity.kind === "structure" ? 4 : 2;
+      ctx.fillRect(entity.x * sx - size / 2, entity.y * sy - size / 2, size, size);
+    });
+    const view = this.viewSize();
+    ctx.strokeStyle = "#fff49a"; ctx.lineWidth = 1;
+    ctx.strokeRect(this.camera.x * sx, this.camera.y * sy, view.width * sx, view.height * sy);
+  }
+
+  minimapToWorld(clientX, clientY) {
+    const box = this.minimap.getBoundingClientRect();
+    return { x: clamp((clientX - box.left) / box.width, 0, 1) * this.world.width, y: clamp((clientY - box.top) / box.height, 0, 1) * this.world.height };
+  }
+}

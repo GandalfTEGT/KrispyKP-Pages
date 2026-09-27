@@ -1,0 +1,22 @@
+{
+  "name": "KrispyKP",
+  "short_name": "KrispyKP",
+  "description": "The public hub for KrispyKP streams, music, videos and tournaments.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#06090b",
+  "background_color": "#06090b",
+  "icons": [
+    {
+      "src": "/assets/favicon/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/favicon/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

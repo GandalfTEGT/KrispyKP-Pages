@@ -1,0 +1,1057 @@
+const allTracks = Array.isArray(window.KRISPY_TRACKS) ? window.KRISPY_TRACKS : [];
+const builtInPlaylists = Array.isArray(window.KRISPY_PLAYLISTS) ? window.KRISPY_PLAYLISTS : [];
+const lyricsLibrary = window.KRISPY_LYRICS || {};
+
+const CUSTOM_SELECTION_KEY = "krispykp_custom_track_ids_v1";
+const CUSTOM_PLAYLIST_NAME_KEY = "krispykp_custom_playlist_name_v1";
+const requestedTrackId = new URLSearchParams(window.location.search).get("track");
+
+let memoryCustomTrackIds = [];
+let memoryCustomPlaylistName = "My Selection";
+let storageUnavailable = false;
+
+let activePlaylistId = "all-tracks";
+let activeTracks = [];
+let currentTrackId = "";
+let shuffle = false;
+let muted = false;
+let repeatMode = "off"; // off | library | playlist | track
+let shufflePool = [];
+let playHistory = [];
+let artworkRequest = 0;
+
+const audio = document.getElementById("audio");
+const artEl = document.getElementById("playerArt");
+const songEl = document.getElementById("playerSong");
+const artistEl = document.getElementById("playerArtist");
+const progressEl = document.getElementById("playerProgress");
+const currentTimeEl = document.getElementById("playerCurrentTime");
+const durationEl = document.getElementById("playerDuration");
+const playBtn = document.getElementById("playBtn");
+const shuffleBtn = document.getElementById("shuffleBtn");
+const repeatBtn = document.getElementById("repeatBtn");
+const muteBtn = document.getElementById("muteBtn");
+const stopBtn = document.getElementById("stopBtn");
+const playerPanel = document.querySelector(".player-panel");
+const volumeEl = document.getElementById("playerVolume");
+const seekEl = document.getElementById("playerSeek");
+const tracksEl = document.getElementById("tracks");
+const statusEl = document.getElementById("playerStatus");
+const searchEl = document.getElementById("trackSearch");
+const playlistSelectEl = document.getElementById("playlistSelect");
+const customTracksEl = document.getElementById("customTracks");
+const customCountEl = document.getElementById("customCount");
+const saveCustomBtn = document.getElementById("saveCustomBtn");
+const loadCustomBtn = document.getElementById("loadCustomBtn");
+const exportCustomBtn = document.getElementById("exportCustomBtn");
+const importCustomBtn = document.getElementById("importCustomBtn");
+const importCustomInput = document.getElementById("importCustomInput");
+const clearCustomBtn = document.getElementById("clearCustomBtn");
+const customPlaylistNameEl = document.getElementById("customPlaylistName");
+const lyricsPanelEl = document.getElementById("lyricsPanel");
+const lyricsCopyEl = document.getElementById("lyricsCopy");
+const lyricsToggleBtn = document.getElementById("lyricsToggleBtn");
+
+function formatTime(seconds) {
+  if (!Number.isFinite(seconds)) return "0:00";
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins}:${String(secs).padStart(2, "0")}`;
+}
+
+function slugSafeName(name) {
+  return String(name || "playlist")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "playlist";
+}
+
+function setStatus(text) {
+  statusEl.textContent = storageUnavailable
+    ? `${text} · Storage unavailable; changes are temporary`
+    : text;
+}
+
+function getPlayableTracks(trackList) {
+  return trackList.filter(track => track && track.available && track.file);
+}
+
+function getSavedCustomTrackIds() {
+  if (storageUnavailable) {
+    return [...memoryCustomTrackIds];
+  }
+
+  let storedValue;
+
+  try {
+    storedValue = localStorage.getItem(CUSTOM_SELECTION_KEY);
+  } catch (error) {
+    storageUnavailable = true;
+    return [...memoryCustomTrackIds];
+  }
+
+  try {
+    const parsed = JSON.parse(storedValue || "[]");
+    memoryCustomTrackIds = Array.isArray(parsed) ? parsed.filter(Boolean) : [];
+  } catch (error) {
+    memoryCustomTrackIds = [];
+  }
+
+  return [...memoryCustomTrackIds];
+}
+
+function saveCustomTrackIds(trackIds) {
+  memoryCustomTrackIds = Array.isArray(trackIds) ? trackIds.filter(Boolean) : [];
+
+  if (storageUnavailable) return;
+
+  try {
+    localStorage.setItem(CUSTOM_SELECTION_KEY, JSON.stringify(memoryCustomTrackIds));
+  } catch (error) {
+    storageUnavailable = true;
+  }
+}
+
+function getSavedCustomPlaylistName() {
+  if (storageUnavailable) {
+    return memoryCustomPlaylistName;
+  }
+
+  try {
+    memoryCustomPlaylistName = localStorage.getItem(CUSTOM_PLAYLIST_NAME_KEY) || "My Selection";
+  } catch (error) {
+    storageUnavailable = true;
+  }
+
+  return memoryCustomPlaylistName;
+}
+
+function saveCustomPlaylistName(name) {
+  memoryCustomPlaylistName = name || "My Selection";
+
+  if (storageUnavailable) return;
+
+  try {
+    localStorage.setItem(CUSTOM_PLAYLIST_NAME_KEY, memoryCustomPlaylistName);
+  } catch (error) {
+    storageUnavailable = true;
+  }
+}
+
+function getBuiltInPlaylistById(id) {
+  return builtInPlaylists.find(playlist => playlist.id === id) || null;
+}
+
+function getCustomSelectedTracks() {
+  const selectedIds = getSavedCustomTrackIds();
+  return allTracks.filter(track => selectedIds.includes(track.id));
+}
+
+function getTracksForPlaylist(playlistId) {
+  if (playlistId === "custom-selection") {
+    return getCustomSelectedTracks();
+  }
+
+  const playlist = getBuiltInPlaylistById(playlistId);
+
+  if (!playlist || playlist.tracks === "ALL") {
+    return [...allTracks];
+  }
+
+  const trackMap = new Map(allTracks.map(track => [track.id, track]));
+  return playlist.tracks
+    .map(trackId => trackMap.get(trackId))
+    .filter(Boolean);
+}
+
+function refreshActiveTracks() {
+  activeTracks = getTracksForPlaylist(activePlaylistId);
+}
+
+function getCurrentTrackIndex() {
+  return activeTracks.findIndex(track => track.id === currentTrackId);
+}
+
+function getCurrentTrack() {
+  return activeTracks.find(track => track.id === currentTrackId) || null;
+}
+
+function updateRepeatButton() {
+  const labels = {
+    off: "Repeat: Off",
+    library: "Repeat: All",
+    playlist: "Repeat: List",
+    track: "Repeat: Song"
+  };
+
+  repeatBtn.textContent = labels[repeatMode] || "Repeat: Off";
+  repeatBtn.classList.toggle("active", repeatMode !== "off");
+  repeatBtn.setAttribute("aria-pressed", String(repeatMode !== "off"));
+  repeatBtn.dataset.repeatMode = repeatMode;
+}
+
+function setPlaybackState(nextState) {
+  if (playerPanel) playerPanel.dataset.playbackState = nextState;
+  const playing = nextState === "playing";
+  const stopped = nextState === "stopped";
+  playBtn.setAttribute("aria-pressed", String(playing));
+  playBtn.setAttribute("aria-label", playing ? "Pause current track" : "Play current track");
+  if (stopBtn) stopBtn.setAttribute("aria-pressed", String(stopped));
+}
+
+function updateLyrics(track) {
+  if (!lyricsCopyEl) return;
+
+  const entry = track ? lyricsLibrary[track.id] : null;
+  const text = entry && typeof entry.lyrics === "string" && entry.lyrics.trim()
+    ? entry.lyrics.trim()
+    : "Lyrics are not available for this track yet.";
+
+  lyricsCopyEl.textContent = text;
+  lyricsCopyEl.classList.toggle("is-empty", !(entry && entry.lyrics && entry.lyrics.trim()));
+}
+
+function syncLyricsPanelForViewport() {
+  if (!lyricsPanelEl || !lyricsToggleBtn) return;
+
+  const mobile = window.matchMedia("(max-width: 980px)").matches;
+
+  if (mobile) {
+    if (!lyricsPanelEl.dataset.initializedMobile) {
+      lyricsPanelEl.classList.add("collapsed");
+      lyricsToggleBtn.setAttribute("aria-expanded", "false");
+      lyricsToggleBtn.textContent = "Show Lyrics";
+      lyricsPanelEl.dataset.initializedMobile = "true";
+    }
+  } else {
+    lyricsPanelEl.classList.remove("collapsed");
+    lyricsToggleBtn.setAttribute("aria-expanded", "true");
+    lyricsToggleBtn.textContent = "Hide Lyrics";
+    delete lyricsPanelEl.dataset.initializedMobile;
+  }
+}
+
+function toggleLyricsPanel() {
+  if (!lyricsPanelEl || !lyricsToggleBtn) return;
+
+  const isCollapsed = lyricsPanelEl.classList.toggle("collapsed");
+  lyricsToggleBtn.setAttribute("aria-expanded", isCollapsed ? "false" : "true");
+  lyricsToggleBtn.textContent = isCollapsed ? "Show Lyrics" : "Hide Lyrics";
+}
+
+function populatePlaylistSelect() {
+  const customTracks = getCustomSelectedTracks();
+  const customName = getSavedCustomPlaylistName();
+
+  playlistSelectEl.innerHTML = "";
+
+  builtInPlaylists.forEach(playlist => {
+    if (playlist.id === "custom-selection" && !customTracks.length) {
+      return;
+    }
+
+    const option = document.createElement("option");
+    option.value = playlist.id;
+    option.textContent = playlist.id === "custom-selection" ? customName : playlist.name;
+    playlistSelectEl.appendChild(option);
+  });
+
+  if (!Array.from(playlistSelectEl.options).some(option => option.value === activePlaylistId)) {
+    activePlaylistId = "all-tracks";
+  }
+
+  playlistSelectEl.value = activePlaylistId;
+}
+
+function renderCustomTrackBuilder() {
+  const selectedIds = new Set(getSavedCustomTrackIds());
+  const customTracks = getCustomSelectedTracks();
+
+  customTracksEl.innerHTML = "";
+
+  allTracks.forEach(track => {
+    const row = document.createElement("label");
+    row.className = "custom-track-row";
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = track.id;
+    checkbox.checked = selectedIds.has(track.id);
+
+    checkbox.addEventListener("change", () => {
+      const customSelectionWasActive = activePlaylistId === "custom-selection";
+      const nextSelected = new Set(getSavedCustomTrackIds());
+
+      if (checkbox.checked) {
+        nextSelected.add(track.id);
+      } else {
+        nextSelected.delete(track.id);
+      }
+
+      saveCustomTrackIds([...nextSelected]);
+      renderCustomTrackBuilder();
+      populatePlaylistSelect();
+
+      if (customSelectionWasActive) {
+        syncActivePlaybackScope({
+          preserveCurrent: true,
+          emptyStatus: "Custom selection is empty"
+        });
+      }
+    });
+
+    const textWrap = document.createElement("span");
+    textWrap.className = "custom-track-copy";
+    textWrap.innerHTML = `<strong>${track.name}</strong><span>${track.album || track.artist}</span>`;
+
+    row.append(checkbox, textWrap);
+    customTracksEl.appendChild(row);
+  });
+
+  customCountEl.textContent = `${customTracks.length} selected`;
+  customPlaylistNameEl.value = getSavedCustomPlaylistName();
+}
+
+function clearProgress() {
+  progressEl.style.width = "0%";
+  currentTimeEl.textContent = "0:00";
+  durationEl.textContent = "0:00";
+  seekEl.setAttribute("aria-valuemax", "0");
+  seekEl.setAttribute("aria-valuenow", "0");
+  seekEl.setAttribute("aria-valuetext", "0:00 of 0:00");
+}
+
+function syncSeekDisplay() {
+  const duration = Number.isFinite(audio.duration) && audio.duration > 0 ? audio.duration : 0;
+  const currentTime = duration
+    ? Math.max(0, Math.min(audio.currentTime || 0, duration))
+    : 0;
+  const percent = duration ? (currentTime / duration) * 100 : 0;
+
+  progressEl.style.width = `${percent}%`;
+  currentTimeEl.textContent = formatTime(currentTime);
+  durationEl.textContent = formatTime(duration);
+  seekEl.setAttribute("aria-valuemax", String(Math.round(duration)));
+  seekEl.setAttribute("aria-valuenow", String(Math.round(currentTime)));
+  seekEl.setAttribute(
+    "aria-valuetext",
+    `${formatTime(currentTime)} of ${formatTime(duration)}`
+  );
+}
+
+function clearPlayerDisplay() {
+  artworkRequest += 1;
+  artEl.style.backgroundImage = "url('/assets/logo.png')";
+  artEl.dataset.artState = "ready";
+  artEl.dataset.artLabel = "KrispyKP artwork";
+  artEl.setAttribute("aria-label", "KrispyKP artwork");
+  songEl.textContent = "Select a track";
+  artistEl.textContent = "KrispyKP";
+  clearProgress();
+  playBtn.textContent = "▶";
+  setPlaybackState("idle");
+  updateLyrics(null);
+}
+
+function loadTrackArtwork(track) {
+  const source = track.art || "/assets/logo.png";
+  const label = `${track.name || "Current track"} artwork`;
+  const request = ++artworkRequest;
+  const image = new Image();
+  artEl.dataset.artState = "loading";
+  artEl.dataset.artLabel = "Loading artwork";
+  artEl.setAttribute("aria-label", `Loading ${label}`);
+
+  image.addEventListener("load", () => {
+    if (request !== artworkRequest) return;
+    artEl.style.backgroundImage = `url("${source}")`;
+    artEl.dataset.artState = "ready";
+    artEl.dataset.artLabel = label;
+    artEl.setAttribute("aria-label", label);
+  }, { once: true });
+
+  image.addEventListener("error", () => {
+    if (request !== artworkRequest) return;
+    artEl.style.backgroundImage = "url('/assets/logo.png')";
+    artEl.dataset.artState = "error";
+    artEl.dataset.artLabel = "Artwork unavailable";
+    artEl.setAttribute("aria-label", `${label} unavailable; showing the KrispyKP logo`);
+  }, { once: true });
+
+  image.src = source;
+}
+
+function updateTrackDisplay(track) {
+  loadTrackArtwork(track);
+  songEl.textContent = track.name || "Unknown track";
+  artistEl.textContent = track.artist || "Unknown artist";
+  updateLyrics(track);
+}
+
+function rebuildShufflePool(excludeTrackId = currentTrackId, useLibraryScope = false) {
+  const sourceTracks = useLibraryScope ? getPlayableTracks(allTracks) : getPlayableTracks(activeTracks);
+
+  const trackIds = sourceTracks
+    .map(track => track.id)
+    .filter(trackId => trackId !== excludeTrackId);
+
+  for (let i = trackIds.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [trackIds[i], trackIds[j]] = [trackIds[j], trackIds[i]];
+  }
+
+  shufflePool = trackIds;
+}
+
+function resetPlaybackSequence() {
+  playHistory = [];
+
+  if (shuffle) {
+    rebuildShufflePool(currentTrackId, repeatMode === "library");
+  } else {
+    shufflePool = [];
+  }
+}
+
+function syncActivePlaybackScope({ preserveCurrent = false, emptyStatus = "No playable tracks in this list" } = {}) {
+  const previousTrackId = currentTrackId;
+  refreshActiveTracks();
+
+  const currentRemainsPlayable = preserveCurrent && getPlayableTracks(activeTracks)
+    .some(track => track.id === previousTrackId);
+
+  if (!currentRemainsPlayable) {
+    currentTrackId = "";
+  }
+
+  renderList();
+
+  const firstPlayable = getPlayableTracks(activeTracks)[0];
+
+  if (!currentTrackId && firstPlayable) {
+    loadTrackById(firstPlayable.id, false, false);
+  } else if (!firstPlayable) {
+    audio.pause();
+    currentTrackId = "";
+    clearPlayerDisplay();
+    setStatus(emptyStatus);
+  }
+
+  resetPlaybackSequence();
+}
+
+function getFilteredTrackEntries() {
+  const query = searchEl.value.trim().toLowerCase();
+
+  return activeTracks
+    .map((track, index) => ({ track, index }))
+    .filter(({ track }) => {
+      const haystack = `${track.name || ""} ${track.artist || ""} ${track.album || ""}`.toLowerCase();
+      return !query || haystack.includes(query);
+    });
+}
+
+function renderList() {
+  tracksEl.innerHTML = "";
+
+  const entries = getFilteredTrackEntries();
+
+  if (!entries.length) {
+    const empty = document.createElement("div");
+    empty.className = "track-item unavailable";
+    empty.innerHTML = `<div class="thumb" style="background-image:url('/assets/logo.png')"></div>
+      <div><div class="t-name">No tracks match</div><div class="t-artist">Try a different search or playlist.</div></div>
+      <div class="t-tag">Empty</div>`;
+    tracksEl.appendChild(empty);
+    return;
+  }
+
+  entries.forEach(({ track, index }) => {
+    const item = document.createElement("button");
+    item.type = "button";
+    item.dataset.trackId = track.id;
+    item.className = "track-item" + (track.id === currentTrackId ? " active" : "") + (track.available ? "" : " unavailable");
+    item.addEventListener("click", () => {
+      loadTrackByIndex(index, true, true);
+
+      const replacement = Array.from(tracksEl.querySelectorAll(".track-item"))
+        .find(trackItem => trackItem.dataset.trackId === track.id);
+      if (replacement) replacement.focus();
+    });
+
+    const thumb = document.createElement("span");
+    thumb.className = "thumb";
+    thumb.style.backgroundImage = `url(${track.art || "/assets/logo.png"})`;
+
+    const meta = document.createElement("span");
+    meta.className = "track-item-meta";
+
+    const name = document.createElement("span");
+    name.className = "t-name";
+    name.textContent = track.name || "Unknown track";
+
+    const artist = document.createElement("span");
+    artist.className = "t-artist";
+    artist.textContent = track.album || track.artist || "Unknown artist";
+
+    meta.append(name, artist);
+
+    const tag = document.createElement("span");
+    tag.className = "t-tag";
+
+    if (!track.available || !track.file) {
+      tag.textContent = "Unavailable";
+    } else if (track.id === currentTrackId) {
+      tag.textContent = "Loaded";
+    } else {
+      tag.textContent = "Ready";
+    }
+
+    item.append(thumb, meta, tag);
+    tracksEl.appendChild(item);
+  });
+}
+
+function syncTrackUrl(trackId, mode = "push") {
+  const url = new URL(window.location.href);
+  url.searchParams.set("track", trackId);
+  window.history[mode === "replace" ? "replaceState" : "pushState"]({ trackId }, "", url);
+}
+
+function loadTrackById(trackId, autoplay = false, pushHistory = true, urlMode = "push") {
+  const nextIndex = activeTracks.findIndex(track => track.id === trackId);
+  if (nextIndex === -1) return;
+  loadTrackByIndex(nextIndex, autoplay, pushHistory, urlMode);
+}
+
+function loadTrackByIndex(index, autoplay = false, pushHistory = true, urlMode = "push") {
+  if (index < 0 || index >= activeTracks.length) return;
+
+  const track = activeTracks[index];
+
+  if (pushHistory && currentTrackId && currentTrackId !== track.id) {
+    playHistory.push(currentTrackId);
+  }
+
+  currentTrackId = track.id;
+  updateTrackDisplay(track);
+  if (urlMode) syncTrackUrl(track.id, urlMode);
+
+  audio.pause();
+  audio.src = track.file || "";
+  audio.currentTime = 0;
+  clearProgress();
+  setPlaybackState("ready");
+
+  if (shuffle) {
+    shufflePool = shufflePool.filter(trackId => trackId !== currentTrackId);
+  }
+
+  renderList();
+
+  if (!track.available || !track.file) {
+    playBtn.textContent = "▶";
+    setStatus("Track unavailable");
+    return;
+  }
+
+  if (autoplay) {
+    audio.play()
+      .then(() => {
+        playBtn.textContent = "⏸";
+        setStatus("Playing");
+      })
+      .catch(() => {
+        playBtn.textContent = "▶";
+        setStatus("Playback blocked by browser");
+      });
+  } else {
+    playBtn.textContent = "▶";
+    setStatus("Ready");
+  }
+}
+
+function togglePlay() {
+  const track = getCurrentTrack();
+
+  if (!track || !track.available || !track.file) {
+    setStatus("Track unavailable");
+    return;
+  }
+
+  if (audio.paused) {
+    audio.play()
+      .then(() => {
+        playBtn.textContent = "⏸";
+        setStatus("Playing");
+      })
+      .catch(() => {
+        setStatus("Playback blocked by browser");
+      });
+  } else {
+    audio.pause();
+    playBtn.textContent = "▶";
+    setStatus("Paused");
+  }
+}
+
+function moveToTrack(trackId, autoplay = true, pushHistory = true) {
+  if (activeTracks.some(track => track.id === trackId)) {
+    loadTrackById(trackId, autoplay, pushHistory);
+    return;
+  }
+
+  activePlaylistId = "all-tracks";
+  refreshActiveTracks();
+  populatePlaylistSelect();
+  renderList();
+  loadTrackById(trackId, autoplay, pushHistory);
+}
+
+function getNextTrackIdInLibrary() {
+  const libraryTracks = getPlayableTracks(allTracks);
+  if (!libraryTracks.length) return "";
+
+  const currentLibraryIndex = libraryTracks.findIndex(track => track.id === currentTrackId);
+
+  if (currentLibraryIndex === -1) {
+    return libraryTracks[0].id;
+  }
+
+  const nextIndex = (currentLibraryIndex + 1) % libraryTracks.length;
+  return libraryTracks[nextIndex].id;
+}
+
+function getPrevTrackIdInLibrary() {
+  const libraryTracks = getPlayableTracks(allTracks);
+  if (!libraryTracks.length) return "";
+
+  const currentLibraryIndex = libraryTracks.findIndex(track => track.id === currentTrackId);
+
+  if (currentLibraryIndex === -1) {
+    return libraryTracks[0].id;
+  }
+
+  const prevIndex = (currentLibraryIndex - 1 + libraryTracks.length) % libraryTracks.length;
+  return libraryTracks[prevIndex].id;
+}
+
+function nextTrack() {
+  if (!activeTracks.length) return;
+
+  if (repeatMode === "track") {
+    audio.currentTime = 0;
+    audio.play().catch(() => {
+      setStatus("Playback blocked by browser");
+    });
+    return;
+  }
+
+  if (shuffle) {
+    if (shufflePool.length === 0) {
+      if (repeatMode === "playlist") {
+        rebuildShufflePool(currentTrackId, false);
+      } else if (repeatMode === "library") {
+        rebuildShufflePool(currentTrackId, true);
+      } else {
+        audio.pause();
+        playBtn.textContent = "▶";
+        setStatus("Ended");
+        return;
+      }
+    }
+
+    if (shufflePool.length > 0) {
+      const nextTrackId = shufflePool.shift();
+      moveToTrack(nextTrackId, true, true);
+      return;
+    }
+  }
+
+  const currentIndex = getCurrentTrackIndex();
+
+  if (currentIndex === -1) {
+    const firstPlayable = getPlayableTracks(activeTracks)[0];
+    if (firstPlayable) {
+      loadTrackById(firstPlayable.id, true, true);
+    }
+    return;
+  }
+
+  let nextIndex = currentIndex + 1;
+  while (nextIndex < activeTracks.length && (!activeTracks[nextIndex].available || !activeTracks[nextIndex].file)) {
+    nextIndex += 1;
+  }
+
+  if (nextIndex < activeTracks.length) {
+    loadTrackByIndex(nextIndex, true, true);
+    return;
+  }
+
+  if (repeatMode === "playlist") {
+    const firstPlayable = getPlayableTracks(activeTracks)[0];
+    if (firstPlayable) {
+      loadTrackById(firstPlayable.id, true, true);
+      return;
+    }
+  }
+
+  if (repeatMode === "library") {
+    const nextLibraryTrackId = getNextTrackIdInLibrary();
+    if (nextLibraryTrackId) {
+      moveToTrack(nextLibraryTrackId, true, true);
+      return;
+    }
+  }
+
+  audio.pause();
+  playBtn.textContent = "▶";
+  setStatus("Ended");
+}
+
+function prevTrack() {
+  if (!activeTracks.length) return;
+
+  if (shuffle && playHistory.length > 0) {
+    const previousTrackId = playHistory.pop();
+    moveToTrack(previousTrackId, true, false);
+    return;
+  }
+
+  if (repeatMode === "library") {
+    const previousTrackId = getPrevTrackIdInLibrary();
+    if (previousTrackId) {
+      moveToTrack(previousTrackId, true, false);
+      return;
+    }
+  }
+
+  const currentIndex = getCurrentTrackIndex();
+
+  if (currentIndex <= 0) {
+    const firstPlayable = getPlayableTracks(activeTracks)[0];
+    if (firstPlayable) {
+      loadTrackById(firstPlayable.id, true, false);
+    }
+    return;
+  }
+
+  let previousIndex = currentIndex - 1;
+  while (previousIndex >= 0 && (!activeTracks[previousIndex].available || !activeTracks[previousIndex].file)) {
+    previousIndex -= 1;
+  }
+
+  if (previousIndex >= 0) {
+    loadTrackByIndex(previousIndex, true, false);
+  }
+}
+
+function stopTrack() {
+  audio.pause();
+  audio.currentTime = 0;
+  playBtn.textContent = "▶";
+  setPlaybackState("stopped");
+  setStatus("Stopped");
+}
+
+function toggleShuffle() {
+  shuffle = !shuffle;
+  shuffleBtn.classList.toggle("active", shuffle);
+  shuffleBtn.setAttribute("aria-pressed", String(shuffle));
+
+  if (shuffle) {
+    rebuildShufflePool(currentTrackId, repeatMode === "library");
+    playHistory = [];
+  } else {
+    shufflePool = [];
+    playHistory = [];
+  }
+}
+
+function toggleRepeat() {
+  const order = ["off", "library", "playlist", "track"];
+  const currentPosition = order.indexOf(repeatMode);
+  repeatMode = order[(currentPosition + 1) % order.length];
+  updateRepeatButton();
+
+  if (shuffle) {
+    rebuildShufflePool(currentTrackId, repeatMode === "library");
+  }
+}
+
+function toggleMute() {
+  muted = !muted;
+  audio.muted = muted;
+  muteBtn.classList.toggle("active", muted);
+  muteBtn.setAttribute("aria-pressed", String(muted));
+  muteBtn.textContent = muted ? "Unmute" : "Mute";
+}
+
+function saveCustomSelection() {
+  const selectedIds = Array.from(customTracksEl.querySelectorAll('input[type="checkbox"]:checked'))
+    .map(input => input.value);
+
+  saveCustomTrackIds(selectedIds);
+  saveCustomPlaylistName(customPlaylistNameEl.value.trim() || "My Selection");
+  renderCustomTrackBuilder();
+  populatePlaylistSelect();
+
+  if (selectedIds.length) {
+    activePlaylistId = "custom-selection";
+    playlistSelectEl.value = activePlaylistId;
+    syncActivePlaybackScope({ preserveCurrent: true });
+    setStatus(storageUnavailable ? "Custom selection available for this page" : "Custom selection saved");
+  } else {
+    setStatus("No tracks selected");
+  }
+}
+
+function loadSavedCustomSelection() {
+  const selectedIds = getSavedCustomTrackIds();
+
+  if (!selectedIds.length) {
+    setStatus("No saved custom selection");
+    return;
+  }
+
+  activePlaylistId = "custom-selection";
+  populatePlaylistSelect();
+  playlistSelectEl.value = activePlaylistId;
+  renderCustomTrackBuilder();
+  syncActivePlaybackScope();
+  setStatus(storageUnavailable ? "Loaded selection for this page" : "Loaded saved selection");
+}
+
+function clearCustomSelection() {
+  const customSelectionWasActive = activePlaylistId === "custom-selection";
+
+  saveCustomTrackIds([]);
+  saveCustomPlaylistName("My Selection");
+  renderCustomTrackBuilder();
+  populatePlaylistSelect();
+
+  if (customSelectionWasActive) {
+    activePlaylistId = "all-tracks";
+    playlistSelectEl.value = activePlaylistId;
+    syncActivePlaybackScope();
+  }
+
+  setStatus(storageUnavailable ? "Custom selection cleared for this page" : "Custom selection cleared");
+}
+
+function exportCustomSelection() {
+  const selectedIds = getSavedCustomTrackIds();
+
+  if (!selectedIds.length) {
+    setStatus("No custom selection to export");
+    return;
+  }
+
+  const payload = {
+    name: getSavedCustomPlaylistName(),
+    trackIds: selectedIds,
+    exportedAt: new Date().toISOString()
+  };
+
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `${slugSafeName(payload.name)}.json`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+
+  setStatus("Custom selection exported");
+}
+
+function importCustomSelection(file) {
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(String(reader.result || "{}"));
+      const availableIds = new Set(allTracks.map(track => track.id));
+      const importedIds = Array.isArray(parsed.trackIds)
+        ? parsed.trackIds.filter(trackId => availableIds.has(trackId))
+        : [];
+
+      if (!importedIds.length) {
+        setStatus("Imported file contains no valid tracks");
+        return;
+      }
+
+      saveCustomTrackIds(importedIds);
+      saveCustomPlaylistName(parsed.name || "My Selection");
+      activePlaylistId = "custom-selection";
+
+      populatePlaylistSelect();
+      renderCustomTrackBuilder();
+      syncActivePlaybackScope();
+
+      setStatus(storageUnavailable ? "Custom selection imported for this page" : "Custom selection imported");
+    } catch (error) {
+      setStatus("Invalid playlist file");
+    }
+  };
+
+  reader.readAsText(file);
+}
+
+playlistSelectEl.addEventListener("change", () => {
+  activePlaylistId = playlistSelectEl.value;
+  syncActivePlaybackScope();
+});
+
+searchEl.addEventListener("input", renderList);
+
+saveCustomBtn.addEventListener("click", saveCustomSelection);
+loadCustomBtn.addEventListener("click", loadSavedCustomSelection);
+exportCustomBtn.addEventListener("click", exportCustomSelection);
+importCustomBtn.addEventListener("click", () => importCustomInput.click());
+importCustomInput.addEventListener("change", event => {
+  const file = event.target.files && event.target.files[0];
+  if (file) {
+    importCustomSelection(file);
+  }
+  importCustomInput.value = "";
+});
+clearCustomBtn.addEventListener("click", clearCustomSelection);
+
+if (lyricsToggleBtn) {
+  lyricsToggleBtn.addEventListener("click", toggleLyricsPanel);
+  window.addEventListener("resize", syncLyricsPanelForViewport);
+}
+
+audio.ontimeupdate = syncSeekDisplay;
+audio.onloadedmetadata = syncSeekDisplay;
+audio.ondurationchange = syncSeekDisplay;
+
+audio.onplay = () => {
+  playBtn.textContent = "⏸";
+  setPlaybackState("playing");
+  setStatus("Playing");
+};
+
+audio.onpause = () => {
+  playBtn.textContent = "▶";
+  if (playerPanel?.dataset.playbackState !== "stopped") setPlaybackState("paused");
+  if (audio.currentTime > 0 && audio.currentTime < (audio.duration || Infinity)) {
+    setStatus("Paused");
+  }
+};
+
+audio.onended = () => {
+  setPlaybackState("ended");
+  nextTrack();
+};
+
+volumeEl.oninput = () => {
+  audio.volume = Number(volumeEl.value);
+};
+
+function updateSeekFromClientX(clientX) {
+  if (!audio.duration) return;
+
+  const rect = seekEl.getBoundingClientRect();
+  const rawPercent = (clientX - rect.left) / rect.width;
+  const percent = Math.max(0, Math.min(1, rawPercent));
+
+  audio.currentTime = percent * audio.duration;
+  syncSeekDisplay();
+}
+
+function updateSeekFromKeyboard(event) {
+  if (!audio.duration) return;
+
+  const seekSteps = {
+    ArrowLeft: -5,
+    ArrowDown: -5,
+    ArrowRight: 5,
+    ArrowUp: 5,
+    PageDown: -(audio.duration * 0.1),
+    PageUp: audio.duration * 0.1
+  };
+
+  let nextTime;
+
+  if (event.key === "Home") {
+    nextTime = 0;
+  } else if (event.key === "End") {
+    nextTime = audio.duration;
+  } else if (Object.prototype.hasOwnProperty.call(seekSteps, event.key)) {
+    nextTime = audio.currentTime + seekSteps[event.key];
+  } else {
+    return;
+  }
+
+  event.preventDefault();
+  audio.currentTime = Math.max(0, Math.min(nextTime, audio.duration));
+  syncSeekDisplay();
+}
+
+let isSeeking = false;
+
+seekEl.addEventListener("pointerdown", event => {
+  if (!audio.duration) return;
+
+  isSeeking = true;
+  seekEl.setPointerCapture(event.pointerId);
+  updateSeekFromClientX(event.clientX);
+});
+
+seekEl.addEventListener("pointermove", event => {
+  if (!isSeeking) return;
+  updateSeekFromClientX(event.clientX);
+});
+
+seekEl.addEventListener("pointerup", event => {
+  if (!isSeeking) return;
+
+  updateSeekFromClientX(event.clientX);
+  isSeeking = false;
+
+  if (seekEl.hasPointerCapture(event.pointerId)) {
+    seekEl.releasePointerCapture(event.pointerId);
+  }
+});
+
+seekEl.addEventListener("pointercancel", event => {
+  isSeeking = false;
+
+  if (seekEl.hasPointerCapture(event.pointerId)) {
+    seekEl.releasePointerCapture(event.pointerId);
+  }
+});
+
+seekEl.addEventListener("keydown", updateSeekFromKeyboard);
+
+audio.volume = Number(volumeEl.value);
+
+populatePlaylistSelect();
+refreshActiveTracks();
+renderCustomTrackBuilder();
+updateRepeatButton();
+renderList();
+syncLyricsPanelForViewport();
+
+const requestedTrack = allTracks.find(track => track.id === requestedTrackId && track.available && track.file);
+const firstPlayable = requestedTrack || getPlayableTracks(activeTracks)[0];
+if (firstPlayable) {
+  loadTrackById(firstPlayable.id, false, false, requestedTrackId ? "replace" : null);
+} else {
+  clearPlayerDisplay();
+}
+
+window.addEventListener("popstate", () => {
+  const id = new URLSearchParams(window.location.search).get("track");
+  const target = allTracks.find(track => track.id === id && track.available && track.file);
+  if (target) {
+    activePlaylistId = "all-tracks";
+    playlistSelectEl.value = activePlaylistId;
+    refreshActiveTracks();
+    loadTrackById(target.id, false, false, null);
+  }
+});
