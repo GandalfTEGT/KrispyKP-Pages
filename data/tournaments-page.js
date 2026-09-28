@@ -15,6 +15,7 @@
     description: document.getElementById("tournamentDescription"),
     organizerPanel: document.getElementById("tournamentOrganizerPanel"),
     organizerValue: document.getElementById("tournamentOrganizerValue"),
+    lastUpdated: document.getElementById("tournamentLastUpdated"),
     quickInfo: document.getElementById("tournamentQuickInfo"),
 
     bracketSection: document.getElementById("tournamentBracketSection"),
@@ -87,7 +88,7 @@
   }
 
   function isSpoilerModeApplicable(event) {
-    return event?.status === "live";
+    return event?.status === "live" || event?.status === "awaiting-results";
   }
 
   function applySpoilerPresentation(event) {
@@ -98,6 +99,16 @@
       els.content.dataset.spoilersHidden = String(hidden);
     }
     if (els.spoilerNotice) els.spoilerNotice.hidden = !hidden;
+    [els.resultsSection, els.stageSection, els.bracketBody].forEach((surface) => {
+      if (!surface) return;
+      if (hidden) {
+        surface.setAttribute("aria-hidden", "true");
+        surface.inert = true;
+      } else {
+        surface.removeAttribute("aria-hidden");
+        surface.inert = false;
+      }
+    });
     return hidden;
   }
 
@@ -112,6 +123,33 @@
 
   function text(value, fallback = "") {
     return value == null || value === "" ? fallback : String(value);
+  }
+
+  function isArchivedEvent(event) {
+    return event?.status === "completed" || event?.status === "cancelled";
+  }
+
+  function getEventDisplayName(event, value) {
+    const source = text(value, "");
+    if (!source || !isArchivedEvent(event)) return source;
+    const participant = isArray(event.players).find((item) =>
+      text(item.name).toLocaleLowerCase() === source.toLocaleLowerCase()
+    );
+    return text(participant?.inGameName, source);
+  }
+
+  function getEventDisplayText(event, value) {
+    let display = text(value, "");
+    if (!display || !isArchivedEvent(event)) return display;
+    isArray(event.players)
+      .filter((item) => item.name && item.inGameName && item.name !== item.inGameName)
+      .sort((left, right) => right.name.length - left.name.length)
+      .forEach((item) => {
+        const escaped = item.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        display = display.replace(new RegExp(`(^|[^A-Za-z0-9_])${escaped}(?=$|[^A-Za-z0-9_])`, "gi"),
+          (match, prefix) => `${prefix}${item.inGameName}`);
+      });
+    return display;
   }
 
   function isArray(value) {
@@ -495,7 +533,7 @@
     };
   }
 
-  function createManualMatchElement(match, matchIndex) {
+  function createManualMatchElement(match, matchIndex, event) {
     const matchEl = document.createElement("article");
     matchEl.className = "tournament-manual-match";
 
@@ -522,7 +560,7 @@
     player1.className =
       "tournament-manual-player" + (match.winner && match.winner === match.player1 ? " is-winner" : "");
     player1.innerHTML = `
-      <span class="tournament-manual-player-name">${escapeHtml(text(match.player1, "TBD"))}</span>
+      <span class="tournament-manual-player-name">${escapeHtml(getEventDisplayName(event, text(match.player1, "TBD")))}</span>
       <span class="tournament-manual-player-score">${escapeHtml(text(match.score1, ""))}</span>
     `;
 
@@ -530,7 +568,7 @@
     player2.className =
       "tournament-manual-player" + (match.winner && match.winner === match.player2 ? " is-winner" : "");
     player2.innerHTML = `
-      <span class="tournament-manual-player-name">${escapeHtml(text(match.player2, "TBD"))}</span>
+      <span class="tournament-manual-player-name">${escapeHtml(getEventDisplayName(event, text(match.player2, "TBD")))}</span>
       <span class="tournament-manual-player-score">${escapeHtml(text(match.score2, ""))}</span>
     `;
 
@@ -538,7 +576,7 @@
     footer.className = "tournament-manual-match-footer";
     footer.innerHTML = `
       <span class="muted">${escapeHtml(text(match.time, ""))}</span>
-      <span>${match.winner ? `Winner: ${escapeHtml(match.winner)}` : ""}</span>
+      <span>${match.winner ? `Winner: ${escapeHtml(getEventDisplayName(event, match.winner))}` : ""}</span>
     `;
 
     players.append(player1, player2);
@@ -579,7 +617,7 @@
     return !window.matchMedia("(max-width: 980px)").matches;
   }
 
-  function createManualBracketGroup(group) {
+  function createManualBracketGroup(group, event) {
     const groupEl = document.createElement("details");
     const groupKeyClass = sanitizeGroupKey(group.key);
     groupEl.className = `tournament-manual-group is-${group.kind} group-key-${groupKeyClass}`;
@@ -663,7 +701,7 @@
         matchesWrap.appendChild(empty);
       } else {
         matches.forEach((match, matchIndex) => {
-          matchesWrap.appendChild(createManualMatchElement(match, matchIndex));
+          matchesWrap.appendChild(createManualMatchElement(match, matchIndex, event));
         });
       }
 
@@ -886,7 +924,7 @@
     stage.appendChild(stageSvg);
 
     groups.forEach((group) => {
-      stage.appendChild(createManualBracketGroup(group));
+      stage.appendChild(createManualBracketGroup(group, event));
     });
 
     els.manualBracketWrap.appendChild(stage);
@@ -961,8 +999,6 @@
       ["Dates", [event.startDate, event.endDate].filter(Boolean).join(" to ") || "TBA"],
       ["Timezone", text(event.timezone, "TBA")]
     ];
-    if (event.lastUpdated) quickInfo.push(["Last Updated", text(event.lastUpdated)]);
-
     renderList(
       els.quickInfo,
       quickInfo,
@@ -980,13 +1016,14 @@
 
     const actions = [];
 
-    if ((event.registrationMode === "challonge" || event.registrationMode === "external") && event.registrationUrl) {
+    const hasRegistrationAction = (event.registrationMode === "challonge" || event.registrationMode === "external") && event.registrationUrl;
+    if (hasRegistrationAction) {
       actions.push(createActionLink("Register", event.registrationUrl, true));
     }
 
     actions.push(createActionLink("View Banner", event.bannerImage));
     const heroBracketUrl = event.bracketUrl || event.bracketEmbedUrl;
-    actions.push(createActionLink(getExternalBracketLabel(heroBracketUrl), heroBracketUrl));
+    actions.push(createActionLink(getExternalBracketLabel(heroBracketUrl), heroBracketUrl, !hasRegistrationAction));
     actions.push(createActionLink("Watch Stream", event.streamUrl));
     actions.push(createActionLink("Rules", event.rulesUrl));
 
@@ -1152,9 +1189,15 @@
     }
 
     renderQuickInfo(event);
+    if (els.lastUpdated) {
+      els.lastUpdated.hidden = !event.lastUpdated;
+      els.lastUpdated.innerHTML = event.lastUpdated
+        ? `<span>Last updated</span><time datetime="${escapeHtml(event.lastUpdated)}">${escapeHtml(event.lastUpdated)}</time>`
+        : "";
+    }
 
     const results = isArray(event.results);
-    const showResults = event.status === "completed" && results.length > 0;
+    const showResults = (event.status === "completed" || event.status === "awaiting-results") && results.length > 0;
     if (els.resultsSection) els.resultsSection.hidden = !showResults;
 
     if (showResults) {
@@ -1164,7 +1207,7 @@
         (item) => `
           <div class="tournament-result-item">
             <span class="tournament-result-place">${escapeHtml(text(item.place, "-"))}</span>
-            <span class="tournament-result-name">${escapeHtml(text(item.name, "TBD"))}</span>
+            <span class="tournament-result-name">${escapeHtml(getEventDisplayName(event, text(item.name, "TBD")))}</span>
             ${item.note ? `<span class="tournament-result-note">${escapeHtml(item.note)}</span>` : ""}
           </div>
         `
@@ -1177,7 +1220,7 @@
       stages.forEach((stage) => {
         const article = document.createElement("article");
         article.className = "tournament-stage-summary";
-        article.innerHTML = `<h3>${escapeHtml(text(stage.title, "Stage"))}</h3><ul>${isArray(stage.entries).map((entry) => `<li>${escapeHtml(text(entry))}</li>`).join("")}</ul>`;
+        article.innerHTML = `<h3>${escapeHtml(text(stage.title, "Stage"))}</h3><ul>${isArray(stage.entries).map((entry) => `<li>${escapeHtml(getEventDisplayText(event, entry))}</li>`).join("")}</ul>`;
         els.stageSummaries.appendChild(article);
       });
     }
@@ -1192,8 +1235,14 @@
       renderList(els.players, players, (item) => {
         const metaBits = [];
         const inGameName = text(item.inGameName, "").trim();
+        const archived = isArchivedEvent(event);
+        const primaryName = archived && inGameName ? inGameName : text(item.name, "Unnamed Player");
 
-        if (inGameName) {
+        if (archived && inGameName && inGameName !== item.name) {
+          metaBits.push(
+            `<span class="tournament-player-meta-pill tournament-player-canonical">Canonical identity: <span>${escapeHtml(text(item.name))}</span></span>`
+          );
+        } else if (inGameName) {
           metaBits.push(
             `<span class="tournament-player-meta-pill tournament-player-in-game">In-game: <span class="tournament-player-in-game-name">${escapeHtml(inGameName)}</span></span>`
           );
@@ -1223,7 +1272,7 @@
           <div class="tournament-player-item">
             <div class="tournament-player-main">
               ${item.seed != null && item.seed !== "" ? `<span class="tournament-player-seed">#${escapeHtml(item.seed)}</span>` : ""}
-              <span class="tournament-player-name">${escapeHtml(text(item.name, "Unnamed Player"))}</span>
+              <span class="tournament-player-name">${escapeHtml(primaryName)}</span>
             </div>
             ${metaBits.length ? `<div class="tournament-player-meta">${metaBits.join("")}</div>` : ""}
           </div>
