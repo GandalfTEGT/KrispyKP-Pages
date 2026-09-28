@@ -361,9 +361,9 @@ window.KRISPY_TOURNAMENTS = {
                   "player2": "MC RUSTY",
                   "slot1From": "",
                   "slot2From": "",
-                  "score1": "",
-                  "score2": "",
-                  "winner": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "MC RUSTY",
                   "note": "Bo5",
                   "time": ""
                 },
@@ -402,7 +402,7 @@ window.KRISPY_TOURNAMENTS = {
                   "id": "m11",
                   "title": "Match 11",
                   "player1": "Winner of Match 5",
-                  "player2": "Winner of Match 3",
+                  "player2": "MC RUSTY",
                   "slot1From": "m5",
                   "slot2From": "m3",
                   "score1": "",
@@ -469,7 +469,7 @@ window.KRISPY_TOURNAMENTS = {
                 {
                   "id": "m7",
                   "title": "Match 7",
-                  "player1": "Loser of Match 3",
+                  "player1": "DANKU",
                   "player2": "Loser of Match 2",
                   "slot1From": "m3",
                   "slot2From": "m2",
@@ -620,7 +620,7 @@ window.KRISPY_TOURNAMENTS = {
           "seed": "2",
           "flag": "Scotland",
           "flagImage": "data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20800%20480%22%20aria-label%3D%22Flag%20of%20Scotland%22%20role%3D%22img%22%3E%3Crect%20x%3D%220%22%20y%3D%220%22%20width%3D%22800%22%20height%3D%22480%22%20fill%3D%22%23005eb8%22%20%2F%3E%3Cpath%20d%3D%22M0%200%20800%20480M800%200%200%20480%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%2280%22%20%2F%3E%3C%2Fsvg%3E",
-          "inGameName": "KRISPY",
+          "inGameName": "ӄʀɨֆքʏ",
           "note": ""
         },
         {
