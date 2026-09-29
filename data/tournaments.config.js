@@ -289,7 +289,7 @@ window.KRISPY_TOURNAMENTS = {
       "startDate": "2026-09-14 12:00",
       "endDate": "",
       "timezone": "BST",
-      "lastUpdated": "2026-09-26",
+      "lastUpdated": "2026-09-29",
       "prizePool": "",
       "bannerImage": "/assets/tbanners/td-invasion.webp",
       "description": "A special crossover tournament featuring Tiberian Dawn players competing in Red Alert. The event uses a winners and losers bracket, so players must lose twice to be eliminated, except in the Grand Final. The undefeated finalist enters the Grand Final with a 1-0 advantage.",
