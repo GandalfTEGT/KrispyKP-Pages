@@ -74,7 +74,9 @@ try {
 
   for (const [name, mutation] of [
     ["Internal evidence in a public note", 'window.KRISPY_TOURNAMENTS.events[0].players[0].note = "screenshot evidence supplied by owner";'],
-    ["Invalid provenance type", 'window.KRISPY_TOURNAMENTS.events[0].players[0].provenance = { evidence: "source" };']
+    ["Invalid provenance type", 'window.KRISPY_TOURNAMENTS.events[0].players[0].provenance = { evidence: "source" };'],
+    ["Invalid result scope", 'window.KRISPY_TOURNAMENTS.events[4].resultsScope = "knockout-assumed";'],
+    ["Empty completed scoped standings", 'window.KRISPY_TOURNAMENTS.events[4].results = [];']
   ]) {
     try {
       fs.appendFileSync(targets.config, `\n${mutation}\n`, "utf8");

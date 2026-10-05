@@ -1,0 +1,1553 @@
+{
+  "generatedAt": "2026-10-05T13:07:37.606Z",
+  "acceptedWebsiteBaseline": "a08c39b590296bc35b06500b3ffb9203a5b0cd04",
+  "branch": "codex/tournament-identity-provenance",
+  "standard": {
+    "schemaVersion": 1,
+    "generatedAt": "2026-10-05T13:02:12.021Z",
+    "platform": "win32 10.0.26200 / Node v24.21.0",
+    "profile": "standard",
+    "status": "PASS",
+    "scope": {
+      "base": "origin/main",
+      "files": [
+        "README-tournament-rules.md",
+        "Review-Tournament-Changes.cmd",
+        "assets/trules/td-champions-league-2024-rules.pdf",
+        "assets/trules/td-home-nations-2023-rules.pdf",
+        "assets/trules/td-invasion-red-alert-2025-rules.pdf",
+        "assets/trules/td-invasion-rules.pdf",
+        "assets/trules/td-oceania-2023-rules.pdf",
+        "data/tournaments-page.js",
+        "data/tournaments.config.js",
+        "docs/TOURNAMENT-CONTRACT.md",
+        "docs/VALIDATION.md",
+        "tasks/TOURNAMENT-REMEDIATION-BUILDER-SYNC.md",
+        "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION-PRESERVATION.json",
+        "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION.md",
+        "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-HANDOFF.md",
+        "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-MIGRATION.json",
+        "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-VALIDATION.json",
+        "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE.md",
+        "tools/fonts/DejaVu-LICENSE.txt",
+        "tools/fonts/DejaVuSans.ttf",
+        "tools/generate-tournament-rules.py",
+        "tools/migrate-tournament-provenance.mjs",
+        "tools/self-test-validator.mjs",
+        "tools/serve-review.mjs",
+        "tools/validate-browser.mjs",
+        "tools/validate-site-config.mjs",
+        "tools/validate-tournament-identity.mjs",
+        "tools/validate-tournament-rules.py"
+      ],
+      "pages": [
+        "tournaments",
+        "home",
+        "contact"
+      ],
+      "extras": [
+        "tournament-artifacts",
+        "builder-compatibility"
+      ],
+      "reasons": []
+    },
+    "summary": {
+      "checks": 63,
+      "failures": 0,
+      "warnings": 0
+    },
+    "manual": [
+      "Public tournament schema changed: private Tournament Builder compatibility requires separate authorised evidence.",
+      "Tournament rules/PDF artifacts changed: render and visually inspect generated PDFs; do not overwrite source during validation.",
+      "Chromium automation does not prove subjective visual quality, physical touch, screen-reader quality, true zoom, non-Chromium behavior, hidden-tab behavior or external service delivery."
+    ],
+    "results": [
+      {
+        "schemaVersion": 1,
+        "generatedAt": "2026-10-05T13:01:40.635Z",
+        "profile": "standard",
+        "status": "PASS",
+        "scope": {
+          "base": "origin/main",
+          "files": [
+            "README-tournament-rules.md",
+            "Review-Tournament-Changes.cmd",
+            "assets/trules/td-champions-league-2024-rules.pdf",
+            "assets/trules/td-home-nations-2023-rules.pdf",
+            "assets/trules/td-invasion-red-alert-2025-rules.pdf",
+            "assets/trules/td-invasion-rules.pdf",
+            "assets/trules/td-oceania-2023-rules.pdf",
+            "data/tournaments-page.js",
+            "data/tournaments.config.js",
+            "docs/TOURNAMENT-CONTRACT.md",
+            "docs/VALIDATION.md",
+            "tasks/TOURNAMENT-REMEDIATION-BUILDER-SYNC.md",
+            "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION-PRESERVATION.json",
+            "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION.md",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-HANDOFF.md",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-MIGRATION.json",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-VALIDATION.json",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE.md",
+            "tools/fonts/DejaVu-LICENSE.txt",
+            "tools/fonts/DejaVuSans.ttf",
+            "tools/generate-tournament-rules.py",
+            "tools/migrate-tournament-provenance.mjs",
+            "tools/self-test-validator.mjs",
+            "tools/serve-review.mjs",
+            "tools/validate-browser.mjs",
+            "tools/validate-site-config.mjs",
+            "tools/validate-tournament-identity.mjs",
+            "tools/validate-tournament-rules.py"
+          ],
+          "pages": [
+            "tournaments",
+            "home",
+            "contact"
+          ],
+          "extras": [
+            "tournament-artifacts",
+            "builder-compatibility"
+          ],
+          "reasons": []
+        },
+        "checks": [
+          {
+            "name": "javascript:syntax",
+            "status": "PASS",
+            "message": "40 JavaScript files parsed"
+          },
+          {
+            "name": "configuration:site",
+            "status": "PASS",
+            "message": "Configuration validation passed: 5 tournament event, 125 matches, 60 tracks, 4 music playlists, 8 video categories, 9 video playlists and 130 local asset references."
+          },
+          {
+            "name": "radar-rts:deterministic-loop",
+            "status": "PASS",
+            "message": "RADAR RTS PASS — 272 deterministic checks"
+          },
+          {
+            "name": "git:diff-check",
+            "status": "PASS",
+            "message": "no whitespace errors"
+          },
+          {
+            "name": "html:home:structure",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:home:ids",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "17 unique IDs"
+          },
+          {
+            "name": "html:home:image-dimensions",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "3 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:home:metadata",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:home:references",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:music:structure",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:music:ids",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "30 unique IDs"
+          },
+          {
+            "name": "html:music:image-dimensions",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:music:metadata",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:music:references",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:videos:structure",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:videos:ids",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "25 unique IDs"
+          },
+          {
+            "name": "html:videos:image-dimensions",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:videos:metadata",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:videos:references",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:tournaments:structure",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:tournaments:ids",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "46 unique IDs"
+          },
+          {
+            "name": "html:tournaments:image-dimensions",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:tournaments:metadata",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:tournaments:references",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:about:structure",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:about:ids",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "0 unique IDs"
+          },
+          {
+            "name": "html:about:image-dimensions",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:about:metadata",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:about:references",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:contact:structure",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:contact:ids",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "16 unique IDs"
+          },
+          {
+            "name": "html:contact:image-dimensions",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:contact:metadata",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:contact:references",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:privacy:structure",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:privacy:ids",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "0 unique IDs"
+          },
+          {
+            "name": "html:privacy:image-dimensions",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:privacy:metadata",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:privacy:references",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "publishing:text-integrity",
+            "status": "PASS",
+            "message": "31 published content files checked for mojibake/control escapes"
+          },
+          {
+            "name": "publishing:known-platform-urls",
+            "status": "PASS",
+            "message": "known Twitch and Challonge URL shapes checked"
+          },
+          {
+            "name": "publishing:security-txt",
+            "status": "PASS",
+            "file": ".well-known/security.txt",
+            "message": "Contact mailto:contact@krispykp.com; Expires 2027-09-26T00:00:00Z"
+          },
+          {
+            "name": "publishing:web-manifest",
+            "status": "PASS",
+            "file": "site.webmanifest",
+            "message": "2 manifest icons and required identity fields checked"
+          },
+          {
+            "name": "publishing:privacy-disclosure",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "both Formspree forms disclose processing and every primary page links privacy information"
+          },
+          {
+            "name": "css:local-references",
+            "status": "PASS",
+            "message": "9 stylesheets checked"
+          },
+          {
+            "name": "json:syntax",
+            "status": "PASS",
+            "message": "6 JSON files parsed"
+          },
+          {
+            "name": "seo:robots",
+            "status": "PASS",
+            "message": "robots directives checked"
+          },
+          {
+            "name": "seo:sitemap",
+            "status": "PASS",
+            "message": "7 primary routes present"
+          }
+        ],
+        "failures": [],
+        "warnings": [],
+        "manual": [
+          "Public tournament schema changed: private Tournament Builder compatibility requires separate authorised evidence.",
+          "Tournament rules/PDF artifacts changed: render and visually inspect generated PDFs; do not overwrite source during validation."
+        ],
+        "kind": "static"
+      },
+      {
+        "schemaVersion": 1,
+        "generatedAt": "2026-10-05T13:01:43.684Z",
+        "profile": "standard",
+        "status": "PASS",
+        "scope": {
+          "base": "origin/main",
+          "files": [
+            "README-tournament-rules.md",
+            "Review-Tournament-Changes.cmd",
+            "assets/trules/td-champions-league-2024-rules.pdf",
+            "assets/trules/td-home-nations-2023-rules.pdf",
+            "assets/trules/td-invasion-red-alert-2025-rules.pdf",
+            "assets/trules/td-invasion-rules.pdf",
+            "assets/trules/td-oceania-2023-rules.pdf",
+            "data/tournaments-page.js",
+            "data/tournaments.config.js",
+            "docs/TOURNAMENT-CONTRACT.md",
+            "docs/VALIDATION.md",
+            "tasks/TOURNAMENT-REMEDIATION-BUILDER-SYNC.md",
+            "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION-PRESERVATION.json",
+            "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION.md",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-HANDOFF.md",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-MIGRATION.json",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-VALIDATION.json",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE.md",
+            "tools/fonts/DejaVu-LICENSE.txt",
+            "tools/fonts/DejaVuSans.ttf",
+            "tools/generate-tournament-rules.py",
+            "tools/migrate-tournament-provenance.mjs",
+            "tools/self-test-validator.mjs",
+            "tools/serve-review.mjs",
+            "tools/validate-browser.mjs",
+            "tools/validate-site-config.mjs",
+            "tools/validate-tournament-identity.mjs",
+            "tools/validate-tournament-rules.py"
+          ],
+          "pages": [
+            "tournaments",
+            "home",
+            "contact"
+          ],
+          "extras": [
+            "tournament-artifacts",
+            "builder-compatibility"
+          ],
+          "reasons": []
+        },
+        "checks": [
+          {
+            "name": "browser:launch",
+            "status": "PASS",
+            "message": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+          },
+          {
+            "name": "browser:home:390",
+            "status": "PASS",
+            "page": "home",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:music:390",
+            "status": "PASS",
+            "page": "music",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:videos:390",
+            "status": "PASS",
+            "page": "videos",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:tournaments:390",
+            "status": "PASS",
+            "page": "tournaments",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:about:390",
+            "status": "PASS",
+            "page": "about",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:contact:390",
+            "status": "PASS",
+            "page": "contact",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:privacy:390",
+            "status": "PASS",
+            "page": "privacy",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:tournaments:1024",
+            "status": "PASS",
+            "page": "tournaments",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:home:1024",
+            "status": "PASS",
+            "page": "home",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:contact:1024",
+            "status": "PASS",
+            "page": "contact",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "functional:home",
+            "status": "PASS",
+            "message": "mobile menu, semantic schedule state, click-to-load Twitch gate, Uplink order and desktop hero alignment passed"
+          },
+          {
+            "name": "functional:home-layout",
+            "status": "PASS",
+            "message": "hero logo aspect ratio and Twitch gate/player containment passed at seven owner-retest viewports"
+          },
+          {
+            "name": "functional:tournaments",
+            "status": "PASS",
+            "message": "5 events, active spoiler control/persistence/fallback, historical identity, metadata, Back/Forward, deep-link fallback and banner surface passed"
+          },
+          {
+            "name": "functional:tournament-identity",
+            "status": "PASS",
+            "message": "10 event/viewport cases, 250 matches; canonical cards/entrants/winners/results/standings, secondary aliases, public notes, unknown scores and rendered provenance omission passed"
+          }
+        ],
+        "failures": [],
+        "warnings": [],
+        "manual": [
+          "Chromium automation does not prove subjective visual quality, physical touch, screen-reader quality, true zoom, non-Chromium behavior, hidden-tab behavior or external service delivery."
+        ],
+        "kind": "browser"
+      }
+    ]
+  },
+  "acceptance": {
+    "schemaVersion": 1,
+    "generatedAt": "2026-10-05T13:06:23.963Z",
+    "platform": "win32 10.0.26200 / Node v24.21.0",
+    "profile": "acceptance",
+    "status": "PASS",
+    "scope": {
+      "base": "origin/main",
+      "files": [
+        "README-tournament-rules.md",
+        "Review-Tournament-Changes.cmd",
+        "assets/trules/td-champions-league-2024-rules.pdf",
+        "assets/trules/td-home-nations-2023-rules.pdf",
+        "assets/trules/td-invasion-red-alert-2025-rules.pdf",
+        "assets/trules/td-invasion-rules.pdf",
+        "assets/trules/td-oceania-2023-rules.pdf",
+        "data/tournaments-page.js",
+        "data/tournaments.config.js",
+        "docs/TOURNAMENT-CONTRACT.md",
+        "docs/VALIDATION.md",
+        "tasks/TOURNAMENT-REMEDIATION-BUILDER-SYNC.md",
+        "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION-PRESERVATION.json",
+        "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION.md",
+        "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-HANDOFF.md",
+        "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-MIGRATION.json",
+        "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-VALIDATION.json",
+        "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE.md",
+        "tools/fonts/DejaVu-LICENSE.txt",
+        "tools/fonts/DejaVuSans.ttf",
+        "tools/generate-tournament-rules.py",
+        "tools/migrate-tournament-provenance.mjs",
+        "tools/self-test-validator.mjs",
+        "tools/serve-review.mjs",
+        "tools/validate-browser.mjs",
+        "tools/validate-site-config.mjs",
+        "tools/validate-tournament-identity.mjs",
+        "tools/validate-tournament-rules.py"
+      ],
+      "pages": [
+        "tournaments",
+        "home",
+        "contact"
+      ],
+      "extras": [
+        "tournament-artifacts",
+        "builder-compatibility"
+      ],
+      "reasons": []
+    },
+    "summary": {
+      "checks": 94,
+      "failures": 0,
+      "warnings": 0
+    },
+    "manual": [
+      "Public tournament schema changed: private Tournament Builder compatibility requires separate authorised evidence.",
+      "Tournament rules/PDF artifacts changed: render and visually inspect generated PDFs; do not overwrite source during validation.",
+      "Chromium automation does not prove subjective visual quality, physical touch, screen-reader quality, true zoom, non-Chromium behavior, hidden-tab behavior or external service delivery."
+    ],
+    "results": [
+      {
+        "schemaVersion": 1,
+        "generatedAt": "2026-10-05T13:02:31.836Z",
+        "profile": "acceptance",
+        "status": "PASS",
+        "scope": {
+          "base": "origin/main",
+          "files": [
+            "README-tournament-rules.md",
+            "Review-Tournament-Changes.cmd",
+            "assets/trules/td-champions-league-2024-rules.pdf",
+            "assets/trules/td-home-nations-2023-rules.pdf",
+            "assets/trules/td-invasion-red-alert-2025-rules.pdf",
+            "assets/trules/td-invasion-rules.pdf",
+            "assets/trules/td-oceania-2023-rules.pdf",
+            "data/tournaments-page.js",
+            "data/tournaments.config.js",
+            "docs/TOURNAMENT-CONTRACT.md",
+            "docs/VALIDATION.md",
+            "tasks/TOURNAMENT-REMEDIATION-BUILDER-SYNC.md",
+            "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION-PRESERVATION.json",
+            "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION.md",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-HANDOFF.md",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-MIGRATION.json",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-VALIDATION.json",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE.md",
+            "tools/fonts/DejaVu-LICENSE.txt",
+            "tools/fonts/DejaVuSans.ttf",
+            "tools/generate-tournament-rules.py",
+            "tools/migrate-tournament-provenance.mjs",
+            "tools/self-test-validator.mjs",
+            "tools/serve-review.mjs",
+            "tools/validate-browser.mjs",
+            "tools/validate-site-config.mjs",
+            "tools/validate-tournament-identity.mjs",
+            "tools/validate-tournament-rules.py"
+          ],
+          "pages": [
+            "tournaments",
+            "home",
+            "contact"
+          ],
+          "extras": [
+            "tournament-artifacts",
+            "builder-compatibility"
+          ],
+          "reasons": []
+        },
+        "checks": [
+          {
+            "name": "javascript:syntax",
+            "status": "PASS",
+            "message": "40 JavaScript files parsed"
+          },
+          {
+            "name": "configuration:site",
+            "status": "PASS",
+            "message": "Configuration validation passed: 5 tournament event, 125 matches, 60 tracks, 4 music playlists, 8 video categories, 9 video playlists and 130 local asset references."
+          },
+          {
+            "name": "radar-rts:deterministic-loop",
+            "status": "PASS",
+            "message": "RADAR RTS PASS — 272 deterministic checks"
+          },
+          {
+            "name": "git:diff-check",
+            "status": "PASS",
+            "message": "no whitespace errors"
+          },
+          {
+            "name": "html:home:structure",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:home:ids",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "17 unique IDs"
+          },
+          {
+            "name": "html:home:image-dimensions",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "3 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:home:metadata",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:home:references",
+            "status": "PASS",
+            "file": "index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:music:structure",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:music:ids",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "30 unique IDs"
+          },
+          {
+            "name": "html:music:image-dimensions",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:music:metadata",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:music:references",
+            "status": "PASS",
+            "file": "music/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:videos:structure",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:videos:ids",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "25 unique IDs"
+          },
+          {
+            "name": "html:videos:image-dimensions",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:videos:metadata",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:videos:references",
+            "status": "PASS",
+            "file": "videos/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:tournaments:structure",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:tournaments:ids",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "46 unique IDs"
+          },
+          {
+            "name": "html:tournaments:image-dimensions",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:tournaments:metadata",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:tournaments:references",
+            "status": "PASS",
+            "file": "tournaments/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:about:structure",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:about:ids",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "0 unique IDs"
+          },
+          {
+            "name": "html:about:image-dimensions",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:about:metadata",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:about:references",
+            "status": "PASS",
+            "file": "about/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:contact:structure",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:contact:ids",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "16 unique IDs"
+          },
+          {
+            "name": "html:contact:image-dimensions",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:contact:metadata",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:contact:references",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "html:privacy:structure",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "expected one H1 and one main; found H1=1, main=1"
+          },
+          {
+            "name": "html:privacy:ids",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "0 unique IDs"
+          },
+          {
+            "name": "html:privacy:image-dimensions",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "2 image(s) include intrinsic dimensions"
+          },
+          {
+            "name": "html:privacy:metadata",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "core SEO/social metadata present"
+          },
+          {
+            "name": "html:privacy:references",
+            "status": "PASS",
+            "file": "privacy/index.html",
+            "message": "local references resolve"
+          },
+          {
+            "name": "publishing:text-integrity",
+            "status": "PASS",
+            "message": "31 published content files checked for mojibake/control escapes"
+          },
+          {
+            "name": "publishing:known-platform-urls",
+            "status": "PASS",
+            "message": "known Twitch and Challonge URL shapes checked"
+          },
+          {
+            "name": "publishing:security-txt",
+            "status": "PASS",
+            "file": ".well-known/security.txt",
+            "message": "Contact mailto:contact@krispykp.com; Expires 2027-09-26T00:00:00Z"
+          },
+          {
+            "name": "publishing:web-manifest",
+            "status": "PASS",
+            "file": "site.webmanifest",
+            "message": "2 manifest icons and required identity fields checked"
+          },
+          {
+            "name": "publishing:privacy-disclosure",
+            "status": "PASS",
+            "file": "contact/index.html",
+            "message": "both Formspree forms disclose processing and every primary page links privacy information"
+          },
+          {
+            "name": "css:local-references",
+            "status": "PASS",
+            "message": "9 stylesheets checked"
+          },
+          {
+            "name": "json:syntax",
+            "status": "PASS",
+            "message": "6 JSON files parsed"
+          },
+          {
+            "name": "seo:robots",
+            "status": "PASS",
+            "message": "robots directives checked"
+          },
+          {
+            "name": "seo:sitemap",
+            "status": "PASS",
+            "message": "7 primary routes present"
+          }
+        ],
+        "failures": [],
+        "warnings": [],
+        "manual": [
+          "Public tournament schema changed: private Tournament Builder compatibility requires separate authorised evidence.",
+          "Tournament rules/PDF artifacts changed: render and visually inspect generated PDFs; do not overwrite source during validation."
+        ],
+        "kind": "static"
+      },
+      {
+        "schemaVersion": 1,
+        "generatedAt": "2026-10-05T13:02:34.875Z",
+        "profile": "acceptance",
+        "status": "PASS",
+        "scope": {
+          "base": "origin/main",
+          "files": [
+            "README-tournament-rules.md",
+            "Review-Tournament-Changes.cmd",
+            "assets/trules/td-champions-league-2024-rules.pdf",
+            "assets/trules/td-home-nations-2023-rules.pdf",
+            "assets/trules/td-invasion-red-alert-2025-rules.pdf",
+            "assets/trules/td-invasion-rules.pdf",
+            "assets/trules/td-oceania-2023-rules.pdf",
+            "data/tournaments-page.js",
+            "data/tournaments.config.js",
+            "docs/TOURNAMENT-CONTRACT.md",
+            "docs/VALIDATION.md",
+            "tasks/TOURNAMENT-REMEDIATION-BUILDER-SYNC.md",
+            "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION-PRESERVATION.json",
+            "tasks/WEBSITE-OCEANIA-HISTORICAL-CORRECTION.md",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-HANDOFF.md",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-MIGRATION.json",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE-VALIDATION.json",
+            "tasks/WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE.md",
+            "tools/fonts/DejaVu-LICENSE.txt",
+            "tools/fonts/DejaVuSans.ttf",
+            "tools/generate-tournament-rules.py",
+            "tools/migrate-tournament-provenance.mjs",
+            "tools/self-test-validator.mjs",
+            "tools/serve-review.mjs",
+            "tools/validate-browser.mjs",
+            "tools/validate-site-config.mjs",
+            "tools/validate-tournament-identity.mjs",
+            "tools/validate-tournament-rules.py"
+          ],
+          "pages": [
+            "tournaments",
+            "home",
+            "contact"
+          ],
+          "extras": [
+            "tournament-artifacts",
+            "builder-compatibility"
+          ],
+          "reasons": []
+        },
+        "checks": [
+          {
+            "name": "browser:launch",
+            "status": "PASS",
+            "message": "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe"
+          },
+          {
+            "name": "browser:home:320",
+            "status": "PASS",
+            "page": "home",
+            "viewport": 320,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:home:390",
+            "status": "PASS",
+            "page": "home",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:home:768",
+            "status": "PASS",
+            "page": "home",
+            "viewport": 768,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:home:1024",
+            "status": "PASS",
+            "page": "home",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:home:1440",
+            "status": "PASS",
+            "page": "home",
+            "viewport": 1440,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:music:320",
+            "status": "PASS",
+            "page": "music",
+            "viewport": 320,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:music:390",
+            "status": "PASS",
+            "page": "music",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:music:768",
+            "status": "PASS",
+            "page": "music",
+            "viewport": 768,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:music:1024",
+            "status": "PASS",
+            "page": "music",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:music:1440",
+            "status": "PASS",
+            "page": "music",
+            "viewport": 1440,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:videos:320",
+            "status": "PASS",
+            "page": "videos",
+            "viewport": 320,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:videos:390",
+            "status": "PASS",
+            "page": "videos",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:videos:768",
+            "status": "PASS",
+            "page": "videos",
+            "viewport": 768,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:videos:1024",
+            "status": "PASS",
+            "page": "videos",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:videos:1440",
+            "status": "PASS",
+            "page": "videos",
+            "viewport": 1440,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:tournaments:320",
+            "status": "PASS",
+            "page": "tournaments",
+            "viewport": 320,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:tournaments:390",
+            "status": "PASS",
+            "page": "tournaments",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:tournaments:768",
+            "status": "PASS",
+            "page": "tournaments",
+            "viewport": 768,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:tournaments:1024",
+            "status": "PASS",
+            "page": "tournaments",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:tournaments:1440",
+            "status": "PASS",
+            "page": "tournaments",
+            "viewport": 1440,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:about:320",
+            "status": "PASS",
+            "page": "about",
+            "viewport": 320,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:about:390",
+            "status": "PASS",
+            "page": "about",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:about:768",
+            "status": "PASS",
+            "page": "about",
+            "viewport": 768,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:about:1024",
+            "status": "PASS",
+            "page": "about",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:about:1440",
+            "status": "PASS",
+            "page": "about",
+            "viewport": 1440,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:contact:320",
+            "status": "PASS",
+            "page": "contact",
+            "viewport": 320,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:contact:390",
+            "status": "PASS",
+            "page": "contact",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:contact:768",
+            "status": "PASS",
+            "page": "contact",
+            "viewport": 768,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:contact:1024",
+            "status": "PASS",
+            "page": "contact",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:contact:1440",
+            "status": "PASS",
+            "page": "contact",
+            "viewport": 1440,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:privacy:320",
+            "status": "PASS",
+            "page": "privacy",
+            "viewport": 320,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:privacy:390",
+            "status": "PASS",
+            "page": "privacy",
+            "viewport": 390,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:privacy:768",
+            "status": "PASS",
+            "page": "privacy",
+            "viewport": 768,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:privacy:1024",
+            "status": "PASS",
+            "page": "privacy",
+            "viewport": 1024,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "browser:privacy:1440",
+            "status": "PASS",
+            "page": "privacy",
+            "viewport": 1440,
+            "message": "loaded; one H1/main; no first-party errors or document overflow"
+          },
+          {
+            "name": "functional:home",
+            "status": "PASS",
+            "message": "mobile menu, semantic schedule state, click-to-load Twitch gate, Uplink order and desktop hero alignment passed"
+          },
+          {
+            "name": "functional:home-layout",
+            "status": "PASS",
+            "message": "hero logo aspect ratio and Twitch gate/player containment passed at seven owner-retest viewports"
+          },
+          {
+            "name": "functional:music",
+            "status": "PASS",
+            "message": "selection, artwork state, import-control association, command states, valid/invalid deep links and no-autoplay passed"
+          },
+          {
+            "name": "functional:videos",
+            "status": "PASS",
+            "message": "stable 1/2/6/8-card sizing, selection and valid/invalid deep links passed"
+          },
+          {
+            "name": "functional:tournaments",
+            "status": "PASS",
+            "message": "5 events, active spoiler control/persistence/fallback, historical identity, metadata, Back/Forward, deep-link fallback and banner surface passed"
+          },
+          {
+            "name": "functional:tournament-identity",
+            "status": "PASS",
+            "message": "10 event/viewport cases, 250 matches; canonical cards/entrants/winners/results/standings, secondary aliases, public notes, unknown scores and rendered provenance omission passed"
+          },
+          {
+            "name": "functional:radar",
+            "status": "PASS",
+            "message": "exact desktop gate, dormancy/start menu, RTS world, strategic build HUD, pause/focus/resume, live resize preservation, overflow, reduced motion, Command menu/Escape choices, cleanup, repeated activation and all-public-route availability passed"
+          },
+          {
+            "name": "functional:radar-remediation-2",
+            "status": "PASS",
+            "message": "wide-screen stable hover/held click/exactly-one charge at 1899/1900/1920/2560; radial progress; paid build/economy to simultaneous queue HUD and right-click pause/remove; entry/reduced motion; map/difficulty/restart; dormant audio, mute persistence, storage denial and cleanup passed"
+          },
+          {
+            "name": "functional:radar-desktop-1.3",
+            "status": "PASS",
+            "message": "desktop edge/middle pan, sidebar, factions, real paid AI construction/expansion, Command menu resume/quit/leave choices, immediate teardown/restart, spatial entry/exit restoration, reduced motion and supported-size overflow passed"
+          },
+          {
+            "name": "functional:radar-controls-1.4",
+            "status": "PASS",
+            "message": "menu-exit frames, scroll lock/restoration, no native dialogs, configurable controls/settings persistence/restore-defaults/denial, hotkeys/groups/orders, faction/focus feedback and three independent Barracks/Vehicle Bay queues with left-add/resume and right-pause/remove passed"
+          }
+        ],
+        "failures": [],
+        "warnings": [],
+        "manual": [
+          "Chromium automation does not prove subjective visual quality, physical touch, screen-reader quality, true zoom, non-Chromium behavior, hidden-tab behavior or external service delivery."
+        ],
+        "kind": "browser"
+      }
+    ]
+  },
+  "selfTest": {
+    "schemaVersion": 1,
+    "generatedAt": "2026-10-05T12:54:53.339Z",
+    "status": "PASS",
+    "cases": [
+      {
+        "name": "JavaScript syntax error",
+        "status": "PASS",
+        "detectedBy": [
+          "javascript:syntax"
+        ]
+      },
+      {
+        "name": "Missing local asset",
+        "status": "PASS",
+        "detectedBy": [
+          "html:about:image-dimensions",
+          "html:about:references"
+        ]
+      },
+      {
+        "name": "Invalid tournament configuration",
+        "status": "PASS",
+        "detectedBy": [
+          "configuration:site"
+        ]
+      },
+      {
+        "name": "Stale live tournament",
+        "status": "PASS",
+        "detectedBy": [
+          "configuration:site"
+        ]
+      },
+      {
+        "name": "Suspicious mojibake",
+        "status": "PASS",
+        "detectedBy": [
+          "publishing:text-integrity"
+        ]
+      },
+      {
+        "name": "Internal evidence in a public note",
+        "status": "PASS",
+        "detectedBy": [
+          "configuration:site"
+        ]
+      },
+      {
+        "name": "Invalid provenance type",
+        "status": "PASS",
+        "detectedBy": [
+          "configuration:site"
+        ]
+      },
+      {
+        "name": "Invalid result scope",
+        "status": "PASS",
+        "detectedBy": [
+          "configuration:site"
+        ]
+      },
+      {
+        "name": "Empty completed scoped standings",
+        "status": "PASS",
+        "detectedBy": [
+          "configuration:site"
+        ]
+      },
+      {
+        "name": "Malformed known-platform URL",
+        "status": "PASS",
+        "detectedBy": [
+          "publishing:known-platform-urls"
+        ]
+      },
+      {
+        "name": "Horizontal document overflow",
+        "status": "PASS",
+        "detectedBy": [
+          "browser:about:390",
+          "browser:about:1024"
+        ]
+      },
+      {
+        "name": "Music-only change scope",
+        "status": "PASS",
+        "pages": [
+          "music"
+        ],
+        "extras": []
+      },
+      {
+        "name": "Shared command-deck scope",
+        "status": "PASS",
+        "pages": [
+          "home",
+          "music",
+          "videos",
+          "tournaments",
+          "about",
+          "contact",
+          "privacy"
+        ],
+        "extras": []
+      },
+      {
+        "name": "Tournament schema scope",
+        "status": "PASS",
+        "pages": [
+          "home",
+          "tournaments",
+          "contact"
+        ],
+        "extras": [
+          "tournament-artifacts",
+          "builder-compatibility"
+        ]
+      }
+    ],
+    "restoration": [
+      {
+        "file": "data/about.js",
+        "restored": true
+      },
+      {
+        "file": "about/index.html",
+        "restored": true
+      },
+      {
+        "file": "data/tournaments.config.js",
+        "restored": true
+      },
+      {
+        "file": "styles/music.css",
+        "restored": true
+      },
+      {
+        "file": "styles/command-deck.css",
+        "restored": true
+      }
+    ]
+  },
+  "pdfText": [
+    {
+      "eventId": "td-invasion-red-alert-2026",
+      "file": "/assets/trules/td-invasion-rules.pdf",
+      "pages": 2,
+      "players": 10,
+      "status": "PASS"
+    },
+    {
+      "eventId": "td-invasion-red-alert-2025",
+      "file": "/assets/trules/td-invasion-red-alert-2025-rules.pdf",
+      "pages": 2,
+      "players": 10,
+      "status": "PASS"
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "file": "/assets/trules/td-champions-league-2024-rules.pdf",
+      "pages": 3,
+      "players": 20,
+      "status": "PASS"
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "file": "/assets/trules/td-home-nations-2023-rules.pdf",
+      "pages": 3,
+      "players": 10,
+      "status": "PASS"
+    },
+    {
+      "eventId": "td-oceania-championship-2023",
+      "file": "/assets/trules/td-oceania-2023-rules.pdf",
+      "pages": 2,
+      "players": 6,
+      "status": "PASS"
+    }
+  ],
+  "preservation": {
+    "generatedAt": "2026-10-05T13:00:26.933Z",
+    "status": "PASS",
+    "acceptedBaseline": "a08c39b590296bc35b06500b3ffb9203a5b0cd04",
+    "allowedChangedPaths": [
+      "td-oceania-championship-2023.resultsScope",
+      "td-oceania-championship-2023.provenance",
+      "td-oceania-championship-2023.format",
+      "td-oceania-championship-2023.description",
+      "td-oceania-championship-2023.bracketTitle",
+      "td-oceania-championship-2023.stageSummaries[0].title"
+    ],
+    "restorationProof": "Restoring exactly those six field paths reproduces the complete accepted baseline config semantically.",
+    "retained": {
+      "events": 5,
+      "players": 56,
+      "matches": 125,
+      "oceaniaPlayers": 6,
+      "oceaniaMatches": 15,
+      "oceaniaResults": 6,
+      "oceaniaStageEntries": 6,
+      "authoredRulesUnchanged": true,
+      "scoresWinnersPublicNotesAliasesLinksUnchanged": true
+    },
+    "candidateConfigSha256": "2D2E4295AA5D830B137FDFA1FE1B102C44E459227292D94289E02A7E604E8089",
+    "immutableSources": {
+      "ownerArchive": "06D65C1BC84F538FF7CD87C4A400874184CA5C92603913C133B99E268D2407B6",
+      "originalOwnerExport": "06D65C1BC84F538FF7CD87C4A400874184CA5C92603913C133B99E268D2407B6",
+      "canonicalArchive": "12D848C9DF22E48D089DD190FAF9EEDA1AA9FF3B42D4F56484FC39B2868D4A30"
+    },
+    "pdfSha256": "DF36848E4C60DE4EB66DFA0F3DE78A49B42C8C104BEBA57F9F9A6626F9069C71"
+  },
+  "visualReview": {
+    "status": "REVIEWED",
+    "viewports": [
+      390,
+      1440
+    ],
+    "surfaces": [
+      "Oceania public description/format",
+      "scoped result table",
+      "desktop/mobile standings",
+      "participants/secondary aliases",
+      "round-robin bracket"
+    ],
+    "changedPdf": "/assets/trules/td-oceania-2023-rules.pdf",
+    "changedPdfPagesReviewed": [
+      1,
+      2
+    ],
+    "unchangedPdfCount": 4,
+    "localScreenshots": [
+      ".validation/oceania-pdf-review/",
+      ".validation/screenshots/tournaments/"
+    ],
+    "limits": "Targeted visual review is not owner acceptance or physical-device/assistive-technology coverage."
+  },
+  "adminCompatibility": {
+    "status": "INTERIM_PASS",
+    "authority": "Master relayed 16 regression groups, 15 edit cases and 10 rendered previews; final committed Website fixture pending implementation anchor."
+  },
+  "ownerAcceptance": "PENDING for this new correction; prior Website/Admin follow-up accepted.",
+  "mergeDeployAuthority": false
+}

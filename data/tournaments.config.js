@@ -2997,11 +2997,13 @@ window.KRISPY_TOURNAMENTS = {
     {
       "id": "td-oceania-championship-2023",
       "status": "completed",
+      "resultsScope": "round-robin",
+      "provenance": "Owner-authorised historical classification, 5 October 2026. Source: https://challonge.com/vaxcgqjl. VERIFIED: six participants, 15 round-robin matches and scores, and round-robin standings. SUPPORTED: two-stage configuration with an intended knockout/final stage. UNKNOWN: whether knockout was played, actual qualifiers, knockout matches or scores, overall champion and final placements. External source retrieval was unavailable; the owner's explicit evidence classification is authority. Do not infer knockout outcomes from round-robin ranks.",
       "title": "TD Oceania Championship 2023",
       "subtitle": "Six Tiberian Dawn players contested an Oceania round robin",
       "organizer": "JLGAZZA94",
       "game": "Command & Conquer: Tiberian Dawn",
-      "format": "Round Robin",
+      "format": "Round Robin; planned knockout",
       "competitorStructure": "1v1",
       "startDate": "2023-08-21 19:07",
       "endDate": "",
@@ -3010,14 +3012,14 @@ window.KRISPY_TOURNAMENTS = {
       "timezone": "BST",
       "prizePool": "",
       "bannerImage": "/assets/tbanners/td-oceania-2023.webp",
-      "description": "A six-player Tiberian Dawn round robin in which every player faced all five opponents. The archived table records the completed event standings.",
+      "description": "Six players completed a 15-match round robin. A knockout/final stage was planned, but whether it was played and its outcomes are unconfirmed. These are round-robin standings only; the overall champion and final placements are unknown.",
       "registrationMode": "closed",
       "registrationUrl": "",
       "participantSource": "manual",
       "streamUrl": "",
       "rulesUrl": "/assets/trules/td-oceania-2023-rules.pdf",
       "bracketMode": "manual",
-      "bracketTitle": "Round Robin Results",
+      "bracketTitle": "Round Robin Matches",
       "bracketEmbedUrl": "",
       "bracketUrl": "https://challonge.com/vaxcgqjl",
       "manualBracketGroups": [
@@ -3364,7 +3366,7 @@ window.KRISPY_TOURNAMENTS = {
       ],
       "stageSummaries": [
         {
-          "title": "Final round-robin table",
+          "title": "Round Robin Standings",
           "entries": [
             "PEASY — 20 pts (5-0)",
             "JOHNNY — 16 pts (4-1)",

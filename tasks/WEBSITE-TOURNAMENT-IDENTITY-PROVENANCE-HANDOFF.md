@@ -1,6 +1,6 @@
 # Website → Master/Admin: tournament owner-retest follow-up
 
-Owner action after consolidated gate: TEST. Website implementation is VALIDATED; final Admin combined preview follows the Website anchor commit. No merge/deploy authority.
+Preceding coordinated follow-up OWNER ACCEPTED: Website `a08c39b590296bc35b06500b3ffb9203a5b0cd04` / Admin `9f94c5d16391ee38bb1395e26471009bd0f94821`, per owner instruction relayed by Master on 5 October 2026. The historical handoff below is retained. New authorised same-chain correction: see `WEBSITE-OCEANIA-HISTORICAL-CORRECTION.md` for resultsScope/event-provenance mapping and targeted retest. No merge/deploy authority.
 
 ## Single contract and exact legacy mapping
 

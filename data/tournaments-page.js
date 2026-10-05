@@ -44,8 +44,11 @@
     rules: document.getElementById("tournamentRules"),
 
     resultsSection: document.getElementById("tournamentResultsSection"),
+    resultsTitle: document.querySelector("#tournamentResultsSection h2"),
     results: document.getElementById("tournamentResults"),
     stageSection: document.getElementById("tournamentStageSection"),
+    stageTitle: document.querySelector("#tournamentStageSection h2"),
+    stageMobileTitle: document.querySelector("#tournamentStageSection summary"),
     stageSummaries: document.getElementById("tournamentStageSummaries"),
 
     archiveCardsSection: document.getElementById("tournamentArchiveCardsSection"),
@@ -1196,6 +1199,11 @@
     }
 
     const results = isArray(event.results);
+    const roundRobinResults = event.resultsScope === "round-robin";
+    if (els.resultsTitle) els.resultsTitle.textContent = roundRobinResults ? "Round Robin Standings" : "Results";
+    [els.stageTitle, els.stageMobileTitle].forEach(title => {
+      if (title) title.textContent = roundRobinResults ? "Round Robin Standings" : "Group Standings";
+    });
     const showResults = (event.status === "completed" || event.status === "awaiting-results") && results.length > 0;
     if (els.resultsSection) els.resultsSection.hidden = !showResults;
 

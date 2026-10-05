@@ -2,7 +2,7 @@
 
 ## Status
 
-VALIDATED — AWAITING FINAL ADMIN COMBINED PREVIEW. Authorised 5 October 2026. Owner supplied the full coordinated follow-up request through Master. No merge/deploy authority. Website scope only; Admin and Master repositories are not edited here.
+OWNER ACCEPTED (preceding follow-up); OCEANIA CORRECTION IN PROGRESS. Authorised 5 October 2026. Owner supplied the full coordinated follow-up request through Master. No merge/deploy authority. Website scope only; Admin and Master repositories are not edited here.
 
 ## Starting state
 
@@ -71,4 +71,4 @@ Owner semantic diff retained: 258 field differences, 25 player-name edits, 144 e
 
 Commits/remote: coherent implementation `2982561920330353bd75ffbd5e212bb5881c8dd2` committed/pushed on `codex/tournament-identity-provenance` from `f857b21d0a1003fb565b51f89b133a50c91f9732`; remote tip matched that exact anchor and main remained at the base. Clean immediately after push. This evidence-only metadata update follows; final branch tip/remote/clean-state evidence is recorded in the local delivery JSON and closing summary. No merge/deploy. Protected canonical main, legacy checkout/artifacts, historical worktrees, Admin/Master, retest source and immutable archive were not modified.
 
-Owner acceptance is CHANGES REQUESTED for the preceding Admin review; this new Website follow-up is not accepted, merged or deployed.
+Owner accepted Website a08c39b590296bc35b06500b3ffb9203a5b0cd04 / Admin 9f94c5d16391ee38bb1395e26471009bd0f94821 on 5 October 2026 (instruction relayed by Master). New same-chain Oceania correction is recorded in WEBSITE-OCEANIA-HISTORICAL-CORRECTION.md; it is not yet owner accepted. No merge/deploy authority.

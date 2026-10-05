@@ -17,6 +17,7 @@ export async function validateTournamentIdentity(browser, baseUrl, { root, captu
         contentType: "text/javascript; charset=utf-8",
         body: fs.readFileSync(path.join(root, "data/tournaments.config.js"), "utf8") + `\n
           for (const event of window.KRISPY_TOURNAMENTS.events) {
+            event.provenance = (event.provenance || "") + " PRIVATE_AUDIT_SENTINEL_EVENT";
             for (const player of event.players) player.provenance = "PRIVATE_AUDIT_SENTINEL_PLAYER";
             for (const result of event.results) result.provenance = "PRIVATE_AUDIT_SENTINEL_RESULT";
             for (const group of event.manualBracketGroups) for (const round of group.rounds)
@@ -59,6 +60,9 @@ export async function validateTournamentIdentity(browser, baseUrl, { root, captu
             note: element.querySelector(".tournament-manual-match-top > span:last-child").textContent.trim()
           })),
           results: [...document.querySelectorAll(".tournament-result-name")].map(element => element.textContent.trim()),
+          resultsTitle: document.querySelector("#tournamentResultsSection h2").textContent.trim(),
+          stageTitle: document.querySelector("#tournamentStageSection h2").textContent.trim(),
+          stageMobileTitle: document.querySelector("#tournamentStageSection summary").textContent.trim(),
           stages: [...document.querySelectorAll(".tournament-stage-summary li")].map(element => element.textContent.trim()),
           body: document.body.innerText,
           html: document.getElementById("tournamentContent").outerHTML,
@@ -88,7 +92,23 @@ export async function validateTournamentIdentity(browser, baseUrl, { root, captu
           assert(rendered.stages.includes("WTF — 12 pts (4-0-0)"), "2025 stored standings alias must resolve to canonical player");
           assert(rendered.stages.includes("DR.MURK — 1 pt (0-4-0)"), "2025 shortened alias must resolve via verified identity in another event");
         }
-        if (event.id === "td-oceania-championship-2023") assert(rendered.matches.some(match => match.names.includes("NOBLE")), "NOBLESUB legacy references must resolve to canonical NOBLE");
+        if (event.id === "td-oceania-championship-2023") {
+          assert.equal(event.resultsScope, "round-robin", "Oceania results must explicitly be stage-only ranks");
+          assert.equal(event.players.length, 6, "Oceania verified participants changed");
+          assert.equal(matches.length, 15, "Oceania must retain exactly 15 verified round-robin matches");
+          assert(matches.every(match => /^rr\d+$/.test(match.id)), "Oceania invented a knockout match");
+          assert(rendered.matches.some(match => match.names.includes("NOBLE")), "NOBLESUB legacy references must resolve to canonical NOBLE");
+          assert.equal(rendered.resultsTitle, "Round Robin Standings");
+          assert.equal(rendered.stageTitle, "Round Robin Standings");
+          assert.equal(rendered.stageMobileTitle, "Round Robin Standings");
+          assert.equal(event.stageSummaries[0].title, "Round Robin Standings");
+          assert(rendered.body.includes("the overall champion and final placements are unknown"), "Oceania overall-outcome limitation is missing");
+          assert(!rendered.body.includes("VERIFIED:") && !rendered.body.includes("SUPPORTED:") && !rendered.body.includes("UNKNOWN:"), "internal classification leaked");
+        } else {
+          assert.equal(rendered.resultsTitle, "Results", `${event.id}: default overall heading changed`);
+          assert.equal(rendered.stageTitle, "Group Standings", `${event.id}: default stage heading changed`);
+          assert.equal(rendered.stageMobileTitle, "Group Standings", `${event.id}: default mobile heading changed`);
+        }
         assert(!/PRIVATE_AUDIT_SENTINEL|screenshot evidence|reconstructed from screenshot|owner(?:-supplied historical)? recollection|uncertain source note|internal confidence note/i.test(`${rendered.body} ${rendered.html} ${rendered.structured}`), `${event.id}/${width}: internal provenance leaked`);
         assert(!rendered.overflow, `${event.id}/${width}: document overflows`);
         assert.equal(errors.length, 0, `${event.id}/${width}: runtime errors: ${errors.join(", ")}`);
@@ -101,6 +121,17 @@ export async function validateTournamentIdentity(browser, baseUrl, { root, captu
         }
         eventCases++;
       }
+      // Switching events without a page reload must reset the scoped headings.
+      await page.goto(`${baseUrl}/tournaments/?event=td-oceania-championship-2023`, { waitUntil: "domcontentloaded" });
+      const overallArchive = events.find(event => event.status === "completed" && event.resultsScope !== "round-robin");
+      await page.locator(".tournament-archive-item").filter({ has: page.locator("h3", { hasText: overallArchive.title }) }).getByRole("button", { name: "View Event", exact: true }).click();
+      await page.waitForFunction(() => document.querySelector("#tournamentResultsSection h2").textContent === "Results");
+      assert.equal(await page.locator("#tournamentResultsSection h2").textContent(), "Results", "same-page selection resets overall results heading");
+      assert.equal(await page.locator("#tournamentStageSection h2").textContent(), "Group Standings", "same-page selection resets stage heading");
+      assert.equal(await page.locator("#tournamentStageSection summary").textContent(), "Group Standings", "same-page selection resets mobile stage heading");
+      await page.locator(".tournament-archive-item").filter({ has: page.locator("h3", { hasText: "TD Oceania Championship 2023" }) }).getByRole("button", { name: "View Event", exact: true }).click();
+      await page.waitForFunction(() => document.querySelector("#tournamentResultsSection h2").textContent === "Round Robin Standings");
+      assert.equal(await page.locator("#tournamentResultsSection h2").textContent(), "Round Robin Standings", "same-page selection restores stage-only results heading");
       await context.unroute("**/data/tournaments.config.js");
       await context.route("**/data/tournaments.config.js", route => route.fulfill({
         contentType: "text/javascript; charset=utf-8",

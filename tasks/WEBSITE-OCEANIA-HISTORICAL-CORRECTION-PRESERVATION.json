@@ -1,0 +1,32 @@
+{
+  "generatedAt": "2026-10-05T13:00:26.933Z",
+  "status": "PASS",
+  "acceptedBaseline": "a08c39b590296bc35b06500b3ffb9203a5b0cd04",
+  "allowedChangedPaths": [
+    "td-oceania-championship-2023.resultsScope",
+    "td-oceania-championship-2023.provenance",
+    "td-oceania-championship-2023.format",
+    "td-oceania-championship-2023.description",
+    "td-oceania-championship-2023.bracketTitle",
+    "td-oceania-championship-2023.stageSummaries[0].title"
+  ],
+  "restorationProof": "Restoring exactly those six field paths reproduces the complete accepted baseline config semantically.",
+  "retained": {
+    "events": 5,
+    "players": 56,
+    "matches": 125,
+    "oceaniaPlayers": 6,
+    "oceaniaMatches": 15,
+    "oceaniaResults": 6,
+    "oceaniaStageEntries": 6,
+    "authoredRulesUnchanged": true,
+    "scoresWinnersPublicNotesAliasesLinksUnchanged": true
+  },
+  "candidateConfigSha256": "2D2E4295AA5D830B137FDFA1FE1B102C44E459227292D94289E02A7E604E8089",
+  "immutableSources": {
+    "ownerArchive": "06D65C1BC84F538FF7CD87C4A400874184CA5C92603913C133B99E268D2407B6",
+    "originalOwnerExport": "06D65C1BC84F538FF7CD87C4A400874184CA5C92603913C133B99E268D2407B6",
+    "canonicalArchive": "12D848C9DF22E48D089DD190FAF9EEDA1AA9FF3B42D4F56484FC39B2868D4A30"
+  },
+  "pdfSha256": "DF36848E4C60DE4EB66DFA0F3DE78A49B42C8C104BEBA57F9F9A6626F9069C71"
+}

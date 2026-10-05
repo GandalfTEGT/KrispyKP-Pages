@@ -253,6 +253,8 @@ def build_pdf(event: dict, output_override: Path | None = None) -> Path:
         ("BOTTOMPADDING", (0, 0), (-1, -1), 2.2 * mm), ("LEFTPADDING", (0, 0), (-1, -1), 2.5 * mm),
     ]))
     story.extend([table, Spacer(1, 3 * mm)])
+    if event.get("resultsScope") == "round-robin" and event.get("description"):
+        story.append(Paragraph(html.escape(str(event["description"])), styles["body"]))
 
     for index, section in enumerate(rules["sections"], 1):
         add_numbered_section(story, index, section, styles)

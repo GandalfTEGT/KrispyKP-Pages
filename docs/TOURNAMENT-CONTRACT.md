@@ -13,7 +13,7 @@ Unknown values remain blank. The Builder must never convert missing scores, date
 | `upcoming` | Event has not started | Results remain empty. |
 | `live` | Event is actively in progress | `startDate` and `lastUpdated` are required; spoiler control applies. |
 | `awaiting-results` | Event has started but final publication is incomplete | `startDate` and `lastUpdated` are required, registration is `closed` or `none`, partial results are allowed, and spoiler control applies. |
-| `completed` | Historical results are published | Placements are required; archive results display normally. |
+| `completed` | Historical published records are archived | Non-empty overall placements or explicitly scoped round-robin standings are required; scope does not establish unknown knockout outcomes. |
 | `cancelled` | Event did not complete | Kept in the archive without invented outcomes. |
 
 `statusOverrideExpires` may bound an exceptional live window. The public validator remains authoritative for stale-date and status contradictions.
@@ -32,7 +32,7 @@ Admin opening/import/export alone preserves source references exactly. Upon an i
 
 `note` on participants, bracket matches and results is visitor-facing copy. It is exported and may be rendered. Examples: withdrawal/replacement explanations, the match format, or a known winner with an unknown score. Other authored public strings (rules, descriptions, questions and stage entries) remain public.
 
-Optional `provenance: string` on those same note-bearing records contains internal evidence/research context. Omission or an empty string means no provenance recorded. It is exported and preserved exactly by import/edit/export/reimport, including when public notes change. It is NEVER rendered by public tournament pages, structured data or rules PDFs. This is non-rendered audit metadata in downloadable public source, not confidential storage. Preserve unknown extension fields as well.
+Optional `provenance: string` on those same note-bearing records or the owning event contains internal evidence/research context. Event provenance records classification of the historical record as a whole without presenting it as public copy. Omission or an empty string means no provenance recorded. It is exported and preserved exactly by import/edit/export/reimport, including when public notes change. It is NEVER rendered by public tournament pages, structured data or rules PDFs. This is non-rendered audit metadata in downloadable public source, not confidential storage. Preserve unknown extension fields as well.
 
 Split mixed notes by semantic intent: `Group stage · screenshot evidence supplied by owner` becomes `note: "Group stage"`, `provenance: "screenshot evidence supplied by owner"`. The FERRET replacement and AOD unknown-score public clauses remain public while `owner-supplied historical recollection` is preserved in provenance. Recover previously established evidence from the preserved canonical basis even when an owner export removed its public suffix. Never delete evidence to suppress it or blanket-hide genuine public notes.
 
@@ -40,7 +40,11 @@ The public validator checks provenance is a string and retains UTF-8/control-cha
 
 ## Stages, results and presentation
 
-`manualBracketGroups` is an ordered, flexible set of groups, rounds and matches. Group keys and titles are authored data rather than a fixed winners/losers template. `stageSummaries` is an ordered set of titled string entries. `results` contains published placements. Scores use string-compatible values so blank/unknown and historical formats survive round trips.
+`manualBracketGroups` is an ordered, flexible set of groups, rounds and matches. Group keys and titles are authored data rather than a fixed winners/losers template. `stageSummaries` is an ordered set of titled string entries. `results` contains published placements within its explicit scope. Scores use string-compatible values so blank/unknown and historical formats survive round trips.
+
+Optional event `resultsScope` accepts `"overall"` (also the default when omitted) or `"round-robin"`. Overall results are final tournament placements. Round-robin results are stage ranks/points/W-L ONLY, with the public results table and standings headings labelled exactly `Round Robin Standings`; they establish no qualifier, knockout play, overall champion or final placement. Retain records/references through Admin import/edit/preview/export/reimport; do not silently change omitted fields into new defaults. The non-empty results requirement for `completed` remains intact, with no new lifecycle value or empty-results exception.
+
+Oceania 2023 uses round-robin scope: owner-authorised VERIFIED six participants/15 round-robin matches and scores/standings; SUPPORTED two-stage configuration/intended knockout-final stage; UNKNOWN whether knockout occurred, actual qualifiers, knockout results or overall outcome. Public description explains that limitation briefly. Detailed classification/source remains in event provenance. Owner-authored planned-stage rules remain unchanged; they are not proof of played knockout matches. Preserve existing six ranked records and six summary entries without inventing a knockout bracket.
 
 For `live` and `awaiting-results`, Hide Results is a local presentation preference. It suppresses the results, stage summaries and bracket progression from visual and accessibility interaction while leaving participants, rules, schedule, description and source links available. Completed/cancelled archive events never inherit that hiding.
 
@@ -55,6 +59,7 @@ For `live` and `awaiting-results`, Hide Results is a local presentation preferen
 | Flexible stage groups | Renders any ordered group/round shape | Imports/edits/preserves | All-event semantic round trip |
 | Unknown score + known winner | Renders blank score and winner | Preserves independently | Builder partial-history test |
 | Results and stage summaries | Renders archive outcomes | Editable collections | All-event semantic round trip |
+| Optional round-robin results scope / event provenance | Explicit stage-only headings; no inferred overall outcome; provenance omitted | Preserve optional values and omitted defaults | Oceania semantic round trip + rendered headings/omission |
 | Spoiler presentation | Live and awaiting-results | Actual-site preview | Browser persistence/fallback/history test |
 | Rules PDF | Static linked output | Shared generator | Builder generation regression |
 

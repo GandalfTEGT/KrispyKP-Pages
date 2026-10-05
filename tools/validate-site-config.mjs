@@ -250,7 +250,10 @@ function validateTournaments() {
     if (!Array.isArray(event?.schedule)) fail(`${eventPath}.schedule`, "must be an array");
     if (!Array.isArray(event?.results)) fail(`${eventPath}.results`, "must be an array");
     const results = Array.isArray(event?.results) ? event.results : [];
-    if (event?.status === "completed" && !results.length) fail(`${eventPath}.results`, "must contain published placements when status is 'completed'");
+    if (event?.resultsScope !== undefined && !["overall", "round-robin"].includes(event.resultsScope)) {
+      fail(`${eventPath}.resultsScope`, "must be 'overall' or 'round-robin' when present");
+    }
+    if (event?.status === "completed" && !results.length) fail(`${eventPath}.results`, "must contain published overall placements or explicitly scoped round-robin standings when status is 'completed'");
     if (!["completed", "awaiting-results"].includes(event?.status) && results.length) {
       fail(`${eventPath}.results`, `must be empty while status is '${event?.status}'`);
     }

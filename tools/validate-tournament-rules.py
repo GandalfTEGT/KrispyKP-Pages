@@ -19,6 +19,9 @@ for event in config["events"]:
         # Exclude repeated page furniture when matching paragraphs split across pages.
         pages = [page.crop((0, 45, page.width, page.height - 45)).extract_text() or "" for page in document.pages]
     text = normalise(" ".join(pages))
+    if event.get("resultsScope") == "round-robin":
+        assert normalise(event["description"]) in text, f"{event['id']}: round-robin/unknown-overall-outcome explanation missing"
+        assert "VERIFIED:" not in text and "SUPPORTED:" not in text and "UNKNOWN:" not in text, f"{event['id']}: internal classification leaked"
     assert not re.search(r"screenshot evidence|reconstructed from screenshot|owner(?:-supplied historical)? recollection|uncertain source note|internal confidence note", text, re.I), f"{event['id']}: public evidence leak"
     for index, player in enumerate(event["players"], 1):
         assert normalise(f"#{index} {player['name']}") in text, f"{event['id']}: canonical name missing: {player['name']}"
