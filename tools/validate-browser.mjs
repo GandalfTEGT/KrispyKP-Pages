@@ -34,7 +34,7 @@ const MIME = {
   ".pdf": "application/pdf"
 };
 
-function createStaticServer(root) {
+export function createStaticServer(root) {
   const server = http.createServer((request, response) => {
     try {
       const url = new URL(request.url || "/", "http://127.0.0.1");
@@ -549,6 +549,10 @@ export async function runBrowserValidation({ root = ROOT, profile = "standard", 
     browser = await chromium.launch({ executablePath, headless: true });
     record(result, "browser:launch", true, { message: executablePath });
     for (const item of matrix) await checkPage(browser, baseUrl, root, result, item.page, item.width, screenshots);
+    if (fs.existsSync(path.join(root, 'data/site-management.json'))) {
+      const { checkBindings } = await import('./management/render.mjs');
+      await functionalCase(result, 'management-bindings', () => checkBindings(browser, baseUrl, root));
+    }
 
     const functionalPages = profile === "acceptance" ? ALL_PAGES : (pages || resolvedScope.pages);
     if (profile !== "smoke") {

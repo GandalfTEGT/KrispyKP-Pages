@@ -1,0 +1,146 @@
+{
+  "siteId": "krispykp",
+  "schemaVersion": 1,
+  "protocolVersion": 1,
+  "revision": "1.0.0",
+  "adapter": "html-leaf-v1",
+  "requiredCapabilities": [
+    "content.text.v1",
+    "content.link.v1",
+    "media.png-selected-use.v1",
+    "source.html-leaf.v1",
+    "snapshot.validation.v1"
+  ],
+  "bindings": [
+    {
+      "id": "about.hero.title",
+      "label": "About page heading",
+      "file": "about/index.html",
+      "route": "/about/",
+      "tag": "h1",
+      "kind": "text",
+      "maxLength": 80
+    },
+    {
+      "id": "about.hero.summary",
+      "label": "About introduction",
+      "file": "about/index.html",
+      "route": "/about/",
+      "tag": "p",
+      "kind": "text",
+      "maxLength": 600
+    },
+    {
+      "id": "about.overview",
+      "label": "Overview",
+      "file": "about/index.html",
+      "route": "/about/",
+      "tag": "p",
+      "kind": "text",
+      "maxLength": 1200
+    },
+    {
+      "id": "about.focus",
+      "label": "Main focus",
+      "file": "about/index.html",
+      "route": "/about/",
+      "tag": "p",
+      "kind": "text",
+      "maxLength": 1000
+    },
+    {
+      "id": "about.approach.quote",
+      "label": "Approach quote",
+      "file": "about/index.html",
+      "route": "/about/",
+      "tag": "blockquote",
+      "kind": "text",
+      "maxLength": 300
+    },
+    {
+      "id": "about.purpose",
+      "label": "Why this site exists",
+      "file": "about/index.html",
+      "route": "/about/",
+      "tag": "p",
+      "kind": "text",
+      "maxLength": 1200
+    },
+    {
+      "id": "about.overview.twitch",
+      "label": "Overview Twitch link",
+      "file": "about/index.html",
+      "route": "/about/",
+      "tag": "a",
+      "kind": "link",
+      "maxLength": 120
+    },
+    {
+      "id": "about.overview.youtube",
+      "label": "Overview YouTube link",
+      "file": "about/index.html",
+      "route": "/about/",
+      "tag": "a",
+      "kind": "link",
+      "maxLength": 120
+    },
+    {
+      "id": "home.hero.summary",
+      "label": "Home introduction",
+      "file": "index.html",
+      "route": "/",
+      "tag": "p",
+      "kind": "text",
+      "maxLength": 600
+    },
+    {
+      "id": "home.hero.twitch",
+      "label": "Home hero Twitch link",
+      "file": "index.html",
+      "route": "/",
+      "tag": "a",
+      "kind": "link",
+      "maxLength": 120
+    },
+    {
+      "id": "home.hero.image",
+      "label": "Home hero logo usage",
+      "file": "index.html",
+      "route": "/",
+      "tag": "img",
+      "kind": "image",
+      "media": {
+        "mime": "image/png",
+        "maxBytes": 1048576,
+        "minDimension": 64,
+        "maxDimension": 2048,
+        "aspect": "1:1",
+        "alt": "required",
+        "fit": "intrinsic",
+        "focal": "none",
+        "replacement": "selected-use-only",
+        "outputPrefix": "assets/managed/"
+      }
+    }
+  ],
+  "outputFiles": [
+    "about/index.html",
+    "index.html"
+  ],
+  "renderAttribute": "data-kkp-manage-id",
+  "renderOnlyFiles": [
+    "styles/about.css",
+    "styles/home.css"
+  ],
+  "locked": [
+    "shared header/footer/navigation/metadata",
+    "all layout and responsive rules",
+    "runtime-generated Home Music/Video/Tournament panels",
+    "About lists/cards and other undeclared copy",
+    "all tournament data and existing tournament contract",
+    "Contact forms and all other routes",
+    "shared-file media replacement/deletion"
+  ],
+  "unknownFields": "preserve-without-execution",
+  "commandRegistry": "Website tools/management/cli.mjs (fixed; no manifest executables)"
+}

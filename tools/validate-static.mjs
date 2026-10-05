@@ -249,6 +249,19 @@ function validateGitDiff(root, result) {
   });
 }
 
+export function validateSnapshotDiff(root, baseline, scope, result) {
+  for (const file of scope.files.filter(file => /\.(?:html|css|js|mjs|json|txt|md|xml)$/i.test(file))) {
+    const before = path.join(baseline, file);
+    const after = path.join(root, file);
+    const check = run('git', ['-c','core.autocrlf=false','-c','core.safecrlf=false','-c', 'core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol', 'diff', '--no-index', '--check', before, after], { cwd: root });
+    // --no-index returns 1 for an ordinary difference; --check emits diagnostics for whitespace faults.
+    const passed = [0,1].includes(check.status) && !(check.stderr || check.stdout).trim();
+    record(result, `snapshot:whitespace:${file}`, passed, {
+      message: passed ? 'baseline-relative whitespace check passed without a Git checkout' : (check.stderr || check.stdout).trim()
+    });
+  }
+}
+
 function validateSeo(root, result) {
   const robotsFile = path.join(root, "robots.txt");
   const sitemapFile = path.join(root, "sitemap.xml");
@@ -274,14 +287,15 @@ function validateJson(root, result) {
   record(result, "json:syntax", failures.length === 0, { message: failures.length ? failures.join("; ") : `${files.length} JSON files parsed` });
 }
 
-export function runStaticValidation({ root = ROOT, profile = "standard", scope = null } = {}) {
+export function runStaticValidation({ root = ROOT, profile = "standard", scope = null, snapshotBaseline = null } = {}) {
   const resolvedScope = scope || detectScope({ root });
   const result = createResult(profile, resolvedScope);
   result.kind = "static";
   validateJavaScript(root, result);
   validateConfiguration(root, result);
   validateRadarRts(root, result);
-  validateGitDiff(root, result);
+  if (snapshotBaseline) validateSnapshotDiff(root, snapshotBaseline, resolvedScope, result);
+  else validateGitDiff(root, result);
   validateHtml(root, result);
   validatePublishingControls(root, result);
   validateCssReferences(root, result);

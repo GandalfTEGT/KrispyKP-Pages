@@ -1,0 +1,121 @@
+{
+  "schemaVersion": 1,
+  "task": "WEBSITE-ADMIN-MANAGEMENT-FOUNDATION",
+  "status": "READY_FOR_OWNER_REVIEW",
+  "base": "bdfff2d2a41ac08ea4b0bed8350153d9c83431e9",
+  "branch": "codex/admin-management-foundation",
+  "contractSha256": "DE394A5190D861AAF4841DB30D6A7E67A49377BFDBF2D7F29C3F84D4A2667573",
+  "validation": {
+    "contractCases": 34,
+    "contractStatus": "PASS",
+    "renderNegative": "PASS: unsupported managed-image CSS fit refused",
+    "gitBackedStandard": {
+      "status": "PASS",
+      "checks": 61
+    },
+    "gitBackedAcceptance": {
+      "status": "PASS",
+      "checks": 94
+    },
+    "snapshotAcceptance": {
+      "status": "PASS",
+      "checks": 95,
+      "baselineSha256": "2573A51F93D4B2E4150EFA64EEC9D6D0E04898126A3C4D98540C809A4027F415",
+      "candidateSha256": "3F71235D2EDB64FC8D92498265842BDB5B988A9D13F491E32E5BEE7C3CDC5DE0",
+      "withoutGit": true,
+      "changedFiles": [
+        "about/index.html",
+        "assets/managed/home-hero-c659aae2dba3962246c6c81a1897f94cd27ad0989d3820143a785d0c4a82ee75.png",
+        "index.html"
+      ]
+    },
+    "finalSnapshotStandard": {
+      "status": "PASS",
+      "checks": 70
+    },
+    "acceptedApplicability": {
+      "status": "PASS",
+      "checks": 71,
+      "source": "859c7c1c68c212725ba541b96dcac3e661795baa",
+      "baselineSha256": "6A628F000C82B7287D020C6CCC9EF8CC4DE131CE104289B345958490F261E97C"
+    },
+    "validatorSelfTest": {
+      "status": "PASS",
+      "probes": 10,
+      "sourceRestored": true
+    },
+    "renderedBindingWidths": [
+      320,
+      390,
+      699,
+      700,
+      701,
+      979,
+      980,
+      981,
+      1200,
+      1201,
+      1440
+    ],
+    "screenshots": {
+      "routes": [
+        "home",
+        "about"
+      ],
+      "widths": [
+        390,
+        980,
+        1440
+      ],
+      "inspection": "Headless screenshot review; source and draft; no physical-device claim"
+    }
+  },
+  "preservation": {
+    "index.html": {
+      "originalSha256": "A16A6CE4D154DD50CE0E3AD4D15088C8423BA1AEDF65F7A8786B22FA21943E8C",
+      "managedSha256": "18A4AF3F9887E402BA8E5F8D93A4CDEC60ED4FB60BF84CC16EAE5DF65E4313C4",
+      "attributeOnlyPreservation": "PASS",
+      "acceptedRevisionApplicability": "PASS"
+    },
+    "about/index.html": {
+      "originalSha256": "B335CFE25896D9F1315A8DA92DE1E363FDBD0CE7FC770C3D530339B5AC2908F6",
+      "managedSha256": "A4541B0D5877FFB651D39AC38ED74C2F13A5A090F8CDBBC014BFDA05ABA0C63A",
+      "attributeOnlyPreservation": "PASS",
+      "acceptedRevisionApplicability": "PASS"
+    },
+    "baselineTournament": {
+      "source": "bdfff2d2a41ac08ea4b0bed8350153d9c83431e9",
+      "sha256": "EE6BC8521DAEB862533E26D7988B301666FF5626B4D87F9FA72209EB39CB70DB",
+      "exactBytes": "PASS",
+      "representation": "Git working-tree filter bytes"
+    },
+    "acceptedTournament": {
+      "source": "859c7c1c68c212725ba541b96dcac3e661795baa",
+      "sha256": "A4C62A8CE5B6280FEEA3EDE5A5C484B04E702222BB56F4364F59A85BD5844A8C",
+      "exactBytes": "PASS",
+      "representation": "Git working-tree filter bytes"
+    }
+  },
+  "remoteDependency": {
+    "tip": "0fb9fc2211869f60c15e7244cb357669c4c198d4",
+    "parent": "bdfff2d2a41ac08ea4b0bed8350153d9c83431e9",
+    "files": [
+      "data/tournaments.config.js"
+    ],
+    "reconciled": false
+  },
+  "ownerAcceptance": "PENDING",
+  "repositorySnapshotGates": {
+    "status": "NOT_RUN",
+    "reason": "Snapshot validation does not establish branch ancestry, remote tip, integration or publication."
+  },
+  "manual": [
+    "Chromium automation does not prove subjective visual quality, physical touch, screen-reader quality, true zoom, non-Chromium behavior, hidden-tab behavior or external service delivery."
+  ],
+  "limitations": [
+    "Admin A stays read-only; C wrapper/UI requires separate authority.",
+    "No general layout, shared-media, Music/Video or new-page authoring.",
+    "Independent remote tournament updates and accepted859c7c1 require later reconciliation.",
+    "No main integration, deployment, protected checkout/source edits or branch cleanup."
+  ]
+}
