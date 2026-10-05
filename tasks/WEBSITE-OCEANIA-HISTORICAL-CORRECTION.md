@@ -60,6 +60,16 @@ Extend existing optional string `provenance` to the event record for detailed VE
 
 Owner retest is required for this new correction. Physical devices/touch, real assistive technology, non-Chromium browsers, true zoom and live external services are not established by the automated checks. No independent knockout-source recovery is claimed. No merge/deploy authority.
 
+## Committed Website anchor / Git delivery
+
+Validated implementation anchor: `f360613fd0723743c20e51b5e14cedbcc1d9c735` — Scope Oceania historical standings to verified round-robin stage. Committed and pushed to `https://github.com/GandalfTEGT/KrispyKP-Pages`, branch `codex/tournament-identity-provenance`. Fresh remote verification returned that exact task tip and unchanged main `f857b21d0a1003fb565b51f89b133a50c91f9732`. Worktree was clean immediately after push. Base remains `f857b21d0a1003fb565b51f89b133a50c91f9732`; accepted preceding revision `a08c39b590296bc35b06500b3ffb9203a5b0cd04` remains in ancestry.
+
+Admin may anchor its exact compatibility/retest fixture to this implementation commit; a later evidence-only handoff commit will not change Website/config/PDF/contract content. Master owns consolidated compatibility/acceptance records. Final branch HEAD/remote equality is recorded locally in `.validation/WEBSITE-OCEANIA-HISTORICAL-CORRECTION-DELIVERY.json` after the metadata commit and returned in the closing summary.
+
+Canonical Website checkout remains clean at main `f857b21d0a1003fb565b51f89b133a50c91f9732`. Protected legacy checkout remains at `318cf656b34910b866fbfba5cfa1bd9e266e1c13` with exactly its six pre-existing untracked browser artefact entries. Original owner/export/archive hashes remain those in the preservation proof. No merge, deployment, direct-main write or reference-checkout modification.
+
+The first push attempt was rejected by automatic approval review for insufficient visible destination authorisation. The human-supplied bootstrap was re-read: it names this exact repository and explicitly directs committing/pushing authorised task branches. That evidence was presented for review; the authorised retry succeeded. No workaround or alternate transport was used.
+
 ## Owner retest
 
 Use existing `Review-Tournament-Changes.cmd` and open `http://127.0.0.1:4185/tournaments/?event=td-oceania-championship-2023`.
