@@ -330,10 +330,10 @@ window.KRISPY_TOURNAMENTS = {
                   "player2": "DR.MURK",
                   "slot1From": "",
                   "slot2From": "",
-                  "score1": "",
-                  "score2": "",
-                  "winner": "",
-                  "note": "Bo5",
+                  "score1": "0",
+                  "score2": "1",
+                  "winner": "DR.MURK",
+                  "note": "Bo5 · ONLY 1 GAME PLAYED DUE TO TIMEZONE DIFFERENCES",
                   "time": ""
                 }
               ]
@@ -371,7 +371,7 @@ window.KRISPY_TOURNAMENTS = {
                   "id": "m6",
                   "title": "Match 6",
                   "player1": "KRISPY",
-                  "player2": "Winner of Match 2",
+                  "player2": "DR.MURK",
                   "slot1From": "",
                   "slot2From": "m2",
                   "score1": "",
@@ -470,7 +470,7 @@ window.KRISPY_TOURNAMENTS = {
                   "id": "m7",
                   "title": "Match 7",
                   "player1": "DANKU",
-                  "player2": "Loser of Match 2",
+                  "player2": "SHEPPARD",
                   "slot1From": "m3",
                   "slot2From": "m2",
                   "score1": "",
