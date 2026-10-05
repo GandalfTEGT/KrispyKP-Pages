@@ -1,0 +1,510 @@
+{
+  "ownerPath": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\Archive\\owner-retest-2026-10-05-06d65c1b\\owner\\tournaments.config.js",
+  "ownerSha256": "06d65c1bc84f538ff7cd87c4a400874184ca5c92603913c133b99e268d2407b6",
+  "canonicalPath": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\Archive\\owner-retest-2026-10-05-06d65c1b\\canonical\\tournaments.config.js",
+  "canonicalSha256": "12d848c9df22e48d089dd190faf9eeda1aa9ff3b42d4f56484fc39b2868d4a30",
+  "outputSha256": "048cb8d065714f6361c951b13f497e859fe0f2cb5ff477b2c7e301ea09c0a55c",
+  "ownerDataRetained": true,
+  "events": 5,
+  "players": 56,
+  "matches": 125,
+  "changes": [
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r1m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r1m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r2m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r2m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r3m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r3m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r4m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r4m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r5m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024a-r5m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r1m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r1m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r2m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r2m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r3m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r3m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r4m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r4m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r5m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024b-r5m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r1m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r1m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r2m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r2m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r3m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r3m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r4m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r4m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r5m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024c-r5m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r1m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r1m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r2m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r2m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r3m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r3m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r4m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r4m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r5m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "2024d-r5m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "replacement-playoff",
+      "originalNote": "Bo3 · FERRET replaced RAMBO after withdrawal",
+      "publicNote": "Bo3 · FERRET replaced RAMBO after withdrawal",
+      "provenance": "owner-supplied historical recollection",
+      "recoveredFromCanonical": true
+    },
+    {
+      "eventId": "td-champions-league-2024",
+      "matchId": "sf1",
+      "originalNote": "Bo9 · AOD won; exact score unknown · owner-supplied historical recollection",
+      "publicNote": "Bo9 · AOD won; exact score unknown",
+      "provenance": "owner-supplied historical recollection",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r1m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r1m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r2m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r2m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r3m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r3m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r4m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r4m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r5m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023ha-r5m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r1m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r1m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r2m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r2m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r3m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r3m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r4m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r4m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r5m1",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    },
+    {
+      "eventId": "td-home-nations-championship-2023",
+      "matchId": "2023hb-r5m2",
+      "originalNote": "Group stage · screenshot evidence supplied by owner",
+      "publicNote": "Group stage",
+      "provenance": "screenshot evidence supplied by owner",
+      "recoveredFromCanonical": false
+    }
+  ],
+  "recoveredEvidenceCount": 1
+}

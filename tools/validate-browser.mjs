@@ -6,6 +6,7 @@ import { chromium } from "playwright-core";
 import { validateRadarDesktop } from "./validate-radar-desktop.mjs";
 import { validateRadarControls } from "./validate-radar-controls.mjs";
 import { validateRadarRemediation } from "./validate-radar-browser.mjs";
+import { validateTournamentIdentity } from "./validate-tournament-identity.mjs";
 import {
   ALL_PAGES,
   PAGE_ROUTES,
@@ -400,11 +401,10 @@ async function runTournamentTest(browser, baseUrl) {
     assert(await page.locator(".tournament-spoiler-toggle").count() === 0, "historical event exposed a live-only spoiler control");
     assert(await page.locator("#tournamentBracketBody .tournament-manual-match").count() > 0, "historical results were not rendered");
     if (historical.aliasedPlayer) {
-      const playerText = await page.locator("#tournamentPlayers").textContent();
-      assert(playerText.includes(historical.aliasedPlayer.inGameName), "historical alias is not the archived participant's primary identity");
-      assert(playerText.includes(`Canonical identity: ${historical.aliasedPlayer.name}`), "historical canonical identity is not preserved as secondary context");
-      const outcomeText = `${await page.locator("#tournamentBracketBody").textContent()} ${await page.locator("#tournamentResultsSection").textContent()} ${await page.locator("#tournamentStageSection").textContent()}`;
-      assert(outcomeText.includes(historical.aliasedPlayer.inGameName), "historical aliases were not applied consistently to outcome presentation");
+      const primaryNames = await page.locator("#tournamentPlayers .tournament-player-name").allTextContents();
+      const secondaryAliases = await page.locator("#tournamentPlayers .tournament-player-in-game-name").allTextContents();
+      assert(primaryNames.includes(historical.aliasedPlayer.name), "archived canonical name is not primary");
+      assert(secondaryAliases.includes(historical.aliasedPlayer.inGameName), "archived alias is not retained as secondary metadata");
     }
     await page.goBack({ waitUntil: "domcontentloaded" });
     assert(new URL(page.url()).searchParams.get("event") === current.id, "browser Back did not restore the current event deep link");
@@ -558,7 +558,12 @@ export async function runBrowserValidation({ root = ROOT, profile = "standard", 
       }
       if (functionalPages.includes("music")) await functionalCase(result, "music", () => runMusicTest(browser, baseUrl));
       if (functionalPages.includes("videos")) await functionalCase(result, "videos", () => runVideosTest(browser, baseUrl));
-      if (functionalPages.includes("tournaments")) await functionalCase(result, "tournaments", () => runTournamentTest(browser, baseUrl));
+      if (functionalPages.includes("tournaments")) {
+        await functionalCase(result, "tournaments", () => runTournamentTest(browser, baseUrl));
+        await functionalCase(result, "tournament-identity", () => validateTournamentIdentity(browser, baseUrl, {
+          root, captureDir: screenshots ? path.join(root, ".validation", "screenshots", "tournaments") : null
+        }));
+      }
       if (profile === "acceptance" || resolvedScope.files.some(file => /radar-game|site-ui|command-deck/.test(file))) {
         const captureDir = screenshots ? path.join(root, ".validation", "screenshots", "radar") : null;
         if (captureDir) fs.mkdirSync(captureDir, { recursive: true });

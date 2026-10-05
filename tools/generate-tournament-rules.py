@@ -52,6 +52,8 @@ BODY_FONT = "KKPVera"
 BOLD_FONT = "KKPVeraBold"
 pdfmetrics.registerFont(TTFont(BODY_FONT, str(FONT_DIRECTORY / "Vera.ttf")))
 pdfmetrics.registerFont(TTFont(BOLD_FONT, str(FONT_DIRECTORY / "VeraBd.ttf")))
+ALIAS_FONT = "KKPDejaVuAlias"
+pdfmetrics.registerFont(TTFont(ALIAS_FONT, str(ROOT / "tools" / "fonts" / "DejaVuSans.ttf")))
 
 
 def fail(message: str) -> None:
@@ -274,9 +276,12 @@ def build_pdf(event: dict, output_override: Path | None = None) -> Path:
         name = str(player.get("name", "")).strip()
         if not name:
             continue
-        details = [value for value in [str(player.get("inGameName", "")).strip(), str(player.get("flag", "")).strip()] if value and value.isascii()]
+        alias = str(player.get("inGameName", "")).strip()
+        flag = str(player.get("flag", "")).strip()
         safe_name = html.escape(name)
-        safe_details = " · ".join(html.escape(value) for value in details)
+        safe_details = (f"<font name='{ALIAS_FONT}'>In-game: {html.escape(alias)}</font>" if alias else "")
+        if flag:
+            safe_details += (" · " if safe_details else "") + html.escape(flag)
         copy = f"<b>#{index} {safe_name}</b>" + (f"<br/><font color='#93b2bc'>{safe_details}</font>" if safe_details else "")
         participant_cells.append(Paragraph(copy, styles["small"]))
         if len(participant_cells) == 2:

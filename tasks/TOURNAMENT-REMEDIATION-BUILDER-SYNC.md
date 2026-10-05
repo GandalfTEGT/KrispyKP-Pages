@@ -2,7 +2,9 @@
 
 ## Status
 
-`READY FOR OWNER RETESTING`
+`HISTORICAL CHECKPOINT — IDENTITY RULE SUPERSEDED`
+
+This record preserves the previous remediation handoff (then READY FOR OWNER RETESTING). The Website implementation was subsequently merged. The owner decision of 5 October 2026 supersedes its archived-alias-first presentation requirement; use `docs/TOURNAMENT-CONTRACT.md` and `WEBSITE-TOURNAMENT-IDENTITY-PROVENANCE.md` for the current canonical-first/public-provenance follow-up. Statements below describe the historical checkpoint, not current implementation instructions or new merge authority.
 
 ## Starting state
 

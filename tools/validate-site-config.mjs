@@ -86,8 +86,14 @@ function validateLocalAsset(route, location, { required = false } = {}) {
   }
 }
 
-function validatePublishedText(value, location) {
+// Presentation mistakes are rejected at export time; renderers do not censor public notes.
+const internalEvidencePhrase = /screenshot evidence(?: supplied by owner)?|reconstructed from (?:a )?screenshot|owner(?:-supplied historical)? recollection|uncertain source note|(?:validation|research)[ /]provenance|internal confidence note/i;
+
+function validatePublishedText(value, location, { internal = false } = {}) {
   if (typeof value === "string") {
+    if (!internal && internalEvidencePhrase.test(value)) {
+      fail(location, "contains internal evidence wording; move only the evidence clause to provenance and retain public copy");
+    }
     if (/[\u00c3\u00c2\uFFFD]|\u00e2[\u20ac\u201a]/u.test(value)) {
       fail(location, "contains a suspicious mojibake marker");
     }
@@ -97,11 +103,14 @@ function validatePublishedText(value, location) {
     return;
   }
   if (Array.isArray(value)) {
-    value.forEach((entry, index) => validatePublishedText(entry, `${location}[${index}]`));
+    value.forEach((entry, index) => validatePublishedText(entry, `${location}[${index}]`, { internal }));
     return;
   }
   if (value && typeof value === "object") {
-    Object.entries(value).forEach(([key, entry]) => validatePublishedText(entry, `${location}.${key}`));
+    Object.entries(value).forEach(([key, entry]) => {
+      if (key === "provenance" && typeof entry !== "string") fail(`${location}.${key}`, "must be a string when present");
+      validatePublishedText(entry, `${location}.${key}`, { internal: internal || key === "provenance" });
+    });
   }
 }
 

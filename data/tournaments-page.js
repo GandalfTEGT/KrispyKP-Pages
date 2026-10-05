@@ -125,31 +125,27 @@
     return value == null || value === "" ? fallback : String(value);
   }
 
-  function isArchivedEvent(event) {
-    return event?.status === "completed" || event?.status === "cancelled";
+  function getCanonicalDisplayName(event, value) {
+    const source = text(value);
+    const key = source.trim().toLocaleLowerCase();
+    if (!key) return source;
+    const players = isArray(event.players);
+    const canonical = players.find(player => text(player.name).trim().toLocaleLowerCase() === key);
+    if (canonical) return text(canonical.name).trim();
+    const currentNames = new Set(players.map(player => text(player.name).trim().toLocaleLowerCase()));
+    const aliasOwners = new Set(getEvents().flatMap(item => isArray(item.players))
+      .filter(player => text(player.inGameName).trim().toLocaleLowerCase() === key && currentNames.has(text(player.name).trim().toLocaleLowerCase()))
+      .map(player => text(player.name).trim().toLocaleLowerCase()));
+    // Ambiguous or unrecognised historical text remains authored text, never a guess.
+    return aliasOwners.size === 1
+      ? text(players.find(player => aliasOwners.has(text(player.name).trim().toLocaleLowerCase())).name).trim()
+      : source;
   }
 
-  function getEventDisplayName(event, value) {
-    const source = text(value, "");
-    if (!source || !isArchivedEvent(event)) return source;
-    const participant = isArray(event.players).find((item) =>
-      text(item.name).toLocaleLowerCase() === source.toLocaleLowerCase()
-    );
-    return text(participant?.inGameName, source);
-  }
-
-  function getEventDisplayText(event, value) {
-    let display = text(value, "");
-    if (!display || !isArchivedEvent(event)) return display;
-    isArray(event.players)
-      .filter((item) => item.name && item.inGameName && item.name !== item.inGameName)
-      .sort((left, right) => right.name.length - left.name.length)
-      .forEach((item) => {
-        const escaped = item.name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        display = display.replace(new RegExp(`(^|[^A-Za-z0-9_])${escaped}(?=$|[^A-Za-z0-9_])`, "gi"),
-          (match, prefix) => `${prefix}${item.inGameName}`);
-      });
-    return display;
+  function getCanonicalStageEntry(event, value) {
+    const source = text(value);
+    const parts = source.match(/^(.+?)(\s+[—–-]\s+.*)$/);
+    return parts ? getCanonicalDisplayName(event, parts[1]) + parts[2] : getCanonicalDisplayName(event, source);
   }
 
   function isArray(value) {
@@ -534,6 +530,9 @@
   }
 
   function createManualMatchElement(match, matchIndex, event) {
+    const player1Name = getCanonicalDisplayName(event, text(match.player1, "TBD"));
+    const player2Name = getCanonicalDisplayName(event, text(match.player2, "TBD"));
+    const winnerName = getCanonicalDisplayName(event, match.winner);
     const matchEl = document.createElement("article");
     matchEl.className = "tournament-manual-match";
 
@@ -558,17 +557,17 @@
 
     const player1 = document.createElement("div");
     player1.className =
-      "tournament-manual-player" + (match.winner && match.winner === match.player1 ? " is-winner" : "");
+      "tournament-manual-player" + (match.winner && winnerName === player1Name ? " is-winner" : "");
     player1.innerHTML = `
-      <span class="tournament-manual-player-name">${escapeHtml(getEventDisplayName(event, text(match.player1, "TBD")))}</span>
+      <span class="tournament-manual-player-name">${escapeHtml(player1Name)}</span>
       <span class="tournament-manual-player-score">${escapeHtml(text(match.score1, ""))}</span>
     `;
 
     const player2 = document.createElement("div");
     player2.className =
-      "tournament-manual-player" + (match.winner && match.winner === match.player2 ? " is-winner" : "");
+      "tournament-manual-player" + (match.winner && winnerName === player2Name ? " is-winner" : "");
     player2.innerHTML = `
-      <span class="tournament-manual-player-name">${escapeHtml(getEventDisplayName(event, text(match.player2, "TBD")))}</span>
+      <span class="tournament-manual-player-name">${escapeHtml(player2Name)}</span>
       <span class="tournament-manual-player-score">${escapeHtml(text(match.score2, ""))}</span>
     `;
 
@@ -576,7 +575,7 @@
     footer.className = "tournament-manual-match-footer";
     footer.innerHTML = `
       <span class="muted">${escapeHtml(text(match.time, ""))}</span>
-      <span>${match.winner ? `Winner: ${escapeHtml(getEventDisplayName(event, match.winner))}` : ""}</span>
+      <span>${match.winner ? `Winner: ${escapeHtml(winnerName)}` : ""}</span>
     `;
 
     players.append(player1, player2);
@@ -1207,7 +1206,7 @@
         (item) => `
           <div class="tournament-result-item">
             <span class="tournament-result-place">${escapeHtml(text(item.place, "-"))}</span>
-            <span class="tournament-result-name">${escapeHtml(getEventDisplayName(event, text(item.name, "TBD")))}</span>
+            <span class="tournament-result-name">${escapeHtml(getCanonicalDisplayName(event, text(item.name, "TBD")))}</span>
             ${item.note ? `<span class="tournament-result-note">${escapeHtml(item.note)}</span>` : ""}
           </div>
         `
@@ -1220,7 +1219,7 @@
       stages.forEach((stage) => {
         const article = document.createElement("article");
         article.className = "tournament-stage-summary";
-        article.innerHTML = `<h3>${escapeHtml(text(stage.title, "Stage"))}</h3><ul>${isArray(stage.entries).map((entry) => `<li>${escapeHtml(getEventDisplayText(event, entry))}</li>`).join("")}</ul>`;
+        article.innerHTML = `<h3>${escapeHtml(text(stage.title, "Stage"))}</h3><ul>${isArray(stage.entries).map((entry) => `<li>${escapeHtml(getCanonicalStageEntry(event, entry))}</li>`).join("")}</ul>`;
         els.stageSummaries.appendChild(article);
       });
     }
@@ -1235,14 +1234,9 @@
       renderList(els.players, players, (item) => {
         const metaBits = [];
         const inGameName = text(item.inGameName, "").trim();
-        const archived = isArchivedEvent(event);
-        const primaryName = archived && inGameName ? inGameName : text(item.name, "Unnamed Player");
+        const primaryName = text(item.name, "Unnamed Player");
 
-        if (archived && inGameName && inGameName !== item.name) {
-          metaBits.push(
-            `<span class="tournament-player-meta-pill tournament-player-canonical">Canonical identity: <span>${escapeHtml(text(item.name))}</span></span>`
-          );
-        } else if (inGameName) {
+        if (inGameName) {
           metaBits.push(
             `<span class="tournament-player-meta-pill tournament-player-in-game">In-game: <span class="tournament-player-in-game-name">${escapeHtml(inGameName)}</span></span>`
           );

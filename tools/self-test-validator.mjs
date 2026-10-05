@@ -72,6 +72,16 @@ try {
     expectFailure("Suspicious mojibake", runStaticValidation({ root: ROOT, profile: "smoke", scope }), "publishing:text-integrity");
   } finally { restore(targets.html); }
 
+  for (const [name, mutation] of [
+    ["Internal evidence in a public note", 'window.KRISPY_TOURNAMENTS.events[0].players[0].note = "screenshot evidence supplied by owner";'],
+    ["Invalid provenance type", 'window.KRISPY_TOURNAMENTS.events[0].players[0].provenance = { evidence: "source" };']
+  ]) {
+    try {
+      fs.appendFileSync(targets.config, `\n${mutation}\n`, "utf8");
+      expectFailure(name, runStaticValidation({ root: ROOT, profile: "smoke", scope }), "configuration:site");
+    } finally { restore(targets.config); }
+  }
+
   try {
     const source = originals.get(targets.html).toString("utf8").replace("</main>", '<a href="https://www.twitch.tv/krispykp.com">Malformed Twitch fixture</a>\n</main>');
     fs.writeFileSync(targets.html, source, "utf8");
