@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
-import { fileURLToPath, pathToFileURL } from "node:url";
+import { fileURLToPath } from "node:url";
+import {literals} from './structured/literal.mjs';
 
 const args = process.argv.slice(2);
 if (args.includes("--help")) {
@@ -60,7 +61,8 @@ function loadClassicScript(relativePath) {
   const context = { window: {} };
   vm.createContext(context);
   try {
-    vm.runInContext(fs.readFileSync(filename, "utf8"), context, { filename });
+    if(relativePath==='data/tracks.js')context.window=literals(fs.readFileSync(filename,'utf8')).values;
+    else vm.runInContext(fs.readFileSync(filename, "utf8"), context, { filename });
   } catch (error) {
     fail(relativePath, `could not be loaded (${error.message})`);
   }
@@ -326,7 +328,7 @@ async function validateVideos() {
   const relativePath = "data/video-playlists.config.mjs";
   let categories;
   try {
-    ({ VIDEO_PLAYLISTS: categories } = await import(`${pathToFileURL(path.join(root, relativePath)).href}?validation=${Date.now()}`));
+    ({ VIDEO_PLAYLISTS: categories } = literals(fs.readFileSync(path.join(root,relativePath),'utf8'),'export').values);
   } catch (error) {
     fail(relativePath, `could not be loaded (${error.message})`);
     return { videoCategories: 0, videoPlaylists: 0 };

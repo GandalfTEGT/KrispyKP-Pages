@@ -10,6 +10,7 @@ import { projectLayout } from '../layout/project.mjs';
 import { projectPages } from '../pages/project.mjs';
 import { projectMedia, finishMedia } from '../media/project.mjs';
 import {mediaReceipt} from '../media/model.mjs';
+import {projectStructured} from '../structured/project.mjs';
 export const operationProof=(identity,request,consumer)=>({baselineSha256:identity.sha256,requestSha256:sha(JSON.stringify(request)),consumerSha256:sha(JSON.stringify(consumer))});
 
 function text(value,max,id){requireThat(typeof value==='string' && value.trim()===value && value.length>0 && value.length<=max && !/[\x00-\x1f\x7f]/.test(value),'VALUE','Expected nonempty bounded plain text without control characters.',id);}
@@ -25,6 +26,8 @@ function link(root,value,binding){
 }
 export function plan(root,baseline,identity,request,consumer){
   requireThat(request?.schemaVersion===1 && Array.isArray(request.operations) && request.operations.length<=40,'REQUEST','Malformed or unbounded operation batch.');
+  const keys=['schemaVersion','baselineSha256','contractSha256','expectedFiles','operations','allowedOutputs','layoutOperations','layoutContractSha256','pageOperations','pagesContractSha256','shellSha256','mediaOperations','mediaContractSha256','mediaStateSha256','usageInventorySha256','structuredOperations','structuredContractSha256','structuredStateSha256'];
+  requireThat(Object.keys(request).every(key=>keys.includes(key)),'REQUEST','Unknown/private request fields are not public editing authority.');
   verifySnapshot(baseline,identity,request.baselineSha256);
   const handshake=read(root,consumer);requireThat(handshake.state==='COMPATIBLE','COMPATIBILITY','Consumer/source compatibility proof is missing.');
   requireThat(handshake.contractSha256===request.contractSha256,'STALE_CONTRACT','Management contract hash changed.');
@@ -64,12 +67,14 @@ export function plan(root,baseline,identity,request,consumer){
   for(const file of media.expectedSources)expectedSource.add(file);
   const pages=request.pageOperations?projectPages(root,files,request,consumer):{expectedSources:[],pageImpact:[]};
   for(const file of pages.expectedSources)expectedSource.add(file);
+  const structured=projectStructured(root,files,request,consumer);
+  for(const file of structured.expectedSources)expectedSource.add(file);
   finishMedia(root,files,media);
   requireThat(request.expectedFiles && json(Object.keys(request.expectedFiles).sort())===json([...expectedSource].sort()),'PRECONDITION','Exact managed source file hashes are required.');
   for(const file of expectedSource)requireThat(request.expectedFiles[file]===sha(fs.readFileSync(safeFile(root,file))),'STALE_SOURCE','Managed source hash differs from request.',file);
   const outputs=[...files.keys()].sort();
   if(request.allowedOutputs)requireThat(json([...request.allowedOutputs].sort())===json(outputs) && new Set(request.allowedOutputs).size===request.allowedOutputs.length,'OUTPUT_ALLOWLIST','Declared outputs differ from deterministic output set.');
-  return {...operationProof(identity,request,consumer),files,outputs,mediaImpact,mediaUsageImpact:media.mediaUsageImpact,mediaContractSha256:media.mediaContractSha256??null,mediaStateSha256:media.mediaStateSha256??null,usageInventorySha256:media.usageInventorySha256??null,unusedImportsOmitted:media.unusedImportsOmitted??[],layoutImpact:layout.layoutImpact,pageImpact:pages.pageImpact,pagesContractSha256:pages.pagesContractSha256??null,shellSha256:pages.shellSha256??null,contractSha256:handshake.contractSha256,layoutContractSha256:request.layoutOperations?.length?request.layoutContractSha256:null};
+  return {...operationProof(identity,request,consumer),files,outputs,structuredImpact:structured.structuredImpact,structuredContractSha256:structured.structuredContractSha256??null,structuredStateSha256:structured.structuredStateSha256??null,structuredSourceHashes:structured.structuredSourceHashes??null,mediaImpact,mediaUsageImpact:media.mediaUsageImpact,mediaContractSha256:media.mediaContractSha256??null,mediaStateSha256:media.mediaStateSha256??null,usageInventorySha256:media.usageInventorySha256??null,unusedImportsOmitted:media.unusedImportsOmitted??[],layoutImpact:layout.layoutImpact,pageImpact:pages.pageImpact,pagesContractSha256:pages.pagesContractSha256??null,shellSha256:pages.shellSha256??null,contractSha256:handshake.contractSha256,layoutContractSha256:request.layoutOperations?.length?request.layoutContractSha256:null};
 }
 export function materialise(root,baseline,identity,request,consumer){
   root=safeRoot(root);baseline=safeRoot(baseline);
@@ -99,5 +104,5 @@ export function materialise(root,baseline,identity,request,consumer){
     }
     throw error;
   }finally{for(const temporary of staged)if(fs.existsSync(temporary))fs.unlinkSync(temporary);fs.rmSync(staging,{recursive:true});}
-  return {status:'MATERIALISED',requiresValidation:true,...operationProof(identity,request,consumer),...mediaReceipt(planned),candidateSha256:sha(JSON.stringify(inventory(root))),contractSha256:planned.contractSha256,layoutContractSha256:planned.layoutContractSha256,pagesContractSha256:planned.pagesContractSha256,shellSha256:planned.shellSha256,outputs:planned.outputs.map(file=>({path:file,sha256:sha(planned.files.get(file)),bytes:planned.files.get(file).length})),mediaImpact:planned.mediaImpact,layoutImpact:planned.layoutImpact,pageImpact:planned.pageImpact};
+  return {status:'MATERIALISED',requiresValidation:true,...operationProof(identity,request,consumer),...mediaReceipt(planned),structuredImpact:planned.structuredImpact,structuredContractSha256:planned.structuredContractSha256,structuredStateSha256:planned.structuredStateSha256,structuredSourceHashes:planned.structuredSourceHashes,candidateSha256:sha(JSON.stringify(inventory(root))),contractSha256:planned.contractSha256,layoutContractSha256:planned.layoutContractSha256,pagesContractSha256:planned.pagesContractSha256,shellSha256:planned.shellSha256,outputs:planned.outputs.map(file=>({path:file,sha256:sha(planned.files.get(file)),bytes:planned.files.get(file).length})),mediaImpact:planned.mediaImpact,layoutImpact:planned.layoutImpact,pageImpact:planned.pageImpact};
 }

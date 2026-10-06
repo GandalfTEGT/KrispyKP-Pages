@@ -97,6 +97,8 @@ export function detectScope({ root = ROOT, base = null, files: providedFiles = n
       add("home");
     } else if (file.startsWith("music/") || /^(?:styles\/music\.css|data\/(?:music-player|lyrics)\.js)$/.test(file)) {
       add("music");
+    } else if (file.startsWith("data/site-structured") || file.startsWith("tools/structured/")) {
+      add("home", "music", "videos");
     } else if (file === "data/tracks.js" || file.startsWith("assets/music/")) {
       add("home", "music");
     } else if (file.startsWith("videos/") || /^(?:styles\/videos\.css|data\/videos-page\.js)$/.test(file)) {

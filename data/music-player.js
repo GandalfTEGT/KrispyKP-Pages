@@ -202,6 +202,8 @@ function setPlaybackState(nextState) {
 
 function updateLyrics(track) {
   if (!lyricsCopyEl) return;
+  if (track) lyricsCopyEl.dataset.kkpStructuredId = "music.lyrics." + track.id;
+  else delete lyricsCopyEl.dataset.kkpStructuredId;
 
   const entry = track ? lyricsLibrary[track.id] : null;
   const text = entry && typeof entry.lyrics === "string" && entry.lyrics.trim()
@@ -303,7 +305,11 @@ function renderCustomTrackBuilder() {
 
     const textWrap = document.createElement("span");
     textWrap.className = "custom-track-copy";
-    textWrap.innerHTML = `<strong>${track.name}</strong><span>${track.album || track.artist}</span>`;
+    const trackName = document.createElement("strong");
+    trackName.textContent = track.name;
+    const trackArtist = document.createElement("span");
+    trackArtist.textContent = track.album || track.artist;
+    textWrap.append(trackName, trackArtist);
 
     row.append(checkbox, textWrap);
     customTracksEl.appendChild(row);
@@ -342,6 +348,7 @@ function syncSeekDisplay() {
 
 function clearPlayerDisplay() {
   artworkRequest += 1;
+  artEl.replaceChildren();
   artEl.style.backgroundImage = "url('/assets/logo.png')";
   artEl.dataset.artState = "ready";
   artEl.dataset.artLabel = "KrispyKP artwork";
@@ -355,8 +362,9 @@ function clearPlayerDisplay() {
 }
 
 function loadTrackArtwork(track) {
+  artEl.replaceChildren();
   const source = track.art || "/assets/logo.png";
-  const label = `${track.name || "Current track"} artwork`;
+  const label = window.KRISPY_STRUCTURED_ARTWORK?.[track.id]?.alt || `${track.name || "Current track"} artwork`;
   const request = ++artworkRequest;
   const image = new Image();
   artEl.dataset.artState = "loading";
@@ -365,7 +373,7 @@ function loadTrackArtwork(track) {
 
   image.addEventListener("load", () => {
     if (request !== artworkRequest) return;
-    artEl.style.backgroundImage = `url("${source}")`;
+    if (!window.krispyStructuredArtwork?.(artEl, track)) artEl.style.backgroundImage = `url("${source}")`;
     artEl.dataset.artState = "ready";
     artEl.dataset.artLabel = label;
     artEl.setAttribute("aria-label", label);
@@ -471,6 +479,7 @@ function renderList() {
     const item = document.createElement("button");
     item.type = "button";
     item.dataset.trackId = track.id;
+    item.dataset.kkpStructuredId = "music.track." + track.id;
     item.className = "track-item" + (track.id === currentTrackId ? " active" : "") + (track.available ? "" : " unavailable");
     item.addEventListener("click", () => {
       loadTrackByIndex(index, true, true);
@@ -483,6 +492,7 @@ function renderList() {
     const thumb = document.createElement("span");
     thumb.className = "thumb";
     thumb.style.backgroundImage = `url(${track.art || "/assets/logo.png"})`;
+    window.krispyStructuredArtwork?.(thumb, track);
 
     const meta = document.createElement("span");
     meta.className = "track-item-meta";

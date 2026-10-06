@@ -1,0 +1,357 @@
+{
+  "schemaVersion": 1,
+  "task": "WEBSITE-ADMIN-STRUCTURED-CONTENT-CONTRACT",
+  "status": "VALIDATED / READY FOR TECHNICAL DELIVERY",
+  "preparation": "450c7aa8f1e7eee4bcea5e9ae88aaca627f9c730",
+  "mediaDependency": "9e4aae5fa7eaf5b9be78a7ac121e9c96f6cde2ce",
+  "branch": "codex/admin-structured-content-contract",
+  "finalSnapshot": "0BB90A6B7901DC170A69BC2557286AC52673A080461A90772A2E96582B84B2C9",
+  "receipts": [
+    {
+      "name": "Final structured/parser/translation/generator/preservation",
+      "status": "PASS",
+      "count": 22,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-unit-v8.log",
+      "sha256": "42CC17431F545B5A148045BE4AC1B4989718567BBF46884FFF1633C936817A29"
+    },
+    {
+      "name": "Maximum source/privacy/preservation — same final model/planner logic",
+      "status": "PASS",
+      "count": 6,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-max-v7.log",
+      "sha256": "687D7A3332C05E684ECB8BCADEAB7F28AB4C492F1388826DA78BAE0EF7E2EC34"
+    },
+    {
+      "name": "Inherited B content",
+      "status": "PASS",
+      "count": 34,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-content.log",
+      "sha256": "4237C3264E3D682A5FDABD3A785CEEC71BD787E8BE56EAB282CDAA7F37DCB56E"
+    },
+    {
+      "name": "Inherited D layout",
+      "status": "PASS",
+      "count": 28,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-layout.log",
+      "sha256": "99AC9226DFAF94B06DE51D35483804D033212829C268558B5E1EBEE14A60510A"
+    },
+    {
+      "name": "Inherited page creation",
+      "status": "PASS",
+      "count": 39,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-pages-v2.log",
+      "sha256": "73840B2ADFF64EDE12713CD5AD3882FBB478C2740A42F29A954613AD23A3A5C0"
+    },
+    {
+      "name": "Inherited media sanitization/fanout",
+      "status": "PASS",
+      "count": 14,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-media.log",
+      "sha256": "8198654AC169F15F25776F706CE74391581977F3A433A7FAB20373AB546070B7"
+    },
+    {
+      "name": "Lazy image decoding/refusal",
+      "status": "PASS",
+      "count": 7,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-lazy-v6.log",
+      "sha256": "EAA27CB8DA4B937356FA735A1793621376AA25D0DFB333B96CD86E407533EE5A"
+    },
+    {
+      "name": "Validator fault detection/restoration",
+      "status": "PASS",
+      "count": 10,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-selftest-v7.log",
+      "sha256": "55A7508496197110F157C1EB3D67AC152AFB123B486ACA8165153122FFFDDEAC"
+    },
+    {
+      "name": "Focused maximum-text intrinsic correction",
+      "status": "PASS",
+      "count": 15,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-long-fix-probe.log",
+      "sha256": "4AE862AF51DF3BB2B9D72256A89A6F0730A9CFF8BEF9D1F38664D990B7016280"
+    },
+    {
+      "name": "Final source acceptance",
+      "status": "PASS",
+      "count": 99,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-source-v8.json",
+      "sha256": "382E79F7C5414C66F8DB464E49E9B8C2244194902E1B1C20F4EDEC4FF64447C5"
+    },
+    {
+      "name": "Final owner mixed/private acceptance",
+      "status": "PASS",
+      "count": 125,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\Archive\\website-structured-full-2026-10-06\\final-v8\\owner-validation.json",
+      "sha256": "09C139A159F2BE52F6AC4052EC904BDA33AC41E82F7497F3565C071F39EB071C"
+    },
+    {
+      "name": "Final public mixed/privacy acceptance",
+      "status": "PASS",
+      "count": 125,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\Archive\\website-structured-full-2026-10-06\\final-v8\\public-validation.json",
+      "sha256": "7F0EB58F7E50ABF6E1CAB837EAB66816D9F7CD95B870B14670AEF6E7B67F3B93"
+    },
+    {
+      "name": "Final mixed width/DPR/private bridge",
+      "status": "PASS",
+      "count": 99,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\Archive\\website-structured-full-2026-10-06\\final-v8\\mixed-browser\\browser.json",
+      "sha256": "B68CE0A2443CEE26A5880B673EF7580FB8B8D19C9FE735963517EF04EF7B1529"
+    },
+    {
+      "name": "Final empty/single/unavailable/long/maximum browser",
+      "status": "PASS",
+      "count": 75,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\Archive\\website-structured-full-2026-10-06\\final-v8\\edge-browser\\browser.json",
+      "sha256": "9A95D63CC7EFE28D76DBB9C10F1B8FD1663A95C5A6AF5A41B490F5BF8A056365"
+    },
+    {
+      "name": "80-member working/index trust",
+      "status": "PASS",
+      "count": 80,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-trust-index.json",
+      "sha256": "6667A7AF431B382982A9E00A4735ACAC7865FF5981D6B70B95A708CBFAD4BFDD"
+    },
+    {
+      "name": "Original source/protected surface preservation",
+      "status": "PASS",
+      "count": 315,
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-preservation.json",
+      "sha256": "F9761D34BDC616BD5C8C25C97FFDF658A53B91C48326CF9FC44CA2B2EE16F62B"
+    }
+  ],
+  "retainedEvidence": [
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-browser.log",
+      "sha256": "E05252ED634DB7E9F21019B8533BD2FB3A8D6A35C061BFBE1394B7FA58FEE380"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-contract-final.log",
+      "sha256": "4211A55D5DD8738555C4CB13D823EC9C665C3E415A0F246883C8BA37CF01F81B"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-contract-frozen.log",
+      "sha256": "4211A55D5DD8738555C4CB13D823EC9C665C3E415A0F246883C8BA37CF01F81B"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-contract-v2.log",
+      "sha256": "FD08B5C6010C00BD8FDD8608D7590A4631C0C3FD08913D0DA3BD2F5644B7364B"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-contract-v3.log",
+      "sha256": "4211A55D5DD8738555C4CB13D823EC9C665C3E415A0F246883C8BA37CF01F81B"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-contract-v4.log",
+      "sha256": "4211A55D5DD8738555C4CB13D823EC9C665C3E415A0F246883C8BA37CF01F81B"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-early-standard.json",
+      "sha256": "CA5614976C3E1E0F610E2AB462175CE9E6CAFD9E9FE9E6DB468F2D5AB7FCB61E"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-edge-browser-current-v6-v2.log",
+      "sha256": "A3EA0B11591A310DA4BFE4E393820720A4961C21B6D05366413955F08C92A6FF"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-edge-browser-current-v6-v3.log",
+      "sha256": "E850B0C9F06D39EB075C63034E59083D36666EFBDE5717699F17489C7DD66C2C"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-edge-browser-current-v6.log",
+      "sha256": "361656F72D68AC0703A215BA770DF755188EDCDA33E295752729BD4864640A40"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-edge-browser-v8.log",
+      "sha256": "E850B0C9F06D39EB075C63034E59083D36666EFBDE5717699F17489C7DD66C2C"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-edge-preparation-v8.log",
+      "sha256": "E4A6C4A7E0B7044041FF804F97119B378805A4225EB5C3C29E8212049CFD25A9"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-browser-v6.log",
+      "sha256": "8DDEDDE32627D635779351127CA9262CA5167C283109F9987E0055DBE073B12C"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-browser-v7.log",
+      "sha256": "8DDEDDE32627D635779351127CA9262CA5167C283109F9987E0055DBE073B12C"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-browser-v8.log",
+      "sha256": "8DDEDDE32627D635779351127CA9262CA5167C283109F9987E0055DBE073B12C"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-content.log",
+      "sha256": "4237C3264E3D682A5FDABD3A785CEEC71BD787E8BE56EAB282CDAA7F37DCB56E"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-layout.log",
+      "sha256": "99AC9226DFAF94B06DE51D35483804D033212829C268558B5E1EBEE14A60510A"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-lazy-v6.log",
+      "sha256": "EAA27CB8DA4B937356FA735A1793621376AA25D0DFB333B96CD86E407533EE5A"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-max-v6.log",
+      "sha256": "687D7A3332C05E684ECB8BCADEAB7F28AB4C492F1388826DA78BAE0EF7E2EC34"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-max-v7.log",
+      "sha256": "687D7A3332C05E684ECB8BCADEAB7F28AB4C492F1388826DA78BAE0EF7E2EC34"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-media.log",
+      "sha256": "8198654AC169F15F25776F706CE74391581977F3A433A7FAB20373AB546070B7"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-owner-public-v6.log",
+      "sha256": "D393B95F4AE3D88C1307150B071D3710B582A3199B7FA74F0A67A52F46B77F96"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-owner-public-v7.log",
+      "sha256": "D393B95F4AE3D88C1307150B071D3710B582A3199B7FA74F0A67A52F46B77F96"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-owner-public-v8.log",
+      "sha256": "D393B95F4AE3D88C1307150B071D3710B582A3199B7FA74F0A67A52F46B77F96"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-pages-v2.log",
+      "sha256": "73840B2ADFF64EDE12713CD5AD3882FBB478C2740A42F29A954613AD23A3A5C0"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-pages.log",
+      "sha256": "A11A3C2392353EF03A205C9B902D2870AB2A2C35B76D74B2A96A8021881BF998"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-preservation.json",
+      "sha256": "F9761D34BDC616BD5C8C25C97FFDF658A53B91C48326CF9FC44CA2B2EE16F62B"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-preservation.log",
+      "sha256": "1A0BE5C219F7957CC2D2D356FBC0D758CE1DCC68AEFF006DF5434C16C9189D29"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-selftest-v7.log",
+      "sha256": "55A7508496197110F157C1EB3D67AC152AFB123B486ACA8165153122FFFDDEAC"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-source-v8.json",
+      "sha256": "382E79F7C5414C66F8DB464E49E9B8C2244194902E1B1C20F4EDEC4FF64447C5"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-source-v8.log",
+      "sha256": "703E6A505793FEDC7EB3C5B7DBD8C5D1030A6FBB6A4509BBEDEA0272C92ECAB3"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-source.json",
+      "sha256": "AB7ABC7878D5E250DC7E4A831BAB1EED7D527EC9893C5932A86E67F8E4D260CC"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-source.log",
+      "sha256": "3662138370F5D0F4880802F83F817ED8CA205DB5AD8849B2895EE7A28466F93E"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-standard-restored.json",
+      "sha256": "5E88AEF2D78C8E466A56C5292B1B0FFE52D8F934E3E1698ECF52FFD8A6AD118A"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-standard-restored.log",
+      "sha256": "505C8E54A21A6EED4B0BF13626E59E78022BB46EAE983AF63B0B0B3D1863EEBF"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-standard-v7.json",
+      "sha256": "BE5CD178ED147D18079379B675880472A96EAFE08DC0A05A8A92719FE502CB98"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-standard-v7.log",
+      "sha256": "085EE822BFFD37CE02A86BF2EF86022E86C4A47C1A8EB1D04F4AE271930F4E7C"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-trust-index.json",
+      "sha256": "6667A7AF431B382982A9E00A4735ACAC7865FF5981D6B70B95A708CBFAD4BFDD"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-unit-v6.log",
+      "sha256": "42CC17431F545B5A148045BE4AC1B4989718567BBF46884FFF1633C936817A29"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-unit-v7-restored.log",
+      "sha256": "42CC17431F545B5A148045BE4AC1B4989718567BBF46884FFF1633C936817A29"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-unit-v7.log",
+      "sha256": "7EEFD16D3B511CCF6078922CD67F019F6EE75AC76E131A261F3AE8DC2927FCEF"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-unit-v8.log",
+      "sha256": "42CC17431F545B5A148045BE4AC1B4989718567BBF46884FFF1633C936817A29"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-final-unit.log",
+      "sha256": "42CC17431F545B5A148045BE4AC1B4989718567BBF46884FFF1633C936817A29"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-long-fix-probe.log",
+      "sha256": "4AE862AF51DF3BB2B9D72256A89A6F0730A9CFF8BEF9D1F38664D990B7016280"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-maximum.log",
+      "sha256": "687D7A3332C05E684ECB8BCADEAB7F28AB4C492F1388826DA78BAE0EF7E2EC34"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-owner-public.log",
+      "sha256": "D393B95F4AE3D88C1307150B071D3710B582A3199B7FA74F0A67A52F46B77F96"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-prep-standard.json",
+      "sha256": "BD91BAB99201477271C22BE09803D9A098A8660E7D347F4EC2FBAEE90E85A302"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-preservation.json",
+      "sha256": "20859DAF8CE0F44A3FEC83943F056E459B2354B0BA94FC9FC110106C00C29E1F"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-protected-checkpoints.json",
+      "sha256": "04E11295913F38224C7096C46801D8A848CADEE0E0FDCE6A108C17ACBFB8DDB8"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-source-acceptance.json",
+      "sha256": "809F02979FC735F7B1ABBF99C5C568007EF2C31BF43FE6B14D2340F4DCFE6EBB"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-source-media.log",
+      "sha256": "8198654AC169F15F25776F706CE74391581977F3A433A7FAB20373AB546070B7"
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-structured-content-contract\\.validation\\structured-source-observation.json",
+      "sha256": "93D2F991D90C37BE7D5AE0BD71431C6DCA401D9A847017F91A3008125501A060"
+    }
+  ],
+  "priorRunLimits": [
+    "Intermediate title provenance and browser shutdown failures retained before correction.",
+    "Early page-preservation failure came from mixed EOL; existing HTML byte-preservation passes after correction.",
+    "One standard/unit run overlapped intentional validator fault injection; retained stale-baseline/page-error failures superseded by restored22/74 and current source acceptance.",
+    "Early private browser helpers expected absent iframe src instead of about:blank and mobile select at desktop; helper assertions corrected to actual preserved behaviour.",
+    "Initial75-case edge pass only checked viewport overflow; visual inspection found clipped unbroken Video labels/card thumbnail stretching. Final scoped intrinsic CSS and75 current edge bounds supersede that evidence.",
+    "Maximum6/inherited B34/D28/pages39/media14/lazy7/selftest10 precede only equivalent tool EOL normalization and scoped Video CSS; final unit22/source acceptance/mixed/edge cases cover the final bytes."
+  ],
+  "visualInspection": [
+    "Home/Music/Videos source and current mixed at390/1440",
+    "Empty/Music and maximum/Video mobile, long Music mobile and corrected long Video desktop"
+  ],
+  "manual": [
+    "Native Admin WPF/WebView2 pointer/keyboard controls, physical DPI/touch, true zoom and assistive technology",
+    "Subjective playback/visual quality and non-Chromium behaviour",
+    "Live external embeds/thumbnails/service delivery, actual credentialed refresh and hosting/deployment"
+  ],
+  "unchanged": [
+    "Four original Music/lyrics/Video sources",
+    "Audio/artwork original assets and tournament configuration/rules",
+    "Workflow/configuration/hosting/secrets",
+    "Canonical Website/Admin mains and protected media worktree"
+  ],
+  "delivery": "Exact commit, remote tip and clean state in private Archive/website-structured-full-2026-10-06/DELIVERY.md; no main/deploy/cleanup."
+}

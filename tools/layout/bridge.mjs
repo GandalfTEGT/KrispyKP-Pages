@@ -1,6 +1,6 @@
 import { requireThat } from '../management/files.mjs';
 
-function install(options){
+export function install(options){
   if(location.origin!==options.origin || !['127.0.0.1','localhost','[::1]'].includes(location.hostname))throw Error('Preview origin mismatch');
   if(!(options.routes||['/about/','/about/index.html']).includes(location.pathname))throw Error('This route has no declared layout selection capability');
   window.__kkpLayoutBridgeV1?.detach();
@@ -11,7 +11,7 @@ function install(options){
   if(!validMap())throw Error('Managed page render map disagrees');
   const overlay=document.createElement('div');overlay.dataset.kkpPrivateOverlay='layout-v1';overlay.setAttribute('aria-hidden','true');
   overlay.style.cssText='position:fixed;pointer-events:none;z-index:2147483000;box-sizing:border-box;border:2px solid #7ee7ff;display:none;';document.body.append(overlay);
-  const find=id=>[...document.querySelectorAll('['+attribute+']')].find(n=>n.getAttribute(attribute)===id);
+  const find=id=>[...document.querySelectorAll('['+attribute+']')].find(n=>n.getAttribute(attribute)===id&&n.getClientRects().length&&n.getBoundingClientRect().width>0&&n.getBoundingClientRect().height>0);
   function send(kind,extra={}){if(!active)return;window.chrome?.webview?.postMessage({protocolVersion:1,kind,sessionId:options.sessionId,documentId:options.documentId,candidateSha256:options.candidateSha256,revision:++revision,...extra});}
   function geometry(){pending=0;if(!active||!selected)return;const element=find(selected);if(!element||!validMap()){selected=null;overlay.style.display='none';send('selectionInvalidated',{reason:'Rendered binding disappeared'});return;}
     const frame=element.tagName==='IMG'&&element.getAttribute('data-kkp-media-id')===selected?element.closest('[data-kkp-media-frame]'):null;

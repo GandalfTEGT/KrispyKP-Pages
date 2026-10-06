@@ -1,3 +1,5 @@
+> Historical preparation at450c7aa; superseded for executable use by SITE-STRUCTURED-CONSUMER.md and the final structured task delivery. Original observations/proposal retained below.
+
 # Structured Music and Video contract preparation
 
 Status: preparation, 6 October 2026. None of the proposed schemas or editing capabilities below is enabled. Website owns public source, projection, rendering and validation; Admin owns private editing, history and recovery. Full executable delivery follows the verified ADMIN-007 technical checkpoint. This document does not extend an existing consumer capability by implication.

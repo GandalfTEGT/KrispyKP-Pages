@@ -13,6 +13,7 @@ import {
 
 import {loadPages as checkPages} from "./pages/contract.mjs";
 import {loadMedia as checkMedia} from "./media/contract.mjs";
+import {loadStructured as checkStructured} from "./structured/project.mjs";
 import {routeTable,routeFiles} from "./pages/rules.mjs";
 
 function walk(root, filter, directory = root, output = []) {
@@ -297,6 +298,9 @@ export function runStaticValidation({ root = ROOT, profile = "standard", scope =
   validateCssReferences(root, result);
   validateJson(root, result);
   validateSeo(root, result);
+  if(fs.existsSync(path.join(root,"data/site-structured-contract.json"))){
+    try{checkStructured(root);record(result,"structured:literal-overlay-parity",true);}catch(error){record(result,"structured:literal-overlay-parity",false,{message:error.message});}
+  }
   if(fs.existsSync(path.join(root,"data/site-pages-contract.json"))){
     try{checkPages(root);record(result,"pages:source-shell-parity",true);}catch(error){record(result,"pages:source-shell-parity",false,{message:error.message});}
   }

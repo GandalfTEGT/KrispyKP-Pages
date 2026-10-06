@@ -1,3 +1,5 @@
+> Historical preparation at450c7aa; superseded for executable use by SITE-STRUCTURED-CONSUMER.md and the final structured task delivery. Original observations/proposal retained below.
+
 # Structured content consumer requirements — proposed
 
 Preparation only, 6 October 2026. This is a dependency checklist for a later executable Website/Admin checkpoint, not an enabled protocol. Read `SITE-STRUCTURED-CONTENT-PREPARATION.md` for the observed source map and proposed model.

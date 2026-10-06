@@ -366,6 +366,31 @@
   margin: 0;
 }
 
+/* Authored labels must fit their actual card/heading, not just the viewport. */
+.page-videos #videosSummaryText,
+.page-videos .videos-library-title,
+.page-videos .videos-block-title,
+.page-videos .videos-block-meta,
+.page-videos .videos-block-note,
+.page-videos .videos-card-meta,
+.page-videos .videos-card-title {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.page-videos .videos-library-head > div,
+.page-videos .videos-block-head > div,
+.page-videos .videos-library-copy,
+.page-videos .videos-thumb-button {
+  min-width: 0;
+}
+
+.page-videos .videos-library-card {
+  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+}
+
 .videos-library-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 260px));

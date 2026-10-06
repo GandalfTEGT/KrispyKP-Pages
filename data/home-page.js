@@ -268,6 +268,7 @@
     const article = document.createElement("article");
     article.className = "home-featured-track-card";
     article.dataset.trackId = track.id || "";
+    article.dataset.kkpStructuredId = "home.track." + track.id;
     article.dataset.trackName = track.name || "Untitled Track";
 
     const head = document.createElement("div");
@@ -275,7 +276,9 @@
 
     const art = document.createElement("div");
     art.className = "thumb home-featured-track-art";
+    // The background remains the legacy fallback; declared media uses a real image.
     art.style.backgroundImage = `url("${track.art || "assets/logo.png"}")`;
+    window.krispyStructuredArtwork?.(art, track);
 
     const copy = document.createElement("div");
     copy.className = "home-featured-track-copy";

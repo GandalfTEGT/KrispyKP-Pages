@@ -1,0 +1,48 @@
+{
+  "siteId": "krispykp",
+  "schemaVersion": 1,
+  "protocolVersion": 1,
+  "adapter": "literal-overlay-v1",
+  "requiredCapabilities": [
+    "structured.music.v1",
+    "structured.lyrics.v1",
+    "structured.video.v1",
+    "structured.artwork.v1",
+    "structured.selection.v1",
+    "structured.public-filter.v1",
+    "snapshot.validation.v1"
+  ],
+  "stateFile": "data/site-structured-content.json",
+  "outputFile": "data/site-structured.generated.js",
+  "sourceFiles": [
+    "data/tracks.js",
+    "data/lyrics.js",
+    "data/video-playlists.config.mjs",
+    "data/videos.generated.js"
+  ],
+  "routes": [
+    "/",
+    "/music/",
+    "/videos/"
+  ],
+  "maxOperations": 500,
+  "maxTracks": 500,
+  "maxPlaylists": 100,
+  "maxCategories": 100,
+  "maxTabs": 200,
+  "maxVideos": 5000,
+  "maxLabel": 200,
+  "maxLyrics": 32000,
+  "maxStateBytes": 4194304,
+  "maxSourceBytes": 8388608,
+  "maxImportedOccurrences": 20000,
+  "maxLiteralNodes": 500000,
+  "maxLiteralDepth": 32,
+  "maxFeatureOnlyVideos": 1,
+  "projectionVersion": 1,
+  "maxLatestPerCategory": 16,
+  "maxOccurrences": 22000,
+  "externalRefresh": false,
+  "deletion": false,
+  "audioImport": false
+}

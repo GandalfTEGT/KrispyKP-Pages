@@ -152,7 +152,10 @@
     featureMeta.textContent = metaLabel || "Featured";
     featureNote.textContent = video.note || "";
     featureNote.hidden = !video.note;
-    if (featureDirect) featureDirect.href = video.url || `https://www.youtube.com/watch?v=${video.videoId}`;
+    if (featureDirect) {
+      featureDirect.href = video.url || `https://www.youtube.com/watch?v=${video.videoId}`;
+      featureDirect.hidden = false;
+    }
     featureState.hidden = false;
     selectedState.hidden = true;
     if (topGrid) topGrid.classList.remove("is-selected");
@@ -201,7 +204,9 @@
   }
 
   function setDefaultTopArea() {
-    const featured = data.featured || {};
+    const category = getActiveCategory();
+    const context = category?.authoredFeatured ? findVideoContext(category.featuredVideoId) : null;
+    const featured = category?.authoredFeatured ? (context?.video || {}) : (data.featured || {});
     if (featured.videoId) {
       currentVideo = null;
       showFeatured(
@@ -210,8 +215,19 @@
           title: featured.title || "Featured Video",
           note: featured.note || ""
         },
-        "Featured"
+        category?.authoredFeatured ? category.title : "Featured"
       );
+    } else {
+      currentVideo = null;
+      stopIframe(featureFrame);
+      stopIframe(playerFrame);
+      featureTitle.textContent = "No featured video selected";
+      featureMeta.textContent = "";
+      featureNote.textContent = "";
+      featureNote.hidden = true;
+      if (featureDirect) { featureDirect.removeAttribute("href"); featureDirect.hidden = true; }
+      featureState.hidden = false;
+      selectedState.hidden = true;
     }
   }
 
@@ -272,6 +288,7 @@
     sortMode = getDefaultSortForCategory(category);
     closeMoreMenu();
     renderAll();
+    if (!currentVideo) setDefaultTopArea();
     keepCurrentTopArea();
   }
 
@@ -309,6 +326,7 @@
       const button = document.createElement("button");
       button.type = "button";
       button.className = "videos-tab" + (category.id === activeCategoryId ? " active" : "");
+      button.dataset.kkpStructuredId = "videos.category." + category.id;
       button.textContent = category.title;
 
       button.addEventListener("click", () => {
@@ -359,6 +377,7 @@
         const item = document.createElement("button");
         item.type = "button";
         item.className = "videos-more-item" + (category.id === activeCategoryId ? " active" : "");
+        item.dataset.kkpStructuredId = "videos.category." + category.id;
         item.textContent = category.title;
 
         item.addEventListener("click", () => {
@@ -390,6 +409,7 @@
       button.type = "button";
       button.className = "videos-subtab" + (tab.id === activeSubTabId ? " active" : "");
       button.textContent = tab.title;
+      button.dataset.kkpStructuredId = "videos.tab." + tab.id;
 
       button.addEventListener("click", () => {
         if (activeSubTabId === tab.id) return;
@@ -406,6 +426,7 @@
   function createLibraryCard(video, sourceTitle) {
     const article = document.createElement("article");
     article.className = "frame videos-library-card";
+    article.dataset.kkpStructuredId = "videos.video." + video.videoId;
 
     const thumbButton = document.createElement("button");
     thumbButton.type = "button";

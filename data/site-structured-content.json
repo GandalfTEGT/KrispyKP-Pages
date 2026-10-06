@@ -1,0 +1,18 @@
+{
+  "siteId": "krispykp",
+  "schemaVersion": 1,
+  "music": {
+    "tracks": [],
+    "playlists": [],
+    "lyrics": [],
+    "order": []
+  },
+  "videos": {
+    "videos": [],
+    "categories": [],
+    "tabs": [],
+    "tabOrders": [],
+    "order": [],
+    "featured": null
+  }
+}

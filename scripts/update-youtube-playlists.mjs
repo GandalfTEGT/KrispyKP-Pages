@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import { VIDEO_PLAYLISTS } from "../data/video-playlists.config.mjs";
+import { preserveVideoOverlays } from "../tools/structured/generator.mjs";
 
 const API_KEY = process.env.YOUTUBE_API_KEY;
 
@@ -197,7 +198,7 @@ async function build() {
 
   await fs.writeFile(
     "data/videos.generated.js",
-    `window.KRISPY_VIDEO_DATA = ${JSON.stringify(finalData, null, 2)};\n`,
+    `window.KRISPY_VIDEO_DATA = ${JSON.stringify(preserveVideoOverlays(process.cwd(), finalData), null, 2)};\n`,
     "utf8"
   );
 }
