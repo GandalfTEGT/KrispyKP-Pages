@@ -14,7 +14,8 @@ function install(options){
   const find=id=>[...document.querySelectorAll('['+attribute+']')].find(n=>n.getAttribute(attribute)===id);
   function send(kind,extra={}){if(!active)return;window.chrome?.webview?.postMessage({protocolVersion:1,kind,sessionId:options.sessionId,documentId:options.documentId,candidateSha256:options.candidateSha256,revision:++revision,...extra});}
   function geometry(){pending=0;if(!active||!selected)return;const element=find(selected);if(!element||!validMap()){selected=null;overlay.style.display='none';send('selectionInvalidated',{reason:'Rendered binding disappeared'});return;}
-    const r=element.getBoundingClientRect();overlay.style.display=mode==='edit'?'block':'none';Object.assign(overlay.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
+    const frame=element.tagName==='IMG'&&element.getAttribute('data-kkp-media-id')===selected?element.closest('[data-kkp-media-frame]'):null;
+    const r=(frame?.getAttribute('data-kkp-media-frame')===selected?frame:element).getBoundingClientRect();overlay.style.display=mode==='edit'?'block':'none';Object.assign(overlay.style,{left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px'});
     const declaration=targets.get(selected);send('selectionGeometry',{id:selected,locked:declaration.locked,reason:declaration.reason||null,viewport:{width:innerWidth,height:innerHeight},devicePixelRatio,visualViewport:window.visualViewport?{scale:visualViewport.scale,offsetLeft:visualViewport.offsetLeft,offsetTop:visualViewport.offsetTop}:null,scroll:{x:scrollX,y:scrollY},rect:{x:r.x,y:r.y,width:r.width,height:r.height},units:'css-px'});
   }
   function schedule(){if(active&&!pending)pending=requestAnimationFrame(geometry);}

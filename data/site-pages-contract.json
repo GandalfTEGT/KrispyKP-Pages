@@ -1,13 +1,14 @@
 {
   "siteId": "krispykp",
   "schemaVersion": 1,
-  "protocolVersion": 1,
-  "adapter": "static-pages-v1",
+  "protocolVersion": 2,
+  "adapter": "static-pages-v2",
   "requiredCapabilities": [
     "pages.compose.v1",
     "pages.routes.v1",
     "pages.shell.v1",
-    "snapshot.validation.v1"
+    "snapshot.validation.v1",
+    "pages.image-media.v2"
   ],
   "registryFile": "data/site-pages.json",
   "styleFile": "styles/site-pages.generated.css",

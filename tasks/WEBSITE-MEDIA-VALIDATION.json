@@ -1,0 +1,996 @@
+{
+  "schemaVersion": 1,
+  "task": "WEBSITE-ADMIN-MEDIA-CONTRACT",
+  "status": "VALIDATED / READY FOR IMMUTABLE TASK DELIVERY",
+  "preparation": "91adce5be288469a35edcbfe64e90e0b32fad9fc",
+  "correction": "7d5d6917c83f1f1d39a8d738fea93e6a6d0c60cf",
+  "merge": "b7f233299069fe9689a06984dc2fdb531d700df1",
+  "toolFiles": 67,
+  "decoderFiles": 1141,
+  "decoderDependencySha256": "3D3477D6249F8879D4500D842F2885A489909EB5F7D680CF2DDB431AD016590B",
+  "validation": {
+    "mediaGroups": 14,
+    "extraCodecGroups": 4,
+    "contentGroups": 34,
+    "layoutGroups": 28,
+    "pageCases": 39,
+    "lazyImageGroups": 7,
+    "selfTestProbes": 10,
+    "mediaWidthDprCases": 33,
+    "legalAspectBoundaryWidthCases": 11,
+    "sourceStandardChecks": 73,
+    "sourceAcceptanceChecks": 98,
+    "ownerAcceptanceChecks": 133,
+    "publicAcceptanceChecks": 122,
+    "finalFailures": 0
+  },
+  "receipts": [
+    {
+      "file": "candidate-final-owner.acceptance.json",
+      "sha256": "AAAF2226CC1E0CAB26CAFC1210CA92A69F5FAD7BB008566D20A2D53FD8AF9A98",
+      "bytes": 44901,
+      "status": "PASS",
+      "checks": 133,
+      "candidateSha256": "CDC4EA0FD26D3B80193D53A59BF5304E54E4B12C5BD0EF5D503DD53BA84908E1"
+    },
+    {
+      "file": "candidate-final-public.acceptance.json",
+      "sha256": "FBA3009E9198A24EDEE070E4BC25C3131BDD50D06E8931822DDB3F15D9207C94",
+      "bytes": 36699,
+      "status": "PASS",
+      "checks": 122,
+      "candidateSha256": "2AAC12326532ECBD633041E25737E4D001952F6B0DF9A8EC755DFB0511B18B31"
+    },
+    {
+      "file": "candidate-final-owner.materialise.json",
+      "sha256": "78C2AEE8A523A54448100CD4586D0B144CD8D758645A4EED6D94CA506460B752",
+      "bytes": 13073,
+      "status": "MATERIALISED",
+      "checks": null,
+      "candidateSha256": "CDC4EA0FD26D3B80193D53A59BF5304E54E4B12C5BD0EF5D503DD53BA84908E1"
+    },
+    {
+      "file": "candidate-final-public.materialise.json",
+      "sha256": "94A42381E06B0F42B3A06C2CBBCF81D7CBFF1BB6CCA20E269C39C9D0797281B4",
+      "bytes": 8675,
+      "status": "MATERIALISED",
+      "checks": null,
+      "candidateSha256": "2AAC12326532ECBD633041E25737E4D001952F6B0DF9A8EC755DFB0511B18B31"
+    },
+    {
+      "file": "cli-plan-final.json",
+      "sha256": "3D30F787881A4DBAD0AE28472D872405770EDC70575D0928357A6636BD2F642D",
+      "bytes": 10565,
+      "status": "PLANNED",
+      "checks": null,
+      "candidateSha256": null
+    },
+    {
+      "file": "extra-checks.json",
+      "sha256": "587B93A72377BBEEF5FE40B2996078CE6DC5763204F92B6EA41343332FDD6184",
+      "bytes": 497,
+      "status": "PASS",
+      "checks": [
+        "Exact PNG/WebP alpha pixel preservation after orientation",
+        "8MiB input and canonical base64 refusal",
+        "Full-pixel PNG missing IEND and bad CRC refusal",
+        "Undeclared target/deletion refusal"
+      ],
+      "candidateSha256": null
+    },
+    {
+      "file": "ratio-boundaries.json",
+      "sha256": "D31950067749BEECD57B1684E57D4CD24D8973863D0DA0948910B86E55689362",
+      "bytes": 264,
+      "status": "PASS",
+      "checks": null,
+      "candidateSha256": null
+    },
+    {
+      "file": "preservation.json",
+      "sha256": "088B2D9112EA45287607023D3BF42E5956AAD65841105AED0F7FB3C2B588D5AC",
+      "bytes": 28853,
+      "status": "PASS",
+      "checks": null,
+      "candidateSha256": null
+    },
+    {
+      "file": "browser-release/browser.json",
+      "sha256": "63E37D069DDB375D4D90CF49D24E8DC342DCBD9EF8E93EB63B39C5D97ABE1294",
+      "bytes": 2852,
+      "status": "PASS",
+      "checks": [
+        "eleven page foundation thresholds",
+        "decoded natural image aspect",
+        "crop coordinates",
+        "cover and contain frame geometry",
+        "selection uses visible frame",
+        "Home intrinsic threshold",
+        "distortion refusal",
+        "byte preservation"
+      ],
+      "candidateSha256": null
+    },
+    {
+      "file": "candidate-reviewed.owner.initial-failure.json",
+      "sha256": "3B2572738F19BA4A1CF07E7216152D4E1EB9B5AE99874877F012D40861B15BF6",
+      "bytes": 46266,
+      "status": "FAIL",
+      "checks": 133,
+      "candidateSha256": "710ABB9ABBD2443F98F9690B1529CAB5E3F7BB08875E6D7B55AAAC549A10751D"
+    },
+    {
+      "file": "candidate-reviewed.public.initial-failure.json",
+      "sha256": "09CAE782E6FF2211105E8083EE211649D4EFCE460BBC4A69254A24F9FD3B4DCE",
+      "bytes": 37575,
+      "status": "FAIL",
+      "checks": 122,
+      "candidateSha256": "569791D760AD858DDB98E64A01A63B0459F85BF0D4466683BEB03CAC2819B277"
+    }
+  ],
+  "localReceipts": [
+    {
+      "file": ".validation/media-source-corrected-standard.json",
+      "sha256": "F0DDE0054F2CCE510FA3770AB7184748E2D137B15DF56CB9DEEEB4DC3CB41708"
+    },
+    {
+      "file": ".validation/media-source-acceptance.json",
+      "sha256": "327ABF65107E6A164FABFBE4E094220475F22D21C3B01B148E28E79F9FEABAE2"
+    },
+    {
+      "file": ".validation/media-tests.log",
+      "sha256": "8198654AC169F15F25776F706CE74391581977F3A433A7FAB20373AB546070B7"
+    },
+    {
+      "file": ".validation/media-content-final-tests.log",
+      "sha256": "4237C3264E3D682A5FDABD3A785CEEC71BD787E8BE56EAB282CDAA7F37DCB56E"
+    },
+    {
+      "file": ".validation/media-layout-tests.log",
+      "sha256": "99AC9226DFAF94B06DE51D35483804D033212829C268558B5E1EBEE14A60510A"
+    },
+    {
+      "file": ".validation/media-pages-tests.log",
+      "sha256": "73840B2ADFF64EDE12713CD5AD3882FBB478C2740A42F29A954613AD23A3A5C0"
+    },
+    {
+      "file": ".validation/media-self-test.log",
+      "sha256": "55A7508496197110F157C1EB3D67AC152AFB123B486ACA8165153122FFFDDEAC"
+    }
+  ],
+  "preservation": {
+    "status": "PASS",
+    "base": "b7f233299069fe9689a06984dc2fdb531d700df1",
+    "files": 270,
+    "production": 203,
+    "preserved": 199,
+    "preservedFiles": [
+      {
+        "path": ".well-known/security.txt",
+        "sha256": "8066A87431C4F4553B54637787EF5838D0823340979AAA47CAECF2AEED3E947E"
+      },
+      {
+        "path": "CNAME",
+        "sha256": "2F49BEBC9F51F510BDFB2B67C04EE10D58977EF8F21D0AB238DBCD4B7E9729C9"
+      },
+      {
+        "path": "README-tournament-rules.md",
+        "sha256": "AEA827BCB12EE2DE5037F0B05C8395A31FD868B74B13AC63E085E606153BCEE4"
+      },
+      {
+        "path": "about/index.html",
+        "sha256": "C3D01CDBA3B444B232CA83D65AF50C4B7EEC5580E9E82EAF2CDFBE39DC1F51A5"
+      },
+      {
+        "path": "assets/favicon/android-chrome-192x192.png",
+        "sha256": "A3A44633C82C9DA8C76613EBFB90DDB039444246BEFB4BE74B53FBD486CBEE3E"
+      },
+      {
+        "path": "assets/favicon/android-chrome-512x512.png",
+        "sha256": "9BF0BD98916085F388322A7631EC70B2A4A27239363417314BDD11E61495A200"
+      },
+      {
+        "path": "assets/favicon/apple-touch-icon.png",
+        "sha256": "4E804487219BDA055C87A79A25668EFAE7DFCA12CC2C67BBBE6ED6C2B3E96F00"
+      },
+      {
+        "path": "assets/favicon/favicon-16x16.png",
+        "sha256": "066A34D48B72CA323DD859B0B1805EA9991CFE9ACA6F1BAA9E303A244E014837"
+      },
+      {
+        "path": "assets/favicon/favicon-32x32.png",
+        "sha256": "41114DAE3E0CB1AFD477569DFC29C5C94540F79AB3933296E5D97DA924025990"
+      },
+      {
+        "path": "assets/favicon/favicon.ico",
+        "sha256": "BE299BF868F16B383F7CA1FC1E05ACCE8C61105CDE9A96CCB3373A24D6146640"
+      },
+      {
+        "path": "assets/gdi.png",
+        "sha256": "0EA7766CDF68E7CA1E38EAE45BD94E705382F9D573EE354353D5D2136C0730D6"
+      },
+      {
+        "path": "assets/logo.png",
+        "sha256": "B457DFF5070A67569277F58662339042CFA524AAD2067888CF95233D637A08F0"
+      },
+      {
+        "path": "assets/nod.png",
+        "sha256": "8E18A09CF521D548D4DDB18D41675C852DE9EFEF49CB5DF402EC7B3657F43C20"
+      },
+      {
+        "path": "assets/tbanners/td-champions-league-2024.webp",
+        "sha256": "7BB46D0483A84F5F7534B1B5023B0E4893602BB0C0B39820B1D574CBC1F01D8B"
+      },
+      {
+        "path": "assets/tbanners/td-home-nations-2023.webp",
+        "sha256": "5C30D1FF4952B215D45E6405DA9180C59BB7994C21BBCF8436198943CA8C0560"
+      },
+      {
+        "path": "assets/tbanners/td-invasion-red-alert-2025.webp",
+        "sha256": "40F8FCAB8EB371E49EB17E2E011BAFD810191886C312CDC5506EAD5FDF1732DB"
+      },
+      {
+        "path": "assets/tbanners/td-invasion.png",
+        "sha256": "563B471934AF8A46310E252E15420BA2950CC0FA072ADA9B164C421449A74D15"
+      },
+      {
+        "path": "assets/tbanners/td-invasion.webp",
+        "sha256": "6807DBFABD7A764AC65C58E6A0A8098F8C9FB52D1C450FBB617F14FEF0B9DE39"
+      },
+      {
+        "path": "assets/tbanners/td-oceania-2023.webp",
+        "sha256": "42EE96CDFE998C8BEA47B15450FB4CAD872586210A08598917A69BCBCC743A4D"
+      },
+      {
+        "path": "assets/trules/td-champions-league-2024-rules.pdf",
+        "sha256": "DA9528848BEE32018CAEA001C2EE3ADDCE08DD5D1C06DB22497AC49CFEFCC1AC"
+      },
+      {
+        "path": "assets/trules/td-home-nations-2023-rules.pdf",
+        "sha256": "CF8EF31A1FF54CE42D0B15152A246BAB11D148C3607BE3448A2F7C4051068085"
+      },
+      {
+        "path": "assets/trules/td-invasion-red-alert-2025-rules.pdf",
+        "sha256": "C78B42679A444D780B9BF44CEE1E7E2FA24E9678B08DE7EC5D89871A7EA7E580"
+      },
+      {
+        "path": "assets/trules/td-invasion-rules.pdf",
+        "sha256": "042BC06A86CC0B84B08889625E6D23B0090EBA181846614528CEF1E7D18A5B9B"
+      },
+      {
+        "path": "assets/trules/td-oceania-2023-rules.pdf",
+        "sha256": "84E34E845112024B40BCB1A207E6A6DEF9041F5E82B2037BDA30C6454D01EDC0"
+      },
+      {
+        "path": "contact/index.html",
+        "sha256": "AE52B34B9AABD8716BFAACEA0FD2CDCF16634A51E3003ABD8AA2B33F1BE06718"
+      },
+      {
+        "path": "data/about.js",
+        "sha256": "EFC079FA5E2AD6DD7491D255C3F1797E35BF29CCFAAF06703419EFEB85850859"
+      },
+      {
+        "path": "data/challonge.generated.json",
+        "sha256": "4EB611AE70DD496874C5942DC3BD3591E7AB3B571D745E4A51A21395C4715311"
+      },
+      {
+        "path": "data/contact.js",
+        "sha256": "44D1A7C10A7EE1108DCC92CAF1B0F7FEB0C2D5C8BA04C394D87B2DA195470CF0"
+      },
+      {
+        "path": "data/exampletournaments.config.js",
+        "sha256": "06928A40E648C83CD20E5840ED0BFF722F7FC54C18C3B248E2A782D129656369"
+      },
+      {
+        "path": "data/flags.js",
+        "sha256": "928C3BCEE409BB6E733402C312B87E1A765098C2A3294BF7924EA13048F97E5C"
+      },
+      {
+        "path": "data/home-page.js",
+        "sha256": "266C2622BE2B1005AF97C8AFD2F7E1110B48BC2E7AF2A7C71919774BB05D2403"
+      },
+      {
+        "path": "data/lyrics.js",
+        "sha256": "677628E8860F2F55576BE0A3E21B06A040717462D2C29F8E1B583A711A4CB1E0"
+      },
+      {
+        "path": "data/music-player.js",
+        "sha256": "06838F0961EEF1DBA89C10F5C3808558A9836192D05758862B424E4037D22759"
+      },
+      {
+        "path": "data/radar-effects.js",
+        "sha256": "1B911EB3F6F742E2E940CA32CEBD7C733DDD4C9CE1AD277412BFC296AA3229F5"
+      },
+      {
+        "path": "data/radar-game.js",
+        "sha256": "28866E14B2026F83792F42780C8D39881AE4928BF12A5EF5A0843AF7A0296153"
+      },
+      {
+        "path": "data/radar-rts-audio.js",
+        "sha256": "025F6D06C1142AEA4E20627EB5CCADF58A73A920DD43F2D6AC9B42083A763FCD"
+      },
+      {
+        "path": "data/radar-rts-definitions.js",
+        "sha256": "A2A71C205399CE1B8974C6E891BD5549C109718F9C03C8968CCDCF6DC6DB696B"
+      },
+      {
+        "path": "data/radar-rts-engine.js",
+        "sha256": "3C511E85249DC4F010D14762974B07779690A77E9CE4C80C6FEC6B8053C1B195"
+      },
+      {
+        "path": "data/radar-rts-icons.js",
+        "sha256": "6AB2F8BE2DC3934B6C1B961E78295C5558C9BD48B9EA99DCC0D7483E1D265B67"
+      },
+      {
+        "path": "data/radar-rts-input.js",
+        "sha256": "A1BC818213BE171BC8764C4D926869A46B4725A00794BCCEA55DEDF467615EEA"
+      },
+      {
+        "path": "data/radar-rts-renderer.js",
+        "sha256": "3FF7511C8BCCD0F757496DED4C7887F44E4F3721D37CA8A08F1EFD0E81983E1C"
+      },
+      {
+        "path": "data/radar-rts-voice.js",
+        "sha256": "E40111BE8CC82054B67188AB02C0BCDB6835D716571A922D0519922D57BBA686"
+      },
+      {
+        "path": "data/site-layout-state.json",
+        "sha256": "0129D389D5849394EE9E9726C82F184C9A30A31D338E869FFFF7D4217A737662"
+      },
+      {
+        "path": "data/site-layout.json",
+        "sha256": "A71E450CDCCE6822CFF6031DA72889FC3B3A95DEF59F6E1584C781A71702E6C5"
+      },
+      {
+        "path": "data/site-management.json",
+        "sha256": "DFBB5364ADD0B46CED5E1BF45E1C3442209C436CA45F6830B300E9CC6914A453"
+      },
+      {
+        "path": "data/site-pages.json",
+        "sha256": "B5D4D0A35374A7022C9B340788E4CC398034B70FFD6ACDADB3CEC1593912C44F"
+      },
+      {
+        "path": "data/site-ui.js",
+        "sha256": "8228FBC9AAFDE97C8031B8E23B26F5DA26ABA958CB8086ACA0964BDCA0735DF1"
+      },
+      {
+        "path": "data/tournaments-page.js",
+        "sha256": "0A472C429D170D0BD306ED22CDDAF580973853C7C9614E9A1615BBB7193B3206"
+      },
+      {
+        "path": "data/tournaments.config.js",
+        "sha256": "EE6BC8521DAEB862533E26D7988B301666FF5626B4D87F9FA72209EB39CB70DB"
+      },
+      {
+        "path": "data/tracks.js",
+        "sha256": "F04FEB96EB1218DE2BF2ED6047F80A933A25ED9D4913DDE5D6EA82EC514BFFAC"
+      },
+      {
+        "path": "data/video-playlists.config.mjs",
+        "sha256": "F489DC6E7B40978E73564AE8765351716335F648A39AE6FB3068F432AC7B443C"
+      },
+      {
+        "path": "data/videos-page.js",
+        "sha256": "B22AF73665995FAD745E18A78F50A5706BA400DB1B07D0C8F490E6043AB3F838"
+      },
+      {
+        "path": "data/videos.generated.js",
+        "sha256": "99CE1E6DCE5CB579A492E54C136A69ABE1FB2D6045D70A1DD71E202CA548FE74"
+      },
+      {
+        "path": "docs/TOURNAMENT-CONTRACT.md",
+        "sha256": "9833262A6406939AB3AA184AB64839AE7307E3D5A9ECB22380081E30E125BB64"
+      },
+      {
+        "path": "index.html",
+        "sha256": "18A4AF3F9887E402BA8E5F8D93A4CDEC60ED4FB60BF84CC16EAE5DF65E4313C4"
+      },
+      {
+        "path": "media/art/50-war-machine.webp",
+        "sha256": "48D7FA1AA4BD306CE482D02679197C2E6E1E82C80BBB76B77262B440042FA1CF"
+      },
+      {
+        "path": "media/art/act-on-faith.webp",
+        "sha256": "B03792455A479B86EDFA9DC7681CCC7388B30276A15C5ED264724402FBCB1238"
+      },
+      {
+        "path": "media/art/activate.webp",
+        "sha256": "8D759DD6734A15F3446F584A0E6493FF9087344014267B8D2C64A45DF4BBC4FE"
+      },
+      {
+        "path": "media/art/adidas-anarchy.webp",
+        "sha256": "A5AEFDF161D4F68D6DEF1CA156DA06ACF79270668963A3E2976D5A72713BF56E"
+      },
+      {
+        "path": "media/art/air-force-tony.webp",
+        "sha256": "027474ADBD8A88AB6B2F966DC820D2489000D838F2ABCF73D07B0FEA6F72735E"
+      },
+      {
+        "path": "media/art/apm-mirage.webp",
+        "sha256": "C54B56CB8F75DE161EA4463F590D81731C1FE3A0D9B8FC31923BE5136A4A5D89"
+      },
+      {
+        "path": "media/art/bassline.webp",
+        "sha256": "D78AB06F26EB9E915D8E50F201ED788BDF659BFD67B538723362F6B57DE9A224"
+      },
+      {
+        "path": "media/art/behind-the-brotherhood-lines.webp",
+        "sha256": "FAFC6C52A0E289187D49DB0AD64980074C3130D99283356E86A319A6BBC4EFAB"
+      },
+      {
+        "path": "media/art/behind-the-game.webp",
+        "sha256": "F7BCF6A14A067800B49F990AFDA6C9C0BA80B2942A6588EA1BF917EA80853E1A"
+      },
+      {
+        "path": "media/art/black-hand-frequency.webp",
+        "sha256": "F23E09F217CC654F199683A9A02F766EF283BD5715DC2ED3BDD47C71C5B3FCC2"
+      },
+      {
+        "path": "media/art/children-of-nod.webp",
+        "sha256": "53CD1E7247313D9B4A8AA377239B9D3C22880C0BA9E926C9595D785BECB9F1DC"
+      },
+      {
+        "path": "media/art/chrono.webp",
+        "sha256": "AC1955BBA05AA983F783CF06E3A4DA3849DB40C255396A10B4CDBEBDA7681D94"
+      },
+      {
+        "path": "media/art/command-and-conquer.webp",
+        "sha256": "823C7FC45FBAF409CCCBDF7F0F2767419702954BB32FC7DBAE533AFCDF63E087"
+      },
+      {
+        "path": "media/art/commit.webp",
+        "sha256": "26EE925F67691637F7A5954EE7C1DC0FFDB4EB0134CD4A9F721767B1006EF2D5"
+      },
+      {
+        "path": "media/art/currency.webp",
+        "sha256": "D041BB66094C445BE173098549398A72FD5AB78F455BF410EBC48BA00F0157FB"
+      },
+      {
+        "path": "media/art/cyber-blyat.webp",
+        "sha256": "614BAD10DD5E2FA2A472E03B01B7E6ABC857E38C8B59CAFB883C68138A2AAE09"
+      },
+      {
+        "path": "media/art/dominate.webp",
+        "sha256": "DDB0724B0494324E51735F18C404F61EC152166858F998B4E030788EBF3D7D5F"
+      },
+      {
+        "path": "media/art/five-ref-timing.webp",
+        "sha256": "41E16BC582838707FE8F54FF73AE264C40481E724F63F2ACBAB1F1B5DDB41CB8"
+      },
+      {
+        "path": "media/art/flame-tanks-rolling.webp",
+        "sha256": "43F7CF37B28C2FAFC1E97F93955D0B1C07F700F96494980A425B727577DD561B"
+      },
+      {
+        "path": "media/art/gg-wp.webp",
+        "sha256": "0C91C319067A0D4112592F064B2506A4BF474BB906FDAA52A6860DD74319DFAC"
+      },
+      {
+        "path": "media/art/hold-the-line.webp",
+        "sha256": "EAC70803409B19C8763C5704FA14D6E1EC2E5C9CE3EECA815C53D1793DCA67C5"
+      },
+      {
+        "path": "media/art/interference.webp",
+        "sha256": "425EA21F0F13C122418AEBB9F45C47588326AB343FE4943F444C5B36E8B33329"
+      },
+      {
+        "path": "media/art/ion-fire-over-sarajevo.webp",
+        "sha256": "944F8B27241421EC03AE55109B17180DC0C72DE9E089072921538455F30F74A9"
+      },
+      {
+        "path": "media/art/iron-curtain.webp",
+        "sha256": "9FE5E9BB23751C37AC99E2383B0B058C534603E9CA5930427E84127A2865FD25"
+      },
+      {
+        "path": "media/art/iron-protocol.webp",
+        "sha256": "0409C02B68B6430EB9EE420C21030F3F3C68E670D6E638C70E17508F3A9E4984"
+      },
+      {
+        "path": "media/art/jlgetout94.webp",
+        "sha256": "36C8C1829DEC91A3006EB5212786BCE113E9EB422490BF8932F92C1A72C76AA1"
+      },
+      {
+        "path": "media/art/krispykp-mini-soundtrack-album.webp",
+        "sha256": "AEFBACF82E97D182966323F4484C5D3EC421CA5F1CBF25659F3316EB03DADC18"
+      },
+      {
+        "path": "media/art/lag-lord-legacy.webp",
+        "sha256": "A15BC543A77C1FC3E0F5D9E09EEB00449B0A06F169A84D148AFB7C7A9952D6A9"
+      },
+      {
+        "path": "media/art/litany-of-the-flame.webp",
+        "sha256": "29B9204DA33CD9CBE495720E1ABF8595BB11D6D68A2D3B82DD953A06DB3893B3"
+      },
+      {
+        "path": "media/art/marked-in-black.webp",
+        "sha256": "1CC8FCA5B156926FF30C1FA3BDDA0408788A407ED2E6D06E49119F46735AC2CD"
+      },
+      {
+        "path": "media/art/martyrs-of-the-temple-prime.webp",
+        "sha256": "DA335D9B70459F7F56245AB4E20CE98DAA954B471506F31DF0C43049801D6C6B"
+      },
+      {
+        "path": "media/art/medium-tank-gospel.webp",
+        "sha256": "66339A2A10F076B55B08D37970E0B8990EB0C4581014A3FEFA7EE299CAD5484C"
+      },
+      {
+        "path": "media/art/network.webp",
+        "sha256": "6A0F9C1C558F4879BDE18155D78B7D040C740D20B417EC5B8752DC52F4102B9E"
+      },
+      {
+        "path": "media/art/one-vision---one-purpose.webp",
+        "sha256": "493ED93D3E65C03114AB588E1E0E9EB9C485F7A44456DF8DA8101E0D7F78C02A"
+      },
+      {
+        "path": "media/art/out-of-theatre.webp",
+        "sha256": "B02CF8A01073AEA9873E633593EC51CAC27C21D957C71EE64E1A661C17671BB2"
+      },
+      {
+        "path": "media/art/rank-1-god.webp",
+        "sha256": "A4C0E643083A0B32A99DE300DF172907A9AFE2F7CA5060DDA69888CD6D085144"
+      },
+      {
+        "path": "media/art/rust-isnt-real.webp",
+        "sha256": "6314E8E8BE381FC4CBD28C1B5812D9D46C67CBD3FBA91A108170F52EE292501C"
+      },
+      {
+        "path": "media/art/scorpion-in-the-dust.webp",
+        "sha256": "E15452A3187F32C6603F6914DFBA017D4EA9132CAEAA991C3DE77D6DE5FCAD6F"
+      },
+      {
+        "path": "media/art/season-one-pros-only.webp",
+        "sha256": "05F64924D994C57CAE0034B5574C306A704A65478B0AF477A869982028D0C7CA"
+      },
+      {
+        "path": "media/art/shadow-of-the-gla.webp",
+        "sha256": "F7E2B148A89B55E980DE8FF44FC7A1A237620613424BE445DC44FD4DA4DC2E52"
+      },
+      {
+        "path": "media/art/sixteen-new-maps.webp",
+        "sha256": "0022987E417158FA4159DA8C0DF097DB9F6ED6AFE06659EBBBF6DB780385CA0F"
+      },
+      {
+        "path": "media/art/static-front.webp",
+        "sha256": "64406931619C9901C9530CEFE38CB710008B0D2124E3116279E70EBAEA8309EE"
+      },
+      {
+        "path": "media/art/surplus-remix.webp",
+        "sha256": "70D6E0EA5C32C95063C9537A19AC05C3DD7C9B483838F56CBC09A6231F1F6656"
+      },
+      {
+        "path": "media/art/surplus.webp",
+        "sha256": "B0BA551DC983B27EC27E6290587A8AA9DE760C3F627EF8EC8677AE900C1D1EF0"
+      },
+      {
+        "path": "media/art/the-first-brother.webp",
+        "sha256": "1119060FB86D760181FAEA423F29340F32A1D7A1151EB367ED3E05A672623C07"
+      },
+      {
+        "path": "media/art/thxjimtdgc-bepis-league-forever.webp",
+        "sha256": "580AE10D64650D1AE8D823F0CBC91BC905DEA938B4F5C8A3BF7B4F2B3E54E583"
+      },
+      {
+        "path": "media/art/thxjimtdgc-chinook-cheese.webp",
+        "sha256": "BEDA2012EE35D88B7842EC563FA86F355F154E57433621F33DAF0B6DB997CAC0"
+      },
+      {
+        "path": "media/art/thxjimtdgc-dead-game-blues.webp",
+        "sha256": "899AC3442A1634818A9FBB06A9494F5C4CE61C14611A32F8D88598E1D5742E74"
+      },
+      {
+        "path": "media/art/thxjimtdgc-eternal-queue.webp",
+        "sha256": "A0612F32BB4236EC5D63EFB155D879BB4E335607094D254A7F43DB7884880387"
+      },
+      {
+        "path": "media/art/thxjimtdgc-friendship-making-unit.webp",
+        "sha256": "B56FA69C5F4561753E38C1F8D21865FFB81818728627EF53559E64DFE33BB29F"
+      },
+      {
+        "path": "media/art/thxjimtdgc-jims-yacht.webp",
+        "sha256": "77600394F52E2C4B5DD0B8C2BE1E45EBA3605425F637313053A0BCFFEF2F49E8"
+      },
+      {
+        "path": "media/art/thxjimtdgc-jxdbot.webp",
+        "sha256": "09CAD31FDFBF34EFA789B61CB580EDCEA4E541D06EBBAB01C61AB438EB15B89C"
+      },
+      {
+        "path": "media/art/thxjimtdgc-legends-of-the-ladder.webp",
+        "sha256": "2D98701CFD25E83454DA1B07515C1B8598CA980C967DC927580FB2F735323B7A"
+      },
+      {
+        "path": "media/art/thxjimtdgc-linos-powerpoint-presentation.webp",
+        "sha256": "C4B31F0E5C17CB4553B2ED0DE4AE6C4F1BD797340140DF1E228AE81BE1A1E96B"
+      },
+      {
+        "path": "media/art/thxjimtdgc-noble-secrets.webp",
+        "sha256": "FA4341B3E629AC3BD0765D2F979FEAC0F761D30CE6D5596FAEBEEAB70A78BA13"
+      },
+      {
+        "path": "media/art/thxjimtdgc-random-for-advantage.webp",
+        "sha256": "3CB497ABEE42A0A54FFB105A581D2182747710C5A68E642180FB483D1235CB20"
+      },
+      {
+        "path": "media/art/thxjimtdgc-victory-in-disguise.webp",
+        "sha256": "B35F5D4B8B78D53B90DED37851E4F34F95566AD5AE70EDED35708F20DB3DE2C6"
+      },
+      {
+        "path": "media/art/thxjimtdgc.webp",
+        "sha256": "1820336E2F5C6570E9567A80D104FC293ED94ECEB1751C04FCC089DC9E2F63C5"
+      },
+      {
+        "path": "media/art/tiberium-pulse.webp",
+        "sha256": "F682C90BFE7DBB44F565A2E4B2235C65ACFD15A43FC3DBE7ECEB833F58E7C723"
+      },
+      {
+        "path": "media/art/too-late-for-sorry.webp",
+        "sha256": "157E4BD27AA14B19BBC5923C4C15DD907825FE694FA5C66CBFE773A1507615E7"
+      },
+      {
+        "path": "media/art/uplink.webp",
+        "sha256": "A053DB202BF431C16D777CD4A82154746A7A87EA7D539DD32D84605BFD8044D7"
+      },
+      {
+        "path": "media/art/war-engine.webp",
+        "sha256": "FAA4F36F108AEB9D3D3F9581E816F63BA1406D0A1105560AD889905E2E09428C"
+      },
+      {
+        "path": "media/music/50-war-machine.mp3",
+        "sha256": "B2A0BE1383F4D5D54B8F7CE55798EEFDE7D297A6D4F5818AFD9AB664FE68E7E5"
+      },
+      {
+        "path": "media/music/act-on-faith.mp3",
+        "sha256": "14DF73F4396932125B7B58E383E5610FDCD7711DEBABC9AA2AC66DA377E4CB99"
+      },
+      {
+        "path": "media/music/activate.mp3",
+        "sha256": "6C6F563AA1B54943BF88BA997FDFEB65EE3D1160DF401148E69FFC75AF206FDB"
+      },
+      {
+        "path": "media/music/adidas-anarchy.mp3",
+        "sha256": "2EB880AAD603239D9CC0A43C8A51AB38B5962BC77653FA017EB8245B46EC0F71"
+      },
+      {
+        "path": "media/music/air-force-tony.mp3",
+        "sha256": "CFB5A1F483D7F3CF8D7FE4707E7B63B3BD73801A2E2E2374628474BDD512835D"
+      },
+      {
+        "path": "media/music/apm-mirage-(scorpion-diss).mp3",
+        "sha256": "39CF16AA8452A31D8DBD129A545F0129FDE17E9CB94546B9C69B708B80E3768D"
+      },
+      {
+        "path": "media/music/bassline.mp3",
+        "sha256": "334BD4AC4F55B9644A4E08EFD6637565D14AA7D796406852F33B22C14B7BD37C"
+      },
+      {
+        "path": "media/music/behind-the-brotherhood-lines.mp3",
+        "sha256": "D8841C0BFEFC7B38A07A423585AE1F36B166792C8CDB3E8D96167A32AA7EEAA6"
+      },
+      {
+        "path": "media/music/behind-the-game.mp3",
+        "sha256": "C1A1D598BD9838D197B799DBA8929E95783C8CF4D860709158A97B518EE6DB62"
+      },
+      {
+        "path": "media/music/bepis-league-forever.mp3",
+        "sha256": "67F9DE2F87E23FEC7F30E79497AAEBC54089067E745CC82ECC91C1F8761EA7E9"
+      },
+      {
+        "path": "media/music/black-hand-frequency.mp3",
+        "sha256": "C600C16A30479C5F5C11E3E8537EA25FB5FABC0B5403DB286F04EEF6CF6DC5B7"
+      },
+      {
+        "path": "media/music/children-of-nod-(ascension-anthem)-(remastered).mp3",
+        "sha256": "762DC45A201E08AF770AF03C2C6B27A6219033970DA480ACD0A655D71DACAE7A"
+      },
+      {
+        "path": "media/music/chinook-cheese.mp3",
+        "sha256": "BB2C726E9591C717635DADC38AED7C33279A593E9A90810FD4F90D7A632B8F73"
+      },
+      {
+        "path": "media/music/chrono.mp3",
+        "sha256": "E5993C51726E78057A88C3EFB8ADF96A5184C003EE41A22C4767B3BF4B83B2A2"
+      },
+      {
+        "path": "media/music/commit.mp3",
+        "sha256": "4515B198CF0C8F2D472F91C12C3634D312C785CF031C8F40079D2B0CFB07971A"
+      },
+      {
+        "path": "media/music/conquer-command.mp3",
+        "sha256": "BE722DF64434F800EE6A18B629750B61BB2ABBFD514C541BB522D727E20ACDB3"
+      },
+      {
+        "path": "media/music/currency.mp3",
+        "sha256": "4A07D1EC2D38AAE6C76FFBD85276986313AF436A421751CB3D6E39FDB1984806"
+      },
+      {
+        "path": "media/music/cyber-blyat.mp3",
+        "sha256": "8370AA261B0582878B9BAAFA7BA235B155706F6E98D37EA9F7F790E61AE17877"
+      },
+      {
+        "path": "media/music/dead-game-blues.mp3",
+        "sha256": "9DFE77C2F4B8492410AFAD4AFAED9615B5BD98EDE5E294BD7D15E2C207AB200E"
+      },
+      {
+        "path": "media/music/dominate.mp3",
+        "sha256": "798A0AB9E5069134DC26A97469BEDC3BE88767408C3571F7430C1C7DB828C352"
+      },
+      {
+        "path": "media/music/eternal-queue.mp3",
+        "sha256": "9C690BE86BAC86B6765299836134DD9DDB3768C59D609697EBE14949ECD659DC"
+      },
+      {
+        "path": "media/music/five-ref-timing.mp3",
+        "sha256": "30F6576AAEC8E5140A80A384263F0BD5DE4722150D5C78A18CB4456F6AFAD36E"
+      },
+      {
+        "path": "media/music/flame-tanks-rollin.mp3",
+        "sha256": "B0B302A4EE3AEFC6F5B0BD99073D50D6AE135FC37C39D5134E352AF7EA3B49D0"
+      },
+      {
+        "path": "media/music/friendship-making-unit.mp3",
+        "sha256": "A9784EE9919024556CDB6C0F0B22D906699DB5221C8F7D22909AFBDAD037F161"
+      },
+      {
+        "path": "media/music/gg-wp.mp3",
+        "sha256": "B49D34207B2A0CF7D90AAF1DE94F3B7A34239EF50303CF81D21D50598C435C1E"
+      },
+      {
+        "path": "media/music/hold-the-line-(gdi-directive).mp3",
+        "sha256": "966D13CE382DD86F035A0A1A0E9219AACDE120FCB11AFB401C32D66397A1E0F2"
+      },
+      {
+        "path": "media/music/interference.mp3",
+        "sha256": "D7B977CB81DCCCA2919354D18C9D5CF9A4830FA0D7EA140D08B31FB04B9F1E1C"
+      },
+      {
+        "path": "media/music/into-the-wild.mp3",
+        "sha256": "087A3FC8441FFEBFB03748675063F495899C871348DBEDF9ACEC71D8A24A66A7"
+      },
+      {
+        "path": "media/music/ion-fire-over-sarajevo.mp3",
+        "sha256": "F27B7061F7663555CA9F894D62D8CF10DAFF8ADC49EA2EA0754CB409DB46C95D"
+      },
+      {
+        "path": "media/music/iron-curtain.mp3",
+        "sha256": "D8C16EF9317CE3506BCD17A583D3F636E27B7F709E876B6E1980A827FA9E975D"
+      },
+      {
+        "path": "media/music/iron-protocol.mp3",
+        "sha256": "25EE3A7EF81A23F3F88A059765846DCE3DFB26C3D3A2062859F20CACBCA1A2FF"
+      },
+      {
+        "path": "media/music/jims-yacht.mp3",
+        "sha256": "5B6B0AC7876895DC436241BA2B3C9214BCBC91D064F5951A8BF8A8385609AB28"
+      },
+      {
+        "path": "media/music/jlgetout94.mp3",
+        "sha256": "7F95644388868B380088D0927B12919A3EDB0D1FF34D8566601EC3CD01453145"
+      },
+      {
+        "path": "media/music/jxdbot.mp3",
+        "sha256": "30017AF8FBE109C02574B21ACF676021C121AE70F0BD6550923A4564F1F65316"
+      },
+      {
+        "path": "media/music/lag-lord-legacy.mp3",
+        "sha256": "D426108FE8CB2861708978B222AC062F4BA681F4EA85C6C64D48E40EDD6C4D19"
+      },
+      {
+        "path": "media/music/legends-of-the-ladder.mp3",
+        "sha256": "761A649F1F2FFAC29330DE5036DE376F317E8AE2D92F1A6BD9C63657596A6355"
+      },
+      {
+        "path": "media/music/linos-powerpoint-presentation.mp3",
+        "sha256": "F58EB2FFD153B7EC8F742334A114783C5008068B12562DADC03DF52D3A76ABAA"
+      },
+      {
+        "path": "media/music/litany-of-the-flame-(nightly-sermon).mp3",
+        "sha256": "C2A73522E7496A6A94F9FD937A2437A5B33623486E20830DC526719984A5DDCA"
+      },
+      {
+        "path": "media/music/marked-in-black.mp3",
+        "sha256": "4E4EF2512CE8E5BDC715DC33BF71D55F5ADC3F7296D4774ABDA436EF19067CD8"
+      },
+      {
+        "path": "media/music/martyrs-of-the-temple-prime.mp3",
+        "sha256": "35C2788B1E4097E562B21F9A5201160BC19352033BABCF3B125213A8D5591091"
+      },
+      {
+        "path": "media/music/medium-tank-gospel.mp3",
+        "sha256": "D721F4E7015487A49D2B4E704B8006CB0CF7DB68CB064F668E43825AB95A7344"
+      },
+      {
+        "path": "media/music/network.mp3",
+        "sha256": "018094BDC075D4F1A11EED8D1EB0B6ED10FD33E630EDED2E7FF30846A90448CA"
+      },
+      {
+        "path": "media/music/noble-secrets.mp3",
+        "sha256": "9FF4F4BEBBD2F3F8CFF17C99F356B00C4C467A4E8480DBBA66CF7E0A5D0A122C"
+      },
+      {
+        "path": "media/music/one-vision---one-purpose-(remastered).mp3",
+        "sha256": "E5F34EF8ECE948A1FE8D69A2BA7D5A643E6C1A009A44CFE92672E45FC6DD6983"
+      },
+      {
+        "path": "media/music/out-of-theatre.mp3",
+        "sha256": "68DE3E979C3A8ACCC42642F56E0762620A627C9A79C6E4EE8C9A1D9C089F3E50"
+      },
+      {
+        "path": "media/music/random-for-advantage.mp3",
+        "sha256": "8433493201D5472CF0F9ADDE12EA81C9960BC2ABB95B4D5EFE7147BEF27B3A5C"
+      },
+      {
+        "path": "media/music/rank-1-god.mp3",
+        "sha256": "4A8E405220692CFE361918B66E062123877418899F6C631B6B6A4AA1B62A1E17"
+      },
+      {
+        "path": "media/music/rust-isnt-real.mp3",
+        "sha256": "A4FED845AD0B6F706CEFD93A5C54BE2C8E24E213388B7BDE23911542B78D8581"
+      },
+      {
+        "path": "media/music/scorpion-in-the-dust.mp3",
+        "sha256": "17A6B331DDD8B8F8FEA7F6116DC9C975852DEB44D6DAF6960E50A27E8079AD3A"
+      },
+      {
+        "path": "media/music/season-one-pros-only.mp3",
+        "sha256": "88686C327B5EFF48F3DB42B6B4BB65897AEAC8A8F8C17DCDBB3E3A2EB6FAF5AD"
+      },
+      {
+        "path": "media/music/shadow-of-the-gla.mp3",
+        "sha256": "7A7AA1D35482668C3DDA96831168B076377F2A99C891A56819B547B7AF92DA1C"
+      },
+      {
+        "path": "media/music/sixteen-new-maps.mp3",
+        "sha256": "90F71E333EE3F2A3BBB1BAE5F6AE026D3B142DCF48C2357AA20AFF3D269EB8B6"
+      },
+      {
+        "path": "media/music/static-front.mp3",
+        "sha256": "8C42E85B6D905AB4EA99FF85C8E9C6332C46DCE35B693CF77F6BD40AAC32B820"
+      },
+      {
+        "path": "media/music/surplus-(remix).mp3",
+        "sha256": "55E512C6B9129994D68B2F5C2F3E7CFB06C4A6496D6FD8B0E699FEC2B097B8A4"
+      },
+      {
+        "path": "media/music/surplus.mp3",
+        "sha256": "73FAEB299B9E449B4B049F062F23721C8B10B12210A6E46126B1F04C4AA5C825"
+      },
+      {
+        "path": "media/music/the-first-brother.mp3",
+        "sha256": "C0FD57FD9583338E23D412118FF8B7CDC03440D0D0C6CD6EB5D894E418543F5A"
+      },
+      {
+        "path": "media/music/tiberium-pulse.mp3",
+        "sha256": "7D3B4845A2A3D9D1F34FD93EC551C5F0078F614578CC445340FDABA51EFC1BF9"
+      },
+      {
+        "path": "media/music/too-late-for-sorry.mp3",
+        "sha256": "3A954F0FAEE35B5F5D5A7B3FC412A76445A2412DEEF4B1A29965A3DC39A34E7F"
+      },
+      {
+        "path": "media/music/uplink.mp3",
+        "sha256": "7DFC62A3760715C53F8E2EB98088A24689389D4CBCCFDCC3577AA51C2523BC07"
+      },
+      {
+        "path": "media/music/victory-in-disguise.mp3",
+        "sha256": "57C5415E3198FD434A0966DDE18FA5B11B4DFFDDEF08535884DBBE2C988E664C"
+      },
+      {
+        "path": "media/music/war-engine.mp3",
+        "sha256": "F56EEFBBF1E04AADD5E0B20E0EDDAD4D341B2C9E391F5A8BF9AD3D52A364A8D4"
+      },
+      {
+        "path": "music/index.html",
+        "sha256": "8D47F99634E678C6885A8D0E20B63B13D704867C3D09B51785B3B28ACC7091F3"
+      },
+      {
+        "path": "package-lock.json",
+        "sha256": "B82445DC90EAB66691C8AF7545C166CB12262F92DE50A2999B90F70999DCF941"
+      },
+      {
+        "path": "package.json",
+        "sha256": "8FCAC49B3CAA773461B4D211BC410436C0850C0D346C158313FB78D326F4BB5E"
+      },
+      {
+        "path": "privacy/index.html",
+        "sha256": "ECA4A32A3D725BBB2A0EA1ED2D70C3C55CC466C151A5E5D88EE65556E3FAE2F1"
+      },
+      {
+        "path": "robots.txt",
+        "sha256": "C682CB965F71497695F69FF40F0B3BE8D52F487BC2EB00BD3E5631EE8472643F"
+      },
+      {
+        "path": "scripts/update-youtube-playlists.mjs",
+        "sha256": "40564B38A2BFD36B7CD9E1BADE6B2EEEA8246F80DD64130B9160F4AAFC4BB994"
+      },
+      {
+        "path": "site.webmanifest",
+        "sha256": "30616D55A88312A519C38D606499A30730097DEAECB17BEE39F7BDD46B4CCA1F"
+      },
+      {
+        "path": "sitemap.xml",
+        "sha256": "622C1A03A0CBC8AF0CD729AEC68162D9FE0FD9B0D797FBEC33067430CFD093C4"
+      },
+      {
+        "path": "styles/about.css",
+        "sha256": "E065F11B1ABA11054A76385BEBCDEBDF600592C0036B8AC701C26F1C24C4E905"
+      },
+      {
+        "path": "styles/command-deck.css",
+        "sha256": "32557A97B78CC6549C69DDD0939608E95EC737D0604AC837CD2F36FD2810094B"
+      },
+      {
+        "path": "styles/contact.css",
+        "sha256": "AF0D66B6FF883A48B9F4CFD51F859D4F46F84859B903A58DDB995655CD428417"
+      },
+      {
+        "path": "styles/home.css",
+        "sha256": "BCFFD0093703047AFFEC82B7E8EBD03E5A061C96B6708A54247FE7BBFFD9C4D1"
+      },
+      {
+        "path": "styles/music.css",
+        "sha256": "6E79833F899788DF5AC8FDBA2B4E93D93AAE7B71CE6C7C0813A86A8950B0D289"
+      },
+      {
+        "path": "styles/radar-game.css",
+        "sha256": "B182592F10BE4EB72E6C3810A08E703C66FE6172299000C0860C643FC8ABE670"
+      },
+      {
+        "path": "styles/site-layout.generated.css",
+        "sha256": "1CCB13E9AD98F403668C970B22CB5DB45F10974650A24C3402EA0B8F1C374459"
+      },
+      {
+        "path": "styles/site-pages.generated.css",
+        "sha256": "CFAB15412F066274FA87220CD522E314BE9496C27257FB10E1FA6E356B161C83"
+      },
+      {
+        "path": "styles/site.css",
+        "sha256": "CED37EE1E6B6FFF9B6D8EDAE22A1742742AFE14CEBC9C5DB5606520E660CFFCB"
+      },
+      {
+        "path": "styles/tournaments.css",
+        "sha256": "7722D3022157064CD182A2CBB92F32D7995CE2AEA3C94C44E6D47310A6318CC8"
+      },
+      {
+        "path": "styles/videos.css",
+        "sha256": "B3BC63CD7D1F70273187A8FEE308D6F9F8E68188A873161F078C075856626E23"
+      },
+      {
+        "path": "tournaments/index.html",
+        "sha256": "6BA8D75091F6B02D702620B52F06A7B51A904E2ECEB3A91F7B185EA55E16BE6D"
+      },
+      {
+        "path": "videos/index.html",
+        "sha256": "2218C616A58010CA092A236953F6DBFB6D31E7750630B129CCD604B62FCC3E22"
+      }
+    ],
+    "changes": [
+      "Declared page protocol2",
+      "New empty media declaration/state/stylesheet"
+    ],
+    "defaultRoutes": 7,
+    "defaultManagedPages": 0,
+    "taskTournamentSha256": "EE6BC8521DAEB862533E26D7988B301666FF5626B4D87F9FA72209EB39CB70DB"
+  },
+  "visualReview": {
+    "source": "Seven existing routes at390/1440 inspected; additional Home threshold captures recorded.",
+    "mixed": "Managed crop/contain-cover at280/1440 and final Home/About/JPEG-WebP private page390/1440 inspected.",
+    "external": "Headless loopback tests abort external requests; live third-party availability not established."
+  },
+  "manual": [
+    "Native WPF/WebView2 pointer/keyboard/focus, actual display DPI/true zoom, assistive technology and subjective imported-image/color quality remain separate.",
+    "Admin draft history/original-upload recovery/rebase/visibility consumer implementation follows this immutable Website contract."
+  ],
+  "protected": {
+    "adminMain": "339742aa26925b6363eb8c6c54a9ddfd1016a0fc",
+    "websiteLocalMain": "f857b21d0a1003fb565b51f89b133a50c91f9732",
+    "websiteRemoteMain": "0fb9fc2211869f60c15e7244cb357669c4c198d4",
+    "acceptedTournament": "859c7c1c68c212725ba541b96dcac3e661795baa",
+    "taskTournamentSha256": "EE6BC8521DAEB862533E26D7988B301666FF5626B4D87F9FA72209EB39CB70DB",
+    "archivedOwnerSha256": "06D65C1BC84F538FF7CD87C4A400874184CA5C92603913C133B99E268D2407B6",
+    "allCheckpointsClean": true
+  },
+  "boundaries": [
+    "No main merge/push/deploy/config reconciliation/external fetch/credential changes/cleanup/history rewrite.",
+    "Crop is visual framing, not redaction: full sanitized image pixels remain public.",
+    "Private/new unused imports omitted; existing baseline/recovery assets retained."
+  ]
+}

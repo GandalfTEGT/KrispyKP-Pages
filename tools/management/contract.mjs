@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import { requireThat, safeFile, sha, json, inventory, changedFiles } from './files.mjs';
 import { nodes, valueOf, relevantMapping } from './html.mjs';
+import {lookup,loadState,consumerCheck} from '../media/model.mjs';
 
 export const capabilities=['content.text.v1','content.link.v1','media.png-selected-use.v1','source.html-leaf.v1','snapshot.validation.v1'];
 export const contractPath='data/site-management.json';
@@ -31,13 +32,16 @@ export function loadContract(root){
     if(binding.kind==='image'){
       const policy=binding.media;
       requireThat(binding.id==='home.hero.image' && binding.tag==='img' && policy?.mime==='image/png' && policy.maxBytes===1048576 && policy.minDimension===64 && policy.maxDimension===2048 && policy.aspect==='1:1' && policy.alt==='required' && policy.fit==='intrinsic' && policy.focal==='none' && policy.replacement==='selected-use-only' && policy.outputPrefix==='assets/managed/','ADMIN_UPDATE_REQUIRED','Unsupported media/crop/layout semantics require contract/consumer review.',binding.id);
-      requireThat(node.attributes.width?.value==='300' && node.attributes.height?.value==='300' && node.attributes.src?.value?.startsWith('/') && typeof node.attributes.alt?.value==='string','MAPPING','Managed image intrinsic mapping changed.',binding.id);
+      if(node.attributes['data-kkp-media-id']?.value===binding.id){
+        const {asset,value}=lookup(loadState(root),binding.id);
+        requireThat(node.attributes.width?.value===String(asset.width)&&node.attributes.height?.value===String(asset.height)&&node.attributes.src?.value==='/'+asset.path&&node.attributes.alt?.value===value.alt,'MAPPING','Declared media image differs from verified usage.',binding.id);
+      }else requireThat(node.attributes.width?.value==='300' && node.attributes.height?.value==='300' && node.attributes.src?.value?.startsWith('/') && typeof node.attributes.alt?.value==='string','MAPPING','Managed image intrinsic mapping changed.',binding.id);
     }else{
       requireThat(Number.isInteger(binding.maxLength) && binding.maxLength>0 && binding.maxLength<=1200,'MAPPING','Text/link requires bounded length.',binding.id);
       requireThat(binding.kind==='link'?binding.tag==='a':['h1','h2','h3','p','span','blockquote'].includes(binding.tag),'MAPPING','Unsupported leaf tag.',binding.id);
       if(binding.kind==='link')requireThat(node.attributes.href?.quote && node.attributes.target?.value==='_blank' && node.attributes.rel?.value==='noopener noreferrer','MAPPING','Link safety/target mapping changed.',binding.id);
     }
-    bindings.push({...binding,value:valueOf(node,binding.kind),mappingSha256:relevantMapping(node,binding)});
+    bindings.push({...binding,...(node.attributes['data-kkp-media-id']?{mediaAdapter:'still-image-usage-v1',legacyReplacementLocked:true}:{}),value:valueOf(node,binding.kind),mappingSha256:relevantMapping(node,binding)});
   }
   for(const [file,list] of maps)for(const node of list)requireThat(seen.has(node.id) && contract.bindings.find(b=>b.id===node.id)?.file===file,'MAPPING','Undeclared management attribute is not an editing permission.',node.id);
   return {contract,contractSha256:sha(bytes),managedFingerprint:sha(json(contract.bindings)),rendererFingerprint:sha(json(bindings.map(b=>({id:b.id,mapping:b.mappingSha256})))),bindings};
@@ -45,6 +49,7 @@ export function loadContract(root){
 export function read(root,consumer,previous=null){
   try{
     const loaded=loadContract(root);
+    if(loaded.bindings.some(b=>b.mediaAdapter))consumerCheck(consumer?.media);
     requireThat(consumer?.protocolVersion===1 && Array.isArray(consumer.capabilities),'ADMIN_UPDATE_REQUIRED','Consumer must declare protocol/capability support.');
     const missing=loaded.contract.requiredCapabilities.filter(c=>!consumer.capabilities.includes(c));
     requireThat(missing.length===0,'ADMIN_UPDATE_REQUIRED',`Unsupported required capabilities: ${missing.join(', ')}.`);

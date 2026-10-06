@@ -88,7 +88,7 @@ export function detectScope({ root = ROOT, base = null, files: providedFiles = n
 
   const shared = /^(?:styles\/(?:site|command-deck|radar-game)\.css|data\/(?:site-ui|radar-game|radar-effects|radar-rts-(?:definitions|engine|renderer))\.js)$/;
   for (const file of files) {
-    if (/^(?:data\/site-pages(?:-contract)?\.json|styles\/site-pages\.generated\.css|tools\/pages\/)/.test(file) || Object.entries(routeTable(root)).some(([id,route])=>id.startsWith("page.")&&file.startsWith(route.slice(1)))) {
+    if (/^(?:data\/site-(?:pages|media)(?:-contract)?\.json|styles\/site-(?:pages|media)\.generated\.css|tools\/(?:pages|media)\/)/.test(file) || Object.entries(routeTable(root)).some(([id,route])=>id.startsWith("page.")&&file.startsWith(route.slice(1)))) {
       add(...ALL_PAGES);reasons.push(`${file}: managed route/shared shell`);
     } else if (shared.test(file)) {
       add(...ALL_PAGES);

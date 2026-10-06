@@ -1,9 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {must,exact,plain,escape,origin} from './rules.mjs';
+import {imageMarkup} from '../media/render.mjs';
 
 const limits={wide:3,medium:2,compact:1};
-export function composition(page,registry,root){
+export function composition(page,registry,root,files=null){
   let count=0,lastHeading=1;const seen=new Set(),map=[];const links=new Set(['/',...registry.existing.map(p=>p.route),...registry.pages.map(p=>`/${p.slug}/`)]);let css='';
   function href(value){must(typeof value==='string'&&value.length<=2048&&!/[\s\\\x00-\x1f]/.test(value),'PAGE_LINK','Invalid link.');if(value.startsWith('/')&&!value.startsWith('//'))must(links.has(value),'PAGE_LINK','Link must name a declared route.');else{let u;try{u=new URL(value);}catch{must(false,'PAGE_LINK','Invalid URL.');}must(u.protocol==='https:'&&!u.username&&!u.password,'PAGE_LINK','Only credential-free HTTPS external links supported.');}return escape(value);}
   function render(node,parent,depth){
@@ -12,6 +13,7 @@ export function composition(page,registry,root){
     if(node.kind==='text'){must(exact(node,['id','kind','text']),'PAGE_COMPONENT','Invalid text fields.');return `<p class="sub" ${attr}>${escape(plain(node.text,2400))}</p>`;}
     if(node.kind==='button'){must(exact(node,['id','kind','text','href']),'PAGE_COMPONENT','Invalid CTA fields.');return `<a class="btn" ${attr} href="${href(node.href)}">${escape(plain(node.text,120))}</a>`;}
     if(node.kind==='image'){
+      if(node.media===true){must(exact(node,['id','kind','media'])&&JSON.parse(fs.readFileSync(path.join(root,'data/site-pages-contract.json'),'utf8')).protocolVersion===2,'ADMIN_UPDATE_REQUIRED','Versioned page media requires the v2 declaration.');return imageMarkup(root,id,`class="managed-image" ${attr}`,files);}
       must(exact(node,['id','kind','src','alt']),'PAGE_COMPONENT','Invalid image fields.');must(typeof node.src==='string'&&/^\/(?:assets|media)\/[a-zA-Z0-9/_-]+\.png$/.test(node.src),'PAGE_MEDIA','Initial image reference supports existing PNG only.');const parts=node.src.slice(1).split('/');let current=root;for(const part of parts){current=path.join(current,part);must(fs.existsSync(current)&&!fs.lstatSync(current).isSymbolicLink(),'PAGE_MEDIA','Missing or linked image.');}
       const bytes=fs.readFileSync(current);must(bytes.length>=24&&bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),'PAGE_MEDIA','Invalid PNG reference.');const width=bytes.readUInt32BE(16),height=bytes.readUInt32BE(20);must(width>0&&height>0&&width<=8192&&height<=8192,'PAGE_MEDIA','Invalid intrinsic image dimensions.');return `<img class="managed-image" ${attr} src="${escape(node.src)}" alt="${escape(plain(node.alt,160))}" width="${width}" height="${height}" loading="lazy" decoding="async">`;
     }

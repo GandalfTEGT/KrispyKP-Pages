@@ -1,0 +1,43 @@
+{
+  "siteId": "krispykp",
+  "schemaVersion": 1,
+  "protocolVersion": 1,
+  "adapter": "still-image-usage-v1",
+  "requiredCapabilities": [
+    "media.library.v1",
+    "media.still-image.v1",
+    "media.usage.v1",
+    "media.shared-rebind.v1",
+    "snapshot.validation.v1"
+  ],
+  "stateFile": "data/site-media.json",
+  "styleFile": "styles/site-media.generated.css",
+  "formats": [
+    "image/png",
+    "image/jpeg",
+    "image/webp"
+  ],
+  "maxBytes": 8388608,
+  "minDimension": 32,
+  "maxDimension": 8192,
+  "maxPixels": 16000000,
+  "maxImports": 10,
+  "maxBatchBytes": 33554432,
+  "maxAssets": 100,
+  "maxManagedBytes": 134217728,
+  "frames": [
+    "intrinsic",
+    "square",
+    "landscape",
+    "portrait"
+  ],
+  "fits": [
+    "contain",
+    "cover"
+  ],
+  "writable": [
+    "home.hero.image",
+    "managed-page-image-v2"
+  ],
+  "deletion": false
+}

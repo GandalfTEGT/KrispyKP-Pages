@@ -1,3 +1,5 @@
+Historical proposal retained from91adce5. Current implemented interface and measured Home sizing are in SITE-MEDIA-CONSUMER.md; this preparation did not observe active theme overrides accurately.
+
 # Website media contract preparation
 
 6 October 2026. **PREPARATION ONLY / NOT ENABLED.** Task WEBSITE-ADMIN-MEDIA-CONTRACT, isolated from immutable E1 `9ac257399dd940fab70a8f9823f9bb8d4a2851eb`. Master assigned architecture/interface preparation while Admin E2 implements page authoring. Full implementation follows the E2 technical checkpoint under standing builder authority. This document is a concrete interface proposal, not a source manifest or permission to execute new adapters.

@@ -5,8 +5,9 @@ import {capabilities as contentCapabilities,read} from '../management/contract.m
 import {layoutCapabilities,loadLayout} from '../layout/contract.mjs';
 import {snapshot,sha,safeFile} from '../management/files.mjs';
 import {plan} from '../management/materialise.mjs';
+import {capabilities as mediaCapabilities} from '../media/model.mjs';
 
-export const consumer={protocolVersion:1,capabilities:contentCapabilities,layout:{protocolVersion:1,capabilities:layoutCapabilities},pages:{protocolVersion:1,capabilities}};
+export const consumer={protocolVersion:1,capabilities:contentCapabilities,layout:{protocolVersion:1,capabilities:layoutCapabilities},pages:{protocolVersion:2,capabilities},media:{protocolVersion:1,capabilities:mediaCapabilities}};
 export function pageSpec(slug='community-note',template='standard'){return {id:`page.${slug}`,slug,name:'Community Note',navLabel:'Community',navigation:{header:true,footer:true},template,title:'Community Note | KrispyKP',description:'A private page-authoring validation fixture.',hero:template==='standard'?{title:'Community Note',summary:'A private fixture using the shared Website shell.'}:null,components:template==='blank'?[]:[{id:'intro',kind:'panel',children:[{id:'heading',kind:'heading',level:2,text:'Community updates'},{id:'copy',kind:'text',text:'This private draft demonstrates bounded page composition.'},{id:'cta',kind:'button',text:'About KrispyKP',href:'/about/'},{id:'logo',kind:'image',src:'/assets/logo.png',alt:'KrispyKP logo'}]},{id:'cards',kind:'grid',profiles:{wide:3,medium:null,compact:null},children:[{id:'first',kind:'panel',children:[{id:'first-title',kind:'heading',level:2,text:'Streams'},{id:'first-copy',kind:'text',text:'Follow the streams.'}]},{id:'second',kind:'panel',children:[{id:'second-title',kind:'heading',level:2,text:'Music'},{id:'second-copy',kind:'text',text:'Explore the music.'}]}]}]};}
 export function requestFor(root,operations,{mixed=false}={}){
   const identity=snapshot(root,'E1 private fixture'),loaded=loadPages(root,consumer.pages),content=read(root,consumer),layout=loadLayout(root,consumer.layout);

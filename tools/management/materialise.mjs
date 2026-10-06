@@ -2,12 +2,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 import { isDeepStrictEqual } from 'node:util';
-import { requireThat, safeRoot, safeFile, verifySnapshot, sha, json, separateRoots, assertCandidateShape } from './files.mjs';
+import { requireThat, safeRoot, safeFile, verifySnapshot, sha, json, separateRoots, assertCandidateShape, inventory } from './files.mjs';
 import { read } from './contract.mjs';
 import { nodes, valueOf, replaceNode } from './html.mjs';
 import { upload, usages } from './media.mjs';
 import { projectLayout } from '../layout/project.mjs';
 import { projectPages } from '../pages/project.mjs';
+import { projectMedia, finishMedia } from '../media/project.mjs';
+import {mediaReceipt} from '../media/model.mjs';
+export const operationProof=(identity,request,consumer)=>({baselineSha256:identity.sha256,requestSha256:sha(JSON.stringify(request)),consumerSha256:sha(JSON.stringify(consumer))});
 
 function text(value,max,id){requireThat(typeof value==='string' && value.trim()===value && value.length>0 && value.length<=max && !/[\x00-\x1f\x7f]/.test(value),'VALUE','Expected nonempty bounded plain text without control characters.',id);}
 function link(root,value,binding){
@@ -39,6 +42,8 @@ export function plan(root,baseline,identity,request,consumer){
     if(binding.kind==='link')link(root,operation.value,binding);
     let value=operation.value;
     if(binding.kind==='image'){
+      requireThat(!binding.mediaAdapter,'ADMIN_UPDATE_REQUIRED','This usage requires the declared media adapter.',binding.id);
+      requireThat(!request.mediaOperations?.some(op=>op.kind==='setUsage'&&op.id===binding.id),'MEDIA_CONFLICT','Legacy replacement and media usage cannot edit the same image.',binding.id);
       requireThat(value && json(Object.keys(value).sort())===json(['alt','fit','focal','mode','pngBase64']),'MEDIA','Image value must contain PNG data and declared usage semantics.',binding.id);
       text(value.alt,160,binding.id);
       requireThat(value.mode==='selected-use' && value.fit==='intrinsic' && value.focal==='none','MEDIA','Shared replacement, crop/focal and fit changes are unsupported.',binding.id);
@@ -55,13 +60,16 @@ export function plan(root,baseline,identity,request,consumer){
   }
   const layout=request.layoutOperations?projectLayout(root,files,request,consumer):{expectedSources:[],layoutImpact:[]};
   for(const file of layout.expectedSources)expectedSource.add(file);
+  const media=projectMedia(root,files,request,consumer);
+  for(const file of media.expectedSources)expectedSource.add(file);
   const pages=request.pageOperations?projectPages(root,files,request,consumer):{expectedSources:[],pageImpact:[]};
   for(const file of pages.expectedSources)expectedSource.add(file);
+  finishMedia(root,files,media);
   requireThat(request.expectedFiles && json(Object.keys(request.expectedFiles).sort())===json([...expectedSource].sort()),'PRECONDITION','Exact managed source file hashes are required.');
   for(const file of expectedSource)requireThat(request.expectedFiles[file]===sha(fs.readFileSync(safeFile(root,file))),'STALE_SOURCE','Managed source hash differs from request.',file);
   const outputs=[...files.keys()].sort();
   if(request.allowedOutputs)requireThat(json([...request.allowedOutputs].sort())===json(outputs) && new Set(request.allowedOutputs).size===request.allowedOutputs.length,'OUTPUT_ALLOWLIST','Declared outputs differ from deterministic output set.');
-  return {files,outputs,mediaImpact,layoutImpact:layout.layoutImpact,pageImpact:pages.pageImpact,pagesContractSha256:pages.pagesContractSha256??null,shellSha256:pages.shellSha256??null,contractSha256:handshake.contractSha256,layoutContractSha256:request.layoutOperations?.length?request.layoutContractSha256:null};
+  return {...operationProof(identity,request,consumer),files,outputs,mediaImpact,mediaUsageImpact:media.mediaUsageImpact,mediaContractSha256:media.mediaContractSha256??null,mediaStateSha256:media.mediaStateSha256??null,usageInventorySha256:media.usageInventorySha256??null,unusedImportsOmitted:media.unusedImportsOmitted??[],layoutImpact:layout.layoutImpact,pageImpact:pages.pageImpact,pagesContractSha256:pages.pagesContractSha256??null,shellSha256:pages.shellSha256??null,contractSha256:handshake.contractSha256,layoutContractSha256:request.layoutOperations?.length?request.layoutContractSha256:null};
 }
 export function materialise(root,baseline,identity,request,consumer){
   root=safeRoot(root);baseline=safeRoot(baseline);
@@ -91,5 +99,5 @@ export function materialise(root,baseline,identity,request,consumer){
     }
     throw error;
   }finally{for(const temporary of staged)if(fs.existsSync(temporary))fs.unlinkSync(temporary);fs.rmSync(staging,{recursive:true});}
-  return {status:'MATERIALISED',requiresValidation:true,baselineSha256:identity.sha256,contractSha256:planned.contractSha256,layoutContractSha256:planned.layoutContractSha256,pagesContractSha256:planned.pagesContractSha256,shellSha256:planned.shellSha256,outputs:planned.outputs.map(file=>({path:file,sha256:sha(planned.files.get(file)),bytes:planned.files.get(file).length})),mediaImpact:planned.mediaImpact,layoutImpact:planned.layoutImpact,pageImpact:planned.pageImpact};
+  return {status:'MATERIALISED',requiresValidation:true,...operationProof(identity,request,consumer),...mediaReceipt(planned),candidateSha256:sha(JSON.stringify(inventory(root))),contractSha256:planned.contractSha256,layoutContractSha256:planned.layoutContractSha256,pagesContractSha256:planned.pagesContractSha256,shellSha256:planned.shellSha256,outputs:planned.outputs.map(file=>({path:file,sha256:sha(planned.files.get(file)),bytes:planned.files.get(file).length})),mediaImpact:planned.mediaImpact,layoutImpact:planned.layoutImpact,pageImpact:planned.pageImpact};
 }

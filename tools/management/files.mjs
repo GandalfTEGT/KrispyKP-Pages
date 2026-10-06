@@ -51,19 +51,22 @@ export function safeFile(root, relative, { existing = true } = {}) {
 export function inventory(root) {
   root = safeRoot(root);
   const managed=new Set(loadRegistry(root,{optional:true}).pages.map(p=>p.slug));
-  const files = []; const folded = new Set();
+  const files = []; const folded = new Set();let visited=0,totalBytes=0;
   function visit(directory, prefix = '') {
     for (const entry of fs.readdirSync(directory, { withFileTypes: true }).sort((a,b) => a.name.localeCompare(b.name,'en'))) {
       const relative = prefix + entry.name;
       if (entry.name.startsWith('.') && entry.name !== '.well-known') continue;
       if (excluded.has(entry.name.toLowerCase())) continue;
       if (!prefix && !trees.has(entry.name) && !roots.has(entry.name) && entry.name !== 'docs' && !managed.has(entry.name)) continue;
+      requireThat(++visited<=5000,'INVENTORY_LIMIT','Source inventory exceeds5000 entries.');
       const filename = path.join(directory, entry.name);
       requireThat(!fs.lstatSync(filename).isSymbolicLink(), 'SYMLINK', 'Snapshot traversal refuses linked files/directories.', relative);
       if (entry.isDirectory()) visit(filename, relative + '/');
       else if (included(relative,managed)) {
         requireThat(!folded.has(relative.toLowerCase()), 'PATH', 'Case-colliding snapshot paths are refused.', relative);
         folded.add(relative.toLowerCase());
+        const size=fs.statSync(filename).size;totalBytes+=size;
+        requireThat(size<=134217728&&totalBytes<=536870912,'INVENTORY_LIMIT','Source inventory exceeds128MiB/file or512MiB total.');
         const bytes = fs.readFileSync(filename);
         files.push({ path: relative, sha256: sha(bytes), bytes: bytes.length });
       }

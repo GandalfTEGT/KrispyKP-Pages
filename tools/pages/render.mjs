@@ -12,11 +12,11 @@ export async function checkManagedImage(image){
       try{
         await Promise.race([element.decode(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Image decode deadline exceeded')),5000);})]);
         const rect=element.getBoundingClientRect();
-        return {complete:element.complete,naturalWidth:element.naturalWidth,naturalHeight:element.naturalHeight,width:element.width,height:element.height,renderedWidth:rect.width,renderedHeight:rect.height};
+        return {complete:element.complete,naturalWidth:element.naturalWidth,naturalHeight:element.naturalHeight,declaredWidth:Number(element.getAttribute('width')),declaredHeight:Number(element.getAttribute('height')),renderedWidth:rect.width,renderedHeight:rect.height};
       }finally{clearTimeout(timer);}
     });
   }catch(error){assert.fail('Image must successfully decode within 5000ms: '+error.message);}
-  assert.ok(metrics.complete&&metrics.naturalWidth>0&&metrics.naturalHeight>0&&metrics.width>0&&metrics.height>0&&metrics.renderedWidth>0&&metrics.renderedHeight>0&&Math.abs(metrics.width/metrics.height-metrics.naturalWidth/metrics.naturalHeight)<0.01&&Math.abs(metrics.renderedWidth/metrics.renderedHeight-metrics.naturalWidth/metrics.naturalHeight)<0.01,'Image must decode and preserve intrinsic aspect');
+  assert.ok(metrics.complete&&metrics.naturalWidth>0&&metrics.naturalHeight>0&&metrics.declaredWidth===metrics.naturalWidth&&metrics.declaredHeight===metrics.naturalHeight&&metrics.renderedWidth>0&&metrics.renderedHeight>0&&Math.abs(metrics.renderedWidth/metrics.renderedHeight-metrics.naturalWidth/metrics.naturalHeight)<0.01,'Image must decode and preserve intrinsic aspect');
 }
 
 export async function checkPageFoundation(browser,baseUrl,root){

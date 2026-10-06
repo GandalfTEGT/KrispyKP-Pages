@@ -12,6 +12,7 @@ import {
 } from "./validation-common.mjs";
 
 import {loadPages as checkPages} from "./pages/contract.mjs";
+import {loadMedia as checkMedia} from "./media/contract.mjs";
 import {routeTable,routeFiles} from "./pages/rules.mjs";
 
 function walk(root, filter, directory = root, output = []) {
@@ -66,7 +67,7 @@ function validateHtml(root, result) {
       message: `expected one H1 and one main; found H1=${h1Count}, main=${mainCount}`
     });
 
-    const ids = [...source.matchAll(/\bid\s*=\s*["']([^"']+)["']/gi)].map(match => match[1]);
+    const ids = [...source.matchAll(/(?<![\w:-])id\s*=\s*["']([^"']+)["']/gi)].map(match => match[1]);
     const duplicates = [...new Set(ids.filter((id, index) => ids.indexOf(id) !== index))];
     record(result, `html:${page}:ids`, duplicates.length === 0, {
       file: relative,
@@ -298,6 +299,9 @@ export function runStaticValidation({ root = ROOT, profile = "standard", scope =
   validateSeo(root, result);
   if(fs.existsSync(path.join(root,"data/site-pages-contract.json"))){
     try{checkPages(root);record(result,"pages:source-shell-parity",true);}catch(error){record(result,"pages:source-shell-parity",false,{message:error.message});}
+  }
+  if(fs.existsSync(path.join(root,"data/site-media-contract.json"))){
+    try{const media=checkMedia(root);record(result,"media:decoded-source-parity",media.missing.length===0,{message:media.missing.length?'Missing media references':'Typed usages, sanitized decoded assets and generated styles agree'});}catch(error){record(result,"media:decoded-source-parity",false,{message:error.message});}
   }
   if (resolvedScope.extras.includes("builder-compatibility")) {
     result.manual.push("Public tournament schema changed: private Tournament Builder compatibility requires separate authorised evidence.");
