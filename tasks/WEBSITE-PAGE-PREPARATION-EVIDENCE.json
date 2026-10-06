@@ -1,0 +1,810 @@
+{
+  "schemaVersion": 1,
+  "task": "WEBSITE-SHARED-SHELL-PAGE-FOUNDATION",
+  "status": "PREPARATION_ONLY",
+  "base": "1341871fae08c81f423f7e3af96731afc2bb20f0",
+  "productionInventory": "D1_CHECKOUT_PARITY_WITH_GIT_EOL_FORMS",
+  "files": 232,
+  "eolOnly": [
+    "data/site-layout-state.json",
+    "data/site-layout.json",
+    "styles/site-layout.generated.css",
+    "tools/layout/bridge.mjs",
+    "tools/layout/cli.mjs",
+    "tools/layout/contract.mjs",
+    "tools/layout/project.mjs",
+    "tools/layout/render.mjs",
+    "tools/layout/review-fixture.mjs",
+    "tools/layout/source.mjs",
+    "tools/layout/test-browser.mjs",
+    "tools/layout/test.mjs"
+  ],
+  "standard": {
+    "status": "PASS",
+    "checks": 58
+  },
+  "pages": [
+    {
+      "id": "home",
+      "file": "index.html",
+      "bodyClass": "page-home",
+      "headerSha256": "41E0D8FC506025B70AC63C7E29B9DA695C1E933A4742F064CD5277B2400AF652",
+      "footerSha256": "B6E9358561D75C7BA64CABB58077682432AEBE98D268042C85AC455D20D01940",
+      "bodySha256": "35E38E0074E88453657C77DDFCD92715FBAD978B41977713E2FBDC716D733B38",
+      "styles": [
+        "/styles/site.css",
+        "/styles/radar-game.css",
+        "/styles/home.css",
+        "/styles/command-deck.css"
+      ],
+      "scripts": [
+        {
+          "path": "/data/videos.generated.js",
+          "defer": false
+        },
+        {
+          "path": "/data/tracks.js",
+          "defer": false
+        },
+        {
+          "path": "/data/tournaments.config.js",
+          "defer": false
+        },
+        {
+          "path": "/data/home-page.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-effects.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-game.js",
+          "defer": false
+        },
+        {
+          "path": "/data/site-ui.js",
+          "defer": false
+        }
+      ],
+      "headerLinks": [
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        }
+      ],
+      "footerLinks": [
+        {
+          "path": "https://www.twitch.tv/KrispyKP",
+          "label": "Twitch"
+        },
+        {
+          "path": "https://www.youtube.com/@KrispyKremePie",
+          "label": "YouTube"
+        },
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy"
+        },
+        {
+          "path": "mailto:contact@krispykp.com",
+          "label": "contact@krispykp.com"
+        },
+        {
+          "path": "mailto:events@krispykp.com",
+          "label": "events@krispykp.com"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy information"
+        }
+      ]
+    },
+    {
+      "id": "music",
+      "file": "music/index.html",
+      "bodyClass": "page-music",
+      "headerSha256": "41E0D8FC506025B70AC63C7E29B9DA695C1E933A4742F064CD5277B2400AF652",
+      "footerSha256": "B6E9358561D75C7BA64CABB58077682432AEBE98D268042C85AC455D20D01940",
+      "bodySha256": "18F8098643D4D9AF4A9DB9605CE9055F0C6DAC045BC147F21F34B32B355E8C9B",
+      "styles": [
+        "/styles/site.css",
+        "/styles/radar-game.css",
+        "/styles/music.css",
+        "/styles/command-deck.css"
+      ],
+      "scripts": [
+        {
+          "path": "/data/tracks.js",
+          "defer": false
+        },
+        {
+          "path": "/data/lyrics.js",
+          "defer": false
+        },
+        {
+          "path": "/data/music-player.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-effects.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-game.js",
+          "defer": false
+        },
+        {
+          "path": "/data/site-ui.js",
+          "defer": false
+        }
+      ],
+      "headerLinks": [
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        }
+      ],
+      "footerLinks": [
+        {
+          "path": "https://www.twitch.tv/KrispyKP",
+          "label": "Twitch"
+        },
+        {
+          "path": "https://www.youtube.com/@KrispyKremePie",
+          "label": "YouTube"
+        },
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy"
+        },
+        {
+          "path": "mailto:contact@krispykp.com",
+          "label": "contact@krispykp.com"
+        },
+        {
+          "path": "mailto:events@krispykp.com",
+          "label": "events@krispykp.com"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy information"
+        }
+      ]
+    },
+    {
+      "id": "videos",
+      "file": "videos/index.html",
+      "bodyClass": "page-videos",
+      "headerSha256": "41E0D8FC506025B70AC63C7E29B9DA695C1E933A4742F064CD5277B2400AF652",
+      "footerSha256": "B6E9358561D75C7BA64CABB58077682432AEBE98D268042C85AC455D20D01940",
+      "bodySha256": "D97009D0EB155D23A98F490D3BEFAE26E5C627D7460D7840F215E1B7E216DFF6",
+      "styles": [
+        "/styles/site.css",
+        "/styles/radar-game.css",
+        "/styles/videos.css",
+        "/styles/command-deck.css"
+      ],
+      "scripts": [
+        {
+          "path": "/data/videos.generated.js",
+          "defer": false
+        },
+        {
+          "path": "/data/videos-page.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-effects.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-game.js",
+          "defer": false
+        },
+        {
+          "path": "/data/site-ui.js",
+          "defer": false
+        }
+      ],
+      "headerLinks": [
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        }
+      ],
+      "footerLinks": [
+        {
+          "path": "https://www.twitch.tv/KrispyKP",
+          "label": "Twitch"
+        },
+        {
+          "path": "https://www.youtube.com/@KrispyKremePie",
+          "label": "YouTube"
+        },
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy"
+        },
+        {
+          "path": "mailto:contact@krispykp.com",
+          "label": "contact@krispykp.com"
+        },
+        {
+          "path": "mailto:events@krispykp.com",
+          "label": "events@krispykp.com"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy information"
+        }
+      ]
+    },
+    {
+      "id": "tournaments",
+      "file": "tournaments/index.html",
+      "bodyClass": "page-tournaments",
+      "headerSha256": "41E0D8FC506025B70AC63C7E29B9DA695C1E933A4742F064CD5277B2400AF652",
+      "footerSha256": "B6E9358561D75C7BA64CABB58077682432AEBE98D268042C85AC455D20D01940",
+      "bodySha256": "45F85ECAD4873E563A53DC202E099519B24596B61570387CD877EA9CCBAEC0B4",
+      "styles": [
+        "/styles/site.css",
+        "/styles/radar-game.css",
+        "/styles/tournaments.css",
+        "/styles/command-deck.css"
+      ],
+      "scripts": [
+        {
+          "path": "/data/radar-effects.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-game.js",
+          "defer": false
+        },
+        {
+          "path": "/data/site-ui.js",
+          "defer": false
+        },
+        {
+          "path": "/data/flags.js",
+          "defer": false
+        },
+        {
+          "path": "/data/tournaments.config.js",
+          "defer": false
+        },
+        {
+          "path": "/data/tournaments-page.js",
+          "defer": false
+        }
+      ],
+      "headerLinks": [
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        }
+      ],
+      "footerLinks": [
+        {
+          "path": "https://www.twitch.tv/KrispyKP",
+          "label": "Twitch"
+        },
+        {
+          "path": "https://www.youtube.com/@KrispyKremePie",
+          "label": "YouTube"
+        },
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy"
+        },
+        {
+          "path": "mailto:contact@krispykp.com",
+          "label": "contact@krispykp.com"
+        },
+        {
+          "path": "mailto:events@krispykp.com",
+          "label": "events@krispykp.com"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy information"
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "file": "about/index.html",
+      "bodyClass": "page-about",
+      "headerSha256": "41E0D8FC506025B70AC63C7E29B9DA695C1E933A4742F064CD5277B2400AF652",
+      "footerSha256": "B6E9358561D75C7BA64CABB58077682432AEBE98D268042C85AC455D20D01940",
+      "bodySha256": "A0DDDB33D405472513A239499F7D3F217002E390C5727DC63B1C8E3DA387B4F7",
+      "styles": [
+        "/styles/site.css",
+        "/styles/radar-game.css",
+        "/styles/about.css",
+        "/styles/command-deck.css",
+        "/styles/site-layout.generated.css"
+      ],
+      "scripts": [
+        {
+          "path": "/data/radar-effects.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-game.js",
+          "defer": false
+        },
+        {
+          "path": "/data/site-ui.js",
+          "defer": false
+        },
+        {
+          "path": "/data/about.js",
+          "defer": true
+        }
+      ],
+      "headerLinks": [
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        }
+      ],
+      "footerLinks": [
+        {
+          "path": "https://www.twitch.tv/KrispyKP",
+          "label": "Twitch"
+        },
+        {
+          "path": "https://www.youtube.com/@KrispyKremePie",
+          "label": "YouTube"
+        },
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy"
+        },
+        {
+          "path": "mailto:contact@krispykp.com",
+          "label": "contact@krispykp.com"
+        },
+        {
+          "path": "mailto:events@krispykp.com",
+          "label": "events@krispykp.com"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy information"
+        }
+      ]
+    },
+    {
+      "id": "contact",
+      "file": "contact/index.html",
+      "bodyClass": "page-contact",
+      "headerSha256": "41E0D8FC506025B70AC63C7E29B9DA695C1E933A4742F064CD5277B2400AF652",
+      "footerSha256": "B6E9358561D75C7BA64CABB58077682432AEBE98D268042C85AC455D20D01940",
+      "bodySha256": "9FF395A14EDA79E1E4E5C7B84FBCCD28C3BDA63FAEEC99EF2D4D660AFE8BE794",
+      "styles": [
+        "/styles/site.css",
+        "/styles/radar-game.css",
+        "/styles/contact.css",
+        "/styles/command-deck.css"
+      ],
+      "scripts": [
+        {
+          "path": "/data/radar-effects.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-game.js",
+          "defer": false
+        },
+        {
+          "path": "/data/site-ui.js",
+          "defer": false
+        },
+        {
+          "path": "/data/tournaments.config.js",
+          "defer": false
+        },
+        {
+          "path": "/data/contact.js",
+          "defer": true
+        }
+      ],
+      "headerLinks": [
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        }
+      ],
+      "footerLinks": [
+        {
+          "path": "https://www.twitch.tv/KrispyKP",
+          "label": "Twitch"
+        },
+        {
+          "path": "https://www.youtube.com/@KrispyKremePie",
+          "label": "YouTube"
+        },
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy"
+        },
+        {
+          "path": "mailto:contact@krispykp.com",
+          "label": "contact@krispykp.com"
+        },
+        {
+          "path": "mailto:events@krispykp.com",
+          "label": "events@krispykp.com"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy information"
+        }
+      ]
+    },
+    {
+      "id": "privacy",
+      "file": "privacy/index.html",
+      "bodyClass": "page-contact",
+      "headerSha256": "41E0D8FC506025B70AC63C7E29B9DA695C1E933A4742F064CD5277B2400AF652",
+      "footerSha256": "3D72CD521219A4AB25CD128D052922F80B97B93A43C9A62B85159D8322919148",
+      "bodySha256": "A2FFFE86DD2DE8C331D43CD401A4F6A7A8941F3EBC77DDCBB7453C6148B1E0A8",
+      "styles": [
+        "/styles/site.css",
+        "/styles/radar-game.css",
+        "/styles/command-deck.css"
+      ],
+      "scripts": [
+        {
+          "path": "/data/radar-effects.js",
+          "defer": false
+        },
+        {
+          "path": "/data/radar-game.js",
+          "defer": false
+        },
+        {
+          "path": "/data/site-ui.js",
+          "defer": false
+        }
+      ],
+      "headerLinks": [
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        }
+      ],
+      "footerLinks": [
+        {
+          "path": "/",
+          "label": "Home"
+        },
+        {
+          "path": "/music/",
+          "label": "Music"
+        },
+        {
+          "path": "/videos/",
+          "label": "Videos"
+        },
+        {
+          "path": "/tournaments/",
+          "label": "Tournaments"
+        },
+        {
+          "path": "/about/",
+          "label": "About"
+        },
+        {
+          "path": "/contact/",
+          "label": "Contact"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy"
+        },
+        {
+          "path": "mailto:contact@krispykp.com",
+          "label": "contact@krispykp.com"
+        },
+        {
+          "path": "mailto:events@krispykp.com",
+          "label": "events@krispykp.com"
+        },
+        {
+          "path": "/privacy/",
+          "label": "Privacy information"
+        }
+      ]
+    }
+  ],
+  "enabledPageCapability": false,
+  "fullImplementationValidation": "PENDING_D2_CHECKPOINT"
+}
