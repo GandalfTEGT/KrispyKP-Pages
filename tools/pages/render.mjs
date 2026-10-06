@@ -2,6 +2,23 @@ import assert from 'node:assert/strict';
 import {loadPages} from './contract.mjs';
 import {composition} from './components.mjs';
 
+export async function checkManagedImage(image){
+  // Lazy images may be below the initial viewport; observing two frames does not load/decode them.
+  await image.scrollIntoViewIfNeeded({timeout:5000});
+  let metrics;
+  try{
+    metrics=await image.evaluate(async element=>{
+      let timer;
+      try{
+        await Promise.race([element.decode(),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('Image decode deadline exceeded')),5000);})]);
+        const rect=element.getBoundingClientRect();
+        return {complete:element.complete,naturalWidth:element.naturalWidth,naturalHeight:element.naturalHeight,width:element.width,height:element.height,renderedWidth:rect.width,renderedHeight:rect.height};
+      }finally{clearTimeout(timer);}
+    });
+  }catch(error){assert.fail('Image must successfully decode within 5000ms: '+error.message);}
+  assert.ok(metrics.complete&&metrics.naturalWidth>0&&metrics.naturalHeight>0&&metrics.width>0&&metrics.height>0&&metrics.renderedWidth>0&&metrics.renderedHeight>0&&Math.abs(metrics.width/metrics.height-metrics.naturalWidth/metrics.naturalHeight)<0.01&&Math.abs(metrics.renderedWidth/metrics.renderedHeight-metrics.naturalWidth/metrics.naturalHeight)<0.01,'Image must decode and preserve intrinsic aspect');
+}
+
 export async function checkPageFoundation(browser,baseUrl,root){
   const loaded=loadPages(root),context=await browser.newContext({reducedMotion:'reduce'}),page=await context.newPage();
   await context.route('**/*',route=>route.request().url().startsWith(baseUrl)?route.continue():route.abort());let cases=0;
@@ -15,7 +32,7 @@ export async function checkPageFoundation(browser,baseUrl,root){
         if(width<=700){await page.locator('.nav-toggle').click();assert.equal(await page.locator('.nav-toggle').getAttribute('aria-expanded'),'true');await page.keyboard.press('Escape');assert.equal(await page.locator('.nav-toggle').getAttribute('aria-expanded'),'false');}
         const links=await page.locator('main a').evaluateAll(nodes=>nodes.map(n=>n.getAttribute('href'))),visited=[];
         if(links.length){await page.locator('main a').first().focus();for(let i=0;i<links.length;i++){visited.push(await page.evaluate(()=>document.activeElement.getAttribute('href')));if(i+1<links.length)await page.keyboard.press('Tab');}assert.deepEqual(visited,links);}
-        for(const image of await page.locator('main img').all())assert.ok(await image.evaluate(e=>e.complete&&e.naturalWidth>0&&Math.abs(e.width/e.height-e.naturalWidth/e.naturalHeight)<0.01),'Image must decode and preserve intrinsic aspect');
+        for(const image of await page.locator('main img').all())await checkManagedImage(image);
         await page.locator('.skip-link').focus();await page.keyboard.press('Enter');assert.ok(page.url().endsWith('#'+result.main));cases++;
       }
     }
