@@ -4,6 +4,8 @@ import path from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
+import {routeTable} from "./pages/rules.mjs";
+
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 export const PAGE_ROUTES = {
   home: "/",
@@ -47,7 +49,7 @@ export function parseArgs(argv) {
     if (arg === "--profile" && next) { options.profile = next; index += 1; }
     else if (arg === "--json" && next) { options.json = path.resolve(next); index += 1; }
     else if (arg === "--base" && next) { options.base = next; index += 1; }
-    else if (arg === "--pages" && next) { options.pages = next === "all" ? [...ALL_PAGES] : next.split(",").map(value => value.trim()).filter(Boolean); index += 1; }
+    else if (arg === "--pages" && next) { options.pages = next === "all" ? ["*"] : next.split(",").map(value => value.trim()).filter(Boolean); index += 1; }
     else if (arg === "--root" && next) { options.root = path.resolve(next); index += 1; }
     else if (arg === "--screenshots") options.screenshots = true;
     else if (arg === "--browser-only") options.browserOnly = true;
@@ -56,7 +58,9 @@ export function parseArgs(argv) {
   }
   if (!PROFILE_VIEWPORTS[options.profile]) throw new Error(`Unknown profile '${options.profile}'. Use smoke, standard or acceptance.`);
   if (options.pages) {
-    const unknown = options.pages.filter(page => !ALL_PAGES.includes(page));
+    const available=Object.keys(routeTable(options.root));
+    if(options.pages.includes("*"))options.pages=available;
+    const unknown = options.pages.filter(page => !available.includes(page));
     if (unknown.length) throw new Error(`Unknown page scope: ${unknown.join(", ")}`);
   }
   return options;
@@ -74,6 +78,7 @@ function changedFilesForBase(root, base) {
 }
 
 export function detectScope({ root = ROOT, base = null, files: providedFiles = null } = {}) {
+  const ALL_PAGES=Object.keys(routeTable(root));
   const selectedBase = base || (gitText(["rev-parse", "--verify", "origin/main"], root) ? "origin/main" : "main");
   const files = providedFiles ? [...providedFiles].sort() : changedFilesForBase(root, selectedBase);
   const pages = new Set();
@@ -83,7 +88,9 @@ export function detectScope({ root = ROOT, base = null, files: providedFiles = n
 
   const shared = /^(?:styles\/(?:site|command-deck|radar-game)\.css|data\/(?:site-ui|radar-game|radar-effects|radar-rts-(?:definitions|engine|renderer))\.js)$/;
   for (const file of files) {
-    if (shared.test(file)) {
+    if (/^(?:data\/site-pages(?:-contract)?\.json|styles\/site-pages\.generated\.css|tools\/pages\/)/.test(file) || Object.entries(routeTable(root)).some(([id,route])=>id.startsWith("page.")&&file.startsWith(route.slice(1)))) {
+      add(...ALL_PAGES);reasons.push(`${file}: managed route/shared shell`);
+    } else if (shared.test(file)) {
       add(...ALL_PAGES);
       reasons.push(`${file}: shared site system`);
     } else if (file === "index.html" || file.startsWith("styles/home") || file.startsWith("data/home-")) {

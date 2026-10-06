@@ -1,9 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
+import os from "node:os";
 import { fileURLToPath } from "node:url";
 import {
-  ALL_PAGES,
-  PAGE_ROUTES,
   ROOT,
   createResult,
   detectScope,
@@ -12,15 +11,8 @@ import {
   run
 } from "./validation-common.mjs";
 
-const PAGE_FILES = {
-  home: "index.html",
-  music: "music/index.html",
-  videos: "videos/index.html",
-  tournaments: "tournaments/index.html",
-  about: "about/index.html",
-  contact: "contact/index.html",
-  privacy: "privacy/index.html"
-};
+import {loadPages as checkPages} from "./pages/contract.mjs";
+import {routeTable,routeFiles} from "./pages/rules.mjs";
 
 function walk(root, filter, directory = root, output = []) {
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
@@ -60,7 +52,7 @@ function htmlReferences(source) {
 }
 
 function validateHtml(root, result) {
-  for (const [page, relative] of Object.entries(PAGE_FILES)) {
+  for (const [page, relative] of Object.entries(routeFiles(root))) {
     const filename = path.join(root, relative);
     if (!fs.existsSync(filename)) {
       record(result, `html:${page}:exists`, false, { file: relative, message: "page file is missing" });
@@ -127,7 +119,7 @@ function validateHtml(root, result) {
 function validatePublishingControls(root, result) {
   const contentFiles = [
     ...walk(path.join(root, "data"), filename => /\.(?:js|mjs|json)$/i.test(filename)),
-    ...Object.values(PAGE_FILES).map(relative => path.join(root, relative))
+    ...Object.values(routeFiles(root)).map(relative => path.join(root, relative))
   ].filter(filename => fs.existsSync(filename));
   const mojibake = [];
   const malformedUrls = [];
@@ -188,7 +180,7 @@ function validatePublishingControls(root, result) {
   const contactSource = fs.readFileSync(contactFile, "utf8");
   const forms = [...contactSource.matchAll(/<form\b[\s\S]*?<\/form>/gi)].map(match => match[0]).filter(form => /formspree\.io/i.test(form));
   const disclosed = forms.length === 2 && forms.every(form => /Formspree/i.test(form) && /href=["']\/privacy\/["']/i.test(form));
-  const primaryPagesLinkPrivacy = Object.entries(PAGE_FILES)
+  const primaryPagesLinkPrivacy = Object.entries(routeFiles(root))
     .filter(([page]) => page !== "privacy")
     .every(([, relative]) => /href=["']\/privacy\/["']/i.test(fs.readFileSync(path.join(root, relative), "utf8")));
   record(result, "publishing:privacy-disclosure", disclosed && primaryPagesLinkPrivacy, {
@@ -250,16 +242,19 @@ function validateGitDiff(root, result) {
 }
 
 export function validateSnapshotDiff(root, baseline, scope, result) {
+  const scratch=fs.mkdtempSync(path.join(os.tmpdir(),'kkp-diff-empty-')),empty=path.join(scratch,'empty');fs.writeFileSync(empty,'');
+  try {
   for (const file of scope.files.filter(file => /\.(?:html|css|js|mjs|json|txt|md|xml)$/i.test(file))) {
     const before = path.join(baseline, file);
     const after = path.join(root, file);
-    const check = run('git', ['-c','core.autocrlf=false','-c','core.safecrlf=false','-c', 'core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol', 'diff', '--no-index', '--check', before, after], { cwd: root });
+    const check = run('git', ['-c','core.autocrlf=false','-c','core.safecrlf=false','-c', 'core.whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol', 'diff', '--no-index', '--check', fs.existsSync(before)?before:empty, fs.existsSync(after)?after:empty], { cwd: root });
     // --no-index returns 1 for an ordinary difference; --check emits diagnostics for whitespace faults.
     const passed = [0,1].includes(check.status) && !(check.stderr || check.stdout).trim();
     record(result, `snapshot:whitespace:${file}`, passed, {
       message: passed ? 'baseline-relative whitespace check passed without a Git checkout' : (check.stderr || check.stdout).trim()
     });
   }
+  } finally {fs.unlinkSync(empty);fs.rmdirSync(scratch);}
 }
 
 function validateSeo(root, result) {
@@ -267,7 +262,7 @@ function validateSeo(root, result) {
   const sitemapFile = path.join(root, "sitemap.xml");
   const robots = fs.existsSync(robotsFile) ? fs.readFileSync(robotsFile, "utf8") : "";
   const sitemap = fs.existsSync(sitemapFile) ? fs.readFileSync(sitemapFile, "utf8") : "";
-  const expected = Object.values(PAGE_ROUTES).map(route => `https://krispykp.com${route}`);
+  const expected = Object.values(routeTable(root)).map(route => `https://krispykp.com${route}`);
   const missingRoutes = expected.filter(url => !sitemap.includes(`<loc>${url}</loc>`));
   record(result, "seo:robots", Boolean(robots) && /User-agent:\s*\*/i.test(robots) && /Sitemap:\s*https:\/\/krispykp\.com\/sitemap\.xml/i.test(robots), {
     message: robots ? "robots directives checked" : "robots.txt missing"
@@ -301,6 +296,9 @@ export function runStaticValidation({ root = ROOT, profile = "standard", scope =
   validateCssReferences(root, result);
   validateJson(root, result);
   validateSeo(root, result);
+  if(fs.existsSync(path.join(root,"data/site-pages-contract.json"))){
+    try{checkPages(root);record(result,"pages:source-shell-parity",true);}catch(error){record(result,"pages:source-shell-parity",false,{message:error.message});}
+  }
   if (resolvedScope.extras.includes("builder-compatibility")) {
     result.manual.push("Public tournament schema changed: private Tournament Builder compatibility requires separate authorised evidence.");
   }

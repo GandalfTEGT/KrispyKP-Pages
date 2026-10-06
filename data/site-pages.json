@@ -1,0 +1,64 @@
+{
+  "siteId": "krispykp",
+  "schemaVersion": 1,
+  "adapter": "static-pages-v1",
+  "existing": [
+    {
+      "id": "home",
+      "route": "/",
+      "file": "index.html",
+      "label": "Home",
+      "header": true,
+      "footer": true
+    },
+    {
+      "id": "music",
+      "route": "/music/",
+      "file": "music/index.html",
+      "label": "Music",
+      "header": true,
+      "footer": true
+    },
+    {
+      "id": "videos",
+      "route": "/videos/",
+      "file": "videos/index.html",
+      "label": "Videos",
+      "header": true,
+      "footer": true
+    },
+    {
+      "id": "tournaments",
+      "route": "/tournaments/",
+      "file": "tournaments/index.html",
+      "label": "Tournaments",
+      "header": true,
+      "footer": true
+    },
+    {
+      "id": "about",
+      "route": "/about/",
+      "file": "about/index.html",
+      "label": "About",
+      "header": true,
+      "footer": true
+    },
+    {
+      "id": "contact",
+      "route": "/contact/",
+      "file": "contact/index.html",
+      "label": "Contact",
+      "header": true,
+      "footer": true
+    },
+    {
+      "id": "privacy",
+      "route": "/privacy/",
+      "file": "privacy/index.html",
+      "label": "Privacy",
+      "header": false,
+      "footer": true
+    }
+  ],
+  "pages": []
+}

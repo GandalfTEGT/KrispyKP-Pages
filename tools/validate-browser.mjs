@@ -7,8 +7,6 @@ import { validateRadarDesktop } from "./validate-radar-desktop.mjs";
 import { validateRadarControls } from "./validate-radar-controls.mjs";
 import { validateRadarRemediation } from "./validate-radar-browser.mjs";
 import {
-  ALL_PAGES,
-  PAGE_ROUTES,
   PROFILE_VIEWPORTS,
   ROOT,
   createResult,
@@ -17,6 +15,8 @@ import {
   parseArgs,
   record
 } from "./validation-common.mjs";
+
+import {routeTable} from "./pages/rules.mjs";
 
 const MIME = {
   ".css": "text/css; charset=utf-8",
@@ -65,8 +65,9 @@ export function createStaticServer(root) {
   });
 }
 
-function matrixFor(profile, affectedPages, explicitPages) {
+function matrixFor(profile, affectedPages, explicitPages, root) {
   if (explicitPages) return explicitPages.flatMap(page => PROFILE_VIEWPORTS[profile].map(width => ({ page, width })));
+  const ALL_PAGES=Object.keys(routeTable(root));
   if (profile === "acceptance") return ALL_PAGES.flatMap(page => PROFILE_VIEWPORTS.acceptance.map(width => ({ page, width })));
   if (profile === "smoke") return ALL_PAGES.map(page => ({ page, width: 390 }));
   const keys = new Set(ALL_PAGES.map(page => `${page}:390`));
@@ -103,7 +104,7 @@ async function preparePage(browser, baseUrl, width) {
 
 async function checkPage(browser, baseUrl, root, result, pageName, width, screenshots) {
   const { context, page, runtime } = await preparePage(browser, baseUrl, width);
-  const route = PAGE_ROUTES[pageName];
+  const route = routeTable(root)[pageName];
   let response = null;
   let metrics = null;
   try {
@@ -515,7 +516,7 @@ async function runRadarTest(browser, baseUrl, root, screenshots) {
     await page.locator(".radar-game-trigger").click(); await page.waitForFunction(() => document.body.dataset.radarGameState === "menu");
     assert(await page.locator(".radar-game-overlay").count() === 1, "repeated activation duplicated the overlay");
     await page.locator('[data-action="exit"]').first().click(); await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "idle");
-    for (const route of Object.values(PAGE_ROUTES)) {
+    for (const route of Object.values(routeTable(root))) {
       await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded" });
       assert(await page.locator(".radar-game-trigger").count() === 1, `Radar trigger missing on ${route}`);
       assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "idle"), `Radar active by default on ${route}`);
@@ -542,7 +543,7 @@ export async function runBrowserValidation({ root = ROOT, profile = "standard", 
   }
 
   const affected = pages || resolvedScope.pages;
-  const matrix = matrixFor(profile, affected, pages);
+  const matrix = matrixFor(profile, affected, pages, root);
   const { server, baseUrl } = await createStaticServer(root);
   let browser;
   try {
@@ -558,7 +559,12 @@ export async function runBrowserValidation({ root = ROOT, profile = "standard", 
       await functionalCase(result, 'layout-contract', () => checkLayout(browser, baseUrl, root));
     }
 
-    const functionalPages = profile === "acceptance" ? ALL_PAGES : (pages || resolvedScope.pages);
+    if (fs.existsSync(path.join(root, "data/site-pages-contract.json"))) {
+      const {checkPageFoundation}=await import("./pages/render.mjs");
+      await functionalCase(result,"page-foundation",()=>checkPageFoundation(browser,baseUrl,root));
+    }
+
+    const functionalPages = profile === "acceptance" ? Object.keys(routeTable(root)) : (pages || resolvedScope.pages);
     if (profile !== "smoke") {
       if (functionalPages.includes("home")) {
         await functionalCase(result, "home", () => runHomeTest(browser, baseUrl));

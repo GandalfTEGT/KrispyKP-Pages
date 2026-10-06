@@ -1,0 +1,29 @@
+{
+  "siteId": "krispykp",
+  "schemaVersion": 1,
+  "protocolVersion": 1,
+  "adapter": "static-pages-v1",
+  "requiredCapabilities": [
+    "pages.compose.v1",
+    "pages.routes.v1",
+    "pages.shell.v1",
+    "snapshot.validation.v1"
+  ],
+  "registryFile": "data/site-pages.json",
+  "styleFile": "styles/site-pages.generated.css",
+  "templates": [
+    "blank",
+    "standard"
+  ],
+  "components": [
+    "heading",
+    "text",
+    "button",
+    "image",
+    "panel",
+    "grid"
+  ],
+  "maxPages": 20,
+  "maxNodes": 80,
+  "maxDepth": 5
+}

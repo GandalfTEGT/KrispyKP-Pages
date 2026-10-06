@@ -1,0 +1,42 @@
+# E1 → Admin E2 executable consumer packet
+
+Executable interface, 6 October 2026. Enable only on the final verified E1 commit/consumer trust/validation handoff. Standing implementation authority defers owner review to the finished product. No main integration/deployment.
+
+## Compatibility and commands
+
+Keep B consumer fields and D1 consumer.layout unchanged. Add consumer.pages: {protocolVersion:1,capabilities:["pages.compose.v1","pages.routes.v1","pages.shell.v1","snapshot.validation.v1"]}. Read data/site-pages-contract.json via trusted Website tools; a manifest never chooses executable code. Existing B and About D1 mappings remain their own interfaces. Undeclared existing route bodies remain locked.
+
+Run trusted tools/pages/cli.mjs read --root <baseline> --consumer <consumer.json> --receipt <private-read.json>. Read returns COMPATIBLE/readOnly:false/requiresValidation:true, pagesContractSha256, registrySha256, shellSha256, registry, mappings and routes. Newly authored mappings give exact id/tag/nearest declared parent/kind in semantic DOM order. No existing body is automatically converted.
+
+The same fixed CLI forwards snapshot/plan/materialise/validate using B's explicit arguments: --root, --baseline-root, --identity, --request, --consumer, --receipt; validate also needs --changed-files and --profile acceptance. Private receipts must stay outside source/baseline/candidate. Plan against pristine baseline bytes (or its pristine candidate copy), without allowedOutputs, then pin its exact sorted outputs for materialise/validate. Materialise into a separate pristine candidate; validate the resulting candidate. Replaying plan against already materialised content correctly refuses stale expected-old values. Pass exact request/consumer objects with original JSON property order for parsed-object digests.
+
+## Page definition and typed net operations
+
+request retains schemaVersion1, baselineSha256, contractSha256, operations and expectedFiles. Optional layoutOperations/layoutContractSha256 remain D1. Add pageOperations and pagesContractSha256/shellSha256 from the current read. pageOperations contains <=20 unique page operations; keys exactly id/kind/expectedOld/value. createPage expectedOld:null, value the complete page definition; setPage expectedOld the complete baseline definition, value final definition with unchanged id/slug. Delete/move/rename is unsupported. Collapse grouped journal history to one baseline-to-final page value and regenerate fresh candidates.
+
+Page keys exactly id,slug,name,navLabel,navigation,template,title,description,hero,components. id="page."+slug. Slug lower-case ASCII single root segment <=64, letter first, hyphen-separated nonempty alphanumeric words. Reserved, Windows device, case/occupied-source collisions refused. name<=80, navLabel<=40, title<=120, description<=300 nonempty trimmed plain text. navigation={header:boolean,footer:boolean} is a PRIVATE candidate proposal. Hidden links are not a privacy guarantee. template blank or standard. hero null or {title:<=80 nonempty,summary:<=600 optional empty}; Blank has visible page-name H1 without decorative hero, Standard with hero renders standard Website treatment. Both produce exactly one H1.
+
+Components are a bounded array <=80 total nodes/depth5, IDs unique letter-first lower-case alphanumeric/hyphen <=40. Render identities page.<slug>.<component-id>, attribute data-kkp-page-id. Supported exact shapes:
+
+- heading: {id,kind:"heading",level:2|3,text}; <=160, no skipped hierarchy.
+- text: {id,kind:"text",text}; <=2400 plain escaped text.
+- button: {id,kind:"button",text,href}; text<=120; declared local route or credential-free HTTPS, no raw HTML.
+- image: {id,kind:"image",src,alt}; existing /assets/...png or /media/...png, required alt<=160, validated intrinsic PNG dimensions. No upload/crop/focal/shared replacement; B's current PNG selected-use policy remains separate.
+- panel: {id,kind:"panel",children}; <=20 nonempty children, no direct panel child.
+- grid: {id,kind:"grid",profiles:{wide:1..3|null,medium:1..2|null,compact:1|null},children}; nonempty <=20 panel children, wide→medium→compact inherited/capped columns. D1 thresholds981/701/700, intrinsic minmax, global DOM order. No persisted free coordinates/CSS.
+
+Website source helper tools/pages/fixtures.mjs exports pageSpec and requestFor for exact examples. Private tools/pages/review-fixture.mjs <empty-private-directory> acceptance produces two new pages (Standard visible + Blank hidden), mixed B heading/D1 grid operation, full immutable inputs/receipts. Fixtures do not edit actual source.
+
+For nonempty page operations expectedFiles hashes cover registry/generated-page CSS/sitemap/all seven existing HTML sources and all baseline-managed page HTML, plus B/D touched sources. Derive from ACTUAL checkout bytes; Git LF/CRLF forms can differ from historical raw digests. Snapshot captures new route authority and derived HTML paths; A/E2 private allowlists must learn these validated paths without broadening to arbitrary root directories. Plan shows the exact actual outputs, including existing HTML only when candidate navigation changes and new/managed page sources. Such navigation proposals add/remove the bounded generated-stylesheet binding on existing routes, wrapping only new managed link labels. Managed page text wraps at any character; full browser proof checks container clipping as well as document width.
+
+## Selection and proof
+
+bridge --root <validated-candidate> --consumer <consumer.json> --page-id page.<slug> --settings <private-settings.json> --receipt <private-bridge.json>. Settings contain exactly origin, sessionId, documentId and candidateSha256: the actual loopback origin, fresh session/document and current candidate hash. Route/attribute overrides are refused. The current inventory hash must match. PREPARED is not validation authority. Host checks current PASS receipt baseline/request/consumer/contracts/shell/candidate/scope and verifies exact live unique id/tag/nearest-parent/semantic map, origin, revision and session before applying inspector selection. Commands remain window.__kkpLayoutBridgeV1.command with sessionId/documentId/candidateSha256 and mode/select/detach, no operation execution. About retains its D1 bridge; other existing pages remain locked.
+
+Private script/overlay must never enter candidate source/export. Navigation, new edits/history/rebase/refresh invalidate old proof and document/session identities. E2 owns composition editor, grouped undo/recovery/rebase, inspector/page metadata/template choice, native focus/zoom/DPI/gestures and current-source owner launcher. Website owns source renderer, route registry, canonical/sitemap, shared shell and generated styles. No frozen Admin renderer or arbitrary script/HTML paths.
+
+## Final dependency evidence
+
+E1 evidence is tasks/WEBSITE-PAGE-FOUNDATION-VALIDATION.json at the final verified task revision, with exact push/clean details in the private delivery handoff. Standard72, current seven-route acceptance97, immutable mixed nine-route acceptance130, pages39/management34/layout28, About bridge11 and page browser12 PASS. Shared-shell propagation preserves all nine main bodies; ninety long-content threshold cases check container clipping. Verify all52 tool/partial Git byte forms from docs/SITE-PAGE-TOOL-TRUST.json against that pinned revision; four inherited tools had mixed working-copy EOL, separately recorded by exact fixture hash. Fresh Git checkout uses declared LF/CRLF forms. Manifest text alone does not authorize code execution.
+
+Explicit consumer.pages handshake is required for enabled page read/projection. Empty pageOperations produce no page outputs and null page/shell proof digests in validation receipts. Undoing creation to an empty net journal uses a fresh baseline candidate: no managed-page mapping remains, so detach/invalidate its old preview. B/D proof fields retain their independent meaning. Native WPF/WebView2, true zoom/DPI and physical-input observations remain unverified and belong to finished-product E2 checks.

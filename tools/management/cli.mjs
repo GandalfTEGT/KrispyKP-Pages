@@ -28,7 +28,7 @@ export async function main(argv){
       requireThat(baseline,'ARGUMENT','Immutable baseline root is required.');
       if(command==='validate')report=await validateCandidate({root:opt.root,baseline,identity,request,consumer,changed:input(opt['changed-files']),profile:opt.profile||'standard'});
       else if(command==='materialise')report=materialise(opt.root,baseline,identity,request,consumer);
-      else {const result=plan(opt.root,baseline,identity,request,consumer);report={status:'PLANNED',requiresValidation:true,outputs:result.outputs,mediaImpact:result.mediaImpact,layoutImpact:result.layoutImpact,contractSha256:result.contractSha256,layoutContractSha256:result.layoutContractSha256};}
+      else {const result=plan(opt.root,baseline,identity,request,consumer);report={status:'PLANNED',requiresValidation:true,outputs:result.outputs,mediaImpact:result.mediaImpact,layoutImpact:result.layoutImpact,pageImpact:result.pageImpact,pagesContractSha256:result.pagesContractSha256,shellSha256:result.shellSha256,contractSha256:result.contractSha256,layoutContractSha256:result.layoutContractSha256};}
     }
   }catch(error){report={status:'FAIL',mediaImpact:error.mediaImpact||[],diagnostics:[{severity:'blocking',code:error.code||'INPUT',field:error.field||null,message:error instanceof ManagementError?error.message:'Input or environment error; see the private consumer log.'}]};}
   fs.writeFileSync(output,JSON.stringify(report,null,2)+'\n');

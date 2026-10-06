@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import { loadRegistry } from '../pages/rules.mjs';
 
 export class ManagementError extends Error {
   constructor(code, message, field = null) { super(message); this.code = code; this.field = field; }
@@ -24,11 +25,11 @@ export function relativePath(value) {
   requireThat(!path.isAbsolute(value) && value.split('/').every(p => p && p !== '.' && p !== '..' && !/[. ]$/.test(p) && !/^(?:con|prn|aux|nul|com\d|lpt\d)(?:\.|$)/i.test(p)), 'PATH', 'File path is escaping, reserved or ambiguous.');
   return value;
 }
-export function included(value) {
+export function included(value, managed = new Set()) {
   const parts = relativePath(value).split('/');
   if (parts.some(p => (p.startsWith('.') && p !== '.well-known') || excluded.has(p.toLowerCase()) || /^(?:credentials|secrets)(?:\.|$)/i.test(p))) return false;
   if (/\.(?:pem|key|pfx|p12|env|exe|dll|log)$/i.test(value)) return false;
-  return roots.has(value) || value === 'docs/TOURNAMENT-CONTRACT.md' || (parts.length > 1 && trees.has(parts[0]));
+  return roots.has(value) || value === 'docs/TOURNAMENT-CONTRACT.md' || (parts.length > 1 && trees.has(parts[0])) || (parts.length===2 && parts[1]==='index.html' && managed.has(parts[0]));
 }
 export function safeRoot(root) {
   const resolved = path.resolve(root);
@@ -49,17 +50,18 @@ export function safeFile(root, relative, { existing = true } = {}) {
 }
 export function inventory(root) {
   root = safeRoot(root);
+  const managed=new Set(loadRegistry(root,{optional:true}).pages.map(p=>p.slug));
   const files = []; const folded = new Set();
   function visit(directory, prefix = '') {
     for (const entry of fs.readdirSync(directory, { withFileTypes: true }).sort((a,b) => a.name.localeCompare(b.name,'en'))) {
       const relative = prefix + entry.name;
       if (entry.name.startsWith('.') && entry.name !== '.well-known') continue;
       if (excluded.has(entry.name.toLowerCase())) continue;
-      if (!prefix && !trees.has(entry.name) && !roots.has(entry.name) && entry.name !== 'docs') continue;
+      if (!prefix && !trees.has(entry.name) && !roots.has(entry.name) && entry.name !== 'docs' && !managed.has(entry.name)) continue;
       const filename = path.join(directory, entry.name);
       requireThat(!fs.lstatSync(filename).isSymbolicLink(), 'SYMLINK', 'Snapshot traversal refuses linked files/directories.', relative);
       if (entry.isDirectory()) visit(filename, relative + '/');
-      else if (included(relative)) {
+      else if (included(relative,managed)) {
         requireThat(!folded.has(relative.toLowerCase()), 'PATH', 'Case-colliding snapshot paths are refused.', relative);
         folded.add(relative.toLowerCase());
         const bytes = fs.readFileSync(filename);
@@ -89,15 +91,16 @@ export function changedFiles(baselineFiles, candidateFiles) {
 }
 export function assertCandidateShape(root){
   root=safeRoot(root);
+  const managed=new Set(loadRegistry(root,{optional:true}).pages.map(p=>p.slug));
   function visit(directory,prefix=''){
     for(const entry of fs.readdirSync(directory,{withFileTypes:true})){
       if(!prefix && ['node_modules','.git'].includes(entry.name))continue;
       const relative=prefix+entry.name,filename=path.join(directory,entry.name);
       requireThat(!fs.lstatSync(filename).isSymbolicLink(),'SYMLINK','Candidate contains linked published paths.',relative);
       if(entry.isDirectory()){
-        requireThat((!prefix && (trees.has(entry.name)||entry.name==='docs')) || (prefix && !entry.name.startsWith('.') && !excluded.has(entry.name.toLowerCase())),'PRIVATE_ASSET','Unexpected/private candidate directory is outside snapshot scope.',relative);
+        requireThat((!prefix && (trees.has(entry.name)||entry.name==='docs'||managed.has(entry.name))) || (prefix && !managed.has(prefix.slice(0,-1)) && !entry.name.startsWith('.') && !excluded.has(entry.name.toLowerCase())),'PRIVATE_ASSET','Unexpected/private candidate directory is outside snapshot scope.',relative);
         visit(filename,relative+'/');
-      }else requireThat(included(relative),'PRIVATE_ASSET','Unexpected/private candidate file is outside snapshot scope.',relative);
+      }else requireThat(included(relative,managed),'PRIVATE_ASSET','Unexpected/private candidate file is outside snapshot scope.',relative);
     }
   }
   visit(root);

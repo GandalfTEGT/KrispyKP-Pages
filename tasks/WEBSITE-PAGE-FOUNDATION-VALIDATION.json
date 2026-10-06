@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "task": "WEBSITE-SHARED-SHELL-PAGE-FOUNDATION",
+  "date": "2026-10-06",
+  "status": "IMPLEMENTED_VALIDATED_INTERNAL_HANDOFF_READY",
+  "branch": "codex/shared-shell-page-foundation",
+  "base": "1341871fae08c81f423f7e3af96731afc2bb20f0",
+  "preparationCommit": "0c4c6bdadecca0feb0a7c2a73bd9aa96401395e9",
+  "identity": {
+    "baselineSha256": "FC965FBC01B83D9A7BCC1210F7D8227DABBF828C07255479C68E9FDA95391406",
+    "candidateSha256": "2EAB2295FEFC1D607083B9FDBDD2714648A55133E37304EBBF610FC2D527A7BC",
+    "requestSha256": "B75B58AEBA2995554E9B851DF870856436D802ABD78B347FFB777787CBC8F75D",
+    "consumerSha256": "CE8F1E4979B662B237E694D3FECB4A7F08EB253D7E8A757DDFBFCF77988B0C16",
+    "contractSha256": "DFBB5364ADD0B46CED5E1BF45E1C3442209C436CA45F6830B300E9CC6914A453",
+    "layoutContractSha256": "A71E450CDCCE6822CFF6031DA72889FC3B3A95DEF59F6E1584C781A71702E6C5",
+    "pagesContractSha256": "FF559695C949F07A0584D6CC97C621260BEB379EFDB777B4CE027052B99CEAE0",
+    "shellSha256": "B175B04DDE3238F1D5CC5509B31A1C7C2726A18460F95D4C28A98143C63CAC05"
+  },
+  "scope": {
+    "sourceRegistryPages": 0,
+    "sourceRoutes": 7,
+    "mixedCandidateRoutes": 9,
+    "mixedOutputs": [
+      "about/index.html",
+      "community-note/index.html",
+      "contact/index.html",
+      "data/site-layout-state.json",
+      "data/site-pages.json",
+      "index.html",
+      "music/index.html",
+      "privacy/index.html",
+      "quiet-page/index.html",
+      "sitemap.xml",
+      "styles/site-layout.generated.css",
+      "styles/site-pages.generated.css",
+      "tournaments/index.html",
+      "videos/index.html"
+    ],
+    "defaultExistingHtml": "exact unchanged D1 checkout bytes",
+    "globalShellFixture": "seven bespoke plus two new routes, main-body bytes preserved",
+    "longContentFixture": "90 current/new route thresholds with open compact menus and container clipping checks"
+  },
+  "toolTrust": {
+    "path": "docs/SITE-PAGE-TOOL-TRUST.json",
+    "sha256": "585F3EFB78F42A095B82A3DA1A03DDB119F89D3D21AA9639BE133676EB2D5D1D",
+    "files": 52,
+    "sourceAndFinalFixture": "exact byte match",
+    "forms": "reviewed LF or CRLF",
+    "stagedGit": "52 exact LF/CRLF declared forms",
+    "fixtureTools": [
+      {
+        "path": "tools/export-flag-catalog.mjs",
+        "sha256": "0ADAEC981240574F7A18523933D7C396F646BC82FDBCB63989E81FEED32D1135",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/export-tournament-config.mjs",
+        "sha256": "BA436BEF74FBBFB773DE569FA69B12353B3992A5D36FC7235DC06A05FDD0BC46",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/generate-tournament-rules.py",
+        "sha256": "32A56C4DE2824C25421C02D056712EE410511B0A075011A352383C517F887217",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/layout/bridge.mjs",
+        "sha256": "6580FBA84766F5E974F8553E89EF455406106B6B1EECF3F29C8BB27D1F83E07A",
+        "checkoutForm": "MIXED_EOL_REVIEWED_EXACT_FIXTURE_BYTES"
+      },
+      {
+        "path": "tools/layout/cli.mjs",
+        "sha256": "2E9DD23911439768E5AA261E1C7DFDDDA0964CDC9B55334437EB076F39D53D97",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/layout/contract.mjs",
+        "sha256": "E2FA4E4557F943A80A2C725333CEB0D053DE2FBEA636AA656ECFBC5E27D5A3B0",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/layout/project.mjs",
+        "sha256": "B037A1C8364F9370F0D7119A6E180F1B4F63A40429604EF69D884FCB2F66F4B4",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/layout/render.mjs",
+        "sha256": "DAFE89B6BB0BCA6107A8D474FEBE80B070297E54C246E605B46CE1D6B183CFD0",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/layout/review-fixture.mjs",
+        "sha256": "7602D7800B85B9012B7B68A712C2A3AD7C015EC91CEDDC6573B10474F0D0AF14",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/layout/source.mjs",
+        "sha256": "1E739327AC5FA53B9780415CA6FE4C9658A65D162A8FB7D4916B7DD77ACCC2D5",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/layout/test-browser.mjs",
+        "sha256": "3107C625A4C108120CE6C783D12DFCF359F7EFF3187FCB3F7AE6A71887366D8E",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/layout/test.mjs",
+        "sha256": "76436915942A863F010475FA07EFB2E916D8CD59BC5AF44BA398DA31D32B70AF",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/capture.mjs",
+        "sha256": "C7ACC7634DAF719B792069F634EEB0C7A75B3092B7F8B5B3A89C60981FFB0D1E",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/cli.mjs",
+        "sha256": "67700A651C9039E000A6863924229BA4BBDBD2A5B07DB0B1283FA38A0013F8B3",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/contract.mjs",
+        "sha256": "C41C8BF3FE7138D267EA4A03FF9C34353D4E3DD7EB6547E821B28D4760901BE0",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/files.mjs",
+        "sha256": "566272B39024305CDB762D716C6C79B738DC6C6500C8D9258B2E6FC6B313835E",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/html.mjs",
+        "sha256": "F9AADEE06FFCA982A170B996BBFC0F634A96C9BEECBCF1931013737DAD55AC4D",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/materialise.mjs",
+        "sha256": "7B723F663211588C28EEE6EAD49C4F6270051B73CA5C540AEB4E2AEE553EA8C6",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/media.mjs",
+        "sha256": "C77E5EE4B983BD8FA821AA4087A7B62B4B75CC9A037C0AD336DB36A99064BB66",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/render.mjs",
+        "sha256": "1110B5E8FDB134BCB73239CF702C429B584C2987EBE1D036308E1E417D6B3A39",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/review-fixture.mjs",
+        "sha256": "A4293E084349608C8D59D5CCA140BE3E26800D1479011761CBD110FA00C51DDC",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/test-render.mjs",
+        "sha256": "3EA2EFA4481CC367F42EE00A85FE496CA5A34695D090E34BC3F1B9D2E596117C",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/test.mjs",
+        "sha256": "6A162E85B4E99D8BC5A09B7AC5CCB022882E0308CA314808AEF44E2F42E22EAF",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/management/validate.mjs",
+        "sha256": "0D86033A8B32D271083FA6E758C81D385744712E3B7CAF03B574E38B92081B53",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/build.mjs",
+        "sha256": "E0DCC92F19E468E179AABABA286AEFA4458EB6CD5B73C38FDC8957529F14CB4A",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/cli.mjs",
+        "sha256": "B20F10D3C97F74C05E8D49C8FEEE05440B4A4B8E397C7A9606584A13ED4758DF",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/components.mjs",
+        "sha256": "5D5DDB9C51F014D8750176BAE82617D61B03AB814D6D01BDB55EB73FB99F7C5B",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/contract.mjs",
+        "sha256": "E3C3035976443506B47C38A630C0F1E0A06FC4AAEAB18C55F6D4F51A0D3D4E23",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/fixtures.mjs",
+        "sha256": "99472DDAE49A3C77C4E319CE42FCCE79C0DB41DC7ED5FA3BB7B8C80191E84C13",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/partials/background-tournaments.html",
+        "sha256": "960F206201B74FDA232D070118152F4D46B97B3E05188D30A6FDF8B8026AF6A1",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/partials/background.html",
+        "sha256": "90C24ECBAD148F6345DBC2A8AEAD237E53FB45EC505A8C85E78446246A458791",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/partials/footer-privacy.html",
+        "sha256": "370E51BB4DE00F8E753AACA13FD95423A6A80F5F0C9B1FF10505AF251BCD3997",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/partials/footer.html",
+        "sha256": "767D0202E870BD5BEB6BED3E1BC8958B53913BBC7691B7A1D143BE0D18F67CCF",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/partials/header.html",
+        "sha256": "C3F7C2F9A6A6777476ABDBCB8E1DD507EE5F5402A233BD35BF4A17ABAFFCB46D",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/project.mjs",
+        "sha256": "A9C074E91017DF8F4F5BC51A80FE72AFD10736BF47B439D7E2DEBA46799FABEB",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/render.mjs",
+        "sha256": "90318D2B1B6CCB040EDAC5D8127D88FE49A42374F104512BE7C69272DAD4A89C",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/review-fixture.mjs",
+        "sha256": "74E94CD6F6B34DAA6DE51991079AAB80DF046EE23B88D9138997B0AFFA1B4149",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/rules.mjs",
+        "sha256": "E41E25ADEFB287BD5E9188AFC8AF2595E14848440FDB6BE46B0E51033A5A7138",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/shell.mjs",
+        "sha256": "D8E44A24189E59F4C534C90595AACA20D95E50743CE249F2580EB2356E1BB1F3",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/test-browser.mjs",
+        "sha256": "EA9E755B7A9AEA79251A8B2E8074BF8DA8267B7D48068A2ECCBD82A65EDB5FA4",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/pages/test.mjs",
+        "sha256": "CD8DE91C2FDFD01076E9CE91E1DEADD7459C7A4E7F6175D9E4DAC15AB686949D",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/project-status.mjs",
+        "sha256": "0AC3A502C7920D0570080E4FAE3E152AD5E9280EEEE0B57AE3A634F03E42C2B5",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/self-test-validator.mjs",
+        "sha256": "A51A262FF6B42A07B12180CA062814AD8D84FF26C02C3B6530C1AE265F4ABE01",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/validate-browser.mjs",
+        "sha256": "C949781D59EFFEF0FD876608BED76E38102FC48EB4ABE63A11A6520C2BDF1310",
+        "checkoutForm": "MIXED_EOL_REVIEWED_EXACT_FIXTURE_BYTES"
+      },
+      {
+        "path": "tools/validate-project.mjs",
+        "sha256": "249C7E49D473A2CCA9CDD95BA1E34BAF097F62250D1A0C48582C651A8AADE593",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/validate-radar-browser.mjs",
+        "sha256": "D933EE3E22F51D11E1E37A2FF27EEDC65361FF77210FB955AD9D590334BC9FA4",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/validate-radar-controls.mjs",
+        "sha256": "F1B587E419266D4723EFF863C30F86EFCC9A97097E25A7E6B6D195370A3150A8",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/validate-radar-desktop.mjs",
+        "sha256": "F2D7CFE03672F452DDE352A536F7C6FEAAC61E70D5E33E139A54F1DAE13E59F4",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/validate-radar-rts.mjs",
+        "sha256": "86A841DC74A3E4EFDAECFCDB883F88E6E3F8FEACD26A6FE70FEBA09FB15D2CAF",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/validate-site-config.mjs",
+        "sha256": "104C2DCAAD5A7A3E835E207D46FA86D397CFD9C9821DE5860228B76EAA818937",
+        "checkoutForm": "LF_OR_CRLF"
+      },
+      {
+        "path": "tools/validate-static.mjs",
+        "sha256": "8FF7C2E19AAFE548B01D59C54DBA299EA433DA4C3A56A1C1BC7FA85C9BE59199",
+        "checkoutForm": "MIXED_EOL_REVIEWED_EXACT_FIXTURE_BYTES"
+      },
+      {
+        "path": "tools/validation-common.mjs",
+        "sha256": "16015AB47378610682090C113D73AE687E45C653502144619725A444C55FA497",
+        "checkoutForm": "MIXED_EOL_REVIEWED_EXACT_FIXTURE_BYTES"
+      }
+    ],
+    "checkoutEol": "Four edited inherited tools have mixed checkout EOL; exact fixture hashes recorded, content equals staged LF form. Fresh Git checkout uses declared LF/CRLF forms."
+  },
+  "validation": {
+    "standard": {
+      "path": ".validation/E1-final-standard.json",
+      "sha256": "4F797669585305D368BCD15E09E6251DE013092E9EFBB24689B12E57CF328858",
+      "status": "PASS",
+      "checks": 72
+    },
+    "sourceAcceptance": {
+      "path": ".validation/E1-source-pinned-acceptance.json",
+      "sha256": "AA84B6C680928C59F6F2B63A181D9B986F8616A1E01720E82641697989A1109E",
+      "status": "PASS",
+      "checks": 97
+    },
+    "mixedAcceptance": {
+      "path": "../../Archive/website-pages-E1-contract-review-2026-10-06/validation.json",
+      "sha256": "FF902A03FB4DCD027A61CD448587AC157138827B50026006E84C9B1DD25CC273",
+      "status": "PASS",
+      "checks": 130
+    },
+    "pageBrowser": {
+      "path": "../../Archive/website-pages-E1-browser-contract-2026-10-06.json",
+      "sha256": "83A24AE6A15E43B42AB83C56CB927FD37D461730C6DEA4D852B39F7A0F1C6F28",
+      "status": "PASS",
+      "checks": 12
+    },
+    "aboutBridge": {
+      "path": "../../Archive/website-pages-E1-D1-browser-pinned-2026-10-06.json",
+      "sha256": "2F2920BA1472E957634C0C135C05815385CEDE3A460A557A4DB6638D2A7F4B50",
+      "status": "PASS",
+      "checks": 11
+    },
+    "selfTest": {
+      "path": ".validation/self-test.json",
+      "sha256": "705F50446DFE52EE943EB8FB63613F2E01BC813D2588D3B318AF8461727A76B6",
+      "status": "PASS",
+      "checks": 10,
+      "timing": "Earlier E1 validator suite; final handshake/scope guards separately covered in current page39/layout28 regressions"
+    },
+    "currentRegression": {
+      "pages": 39,
+      "management": 34,
+      "layout": 28,
+      "status": "PASS",
+      "commands": [
+        "node tools/pages/test.mjs",
+        "node tools/management/test.mjs",
+        "node tools/layout/test.mjs"
+      ]
+    },
+    "sourceBuild": {
+      "status": "CURRENT",
+      "outputs": []
+    }
+  },
+  "cli": {
+    "read": "COMPATIBLE",
+    "plan": "PLANNED",
+    "outputs": 14,
+    "bridge": "PREPARED_REQUIRES_VALIDATED_HOST",
+    "receiptDirectory": "../../Archive/website-pages-E1-contract-review-2026-10-06",
+    "planReceipt": "cli-plan-pristine.json",
+    "planningRule": "Plan pristine baseline bytes; materialised source correctly refuses stale expected-old replay",
+    "settings": "exact four keys; illustrative port is not an active host"
+  },
+  "preservation": [
+    {
+      "path": "index.html",
+      "sha256": "18A4AF3F9887E402BA8E5F8D93A4CDEC60ED4FB60BF84CC16EAE5DF65E4313C4",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "music/index.html",
+      "sha256": "8D47F99634E678C6885A8D0E20B63B13D704867C3D09B51785B3B28ACC7091F3",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "videos/index.html",
+      "sha256": "2218C616A58010CA092A236953F6DBFB6D31E7750630B129CCD604B62FCC3E22",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "tournaments/index.html",
+      "sha256": "6BA8D75091F6B02D702620B52F06A7B51A904E2ECEB3A91F7B185EA55E16BE6D",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "about/index.html",
+      "sha256": "C3D01CDBA3B444B232CA83D65AF50C4B7EEC5580E9E82EAF2CDFBE39DC1F51A5",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "contact/index.html",
+      "sha256": "AE52B34B9AABD8716BFAACEA0FD2CDCF16634A51E3003ABD8AA2B33F1BE06718",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "privacy/index.html",
+      "sha256": "ECA4A32A3D725BBB2A0EA1ED2D70C3C55CC466C151A5E5D88EE65556E3FAE2F1",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "data/tournaments.config.js",
+      "sha256": "EE6BC8521DAEB862533E26D7988B301666FF5626B4D87F9FA72209EB39CB70DB",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "data/site-management.json",
+      "sha256": "DFBB5364ADD0B46CED5E1BF45E1C3442209C436CA45F6830B300E9CC6914A453",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "data/site-layout.json",
+      "sha256": "A71E450CDCCE6822CFF6031DA72889FC3B3A95DEF59F6E1584C781A71702E6C5",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "data/site-layout-state.json",
+      "sha256": "0129D389D5849394EE9E9726C82F184C9A30A31D338E869FFFF7D4217A737662",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    },
+    {
+      "path": "styles/site-layout.generated.css",
+      "sha256": "1CCB13E9AD98F403668C970B22CB5DB45F10974650A24C3402EA0B8F1C374459",
+      "comparison": "exact filtered D1 Git checkout bytes"
+    }
+  ],
+  "ownerArchiveSha256": "06D65C1BC84F538FF7CD87C4A400874184CA5C92603913C133B99E268D2407B6",
+  "corrections": [
+    "New-route whitespace absent-baseline comparison fixed; original FAIL retained.",
+    "Continuous content clipping fixed with scoped wrapping; 90-case current browser proof.",
+    "Missing pages consumer and preview settings scope override refused; invalid-origin refusal priority retained.",
+    "CLI replay onto already materialised source refused as STALE_VALUE; pristine planning returns exact14 outputs."
+  ],
+  "visualReview": {
+    "candidate": "all nine routes at390/1440 and Standard980 reviewed during implementation; final exact candidate captures repeated; final Standard390/1440 and global Privacy1440 inspected",
+    "thirdParty": "blocked by harness; no live delivery claim"
+  },
+  "manual": [
+    "Native WPF/WebView2 DPI, true zoom, focus/drag/keyboard interaction belongs to E2 final product validation",
+    "Physical devices, real assistive technology, non-Chromium and subjective owner review unverified"
+  ],
+  "ownerAccepted": false,
+  "mainIntegrated": false,
+  "deployed": false,
+  "cleanupPerformed": false,
+  "deliveryCommit": "Resolve this record at the final task Git revision; exact push/clean evidence is in private DELIVERY.md"
+}
