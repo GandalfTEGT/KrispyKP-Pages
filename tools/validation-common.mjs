@@ -106,7 +106,7 @@ export function detectScope({ root = ROOT, base = null, files: providedFiles = n
       add("tournaments");
       extras.add("tournament-artifacts");
       extras.add("builder-compatibility");
-    } else if (file.startsWith("about/") || /^(?:styles\/about\.css|data\/about\.js)$/.test(file)) {
+    } else if (file.startsWith("about/") || /^(?:styles\/(?:about\.css|site-layout\.generated\.css)|data\/(?:about\.js|site-layout(?:-state)?\.json))$/.test(file)) {
       add("about");
     } else if (file.startsWith("contact/") || /^(?:styles\/contact\.css|data\/contact\.js)$/.test(file)) {
       add("contact");

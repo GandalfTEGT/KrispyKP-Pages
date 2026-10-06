@@ -1,0 +1,158 @@
+{
+  "siteId": "krispykp",
+  "schemaVersion": 1,
+  "protocolVersion": 1,
+  "revision": "1.0.0",
+  "adapter": "about-layout-v1",
+  "sourceFile": "about/index.html",
+  "stateFile": "data/site-layout-state.json",
+  "styleFile": "styles/site-layout.generated.css",
+  "renderAttribute": "data-kkp-layout-id",
+  "requiredCapabilities": [
+    "layout.order.v1",
+    "layout.grid-span.v1",
+    "layout.profiles.v1",
+    "preview.selection.v1"
+  ],
+  "profiles": [
+    {
+      "id": "wide",
+      "minWidth": 981,
+      "maxWidth": null,
+      "maxColumns": 3
+    },
+    {
+      "id": "medium",
+      "minWidth": 701,
+      "maxWidth": 980,
+      "maxColumns": 2
+    },
+    {
+      "id": "compact",
+      "minWidth": 280,
+      "maxWidth": 700,
+      "maxColumns": 1
+    }
+  ],
+  "inheritance": [
+    "wide",
+    "medium",
+    "compact"
+  ],
+  "nodes": [
+    {
+      "id": "about.page",
+      "label": "About body sections",
+      "kind": "root",
+      "tag": "main",
+      "parent": null,
+      "children": [
+        "about.hero",
+        "about.overview-section",
+        "about.features-section",
+        "about.platforms-section",
+        "about.purpose-section"
+      ],
+      "reorderable": [
+        "about.overview-section",
+        "about.features-section",
+        "about.platforms-section",
+        "about.purpose-section"
+      ]
+    },
+    {
+      "id": "about.hero",
+      "label": "About hero — locked",
+      "kind": "locked",
+      "tag": "section",
+      "parent": "about.page",
+      "reason": "Hero/heading must remain first; content editing is separate."
+    },
+    {
+      "id": "about.overview-section",
+      "label": "Overview section",
+      "kind": "section",
+      "tag": "section",
+      "parent": "about.page"
+    },
+    {
+      "id": "about.features-section",
+      "label": "Features and approach section",
+      "kind": "section",
+      "tag": "section",
+      "parent": "about.page"
+    },
+    {
+      "id": "about.platforms-section",
+      "label": "Platforms and next section",
+      "kind": "section",
+      "tag": "section",
+      "parent": "about.page"
+    },
+    {
+      "id": "about.purpose-section",
+      "label": "Purpose section",
+      "kind": "section",
+      "tag": "section",
+      "parent": "about.page"
+    },
+    {
+      "id": "about.features.grid",
+      "label": "Feature cards grid",
+      "kind": "grid",
+      "tag": "div",
+      "parent": "about.features-section",
+      "children": [
+        "about.feature.streaming",
+        "about.feature.videos",
+        "about.feature.music",
+        "about.feature.tournaments"
+      ],
+      "reorderable": [
+        "about.feature.streaming",
+        "about.feature.videos",
+        "about.feature.music",
+        "about.feature.tournaments"
+      ]
+    },
+    {
+      "id": "about.feature.streaming",
+      "label": "Streaming card",
+      "kind": "card",
+      "tag": "article",
+      "parent": "about.features.grid"
+    },
+    {
+      "id": "about.feature.videos",
+      "label": "Videos card",
+      "kind": "card",
+      "tag": "article",
+      "parent": "about.features.grid"
+    },
+    {
+      "id": "about.feature.music",
+      "label": "Music card",
+      "kind": "card",
+      "tag": "article",
+      "parent": "about.features.grid"
+    },
+    {
+      "id": "about.feature.tournaments",
+      "label": "Tournaments card",
+      "kind": "card",
+      "tag": "article",
+      "parent": "about.features.grid"
+    }
+  ],
+  "locked": [
+    "Home and all undeclared page layout",
+    "shared header/footer/navigation/metadata",
+    "hero position",
+    "card text/media/inner structure",
+    "arbitrary CSS/positions/free-form sizing",
+    "profile-specific DOM or CSS order",
+    "moving components between parents",
+    "add/delete/duplicate components"
+  ],
+  "selectionProtocol": 1
+}

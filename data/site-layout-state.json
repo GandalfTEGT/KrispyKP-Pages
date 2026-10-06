@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "orders": {
+    "about.page": [
+      "about.overview-section",
+      "about.features-section",
+      "about.platforms-section",
+      "about.purpose-section"
+    ],
+    "about.features.grid": [
+      "about.feature.streaming",
+      "about.feature.videos",
+      "about.feature.music",
+      "about.feature.tournaments"
+    ]
+  },
+  "overrides": {
+    "wide": {},
+    "medium": {},
+    "compact": {}
+  }
+}

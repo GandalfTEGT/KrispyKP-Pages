@@ -29,7 +29,7 @@ export async function validateCandidate({root, baseline, identity, request, cons
   requireThat(isDeepStrictEqual(before,inventory(root)),'VALIDATION_MUTATION','Candidate bytes changed during validation.');
   verifySnapshot(baseline,identity,request.baselineSha256);
   const results=[staticResult,browserResult];
-  return {schemaVersion:1,status:results.every(r=>r.status==='PASS')?'PASS':'FAIL',profile,baselineSha256:identity.sha256,contractSha256:expected.contractSha256,changedFiles:actual,
+  return {schemaVersion:1,status:results.every(r=>r.status==='PASS')?'PASS':'FAIL',profile,baselineSha256:identity.sha256,contractSha256:expected.contractSha256,layoutContractSha256:expected.layoutContractSha256,requestSha256:sha(JSON.stringify(request)),consumerSha256:sha(JSON.stringify(consumer)),layoutImpact:expected.layoutImpact,changedFiles:actual,
     candidateSha256:sha(JSON.stringify(before)),mediaImpact:[...expected.mediaImpact,...mediaImpact],preservation:'PASS',
     repositoryGates:{status:'NOT_RUN',reason:'Snapshot validation does not establish branch ancestry, remote tip, integration or publication.'},
     checks:results.reduce((n,r)=>n+r.checks.length,0),failures:results.flatMap(r=>r.failures),manual:[...new Set(results.flatMap(r=>r.manual))],results};

@@ -553,6 +553,10 @@ export async function runBrowserValidation({ root = ROOT, profile = "standard", 
       const { checkBindings } = await import('./management/render.mjs');
       await functionalCase(result, 'management-bindings', () => checkBindings(browser, baseUrl, root));
     }
+    if (fs.existsSync(path.join(root, 'data/site-layout.json'))) {
+      const { checkLayout } = await import('./layout/render.mjs');
+      await functionalCase(result, 'layout-contract', () => checkLayout(browser, baseUrl, root));
+    }
 
     const functionalPages = profile === "acceptance" ? ALL_PAGES : (pages || resolvedScope.pages);
     if (profile !== "smoke") {

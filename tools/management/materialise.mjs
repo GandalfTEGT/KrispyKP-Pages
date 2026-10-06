@@ -6,6 +6,7 @@ import { requireThat, safeRoot, safeFile, verifySnapshot, sha, json, separateRoo
 import { read } from './contract.mjs';
 import { nodes, valueOf, replaceNode } from './html.mjs';
 import { upload, usages } from './media.mjs';
+import { projectLayout } from '../layout/project.mjs';
 
 function text(value,max,id){requireThat(typeof value==='string' && value.trim()===value && value.length>0 && value.length<=max && !/[\x00-\x1f\x7f]/.test(value),'VALUE','Expected nonempty bounded plain text without control characters.',id);}
 function link(root,value,binding){
@@ -51,11 +52,13 @@ export function plan(root,baseline,identity,request,consumer){
     const bytes=Buffer.from(source,'utf8');
     if(!bytes.equals(fs.readFileSync(safeFile(root,binding.file))))files.set(binding.file,bytes);
   }
+  const layout=request.layoutOperations?projectLayout(root,files,request,consumer):{expectedSources:[],layoutImpact:[]};
+  for(const file of layout.expectedSources)expectedSource.add(file);
   requireThat(request.expectedFiles && json(Object.keys(request.expectedFiles).sort())===json([...expectedSource].sort()),'PRECONDITION','Exact managed source file hashes are required.');
   for(const file of expectedSource)requireThat(request.expectedFiles[file]===sha(fs.readFileSync(safeFile(root,file))),'STALE_SOURCE','Managed source hash differs from request.',file);
   const outputs=[...files.keys()].sort();
   if(request.allowedOutputs)requireThat(json([...request.allowedOutputs].sort())===json(outputs) && new Set(request.allowedOutputs).size===request.allowedOutputs.length,'OUTPUT_ALLOWLIST','Declared outputs differ from deterministic output set.');
-  return {files,outputs,mediaImpact,contractSha256:handshake.contractSha256};
+  return {files,outputs,mediaImpact,layoutImpact:layout.layoutImpact,contractSha256:handshake.contractSha256,layoutContractSha256:request.layoutOperations?.length?request.layoutContractSha256:null};
 }
 export function materialise(root,baseline,identity,request,consumer){
   root=safeRoot(root);baseline=safeRoot(baseline);
@@ -85,5 +88,5 @@ export function materialise(root,baseline,identity,request,consumer){
     }
     throw error;
   }finally{for(const temporary of staged)if(fs.existsSync(temporary))fs.unlinkSync(temporary);fs.rmSync(staging,{recursive:true});}
-  return {status:'MATERIALISED',requiresValidation:true,baselineSha256:identity.sha256,contractSha256:planned.contractSha256,outputs:planned.outputs.map(file=>({path:file,sha256:sha(planned.files.get(file)),bytes:planned.files.get(file).length})),mediaImpact:planned.mediaImpact};
+  return {status:'MATERIALISED',requiresValidation:true,baselineSha256:identity.sha256,contractSha256:planned.contractSha256,layoutContractSha256:planned.layoutContractSha256,outputs:planned.outputs.map(file=>({path:file,sha256:sha(planned.files.get(file)),bytes:planned.files.get(file).length})),mediaImpact:planned.mediaImpact,layoutImpact:planned.layoutImpact};
 }

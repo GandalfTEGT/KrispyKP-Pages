@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "task": "WEBSITE-ADMIN-LAYOUT-CONTRACT",
+  "status": "IMPLEMENTED_VALIDATED_INTERNAL_HANDOFF",
+  "base": "7863940a218ef23adffb7d5e212018302e1f3a81",
+  "branch": "codex/admin-layout-contract",
+  "validation": {
+    "layoutCases": 28,
+    "bContentPreservationCases": 34,
+    "selectionBrowserCases": 11,
+    "validatorSelfTest": 10,
+    "sourceAcceptance": {
+      "status": "PASS",
+      "checks": 95
+    },
+    "finalStandard": {
+      "status": "PASS",
+      "checks": 59
+    },
+    "mixedNoGitAcceptance": {
+      "status": "PASS",
+      "checks": 97,
+      "baselineSha256": "2F42070EAD452DB215DE906B1D5E07ABA0592309476C323DCF120D911C4E2E4E",
+      "candidateSha256": "A13A1FD387C663EDE77A9A0082D0B66C0CF4D0F59985D0AAAC1A43EC73C369F2",
+      "requestSha256": "2DABB296793186BDA6FCA244C8237FF5C8FFB64CDBCBA5E5B819262BE919C8B5",
+      "consumerSha256": "595720C56ECFEF44F40FD9A6D22716961425E19E01E02F208BD0C1248DBD1849",
+      "contractSha256": "DFBB5364ADD0B46CED5E1BF45E1C3442209C436CA45F6830B300E9CC6914A453",
+      "layoutContractSha256": "E62E1F6D87A2DC13A500B749F528380CEB6A7702EF04EEB7C09DDE48A44B1DE5",
+      "changedFiles": [
+        "about/index.html",
+        "data/site-layout-state.json",
+        "styles/site-layout.generated.css"
+      ],
+      "withoutGit": true
+    }
+  },
+  "preservation": {
+    "aboutAttributeAndStylesheetHookOnly": "PASS",
+    "defaultBRenderedParityWidths": [
+      320,
+      390,
+      699,
+      700,
+      701,
+      979,
+      980,
+      981,
+      1440
+    ],
+    "layoutThresholdWidths": [
+      280,
+      320,
+      390,
+      699,
+      700,
+      701,
+      979,
+      980,
+      981,
+      1024,
+      1440
+    ],
+    "tournamentsSha256": "EE6BC8521DAEB862533E26D7988B301666FF5626B4D87F9FA72209EB39CB70DB",
+    "bContentContractUnchanged": true,
+    "homeUnchanged": true,
+    "ownerArchiveSha256": "06D65C1BC84F538FF7CD87C4A400874184CA5C92603913C133B99E268D2407B6",
+    "editorOverlayExported": false
+  },
+  "consumer": {
+    "contract": "docs/SITE-LAYOUT-CONTRACT.md",
+    "packet": "docs/SITE-LAYOUT-CONSUMER.md",
+    "toolTrust": "docs/SITE-LAYOUT-TOOL-TRUST.json",
+    "operations": [
+      "setOrder",
+      "setGrid",
+      "setSpan",
+      "resetProfile"
+    ]
+  },
+  "manual": [
+    "Simulated Chromium scale is not native WebView2/OS DPI or physical-device proof.",
+    "Chromium automation does not prove subjective visual quality, physical touch, screen-reader quality, true zoom, non-Chromium behavior, hidden-tab behavior or external service delivery."
+  ],
+  "repositoryGates": {
+    "status": "NOT_RUN",
+    "reason": "Snapshot validation does not establish branch ancestry, remote tip, integration or publication."
+  },
+  "ownerAcceptance": "NOT_CLAIMED: final product review deferred",
+  "integration": "NOT_MERGED_NOT_DEPLOYED"
+}
