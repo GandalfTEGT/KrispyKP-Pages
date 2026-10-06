@@ -1,0 +1,688 @@
+{
+  "schemaVersion": 1,
+  "task": "WEBSITE-ADMIN-MEDIA-CONTRACT",
+  "date": "2026-10-06",
+  "status": "PREPARATION_ONLY",
+  "base": "9ac257399dd940fab70a8f9823f9bb8d4a2851eb",
+  "branch": "codex/admin-media-contract",
+  "scope": "Architecture/interface documentation and inspected current-source evidence only",
+  "enabledMediaCapability": false,
+  "fullImplementationGate": "Master-confirmed immutable E2 technical checkpoint",
+  "sourcePreservation": {
+    "includedFiles": 252,
+    "comparison": "E1 working-copy exact binary/content parity, reviewed checkout EOL only",
+    "eolOnly": [
+      "data/site-pages-contract.json",
+      "data/site-pages.json",
+      "styles/site-pages.generated.css",
+      "tools/layout/bridge.mjs",
+      "tools/pages/build.mjs",
+      "tools/pages/cli.mjs",
+      "tools/pages/components.mjs",
+      "tools/pages/contract.mjs",
+      "tools/pages/fixtures.mjs",
+      "tools/pages/partials/background-tournaments.html",
+      "tools/pages/partials/background.html",
+      "tools/pages/partials/footer-privacy.html",
+      "tools/pages/partials/footer.html",
+      "tools/pages/partials/header.html",
+      "tools/pages/project.mjs",
+      "tools/pages/render.mjs",
+      "tools/pages/review-fixture.mjs",
+      "tools/pages/rules.mjs",
+      "tools/pages/shell.mjs",
+      "tools/pages/test-browser.mjs",
+      "tools/pages/test.mjs",
+      "tools/validate-browser.mjs",
+      "tools/validate-static.mjs",
+      "tools/validation-common.mjs"
+    ],
+    "toolFiles": 52,
+    "toolByteForms": "all52 new-checkout bytes exactly match delivered E1 LF/CRLF trust",
+    "snapshotInventorySha256": "BEF3CD90CC72A156F8A5094574565B02F16396CFFC06192C396B837257C4603D"
+  },
+  "observedSources": [
+    {
+      "path": "index.html",
+      "sha256": "18A4AF3F9887E402BA8E5F8D93A4CDEC60ED4FB60BF84CC16EAE5DF65E4313C4"
+    },
+    {
+      "path": "styles/site.css",
+      "sha256": "CED37EE1E6B6FFF9B6D8EDAE22A1742742AFE14CEBC9C5DB5606520E660CFFCB"
+    },
+    {
+      "path": "styles/home.css",
+      "sha256": "BCFFD0093703047AFFEC82B7E8EBD03E5A061C96B6708A54247FE7BBFFD9C4D1"
+    },
+    {
+      "path": "tools/management/media.mjs",
+      "sha256": "C77E5EE4B983BD8FA821AA4087A7B62B4B75CC9A037C0AD336DB36A99064BB66"
+    },
+    {
+      "path": "tools/pages/components.mjs",
+      "sha256": "800C7A0869E0520EC6C723A937AF21E31C9F11C5E5CA245019C3F61398558218"
+    },
+    {
+      "path": "data/site-management.json",
+      "sha256": "DFBB5364ADD0B46CED5E1BF45E1C3442209C436CA45F6830B300E9CC6914A453"
+    },
+    {
+      "path": "data/site-pages-contract.json",
+      "sha256": "38143468BFCC4486EE60182AAE22E0006C3C145C888751DA27F47F752471D31D"
+    },
+    {
+      "path": "data/tracks.js",
+      "sha256": "F04FEB96EB1218DE2BF2ED6047F80A933A25ED9D4913DDE5D6EA82EC514BFFAC"
+    },
+    {
+      "path": "data/music-player.js",
+      "sha256": "06838F0961EEF1DBA89C10F5C3808558A9836192D05758862B424E4037D22759"
+    },
+    {
+      "path": "data/home-page.js",
+      "sha256": "266C2622BE2B1005AF97C8AFD2F7E1110B48BC2E7AF2A7C71919774BB05D2403"
+    },
+    {
+      "path": "data/tournaments.config.js",
+      "sha256": "EE6BC8521DAEB862533E26D7988B301666FF5626B4D87F9FA72209EB39CB70DB"
+    },
+    {
+      "path": "data/tournaments-page.js",
+      "sha256": "0A472C429D170D0BD306ED22CDDAF580973853C7C9614E9A1615BBB7193B3206"
+    },
+    {
+      "path": "data/videos.generated.js",
+      "sha256": "99CE1E6DCE5CB579A492E54C136A69ABE1FB2D6045D70A1DD71E202CA548FE74"
+    },
+    {
+      "path": "data/videos-page.js",
+      "sha256": "B22AF73665995FAD745E18A78F50A5706BA400DB1B07D0C8F490E6043AB3F838"
+    }
+  ],
+  "libraryObservations": {
+    "images": 76,
+    "signatures": {
+      "PNG_SIGNATURE": 9,
+      "JPEG_SIGNATURE": 0,
+      "WEBP_SIGNATURE": 67,
+      "UNKNOWN": 0
+    },
+    "files": [
+      {
+        "path": "assets/favicon/android-chrome-192x192.png",
+        "bytes": 64735,
+        "sha256": "A3A44633C82C9DA8C76613EBFB90DDB039444246BEFB4BE74B53FBD486CBEE3E",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/favicon/android-chrome-512x512.png",
+        "bytes": 381153,
+        "sha256": "9BF0BD98916085F388322A7631EC70B2A4A27239363417314BDD11E61495A200",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/favicon/apple-touch-icon.png",
+        "bytes": 57760,
+        "sha256": "4E804487219BDA055C87A79A25668EFAE7DFCA12CC2C67BBBE6ED6C2B3E96F00",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/favicon/favicon-16x16.png",
+        "bytes": 1007,
+        "sha256": "066A34D48B72CA323DD859B0B1805EA9991CFE9ACA6F1BAA9E303A244E014837",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/favicon/favicon-32x32.png",
+        "bytes": 3090,
+        "sha256": "41114DAE3E0CB1AFD477569DFC29C5C94540F79AB3933296E5D97DA924025990",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/gdi.png",
+        "bytes": 28653,
+        "sha256": "0EA7766CDF68E7CA1E38EAE45BD94E705382F9D573EE354353D5D2136C0730D6",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/logo.png",
+        "bytes": 109185,
+        "sha256": "B457DFF5070A67569277F58662339042CFA524AAD2067888CF95233D637A08F0",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/nod.png",
+        "bytes": 24200,
+        "sha256": "8E18A09CF521D548D4DDB18D41675C852DE9EFEF49CB5DF402EC7B3657F43C20",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/tbanners/td-champions-league-2024.webp",
+        "bytes": 559878,
+        "sha256": "7BB46D0483A84F5F7534B1B5023B0E4893602BB0C0B39820B1D574CBC1F01D8B",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/tbanners/td-home-nations-2023.webp",
+        "bytes": 587956,
+        "sha256": "5C30D1FF4952B215D45E6405DA9180C59BB7994C21BBCF8436198943CA8C0560",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/tbanners/td-invasion-red-alert-2025.webp",
+        "bytes": 455636,
+        "sha256": "40F8FCAB8EB371E49EB17E2E011BAFD810191886C312CDC5506EAD5FDF1732DB",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/tbanners/td-invasion.png",
+        "bytes": 2271703,
+        "sha256": "563B471934AF8A46310E252E15420BA2950CC0FA072ADA9B164C421449A74D15",
+        "observed": "PNG_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/tbanners/td-invasion.webp",
+        "bytes": 219448,
+        "sha256": "6807DBFABD7A764AC65C58E6A0A8098F8C9FB52D1C450FBB617F14FEF0B9DE39",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "assets/tbanners/td-oceania-2023.webp",
+        "bytes": 500930,
+        "sha256": "42EE96CDFE998C8BEA47B15450FB4CAD872586210A08598917A69BCBCC743A4D",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/50-war-machine.webp",
+        "bytes": 98952,
+        "sha256": "48D7FA1AA4BD306CE482D02679197C2E6E1E82C80BBB76B77262B440042FA1CF",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/act-on-faith.webp",
+        "bytes": 98634,
+        "sha256": "B03792455A479B86EDFA9DC7681CCC7388B30276A15C5ED264724402FBCB1238",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/activate.webp",
+        "bytes": 98806,
+        "sha256": "8D759DD6734A15F3446F584A0E6493FF9087344014267B8D2C64A45DF4BBC4FE",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/adidas-anarchy.webp",
+        "bytes": 99690,
+        "sha256": "A5AEFDF161D4F68D6DEF1CA156DA06ACF79270668963A3E2976D5A72713BF56E",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/air-force-tony.webp",
+        "bytes": 96876,
+        "sha256": "027474ADBD8A88AB6B2F966DC820D2489000D838F2ABCF73D07B0FEA6F72735E",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/apm-mirage.webp",
+        "bytes": 97014,
+        "sha256": "C54B56CB8F75DE161EA4463F590D81731C1FE3A0D9B8FC31923BE5136A4A5D89",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/bassline.webp",
+        "bytes": 99624,
+        "sha256": "D78AB06F26EB9E915D8E50F201ED788BDF659BFD67B538723362F6B57DE9A224",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/behind-the-brotherhood-lines.webp",
+        "bytes": 98682,
+        "sha256": "FAFC6C52A0E289187D49DB0AD64980074C3130D99283356E86A319A6BBC4EFAB",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/behind-the-game.webp",
+        "bytes": 98776,
+        "sha256": "F7BCF6A14A067800B49F990AFDA6C9C0BA80B2942A6588EA1BF917EA80853E1A",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/black-hand-frequency.webp",
+        "bytes": 93250,
+        "sha256": "F23E09F217CC654F199683A9A02F766EF283BD5715DC2ED3BDD47C71C5B3FCC2",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/children-of-nod.webp",
+        "bytes": 99784,
+        "sha256": "53CD1E7247313D9B4A8AA377239B9D3C22880C0BA9E926C9595D785BECB9F1DC",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/chrono.webp",
+        "bytes": 96384,
+        "sha256": "AC1955BBA05AA983F783CF06E3A4DA3849DB40C255396A10B4CDBEBDA7681D94",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/command-and-conquer.webp",
+        "bytes": 97934,
+        "sha256": "823C7FC45FBAF409CCCBDF7F0F2767419702954BB32FC7DBAE533AFCDF63E087",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/commit.webp",
+        "bytes": 96650,
+        "sha256": "26EE925F67691637F7A5954EE7C1DC0FFDB4EB0134CD4A9F721767B1006EF2D5",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/currency.webp",
+        "bytes": 98996,
+        "sha256": "D041BB66094C445BE173098549398A72FD5AB78F455BF410EBC48BA00F0157FB",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/cyber-blyat.webp",
+        "bytes": 97084,
+        "sha256": "614BAD10DD5E2FA2A472E03B01B7E6ABC857E38C8B59CAFB883C68138A2AAE09",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/dominate.webp",
+        "bytes": 99368,
+        "sha256": "DDB0724B0494324E51735F18C404F61EC152166858F998B4E030788EBF3D7D5F",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/five-ref-timing.webp",
+        "bytes": 99166,
+        "sha256": "41E16BC582838707FE8F54FF73AE264C40481E724F63F2ACBAB1F1B5DDB41CB8",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/flame-tanks-rolling.webp",
+        "bytes": 98912,
+        "sha256": "43F7CF37B28C2FAFC1E97F93955D0B1C07F700F96494980A425B727577DD561B",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/gg-wp.webp",
+        "bytes": 80788,
+        "sha256": "0C91C319067A0D4112592F064B2506A4BF474BB906FDAA52A6860DD74319DFAC",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/hold-the-line.webp",
+        "bytes": 95600,
+        "sha256": "EAC70803409B19C8763C5704FA14D6E1EC2E5C9CE3EECA815C53D1793DCA67C5",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/interference.webp",
+        "bytes": 95272,
+        "sha256": "425EA21F0F13C122418AEBB9F45C47588326AB343FE4943F444C5B36E8B33329",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/ion-fire-over-sarajevo.webp",
+        "bytes": 94754,
+        "sha256": "944F8B27241421EC03AE55109B17180DC0C72DE9E089072921538455F30F74A9",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/iron-curtain.webp",
+        "bytes": 98712,
+        "sha256": "9FE5E9BB23751C37AC99E2383B0B058C534603E9CA5930427E84127A2865FD25",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/iron-protocol.webp",
+        "bytes": 99294,
+        "sha256": "0409C02B68B6430EB9EE420C21030F3F3C68E670D6E638C70E17508F3A9E4984",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/jlgetout94.webp",
+        "bytes": 97552,
+        "sha256": "36C8C1829DEC91A3006EB5212786BCE113E9EB422490BF8932F92C1A72C76AA1",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/krispykp-mini-soundtrack-album.webp",
+        "bytes": 99798,
+        "sha256": "AEFBACF82E97D182966323F4484C5D3EC421CA5F1CBF25659F3316EB03DADC18",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/lag-lord-legacy.webp",
+        "bytes": 97348,
+        "sha256": "A15BC543A77C1FC3E0F5D9E09EEB00449B0A06F169A84D148AFB7C7A9952D6A9",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/litany-of-the-flame.webp",
+        "bytes": 99378,
+        "sha256": "29B9204DA33CD9CBE495720E1ABF8595BB11D6D68A2D3B82DD953A06DB3893B3",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/marked-in-black.webp",
+        "bytes": 97224,
+        "sha256": "1CC8FCA5B156926FF30C1FA3BDDA0408788A407ED2E6D06E49119F46735AC2CD",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/martyrs-of-the-temple-prime.webp",
+        "bytes": 97678,
+        "sha256": "DA335D9B70459F7F56245AB4E20CE98DAA954B471506F31DF0C43049801D6C6B",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/medium-tank-gospel.webp",
+        "bytes": 99770,
+        "sha256": "66339A2A10F076B55B08D37970E0B8990EB0C4581014A3FEFA7EE299CAD5484C",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/network.webp",
+        "bytes": 97340,
+        "sha256": "6A0F9C1C558F4879BDE18155D78B7D040C740D20B417EC5B8752DC52F4102B9E",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/one-vision---one-purpose.webp",
+        "bytes": 95676,
+        "sha256": "493ED93D3E65C03114AB588E1E0E9EB9C485F7A44456DF8DA8101E0D7F78C02A",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/out-of-theatre.webp",
+        "bytes": 59818,
+        "sha256": "B02CF8A01073AEA9873E633593EC51CAC27C21D957C71EE64E1A661C17671BB2",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/rank-1-god.webp",
+        "bytes": 96484,
+        "sha256": "A4C0E643083A0B32A99DE300DF172907A9AFE2F7CA5060DDA69888CD6D085144",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/rust-isnt-real.webp",
+        "bytes": 64862,
+        "sha256": "6314E8E8BE381FC4CBD28C1B5812D9D46C67CBD3FBA91A108170F52EE292501C",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/scorpion-in-the-dust.webp",
+        "bytes": 98780,
+        "sha256": "E15452A3187F32C6603F6914DFBA017D4EA9132CAEAA991C3DE77D6DE5FCAD6F",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/season-one-pros-only.webp",
+        "bytes": 93968,
+        "sha256": "05F64924D994C57CAE0034B5574C306A704A65478B0AF477A869982028D0C7CA",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/shadow-of-the-gla.webp",
+        "bytes": 97952,
+        "sha256": "F7E2B148A89B55E980DE8FF44FC7A1A237620613424BE445DC44FD4DA4DC2E52",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/sixteen-new-maps.webp",
+        "bytes": 95674,
+        "sha256": "0022987E417158FA4159DA8C0DF097DB9F6ED6AFE06659EBBBF6DB780385CA0F",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/static-front.webp",
+        "bytes": 95202,
+        "sha256": "64406931619C9901C9530CEFE38CB710008B0D2124E3116279E70EBAEA8309EE",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/surplus-remix.webp",
+        "bytes": 99432,
+        "sha256": "70D6E0EA5C32C95063C9537A19AC05C3DD7C9B483838F56CBC09A6231F1F6656",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/surplus.webp",
+        "bytes": 98382,
+        "sha256": "B0BA551DC983B27EC27E6290587A8AA9DE760C3F627EF8EC8677AE900C1D1EF0",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/the-first-brother.webp",
+        "bytes": 99000,
+        "sha256": "1119060FB86D760181FAEA423F29340F32A1D7A1151EB367ED3E05A672623C07",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-bepis-league-forever.webp",
+        "bytes": 95952,
+        "sha256": "580AE10D64650D1AE8D823F0CBC91BC905DEA938B4F5C8A3BF7B4F2B3E54E583",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-chinook-cheese.webp",
+        "bytes": 99566,
+        "sha256": "BEDA2012EE35D88B7842EC563FA86F355F154E57433621F33DAF0B6DB997CAC0",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-dead-game-blues.webp",
+        "bytes": 99424,
+        "sha256": "899AC3442A1634818A9FBB06A9494F5C4CE61C14611A32F8D88598E1D5742E74",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-eternal-queue.webp",
+        "bytes": 98954,
+        "sha256": "A0612F32BB4236EC5D63EFB155D879BB4E335607094D254A7F43DB7884880387",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-friendship-making-unit.webp",
+        "bytes": 95728,
+        "sha256": "B56FA69C5F4561753E38C1F8D21865FFB81818728627EF53559E64DFE33BB29F",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-jims-yacht.webp",
+        "bytes": 98766,
+        "sha256": "77600394F52E2C4B5DD0B8C2BE1E45EBA3605425F637313053A0BCFFEF2F49E8",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-jxdbot.webp",
+        "bytes": 98066,
+        "sha256": "09CAD31FDFBF34EFA789B61CB580EDCEA4E541D06EBBAB01C61AB438EB15B89C",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-legends-of-the-ladder.webp",
+        "bytes": 97074,
+        "sha256": "2D98701CFD25E83454DA1B07515C1B8598CA980C967DC927580FB2F735323B7A",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-linos-powerpoint-presentation.webp",
+        "bytes": 99318,
+        "sha256": "C4B31F0E5C17CB4553B2ED0DE4AE6C4F1BD797340140DF1E228AE81BE1A1E96B",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-noble-secrets.webp",
+        "bytes": 98486,
+        "sha256": "FA4341B3E629AC3BD0765D2F979FEAC0F761D30CE6D5596FAEBEEAB70A78BA13",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-random-for-advantage.webp",
+        "bytes": 98150,
+        "sha256": "3CB497ABEE42A0A54FFB105A581D2182747710C5A68E642180FB483D1235CB20",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc-victory-in-disguise.webp",
+        "bytes": 95868,
+        "sha256": "B35F5D4B8B78D53B90DED37851E4F34F95566AD5AE70EDED35708F20DB3DE2C6",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/thxjimtdgc.webp",
+        "bytes": 95744,
+        "sha256": "1820336E2F5C6570E9567A80D104FC293ED94ECEB1751C04FCC089DC9E2F63C5",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/tiberium-pulse.webp",
+        "bytes": 94474,
+        "sha256": "F682C90BFE7DBB44F565A2E4B2235C65ACFD15A43FC3DBE7ECEB833F58E7C723",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/too-late-for-sorry.webp",
+        "bytes": 98896,
+        "sha256": "157E4BD27AA14B19BBC5923C4C15DD907825FE694FA5C66CBFE773A1507615E7",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/uplink.webp",
+        "bytes": 93236,
+        "sha256": "A053DB202BF431C16D777CD4A82154746A7A87EA7D539DD32D84605BFD8044D7",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      },
+      {
+        "path": "media/art/war-engine.webp",
+        "bytes": 97546,
+        "sha256": "FAA4F36F108AEB9D3D3F9581E816F63BA1406D0A1105560AD889905E2E09428C",
+        "observed": "WEBP_SIGNATURE",
+        "decoded": false
+      }
+    ],
+    "meaning": "Inventory/header classification only, not a bounded decoder, full usage discovery or editing/deletion authority"
+  },
+  "standard": {
+    "path": ".validation/media-preparation-standard.json",
+    "sha256": "1784168331B8B9016C5EAD97F7CA6F4AF9E1B30FC7910044CD0A75092A461D0A",
+    "status": "PASS",
+    "checks": 60,
+    "failures": 0,
+    "warnings": 0
+  },
+  "proposal": {
+    "writableTargets": [
+      "explicit new-version Home hero usage",
+      "explicit new-version managed-page image components"
+    ],
+    "readOnly": [
+      "shared branding/shell",
+      "Music art/audio",
+      "tournament banners/data",
+      "generated/external Video thumbnails",
+      "other undeclared assets"
+    ],
+    "formats": [
+      "PNG",
+      "JPEG",
+      "WebP"
+    ],
+    "selectedUseDefault": true,
+    "sharedApply": "only complete pinned editable usage coverage; unknown/locked edges block",
+    "deletion": "DEFERRED",
+    "pageImageExpansion": "explicit protocol/capability update after E2 v1 checkpoint",
+    "runtimeChanged": false
+  },
+  "preserved": {
+    "tournamentConfigSha256": "EE6BC8521DAEB862533E26D7988B301666FF5626B4D87F9FA72209EB39CB70DB",
+    "mainMerge": false,
+    "deployed": false,
+    "cleanup": false,
+    "ownerAccepted": false
+  },
+  "manual": [
+    "Media decoder/render/refusal checks planned; no media capability implemented",
+    "Native crop/focal/drag/DPI/zoom and physical/assistive/subjective checks remain future Admin validation"
+  ]
+}
