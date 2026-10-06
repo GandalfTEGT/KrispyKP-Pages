@@ -1,0 +1,61 @@
+{
+  "task": "WEBSITE-ADMIN-STRUCTURED-CONTENT-CONTRACT PREPARATION",
+  "base": "9e4aae5fa7eaf5b9be78a7ac121e9c96f6cde2ce",
+  "enabled": false,
+  "standard": {
+    "warnings": 0,
+    "command": "npm run validate -- --base 9e4aae5fa7eaf5b9be78a7ac121e9c96f6cde2ce --json .validation/structured-prep-standard.json",
+    "checks": 61,
+    "failures": 0,
+    "receiptSha256": "BD91BAB99201477271C22BE09803D9A098A8660E7D347F4EC2FBAEE90E85A302",
+    "status": "PASS"
+  },
+  "preservation": {
+    "modified": [],
+    "trackedFiles": 310,
+    "checkoutLineEndingsOnly": 166,
+    "byteExact": 144,
+    "receiptSha256": "20859DAF8CE0F44A3FEC83943F056E459B2354B0BA94FC9FC110106C00C29E1F"
+  },
+  "protectedCheckpoints": [
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\Website\\KrispyKP-Pages",
+      "head": "f857b21d0a1003fb565b51f89b133a50c91f9732",
+      "dirtyCount": 0,
+      "status": []
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\Admin\\KKP-Admin",
+      "head": "339742aa26925b6363eb8c6c54a9ddfd1016a0fc",
+      "dirtyCount": 0,
+      "status": []
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\WEBSITE-admin-media-contract",
+      "head": "9e4aae5fa7eaf5b9be78a7ac121e9c96f6cde2ce",
+      "dirtyCount": 0,
+      "status": []
+    },
+    {
+      "path": "C:\\Users\\Michael\\Documents\\ChatGPT\\KKP Website Local\\worktrees\\ADMIN-007-media-library",
+      "head": "cc56731f4750e8180c1ba91e3297fb57b6420945",
+      "dirtyCount": 10,
+      "status": [
+        " M src/KKP.TournamentBuilder.Core/ManagedContent.cs",
+        " M src/KKP.TournamentBuilder.Infrastructure/KKP.TournamentBuilder.Infrastructure.csproj",
+        " M src/KKP.TournamentBuilder.Infrastructure/ManagedContentSession.Layout.cs",
+        " M src/KKP.TournamentBuilder.Infrastructure/ManagedContentSession.Pages.cs",
+        " M src/KKP.TournamentBuilder.Infrastructure/ManagedContentSession.cs",
+        " M src/KKP.TournamentBuilder.Infrastructure/ManagementCli.cs",
+        " M src/KKP.TournamentBuilder.Infrastructure/MediaPreparationStore.cs",
+        "?? src/KKP.TournamentBuilder.Core/ManagedMedia.cs",
+        "?? src/KKP.TournamentBuilder.Infrastructure/ManagedContentSession.Media.cs",
+        "?? src/KKP.TournamentBuilder.Infrastructure/MediaManagementTrust.json"
+      ]
+    }
+  ],
+  "remoteMain": "0fb9fc2211869f60c15e7244cb357669c4c198d4",
+  "externalRefreshPerformed": false,
+  "nativeChecks": "MANUAL / UNVERIFIED",
+  "structuredMutation": "NOT ENABLED / NOT TESTED"
+}

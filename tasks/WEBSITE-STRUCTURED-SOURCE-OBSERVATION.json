@@ -1,0 +1,391 @@
+{
+  "status": "OBSERVED PREPARATION ONLY; no executable adapter",
+  "base": "9e4aae5fa7eaf5b9be78a7ac121e9c96f6cde2ce",
+  "inspection": "Reviewed trusted baseline literal assignments in isolated VM, 1s timeout/no code generation/no require/network. Not a proposed owner-input parser.",
+  "sources": [
+    {
+      "path": "data/tracks.js",
+      "workingBytesSha256": "f04feb96eb1218de2bf2ed6047f80a933a25ed9d4913dde5d6ea82ec514bffac"
+    },
+    {
+      "path": "data/lyrics.js",
+      "workingBytesSha256": "677628e8860f2f55576be0a3e21b06a040717462d2c29f8e1b583a711a4cb1e0"
+    },
+    {
+      "path": "data/video-playlists.config.mjs",
+      "workingBytesSha256": "f489dc6e7b40978e73564ae8765351716335f648a39ae6fb3068f432ac7b443c"
+    },
+    {
+      "path": "data/videos.generated.js",
+      "workingBytesSha256": "99ce1e6dce5cb579a492e54c136a69abe1fb2d6045d70a1dd71e202ca548fe74"
+    },
+    {
+      "path": "data/music-player.js",
+      "workingBytesSha256": "06838f0961eef1dba89c10f5c3808558a9836192d05758862b424e4037d22759"
+    },
+    {
+      "path": "data/videos-page.js",
+      "workingBytesSha256": "b22af73665995fad745e18a78f50a5706ba400db1b07d0c8f490e6043ab3f838"
+    },
+    {
+      "path": "data/home-page.js",
+      "workingBytesSha256": "266c2622be2b1005af97c8afd2f7e1110b48bc2e7af2a7c71919774bb05d2403"
+    },
+    {
+      "path": "scripts/update-youtube-playlists.mjs",
+      "workingBytesSha256": "40564b38a2bfd36b7cd9e1bade6b2eeea8246f80dd64130b9160f4aafc4bb994"
+    },
+    {
+      "path": ".github/workflows/update-videos.yml",
+      "workingBytesSha256": "cd3df5edc28fefba68dfc50ffce31b2da391333c05945d35ff44fe68f01959b4"
+    },
+    {
+      "path": "tools/validate-site-config.mjs",
+      "workingBytesSha256": "104c2dcaad5a7a3e835e207d46fa86d397cfd9c9821de5860228b76eaa818937"
+    },
+    {
+      "path": "tools/validate-browser.mjs",
+      "workingBytesSha256": "01ea87f7384b643b587b467b46fc18d76935d785d85e289f174aa38f43a3c766"
+    }
+  ],
+  "music": {
+    "tracks": 60,
+    "fields": [
+      "album",
+      "art",
+      "artist",
+      "available",
+      "file",
+      "id",
+      "name"
+    ],
+    "available": 60,
+    "unavailable": 0,
+    "trackIds": [
+      "50-war-machine",
+      "activate",
+      "act-on-faith",
+      "adidas-anarchy",
+      "air-force-t0ny",
+      "apm-mirage",
+      "bassline",
+      "behind-the-brotherhood-lines",
+      "behind-the-game",
+      "black-hand-frequency",
+      "children-of-nod-ascension-remix",
+      "chrono",
+      "commit",
+      "command-and-conquer",
+      "currency",
+      "cyber",
+      "dominate",
+      "five-ref-timing",
+      "gg-wp",
+      "jlgetout94",
+      "hold-the-line-gdi-directive",
+      "interference",
+      "ion-fire-over-sarajevo",
+      "iron-curtain",
+      "iron-protocol",
+      "lag-lord-legacy",
+      "litany-of-the-flame-nightly-sermon",
+      "marked-in-black",
+      "martyrs-of-the-temple-prime",
+      "medium-tank-gospel",
+      "network",
+      "one-vision-one-purpose",
+      "out-of-theatre",
+      "rank-1-god",
+      "rust-isnt-real",
+      "scorpion-in-the-dust",
+      "season-one-pros-only",
+      "shadow-of-the-gla",
+      "sixteen-new-maps",
+      "static-front",
+      "surplus",
+      "surplus-remix",
+      "flame-tanks-rolling",
+      "the-first-brother",
+      "tiberium-pulse",
+      "too-late-for-sorry",
+      "uplink",
+      "war-engine",
+      "bepis-league-forever",
+      "chinook-cheese",
+      "dead-game-blues",
+      "eternal-queue-dead-game-blues-part-ii",
+      "friendship-making-unit",
+      "jim-s-yacht-thanks-jim",
+      "jxdbot",
+      "legends-of-the-ladder",
+      "lino-s-powerpoint-presentation",
+      "noble-secrets",
+      "random-for-advantage",
+      "victory-in-disguise"
+    ],
+    "playlists": [
+      {
+        "id": "all-tracks",
+        "name": "All Tracks",
+        "tracks": "ALL"
+      },
+      {
+        "id": "thanks-jim-dead-game-chronicles",
+        "name": "Thanks Jim: The Dead Game Chronicles",
+        "tracks": [
+          "bepis-league-forever",
+          "random-for-advantage",
+          "lino-s-powerpoint-presentation",
+          "jim-s-yacht-thanks-jim",
+          "dead-game-blues",
+          "jxdbot",
+          "friendship-making-unit",
+          "eternal-queue-dead-game-blues-part-ii",
+          "chinook-cheese",
+          "noble-secrets",
+          "victory-in-disguise",
+          "legends-of-the-ladder"
+        ]
+      },
+      {
+        "id": "krispykp-mini-soundtrack",
+        "name": "KrispyKP Mini Soundtrack",
+        "tracks": [
+          "surplus",
+          "static-front",
+          "currency",
+          "chrono",
+          "surplus-remix"
+        ]
+      },
+      {
+        "id": "custom-selection",
+        "name": "My Selection",
+        "tracks": "CUSTOM"
+      }
+    ],
+    "lyricsEntries": 9,
+    "lyricsFields": [
+      "lyrics",
+      "title"
+    ],
+    "lyricsIds": [
+      "50-war-machine",
+      "medium-tank-gospel",
+      "five-ref-timing",
+      "the-burning-disciple-flame-tank-rush",
+      "rust-isnt-real",
+      "out-of-theatre",
+      "commit",
+      "iron-protocol",
+      "marked-in-black"
+    ],
+    "orphanLyrics": [
+      "the-burning-disciple-flame-tank-rush"
+    ],
+    "missingLyrics": [
+      "activate",
+      "act-on-faith",
+      "adidas-anarchy",
+      "air-force-t0ny",
+      "apm-mirage",
+      "bassline",
+      "behind-the-brotherhood-lines",
+      "behind-the-game",
+      "black-hand-frequency",
+      "children-of-nod-ascension-remix",
+      "chrono",
+      "command-and-conquer",
+      "currency",
+      "cyber",
+      "dominate",
+      "gg-wp",
+      "jlgetout94",
+      "hold-the-line-gdi-directive",
+      "interference",
+      "ion-fire-over-sarajevo",
+      "iron-curtain",
+      "lag-lord-legacy",
+      "litany-of-the-flame-nightly-sermon",
+      "martyrs-of-the-temple-prime",
+      "network",
+      "one-vision-one-purpose",
+      "rank-1-god",
+      "scorpion-in-the-dust",
+      "season-one-pros-only",
+      "shadow-of-the-gla",
+      "sixteen-new-maps",
+      "static-front",
+      "surplus",
+      "surplus-remix",
+      "flame-tanks-rolling",
+      "the-first-brother",
+      "tiberium-pulse",
+      "too-late-for-sorry",
+      "uplink",
+      "war-engine",
+      "bepis-league-forever",
+      "chinook-cheese",
+      "dead-game-blues",
+      "eternal-queue-dead-game-blues-part-ii",
+      "friendship-making-unit",
+      "jim-s-yacht-thanks-jim",
+      "jxdbot",
+      "legends-of-the-ladder",
+      "lino-s-powerpoint-presentation",
+      "noble-secrets",
+      "random-for-advantage",
+      "victory-in-disguise"
+    ],
+    "maxTextLengths": {
+      "name": 39,
+      "artist": 8,
+      "album": 36
+    },
+    "maxLyricsLength": 1710
+  },
+  "video": {
+    "authoredCategories": [
+      {
+        "id": "latest",
+        "title": "Latest Videos",
+        "type": "latest"
+      },
+      {
+        "id": "tiberian-dawn",
+        "title": "Tiberian Dawn",
+        "featuredVideoId": "W7Q9PdkNQD8",
+        "subTabs": [
+          {
+            "id": "td-1",
+            "title": "Season 18: Ladder Matches",
+            "playlistId": "PLJm5aHMhZ8oWCTQuT0YMhXOM2ISbfw5KF"
+          },
+          {
+            "id": "td-2",
+            "title": "Custom 1v1 Games",
+            "playlistId": "PLJm5aHMhZ8oWA1em_qTTVvgcHICX3Gokb"
+          },
+          {
+            "id": "td-3",
+            "title": "Tiberian Dawn VODs",
+            "playlistId": "PLJm5aHMhZ8oW2XWien3yOlPSMuE57si9i"
+          }
+        ]
+      },
+      {
+        "id": "starcraft-2",
+        "title": "StarCraft II",
+        "featuredVideoId": "1Tf0HUaVzAE",
+        "subTabs": [
+          {
+            "id": "sc-1",
+            "title": "StarCraft II VODs",
+            "playlistId": "PLJm5aHMhZ8oVXZVggRJXRrS9Ngbff8OJY"
+          }
+        ]
+      },
+      {
+        "id": "cnc-renegade",
+        "title": "C&C Renegade",
+        "featuredVideoId": "OL3FjzW45d8",
+        "subTabs": [
+          {
+            "id": "ccr-1",
+            "title": "C&C Renegade VODs",
+            "playlistId": "PLJm5aHMhZ8oUnQlVlasUuPPOYBXd-T5Kl"
+          }
+        ]
+      },
+      {
+        "id": "combined-arms",
+        "title": "Combined Arms",
+        "featuredVideoId": "egj-nQsprP0",
+        "subTabs": [
+          {
+            "id": "ca-1",
+            "title": "OpenRA: Combined Arms VODs",
+            "playlistId": "PLJm5aHMhZ8oX5L3wAxY5tmn56X7D2PZ6z"
+          }
+        ]
+      },
+      {
+        "id": "wh40k-boltgun",
+        "title": "WH40K: Boltgun",
+        "featuredVideoId": "PoRmiEL6pBM",
+        "subTabs": [
+          {
+            "id": "wh-1",
+            "title": "Warhammer 40K: Boltgun VODs",
+            "playlistId": "PLJm5aHMhZ8oWF1_f0ezbcvkCeNNUDxW6r"
+          }
+        ]
+      },
+      {
+        "id": "special-streams",
+        "title": "Special Streams",
+        "featuredVideoId": "fGJUjX-FsLM",
+        "subTabs": [
+          {
+            "id": "stream-1",
+            "title": "24 Hour Streams",
+            "playlistId": "PLJm5aHMhZ8oVJYe0izUL9F2WygH-x_uhR"
+          }
+        ]
+      },
+      {
+        "id": "fun-videos",
+        "title": "Other",
+        "featuredVideoId": "7dpiF6NScz4",
+        "subTabs": [
+          {
+            "id": "fun-1",
+            "title": "Silly Ideas",
+            "playlistId": "PLJm5aHMhZ8oXyM6FcQQysnGhdyAOAPcGO"
+          }
+        ]
+      }
+    ],
+    "categoryCount": 8,
+    "tabCount": 9,
+    "generatedTopFields": [
+      "featured",
+      "categories",
+      "pageSize"
+    ],
+    "generatedCategoryFields": [
+      "featuredVideoId",
+      "id",
+      "latest",
+      "latestCount",
+      "subTabs",
+      "title"
+    ],
+    "generatedTabFields": [
+      "id",
+      "items",
+      "playlistId",
+      "title"
+    ],
+    "generatedItemFields": [
+      "description",
+      "duration",
+      "playlistAddedAt",
+      "playlistItemStatus",
+      "position",
+      "publishedAt",
+      "thumbnail",
+      "title",
+      "videoId",
+      "videoPublishedAt"
+    ],
+    "generatedTabItemOccurrences": 37,
+    "distinctTabVideoIds": 37,
+    "generatedLatestOccurrences": 45,
+    "pageSize": 8,
+    "featured": {
+      "videoId": "W7Q9PdkNQD8",
+      "title": "Featured Video"
+    }
+  }
+}
