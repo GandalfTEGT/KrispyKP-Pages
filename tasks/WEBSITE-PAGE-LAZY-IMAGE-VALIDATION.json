@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "task": "WEBSITE-PAGE-LAZY-IMAGE-VALIDATION",
+  "date": "2026-10-06",
+  "status": "IMPLEMENTED_VALIDATED_INTERNAL_HANDOFF_READY",
+  "base": "9ac257399dd940fab70a8f9823f9bb8d4a2851eb",
+  "branch": "codex/page-lazy-image-validation",
+  "cause": "Lazy managed image checked before deliberate viewport loading/bounded decode",
+  "correction": "Scroll each image into view then successful decode deadline; retain complete/natural/intrinsic aspect and positive rendered geometry/aspect",
+  "sourceClosure": {
+    "files": 253,
+    "inventorySha256": "80220FDBACD1E0BC147D64EBB274E859B9456B377AAE714443BDDC64D4EBB854",
+    "toolChanges": [
+      "tools/pages/render.mjs",
+      "tools/pages/test-images.mjs"
+    ],
+    "productionFilesUnchangedFromFilteredE1Git": 200,
+    "componentsAndLazyRuntime": "unchanged",
+    "pageContentLayoutProtocols": "unchanged",
+    "toolTrust": {
+      "path": "docs/SITE-PAGE-TOOL-TRUST.json",
+      "sha256": "D4177E26379BBAA6130AAF4C167645E8E747938ED95538A06A8C8E04D92D6E31",
+      "files": 53,
+      "workingAndCurrentFixture": "exact actual LF/CRLF forms",
+      "git": "verify at final delivery revision"
+    }
+  },
+  "originalAdminCase": {
+    "before": {
+      "path": "../../Archive/website-page-lazy-image-2026-10-06/before.json",
+      "sha256": "0496315419A547378890C53A7F171BCC8D9A2B341CDF9B5D4DD4D009F423E306",
+      "status": "EXPECTED_FAILURE_REPRODUCED"
+    },
+    "after": {
+      "path": "../../Archive/website-page-lazy-image-2026-10-06/after.json",
+      "sha256": "05F4425F48705BE122E6438ECF0588C936262D28E66E7422AC382CB114317467",
+      "status": "PASS",
+      "checks": 130
+    },
+    "sameCandidateSha256": "5E5D977F4E8B42F5E7C4F77B5D5562F8DD16BBA3DF00C49EE49C3A7F2CC5134E",
+    "reconstruction": "Exact immutable baseline/request replay; live Admin candidate had returned to empty net state; original mutable checkout not modified",
+    "meaning": "Corrected validator diagnostic on exact original content; Admin must independently repin current53-file closure and rerun acceptance"
+  },
+  "validation": {
+    "standard": {
+      "path": ".validation/lazy-source-standard.json",
+      "sha256": "30A2A4FDE44B08678869D897B46599FFA3853A73DAABE93DC6B2FFFEFEC0DB1A",
+      "status": "PASS",
+      "checks": 72
+    },
+    "sourceAcceptance": {
+      "path": ".validation/lazy-source-acceptance.json",
+      "sha256": "AB0045A0962A50D950831A8140518515C478F0758F8A20870A9A561AC3D4BA97",
+      "status": "PASS",
+      "checks": 97
+    },
+    "currentMixedAcceptance": {
+      "path": "../../Archive/website-page-lazy-image-current-review-2026-10-06/validation.json",
+      "sha256": "8CBC2687E8D6B9AF089251F91ECEA67470B7D0B5F2A7A4D49280D73BBD0F9F5B",
+      "status": "PASS",
+      "checks": 130
+    },
+    "lazyImageRegression": {
+      "path": "../../Archive/website-page-lazy-image-regression-2026-10-06/images.json",
+      "sha256": "DD17B570DD44947D89597999B793DF9E3C0B9313AE07C8328C785C2088DC7561",
+      "status": "PASS",
+      "checks": 7
+    },
+    "pageRefusalProjection": {
+      "command": "node tools/pages/test.mjs",
+      "status": "PASS",
+      "checks": 39
+    },
+    "regressionCases": [
+      {
+        "name": "two initially offscreen lazy images after maximum legal preceding content decode sequentially at280 without changing lazy loading",
+        "status": "PASS"
+      },
+      {
+        "name": "maximum-content mixed page passes full acceptance image/geometry gates at all eleven thresholds",
+        "status": "PASS"
+      },
+      {
+        "name": "missing managed image still refuses acceptance",
+        "status": "PASS"
+      },
+      {
+        "name": "corrupt managed image still refuses acceptance",
+        "status": "PASS"
+      },
+      {
+        "name": "decoded but distorted managed image still refuses acceptance",
+        "status": "PASS"
+      },
+      {
+        "name": "stalled decode refuses within the bounded deadline",
+        "status": "PASS"
+      },
+      {
+        "name": "positive and fault-injected browser checks preserve all source and candidate bytes",
+        "status": "PASS"
+      }
+    ],
+    "thresholds": [
+      280,
+      320,
+      390,
+      699,
+      700,
+      701,
+      979,
+      980,
+      981,
+      1024,
+      1440
+    ]
+  },
+  "currentMixedIdentity": {
+    "baselineSha256": "8D1649BD93CBE3D5E7E4F9701B1A5755FE1156073CA74B7F4F9111668D581C21",
+    "candidateSha256": "C1BFBF9975EBE9F4892892191AFAB4230D60F94A087E7F6F3916959CA73AB76F",
+    "requestSha256": "3256FDEE58E7CC45EBFA190723C2D20B3CD030377F51BBC4C6A698E38B6C6A1A",
+    "consumerSha256": "CE8F1E4979B662B237E694D3FECB4A7F08EB253D7E8A757DDFBFCF77988B0C16",
+    "contractSha256": "DFBB5364ADD0B46CED5E1BF45E1C3442209C436CA45F6830B300E9CC6914A453",
+    "layoutContractSha256": "A71E450CDCCE6822CFF6031DA72889FC3B3A95DEF59F6E1584C781A71702E6C5",
+    "pagesContractSha256": "38143468BFCC4486EE60182AAE22E0006C3C145C888751DA27F47F752471D31D",
+    "shellSha256": "B175B04DDE3238F1D5CC5509B31A1C7C2726A18460F95D4C28A98143C63CAC05",
+    "outputs": [
+      "about/index.html",
+      "community-note/index.html",
+      "contact/index.html",
+      "data/site-layout-state.json",
+      "data/site-pages.json",
+      "index.html",
+      "music/index.html",
+      "privacy/index.html",
+      "quiet-page/index.html",
+      "sitemap.xml",
+      "styles/site-layout.generated.css",
+      "styles/site-pages.generated.css",
+      "tournaments/index.html",
+      "videos/index.html"
+    ]
+  },
+  "consumerAction": "Master verifies immutable correction revision/trust53; Admin independently verifies source/tool closure, refreshes pin and reruns full mixed/private/public matrix. Original9ac evidence remains historical; media prep is not enabled.",
+  "manual": [
+    "Native WebView2/WPF DPI/true zoom/focus/physical/assistive/subjective quality remain unverified",
+    "No new public rendering/source behavior; new visual redesign review not applicable"
+  ],
+  "ownerAccepted": false,
+  "mainMerged": false,
+  "deployed": false,
+  "cleanup": false,
+  "deliveryCommit": "Exact commit/remote/clean recorded in private DELIVERY.md; resolve this record at final correction revision",
+  "cli": {
+    "state": "COMPATIBLE",
+    "plan": "PLANNED",
+    "outputs": 14,
+    "receiptDirectory": "../../Archive/website-page-lazy-image-current-review-2026-10-06"
+  }
+}
