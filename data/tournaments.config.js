@@ -350,8 +350,8 @@ window.KRISPY_TOURNAMENTS = {
                   "slot2From": "m1",
                   "score1": "0",
                   "score2": "0",
-                  "winner": "TRITOD",
-                  "note": "Bo5 · JAMIETD DROPS OUT",
+                  "winner": "TRIOTD",
+                  "note": "Bo5 · JAMIETD FORFEITS THE TOURNAMENT",
                   "time": ""
                 },
                 {
@@ -500,14 +500,14 @@ window.KRISPY_TOURNAMENTS = {
                 {
                   "id": "m9",
                   "title": "Match 9",
-                  "player1": "JAMITED",
+                  "player1": "JAMIETD",
                   "player2": "SHEPPARD",
                   "slot1From": "m5",
                   "slot2From": "m7",
                   "score1": "0",
                   "score2": "0",
                   "winner": "SHEPPARD",
-                  "note": "Bo5 · JAMIETD DROPS OUT",
+                  "note": "Bo5 · JAMIETD FORFEITS THE TOURNAMENT",
                   "time": ""
                 }
               ]
