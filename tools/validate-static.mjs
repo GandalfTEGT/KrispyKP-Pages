@@ -1,3 +1,4 @@
+import {validateInteractiveStatic} from './validate-interactive.mjs';
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -19,7 +20,8 @@ const PAGE_FILES = {
   tournaments: "tournaments/index.html",
   about: "about/index.html",
   contact: "contact/index.html",
-  privacy: "privacy/index.html"
+  privacy: "privacy/index.html",
+  interactive: "interactive/index.html"
 };
 
 function walk(root, filter, directory = root, output = []) {
@@ -287,6 +289,7 @@ export function runStaticValidation({ root = ROOT, profile = "standard", scope =
   validateCssReferences(root, result);
   validateJson(root, result);
   validateSeo(root, result);
+  validateInteractiveStatic(root,result,record);
   if (resolvedScope.extras.includes("builder-compatibility")) {
     result.manual.push("Public tournament schema changed: private Tournament Builder compatibility requires separate authorised evidence.");
   }

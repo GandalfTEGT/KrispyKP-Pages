@@ -5,7 +5,7 @@ import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-export const PAGE_ROUTES = {
+export const PARENT_PAGE_ROUTES = {
   home: "/",
   music: "/music/",
   videos: "/videos/",
@@ -14,6 +14,7 @@ export const PAGE_ROUTES = {
   contact: "/contact/",
   privacy: "/privacy/"
 };
+export const PAGE_ROUTES = {...PARENT_PAGE_ROUTES, interactive:"/interactive/"};
 export const ALL_PAGES = Object.keys(PAGE_ROUTES);
 export const PROFILE_VIEWPORTS = {
   smoke: [390],
@@ -83,7 +84,8 @@ export function detectScope({ root = ROOT, base = null, files: providedFiles = n
 
   const shared = /^(?:styles\/(?:site|command-deck|radar-game)\.css|data\/(?:site-ui|radar-game|radar-effects|radar-rts-(?:definitions|engine|renderer))\.js)$/;
   for (const file of files) {
-    if (shared.test(file)) {
+    if(file.startsWith("interactive/")){add("interactive");}
+    else if (shared.test(file)) {
       add(...ALL_PAGES);
       reasons.push(`${file}: shared site system`);
     } else if (file === "index.html" || file.startsWith("styles/home") || file.startsWith("data/home-")) {

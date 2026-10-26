@@ -1,3 +1,4 @@
+import {validateInteractiveBrowser} from './validate-interactive.mjs';
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
@@ -9,6 +10,7 @@ import { validateRadarRemediation } from "./validate-radar-browser.mjs";
 import {
   ALL_PAGES,
   PAGE_ROUTES,
+  PARENT_PAGE_ROUTES,
   PROFILE_VIEWPORTS,
   ROOT,
   createResult,
@@ -441,15 +443,15 @@ async function runRadarTest(browser, baseUrl, root, screenshots) {
     await page.goto(`${baseUrl}/`, { waitUntil: "domcontentloaded" });
     assert(await page.locator(".radar-game-trigger").count() === 1, "Radar trigger missing");
     await page.setViewportSize({ width: 1199, height: 1000 });
-    await page.waitForTimeout(50);
+    await page.waitForFunction(()=>innerWidth===1199&&innerHeight===1000&&document.querySelector('.radar-game-trigger')?.disabled===true,null,{timeout:4000});
     assert(await page.locator(".radar-game-trigger").isDisabled(), "1199x1000 incorrectly offers Radar");
     await capture("gate-1199x1000-unsupported");
     await page.setViewportSize({ width: 1200, height: 999 });
-    await page.waitForTimeout(50);
+    await page.waitForFunction(()=>innerWidth===1200&&innerHeight===999&&document.querySelector('.radar-game-trigger')?.disabled===true,null,{timeout:4000});
     assert(await page.locator(".radar-game-trigger").isDisabled(), "1200x999 incorrectly offers Radar");
     await capture("gate-1200x999-unsupported");
     await page.setViewportSize({ width: 1200, height: 1000 });
-    await page.waitForTimeout(50);
+    await page.waitForFunction(()=>innerWidth===1200&&innerHeight===1000&&document.querySelector('.radar-game-trigger')?.disabled===false,null,{timeout:4000});
     assert(await page.locator(".radar-game-trigger").isEnabled(), "1200x1000 did not offer Radar");
     await capture("gate-1200x1000-supported");
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME?.getState() === "idle"), "Radar was active before activation");
@@ -496,11 +498,11 @@ async function runRadarTest(browser, baseUrl, root, screenshots) {
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "paused"), "focus loss did not pause Radar");
     await page.evaluate(() => window.KRISPY_RADAR_GAME.resume());
     const beforeResize = await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot());
-    await page.setViewportSize({ width: 1199, height: 1000 }); await page.waitForTimeout(120);
+    await page.setViewportSize({ width: 1199, height: 1000 }); await page.waitForFunction(()=>innerWidth===1199&&window.KRISPY_RADAR_GAME?.getState()==='paused',null,{timeout:4000});
     assert(await page.locator('[data-panel="viewport"]').isVisible(), "undersized live viewport message missing");
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "paused"), "undersized viewport did not pause");
     assert((await page.evaluate(() => window.KRISPY_RADAR_GAME.getSnapshot().simulation.structures.length)) === beforeResize.simulation.structures.length, "undersized viewport changed entities");
-    await page.setViewportSize({ width: 1200, height: 1000 }); await page.waitForTimeout(120);
+    await page.setViewportSize({ width: 1200, height: 1000 }); await page.waitForFunction(()=>innerWidth===1200&&innerHeight===1000&&window.KRISPY_RADAR_GAME?.getState()==='playing',null,{timeout:4000});
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "playing"), "restored viewport did not resume");
     await page.keyboard.press("Escape");
     assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "paused"), "Escape did not open game menu");
@@ -515,7 +517,7 @@ async function runRadarTest(browser, baseUrl, root, screenshots) {
     await page.locator(".radar-game-trigger").click(); await page.waitForFunction(() => document.body.dataset.radarGameState === "menu");
     assert(await page.locator(".radar-game-overlay").count() === 1, "repeated activation duplicated the overlay");
     await page.locator('[data-action="exit"]').first().click(); await page.waitForFunction(() => window.KRISPY_RADAR_GAME.getState() === "idle");
-    for (const route of Object.values(PAGE_ROUTES)) {
+    for (const route of Object.values(PARENT_PAGE_ROUTES)) {
       await page.goto(`${baseUrl}${route}`, { waitUntil: "domcontentloaded" });
       assert(await page.locator(".radar-game-trigger").count() === 1, `Radar trigger missing on ${route}`);
       assert(await page.evaluate(() => window.KRISPY_RADAR_GAME.getState() === "idle"), `Radar active by default on ${route}`);
@@ -552,6 +554,7 @@ export async function runBrowserValidation({ root = ROOT, profile = "standard", 
 
     const functionalPages = profile === "acceptance" ? ALL_PAGES : (pages || resolvedScope.pages);
     if (profile !== "smoke") {
+      if(functionalPages.includes("interactive"))await functionalCase(result,"interactive",()=>validateInteractiveBrowser(browser,baseUrl,{root,screenshots}));
       if (functionalPages.includes("home")) {
         await functionalCase(result, "home", () => runHomeTest(browser, baseUrl));
         await functionalCase(result, "home-layout", () => runHomeLayoutTest(browser, baseUrl, root, screenshots));

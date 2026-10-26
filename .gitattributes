@@ -1,1 +1,3 @@
 *.pdf binary
+# Preserve supplied Interactive SVG bytes, including CRLF endings.
+interactive/assets/*.svg -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
