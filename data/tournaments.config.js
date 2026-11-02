@@ -418,9 +418,9 @@ window.KRISPY_TOURNAMENTS = {
                   "player2": "WTF",
                   "slot1From": "m6",
                   "slot2From": "m4",
-                  "score1": "",
-                  "score2": "",
-                  "winner": "",
+                  "score1": "0",
+                  "score2": "3",
+                  "winner": "WTF",
                   "note": "Bo5",
                   "time": ""
                 }
@@ -433,7 +433,7 @@ window.KRISPY_TOURNAMENTS = {
                   "id": "m16",
                   "title": "Match 16",
                   "player1": "Winner of Match 11",
-                  "player2": "Winner of Match 12",
+                  "player2": "WTF",
                   "slot1From": "m11",
                   "slot2From": "m12",
                   "score1": "",
@@ -531,7 +531,7 @@ window.KRISPY_TOURNAMENTS = {
                 {
                   "id": "m14",
                   "title": "Match 14",
-                  "player1": "Loser of Match 12",
+                  "player1": "KRISPY",
                   "player2": "SHEPPARD",
                   "slot1From": "m12",
                   "slot2From": "m9",
